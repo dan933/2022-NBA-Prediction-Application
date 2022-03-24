@@ -28,7 +28,8 @@ http://localhost:3000/api/players/get-all
     "Steals":Number,	
     "Blocks":String,
     "MissedFieldGoals":Number,
-    "MissedFreeThrows":Number,	
+    "MissedFreeThrows":Number,
+    "TurnOvers":Number
     },
     {
     "PlayerID":Number,
@@ -44,7 +45,8 @@ http://localhost:3000/api/players/get-all
     "Steals":Number,	
     "Blocks":String,
     "MissedFieldGoals":Number,
-    "MissedFreeThrows":Number,	
+    "MissedFreeThrows":Number,
+    "TurnOvers":Number	
     }
 ]
 ```
