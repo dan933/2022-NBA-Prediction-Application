@@ -1,29 +1,27 @@
+// Define the 'tbl_Players' model
+module.exports = (sequelize, Sequelize) => {
 
-class Player 
-{
-    constructor(
-        playerID, firstName, lastName, year, wins,
-        lossess, PlayerWinPercentage, points, rebounds,
-        assists, steals, blocks, missedFieldGoals,
-        missedFreeThrows, turnOvers
-    ) {
-       
-        this.PlayerID = playerID;
-        this.FirstName = firstName;
-        this.LastName = lastName;
-        this.Year = year;
-        this.Wins = wins;
-        this.Losses = lossess;
-        this.PlayerWinPercentage = PlayerWinPercentage;
-        this.Points = points;
-        this.Rebounds = rebounds;
-        this.Assists = assists;
-        this.Steals = steals;
-        this.Blocks = blocks;
-        this.MissedFieldGoals = missedFieldGoals;
-        this.MissedFreeThrows = missedFreeThrows;
-        this.TurnOvers = turnOvers;
-    }
+    const Player = sequelize.define("tbl_Players", {
+        PlayerID: Sequelize.INTEGER,
+        FirstName: Sequelize.STRING,
+        LastName: Sequelize.STRING,
+        Year: Sequelize.STRING,
+        Wins: Sequelize.INTEGER,
+        Losses: Sequelize.INTEGER,
+        PlayerWinPercent: Sequelize.FLOAT,
+        Points: Sequelize.FLOAT,
+        Rebounds: Sequelize.FLOAT,
+        Assists: Sequelize.FLOAT,
+        Steals: Sequelize.FLOAT,
+        Blocks: Sequelize.FLOAT,
+        MissedFieldGoals: Sequelize.FLOAT,
+        MissedFreeThrows: Sequelize.FLOAT,
+        TurnOvers: Sequelize.FLOAT
+    },
+        {
+            freezeTableName: true
+        }
+    );
+    
+    return Player;
 }
-
-export default Player;
