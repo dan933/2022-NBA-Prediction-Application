@@ -15,79 +15,79 @@ http://localhost:3000/api/players/get-all
 
 ```[
     {
-        "PLAYER_ID":1234,
-        "PLAYER_NAME":"John Doe",
-        "NICKNAME": "Joe"	
-        "TEAM_ID":123434,	
-        "TEAM_ABBREVIATION":"MIL",
-        AGE:23,
-        GP:60	
-        W:45	
-        L:20	
-        W_PCT:0.6	
-        MIN:1203	
-        FGM:19	
-        FGA:23	
-        FG_PCT:0.8	
-        FG3M:19	
-        FG3A:23	
-        FG3_PCT:0.8	
-        FTM:29	
-        FTA:39	
-        FT_PCT:0.5	
-        OREB:23	
-        DREB:23	
-        REB:23	
-        AST:23	
-        TOV:23	
-        STL:23	
-        BLK	:23
-        BLKA:23	
-        PF:23	
-        PFD:23	
-        PTS:233	
-        PLUS_MINUS:274	
-        NBA_FANTASY_PTS:309	
-        DD2:23	
-        TD3:34
+    "PLAYER_ID":Number,
+    "PLAYER_NAME":String,
+    "NICKNAME":String,	
+    "TEAM_ID":Number,	
+    "TEAM_ABBREVIATION":String,
+    "AGE":Number,
+    "GP":Number,	
+    "W":Number,
+    "L":Number,	
+    "W_PCT":Number,	
+    "MIN":Number,	
+    "FGM":Number,	
+    "FGA":Number,	
+    "FG_PCT":Number,	
+    "FG3M":Number,	
+    "FG3A":Number,	
+    "FG3_PCT":Number,
+    "FTM":Number,	
+    "FTA":Number,	
+    "FT_PCT":Number,	
+    "OREB":Number,
+    "DREB":Number,	
+    "REB":Number,	
+    "AST":Number,	
+    "TOV":Number,	
+    "STL":Number,	
+    "BLK"	:Number,
+    "BLKA":Number,	
+    "PF":Number,	
+    "PFD":Number,	
+    "PTS":Number,	
+    "PLUS_MINUS":Number,	
+    "NBA_FANTASY_PTS":Number,	
+    "DD2":Number,	
+    "TD3":Number,
     },
     {
-        "PLAYER_ID":1234,
-        "PLAYER_NAME":"John Doe",
-        "NICKNAME": "Joe"	
-        "TEAM_ID":123434,	
-        "TEAM_ABBREVIATION":"MIL",
-        AGE:23,
-        GP:60	
-        W:45	
-        L:20	
-        W_PCT:0.6	
-        MIN:1203	
-        FGM:19	
-        FGA:23	
-        FG_PCT:0.8	
-        FG3M:19	
-        FG3A:23	
-        FG3_PCT:0.8	
-        FTM:29	
-        FTA:39	
-        FT_PCT:0.5	
-        OREB:23	
-        DREB:23	
-        REB:23	
-        AST:23	
-        TOV:23	
-        STL:23	
-        BLK	:23
-        BLKA:23	
-        PF:23	
-        PFD:23	
-        PTS:233	
-        PLUS_MINUS:274	
-        NBA_FANTASY_PTS:309	
-        DD2:23	
-        TD3:34
-    },
+    "PLAYER_ID":Number,
+    "PLAYER_NAME":String,
+    "NICKNAME":String,	
+    "TEAM_ID":Number,	
+    "TEAM_ABBREVIATION":String,
+    "AGE":Number,
+    "GP":Number,	
+    "W":Number,
+    "L":Number,	
+    "W_PCT":Number,	
+    "MIN":Number,	
+    "FGM":Number,	
+    "FGA":Number,	
+    "FG_PCT":Number,	
+    "FG3M":Number,	
+    "FG3A":Number,	
+    "FG3_PCT":Number,
+    "FTM":Number,	
+    "FTA":Number,	
+    "FT_PCT":Number,	
+    "OREB":Number,
+    "DREB":Number,	
+    "REB":Number,	
+    "AST":Number,	
+    "TOV":Number,	
+    "STL":Number,	
+    "BLK"	:Number,
+    "BLKA":Number,	
+    "PF":Number,	
+    "PFD":Number,	
+    "PTS":Number,	
+    "PLUS_MINUS":Number,	
+    "NBA_FANTASY_PTS":Number,	
+    "DD2":Number,	
+    "TD3":Number,
+    }
 ]
 ```
 </details>
