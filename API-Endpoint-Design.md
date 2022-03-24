@@ -41,7 +41,7 @@ http://localhost:3000/api/players/get-all
     "AST":Number,	
     "TOV":Number,	
     "STL":Number,	
-    "BLK"	:Number,
+    "BLK":Number,
     "BLKA":Number,	
     "PF":Number,	
     "PFD":Number,	
