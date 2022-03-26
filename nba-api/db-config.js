@@ -2,9 +2,9 @@ const Sequelize = require("sequelize");
 
 exports.connectToDB = () => {
 
-  return new Sequelize(process.env.AZURE_DB_DATABASE, process.env.AZURE_DB_USER, process.env.AZURE_DB_PASSWORD, {
-    host: process.env.AZURE_DB_HOST,
-    dialect: process.env.AZURE_DIALECT
+  return new Sequelize(process.env.LOCAL_DB_DATABASE, process.env.LOCAL_DB_USER, process.env.LOCAL_DB_PASSWORD, {
+    host: process.env.LOCAL_DB_HOST,
+    dialect: process.env.LOCAL_DIALECT
   });
 
 }
