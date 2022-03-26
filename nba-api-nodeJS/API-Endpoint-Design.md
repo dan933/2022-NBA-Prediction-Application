@@ -5,7 +5,7 @@
 
 ## GetAllPlayers
 ### Endpoint:
-http://localhost:3000/api/players/get-all
+http://localhost:3070/api/players/get-all
 
 ### HTTP Method: GET
 

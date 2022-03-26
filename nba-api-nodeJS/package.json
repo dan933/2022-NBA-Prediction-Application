@@ -1,0 +1,30 @@
+{
+  "name": "nba-api",
+  "version": "1.0.0",
+  "description": "nodejs express api",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start:dev":"nodemon index.js",
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Team-West",
+  "license": "ISC",
+  "dependencies": {
+    "@sequelize/core": "^7.0.0-alpha.10",
+    "async": "^3.2.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "nodemon": "^2.0.15",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.17.0",
+    "tedious": "^14.3.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.70.0",
+    "webpack-cli": "^4.9.2"
+  }
+}
