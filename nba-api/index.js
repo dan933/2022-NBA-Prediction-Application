@@ -1,19 +1,19 @@
 const express = require('express')
+require('dotenv').config();
 const app = express()
-const port = 3000
+const port = 3070
 
 const cors = require("cors");
 
 var corsOptions = {
-  origin: "http://localhost:3000",
-  origin: "http://localhost:4200"
+  origin: "http://nba-api.australiaeast.cloudapp.azure.com:3070",
+  origin: "nba-api.australiaeast.cloudapp.azure.com:3070"
 };
 
-app.use(cors(corsOptions));
+app.use(cors());
 //source https://github.com/keycloak/keycloak-quickstarts/blob/latest/service-nodejs/app.js
 
-const db = require("./db-config");
-db.sequelize.sync();
+//const db = require("./db-config");
 
 // In development, you may need to drop existing tables and re-sync database. Just use force: true as following code:
 
@@ -26,5 +26,5 @@ app.get('/', (req, res) => {
   })
   
   app.listen(port, () => {
-      console.log(`Example app listening on port ${port}`)
+      console.log(`Server listening on port ${port}`)
     })
