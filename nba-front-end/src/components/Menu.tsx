@@ -18,7 +18,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { mainListItems, secondaryListItems } from './listItems';
-import DataGridDemo from './playerTable';
+import DataGridDemo from './playerDataGrid';
+import FilledPlayerTable from './playerTableLoader';
 
 function Copyright(props: any) {
 // TODO: update link
@@ -175,7 +176,7 @@ function DashboardContent() {
                     height: 'auto',
                   }}
                 >
-                    <DataGridDemo></DataGridDemo>
+                    <FilledPlayerTable></FilledPlayerTable>
                 </Paper>
               </Grid>
             </Grid>
