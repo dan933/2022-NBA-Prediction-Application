@@ -1,5 +1,3 @@
-
-const { text } = require("express");
 const {connectToDB, createDBContext} = require("../db-config");
 
 //for later use useful for searching
@@ -19,7 +17,7 @@ exports.getPlayers = async (req, res) => {
     attributes: ['PlayerID','FirstName','LastName','Year','Wins','Losses','PlayerWinPercentage','Points','Rebounds','Assists','Steals','Blocks','MissedFieldGoals','MissedFreeThrows','TurnOvers']
   })
     .then(
-      data => { res.send(data), console.log(data)}
+      data => { res.send(data)}
     )
     .catch(
       err => res.status(500)
