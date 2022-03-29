@@ -18,13 +18,13 @@ function FilledPlayerTable() {
     playerList: [],
   });
 
-  const getPlayers = <Player,> (url: string): Observable<Player[]> => {
-    return api.get<Player[]>(url)
-         .pipe(
-             take(1),
-             catchError(err => of(console.log(err)))
-         ) as Observable<Player[]>;
-  };
+  // const getPlayers = <Player,> (url: string): Observable<Player[]> => {
+  //   return api.get<Player[]>(url)
+  //        .pipe(
+  //            take(1),
+  //            catchError(err => of(console.log(err)))
+  //        ) as Observable<Player[]>;
+  // };
 
   useEffect(() => {
     setAppState({ loading: true, playerList: [] });

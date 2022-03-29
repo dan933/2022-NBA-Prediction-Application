@@ -5,6 +5,8 @@ export interface IPlayer {
     FullName: string;
     Wins: number;
     Losses: number;
+    PreviousWins: number;
+    PreviousLossess: number;
     PlayerWinPercentage: number;
     Points: number;
     Rebounds: number;
@@ -19,7 +21,24 @@ export interface IPlayer {
 
 export class Player implements IPlayer {
 
-    constructor(public PlayerID: number, public FirstName: string, public LastName: string, public FullName: string, public Wins: number, public Losses: number, public PlayerWinPercentage: number, public Points: number, public Rebounds: number, public Assists: number, public Steals: number, public Blocks: number, public MissedFieldGoals: number, public MissedFreeThrows: number, public TurnOvers: number) {
+    constructor(
+        public PlayerID: number,
+        public FirstName: string,
+        public LastName: string,
+        public FullName: string,
+        public Wins: number,
+        public Losses: number,
+        public PreviousWins: number,
+        public PreviousLossess: number,
+        public PlayerWinPercentage: number,
+        public Points: number,
+        public Rebounds: number,
+        public Assists: number,
+        public Steals: number,
+        public Blocks: number,
+        public MissedFieldGoals: number,
+        public MissedFreeThrows: number,
+        public TurnOvers: number) {
         this.FullName = this.FirstName+" "+this.LastName;
     }
 }

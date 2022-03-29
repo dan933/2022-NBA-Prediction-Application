@@ -7,7 +7,9 @@ const cors = require("cors");
 //Allowed url's for cross origin resource sharing
 var corsOptions = {
   origin: "http://nba-api.australiaeast.cloudapp.azure.com:3070",
-  origin: "https://nba-api.australiaeast.cloudapp.azure.com:3070"
+  origin: "https://nba-api.australiaeast.cloudapp.azure.com:3070",
+  origin: "https://chimerical-cheesecake-efd745.netlify.app",
+
 };
 
 //enable CORS options

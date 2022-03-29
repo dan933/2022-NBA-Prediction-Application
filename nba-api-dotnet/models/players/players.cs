@@ -9,6 +9,7 @@ public class Player
     {
         
     }
+    
     [JsonPropertyName("PlayerID")]
     public int PlayerID { get; set; }
 
@@ -23,6 +24,13 @@ public class Player
 
     [JsonPropertyName("Losses")] 
     public int Losses { get; set; }
+
+    [JsonPropertyName("PreviousWins")] 
+    public int PreviousWins { get; set; }
+
+    [JsonPropertyName("PreviousLossess")] 
+    public int PreviousLossess { get; set; }
+
 
     [JsonPropertyName("PlayerWinPercentage")]
     public double PlayerWinPercentage { get; set; }
