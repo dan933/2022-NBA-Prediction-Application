@@ -23,7 +23,7 @@ public class PlayersController : ControllerBase
     [Route("get-all")]
     public async Task<ActionResult<List<Player>>> getPlayers(){
         // try{
-            List<Player> players = await _context.Players.ToListAsync();
+            List<Player> players = await _context.tbl_Players.ToListAsync();
 
             return Ok(players);
         // }

@@ -24,5 +24,5 @@ public class NBAContext : DbContext
             .HasNoKey();
     }
 
-    public DbSet<Player> Players { get; set; }
+    public DbSet<Player> tbl_Players { get; set; }
 }
