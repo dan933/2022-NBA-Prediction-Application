@@ -16,7 +16,8 @@ const playerColumns: GridColDef[] = [
     { field: 'PlayerWinPercentage', headerName: 'Win Percentage', width: 150 },
     { field: 'Points', headerName: 'Points', width: 150 },
     { field: 'Rebounds', headerName: 'Rebounds', width: 150 },
-    { field: 'Assists', headerName: 'Assists', width: 150 },
+    { field: 'Steals', headerName: 'Steals', width: 150 },
+    { field: 'Blocks', headerName: 'Blocks', width: 150 },
   ];
 
 const DataGridPlayers: React.FC<any> = (props) => {

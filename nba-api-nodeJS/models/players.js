@@ -8,6 +8,8 @@ module.exports = (sequelize, Sequelize) => {
         Year: Sequelize.STRING,
         Wins: Sequelize.INTEGER,
         Losses: Sequelize.INTEGER,
+        PreviousWins: Sequelize.INTEGER,
+        PreviousLosses: Sequelize.INTEGER,
         PlayerWinPercent: Sequelize.FLOAT,
         Points: Sequelize.FLOAT,
         Rebounds: Sequelize.FLOAT,
