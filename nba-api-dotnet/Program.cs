@@ -16,7 +16,7 @@ builder.Services.AddCors(options =>
                       {
                           builder.WithOrigins(
                             "http://localhost:3000",
-                            "https://chimerical-cheesecake-efd745.netlify.app");
+                            "https://spiffy-daifuku-98f61a.netlify.app");
                       });
 });
 
@@ -54,7 +54,7 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddDbContext<NBAContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("WebApiDatabase"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AzureDatabase"));
 
 });
 
