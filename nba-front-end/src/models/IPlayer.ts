@@ -6,8 +6,8 @@ export interface IPlayer {
     Wins: number;
     Losses: number;
     PreviousWins: number;
-    PreviousLossess: number;
-    PlayerWinPercentage: number;
+    PreviousLosses: number;
+    PlayerWinPercent: number;
     Points: number;
     Rebounds: number;
     Assists: number;
@@ -29,8 +29,8 @@ export class Player implements IPlayer {
         public Wins: number,
         public Losses: number,
         public PreviousWins: number,
-        public PreviousLossess: number,
-        public PlayerWinPercentage: number,
+        public PreviousLosses: number,
+        public PlayerWinPercent: number,
         public Points: number,
         public Rebounds: number,
         public Assists: number,
