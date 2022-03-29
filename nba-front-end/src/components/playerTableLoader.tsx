@@ -28,11 +28,10 @@ function FilledPlayerTable() {
 
   useEffect(() => {
     setAppState({ loading: true, playerList: [] });
-    api.get('players').subscribe((resp) => {
+    api.get('players/get-all').subscribe((resp) => {
         setAppState({ loading: false, playerList: resp as Player[] });
       });
   }, [setAppState]);
-
 // used for testing
 //   const apiGet = () => {
 //     console.log(appState.playerList);
