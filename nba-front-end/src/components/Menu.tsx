@@ -118,7 +118,7 @@ function DashboardContent() {
             {secondaryListItems}
           </List>
         </Drawer>
-        <AppBar open={open} position="absolute" sx={{top: 70}}>
+        <AppBar open={open} position="absolute" sx={{top: 250}}>
           <Toolbar
             sx={{
               pr: '24px', // keep right padding when drawer closed
