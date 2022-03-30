@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
-import { Player } from '../models/IPlayer';
+// import { Player } from '../models/IPlayer';
 
 const playerColumns: GridColDef[] = [
     { field: 'PlayerID', headerName: 'ID', width: 90 },

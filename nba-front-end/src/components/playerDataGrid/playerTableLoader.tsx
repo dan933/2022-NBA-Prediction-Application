@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Observable, of, Subject } from 'rxjs';
+// import { Observable, of, Subject } from 'rxjs';
+// import { catchError, reduce, take } from 'rxjs/operators';
 import DataGridPlayers from './playerDataGrid';
-import WithTableLoading from './componentLoading';
-import { catchError, reduce, take } from 'rxjs/operators';
-import api from '../services/api';
-import { Player } from '../models/IPlayer';
+import WithTableLoading from '../componentLoading';
+import api from '../../services/api';
+import { Player } from '../../models/IPlayer';
 
 interface PlayerProps{
     loading: boolean;
