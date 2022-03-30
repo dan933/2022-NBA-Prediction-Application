@@ -16,7 +16,7 @@ builder.Services.AddCors(options =>
                       {
                           builder.WithOrigins(
                             "http://localhost:3000",
-                            "https://spiffy-daifuku-98f61a.netlify.app");
+                            "https://golden-clafoutis-f56a92.netlify.app");
                       });
 });
 
