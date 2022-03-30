@@ -10,4 +10,4 @@ function WithTableLoading(Component:React.FC) {
       );
     };
   }
-  export default WithTableLoading;
+export default WithTableLoading;
