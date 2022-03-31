@@ -2,9 +2,9 @@ import * as React from 'react';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 // import { Player } from '../models/IPlayer';
 
+// Setting up the columns of the player table
 const playerColumns: GridColDef[] = [
     { field: 'PlayerID', headerName: 'ID', width: 90 },
-    // { field: 'FullName', headerName: 'Name', width: 150 },
     {
       field: 'FullName',
       headerName: 'Name',
@@ -13,7 +13,12 @@ const playerColumns: GridColDef[] = [
       valueGetter: (params: GridValueGetterParams) =>
         `${params.row.FirstName || ''} ${params.row.LastName || ''}`,
     },
-    { field: 'PlayerWinPercentage', headerName: 'Win Percentage', width: 150 },
+    { field: 'PlayerWinPercentage', headerName: 'Win Percentage', width: 150,
+      valueFormatter: (params) => {
+        const valueFormatted = Number((params.value as number) * 100).toLocaleString();
+        return `${valueFormatted} %`;
+      }, 
+    },
     { field: 'Points', headerName: 'Points', width: 150 },
     { field: 'Rebounds', headerName: 'Rebounds', width: 150 },
     { field: 'Steals', headerName: 'Steals', width: 150 },
