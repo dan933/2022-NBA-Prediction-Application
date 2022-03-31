@@ -6,6 +6,7 @@ import FilledPlayerTable from './playerTableLoader';
 
 function PlayerDataGridPage() {
   return (
+    //   these lines set up the format of the page
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4, "min-height":400 }}>
         <Grid container spacing={3}>
             {/* Chart */}
@@ -18,6 +19,7 @@ function PlayerDataGridPage() {
                     height: 'auto',
                     }}
                 >
+                    {/* this is the table of players, see playerTableLoader.tsx */}
                     <FilledPlayerTable></FilledPlayerTable>
                 </Paper>
             </Grid>
