@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nba_api_dotnet.models.players;
+using nba_api_dotnet.models;
 
 namespace nba_api_dotnet.Controllers;
 
@@ -22,14 +23,14 @@ public class PlayersController : ControllerBase
     [HttpGet]
     [Route("get-all")]
     public async Task<ActionResult<List<Player>>> getPlayers(){
-        // try{
+        try{
             List<Player> players = await _context.tbl_Players.ToListAsync();
 
-            return Ok(players);
-        // }
-        // catch(Exception ex){
-        //     return StatusCode(500, ex);
-        // }
+        return Ok(players);
+        }
+        catch(Exception ex){
+            return StatusCode(500, ex);
+        }
 
     }
 }

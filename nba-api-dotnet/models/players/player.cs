@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using nba_api_dotnet;
 
 namespace nba_api_dotnet.models.players;
 
@@ -28,11 +29,11 @@ public class Player
     [JsonPropertyName("PreviousWins")] 
     public int PreviousWins { get; set; }
 
-    [JsonPropertyName("PreviousLossess")] 
+    [JsonPropertyName("PreviousLosses")] 
     public int PreviousLosses { get; set; }
 
 
-    [JsonPropertyName("PlayerWinPercentage")]
+    [JsonPropertyName("PlayerWinPercent")]
     public double PlayerWinPercent { get; set; }
 
     [JsonPropertyName("Points")]
