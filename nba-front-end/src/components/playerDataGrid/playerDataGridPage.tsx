@@ -7,7 +7,7 @@ import FilledPlayerTable from './playerTableLoader';
 function PlayerDataGridPage() {
   return (
     //   these lines set up the format of the page
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4, "min-height":400 }}>
+    <Container maxWidth="lg" sx={{ mt: 4, mb: 4, "min-height":440 }}>
         <Grid container spacing={3}>
             {/* Chart */}
             <Grid item xs={12} md={12} lg={12}>
