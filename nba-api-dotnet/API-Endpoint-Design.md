@@ -120,7 +120,7 @@ http://localhost:3070/api/team/create
 
 ```
 [
-    "Team": {
+    "Data": {
                 "TeamID":Number,
                 "TeamName":String
             },
