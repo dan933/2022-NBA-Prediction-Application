@@ -21,8 +21,8 @@ public class NBAContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Player>()
-            .HasNoKey();
+            .HasKey( c => new {c.PlayerID});
     }
 
-    public DbSet<Player> tbl_Players { get; set; }
+    public DbSet<Player>? tbl_Players { get; set; }
 }
