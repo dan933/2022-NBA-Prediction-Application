@@ -8,8 +8,8 @@ import { useEffect } from 'react';
 // Setting up the columns of the player table
 const playerColumns: GridColDef[] = [
     { field: 'PlayerID', headerName: 'ID', width: 90, hide: true },
-    { field: 'FirstName', headerName: 'First Name', width: 120, },
-    { field: 'LastName', headerName: 'Last Name', width: 120, },
+    { field: 'FirstName', headerName: 'First Name', width: 150, },
+    { field: 'LastName', headerName: 'Last Name', width: 150, },
     {
       field: 'FullName',
       headerName: 'Name',
@@ -26,10 +26,11 @@ const playerColumns: GridColDef[] = [
         return `${valueFormatted} %`;
       }, 
     },
-    { field: 'Points', headerName: 'Points', width: 150 },
-    { field: 'Rebounds', headerName: 'Rebounds', width: 150 },
-    { field: 'Steals', headerName: 'Steals', width: 150 },
-    { field: 'Blocks', headerName: 'Blocks', width: 150 },
+    { field: 'Points', headerName: 'Points', width: 120 },
+    { field: 'Rebounds', headerName: 'Rebounds', width: 120 },
+    { field: 'Assists', headerName: 'Assists', width: 120 },
+    { field: 'Steals', headerName: 'Steals', width: 120 },
+    { field: 'Blocks', headerName: 'Blocks', width: 120 },
   ];
 
 const DataGridPlayers: React.FC<any> = (props) => {
@@ -69,6 +70,7 @@ const DataGridPlayers: React.FC<any> = (props) => {
   })},[search]);
 
   return (
+    // white box around the table
     <Paper
         sx={{
           p: 2,
@@ -77,39 +79,40 @@ const DataGridPlayers: React.FC<any> = (props) => {
           height: 'auto',
         }}
       >
+        {/* formats the placement of the searchbar and table */}
         <Grid container spacing={2}>
          <Grid item xl={4} md={6} xs={12}>
-        <FormControl variant="outlined" size="small" fullWidth={true}>
-          <InputLabel htmlFor="outlined-search">Search for a player</InputLabel>
-          <OutlinedInput
-            id="outlined-search"
-            label="Search for a player"
-            value={search}
-            onChange={handleChange}
-            endAdornment={
-              <InputAdornment position="end">
-                <SearchIcon />
-              </InputAdornment>
-            }
-          />
-        </FormControl>
-        </Grid>
-        <Grid item xs={12}>
-        <div style={{ height: '423px', width: '100%' }}>
-          <DataGrid
-          rows={playerList}
-          getRowId={(row) => row.PlayerID}
-          columns={playerColumns}
-          disableColumnSelector={true}
-          pageSize={6}
-          rowsPerPageOptions={[6]}
-          checkboxSelection
-          disableSelectionOnClick
-          filterModel={filterModel}
-          onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
-          />
-        </div>
-        </Grid>
+          <FormControl variant="outlined" size="small" fullWidth={true}>
+            <InputLabel htmlFor="outlined-search">Search for a player</InputLabel>
+            <OutlinedInput
+              id="outlined-search"
+              label="Search for a player"
+              value={search}
+              onChange={handleChange}
+              endAdornment={
+                <InputAdornment position="end">
+                  <SearchIcon />
+                </InputAdornment>
+              }
+            />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <div style={{ height: '1151px', width: '100%' }}>
+              <DataGrid
+              rows={playerList}
+              getRowId={(row) => row.PlayerID}
+              columns={playerColumns}
+              disableColumnSelector={true}
+              pageSize={20}
+              rowsPerPageOptions={[20]}
+              checkboxSelection
+              disableSelectionOnClick
+              filterModel={filterModel}
+              onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
+              />
+            </div>
+          </Grid>
         </Grid>
       </Paper>
   );
