@@ -34,7 +34,7 @@ CREATE TABLE tbl_Players (
 CREATE TABLE tbl_Teams (
     TeamID INT IDENTITY(1,1) PRIMARY KEY,
     TeamName NVARCHAR(35), PRIMARY KEY
-
+);
 --todo player selection table
 --todo create view to combine player selection and player table, aggregating / grouping relevant data 
 
