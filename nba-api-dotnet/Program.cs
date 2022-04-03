@@ -54,7 +54,7 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddDbContext<NBAContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AzureDatabase"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DanDesktopDB"));
 
 });
 

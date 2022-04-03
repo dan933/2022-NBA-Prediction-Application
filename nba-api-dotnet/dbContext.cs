@@ -15,14 +15,14 @@ public class NBAContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         // connect to sql server with connection string from app settings
-        options.UseSqlServer(Configuration.GetConnectionString("AzureDatabase"));
+        options.UseSqlServer(Configuration.GetConnectionString("DanDesktopDB"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Player>()
-            .HasNoKey();
+            .HasKey( c => new {c.PlayerID});
     }
 
-    public DbSet<Player> tbl_Players { get; set; }
+    public DbSet<Player>? tbl_Players { get; set; }
 }
