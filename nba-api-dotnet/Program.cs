@@ -16,7 +16,7 @@ builder.Services.AddCors(options =>
                       {
                           builder.WithOrigins(
                             "http://localhost:3000",
-                            "https://golden-clafoutis-f56a92.netlify.app");
+                            " https://nbaseasonpredictor.netlify.app");
                       });
 });
 
