@@ -24,6 +24,4 @@ public class Response<T>
 
     [JsonPropertyName("Message")]
     public string? Message { get; set; }
-
-    
 }
