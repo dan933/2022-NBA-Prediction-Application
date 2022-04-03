@@ -12,24 +12,29 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 
+const linkStyle = {
+  textDecoration: "none",
+  color: 'black'
+};
+
 export const mainListItems = (
   <React.Fragment>
-    <ListItemButton>
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <Link to="/dashboard/Players">
-        <ListItemText primary="Players" />
-      </Link>
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <LayersIcon />
-      </ListItemIcon>
-      <Link to="/dashboard/Teams">
-        <ListItemText primary="Team Creation" />
-      </Link>
-    </ListItemButton>
+    <Link style={linkStyle} to="/dashboard/Players">
+      <ListItemButton>
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+          <ListItemText primary="Players" />
+      </ListItemButton>
+    </Link>
+    <Link style={linkStyle} to="/dashboard/Teams">
+      <ListItemButton>
+        <ListItemIcon>
+          <LayersIcon />
+        </ListItemIcon>
+          <ListItemText primary="Team Creation" />
+      </ListItemButton>
+    </Link>
     <ListItemButton>
       <ListItemIcon>
         <BarChartIcon />
