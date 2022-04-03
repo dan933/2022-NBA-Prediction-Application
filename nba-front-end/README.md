@@ -1,3 +1,60 @@
+# Base page for the react document is index.tsx
+
+ReactDOM.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+
+this file is mostly boilerplate. in this file, we call the reactDOM.render, which 'writes to the page' a react object (this is the only place we need to do this), create a browser-router which is boilerplate for the routing/multiple page functionality, then most importantly call the App component which is defined in App.tsx.
+
+## app.tsx
+
+currently, mostly boilerplate, though more is often done in here
+we call the RouteConfig component (from './routes/routes.tsx')
+
+## routes/routes.tsx
+
+this sets up the different pages within the app. 
+<Route path="login" element={<LoginPage />} />
+for example, says that e.g. localhost:3000/login should load the LoginPage component (/components/loginPage/LoginPage.tsx)
+
+these routes are nested. 
+<Route path="dashboard" element={<Dashboard />}>
+    <Route path="players" element={<PlayerDataGridPage />} />
+</Route>
+for example, says that e.g. localhost:3000/dashboard should load the Dashboard component (/components/Menu.tsx)
+the nested component is called from within menu.tsx in the <Outlet/> tag, which then loads the PlayerDataGridPage (components/playerDataGrid/playerDataGridPage)
+
+## page setup
+
+the top image is set in components/Base.tsx, then calls the <Outlet/>
+
+the dashboard side and top menu are then set up in components/Menu.tsx.
+the bulk of this is based on https://github.com/mui/material-ui/tree/v5.5.2/docs/data/material/getting-started/templates/dashboard
+the content of the side-bar is set in components/listItems.tsx
+Menu has another <Outlet/> for displaying e.g. the players screen, the teams screen etc.
+
+components/playerDataGrid folder holds the players page
+components/teamsPage holds the teams page
+
+
+## services
+
+api calls are made using the axios library 
+example of this is in PlayerTableLoader:
+
+useEffect(() => {
+    setAppState({ loading: true, playerList: [] });
+    api.get('Players/get-all').subscribe((resp) => {
+        setAppState({ loading: false, playerList: resp as Player[] });
+      });
+  }, [setAppState]);
+
+# ------- Default readme from Create-React-App setup -------
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
