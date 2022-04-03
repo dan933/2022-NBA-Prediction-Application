@@ -6,7 +6,7 @@ using nba_api_dotnet.models;
 namespace nba_api_dotnet.Controllers;
 
 [ApiController]
-[Route("players")]
+[Route("api/players")]
 public class PlayersController : ControllerBase
 {
     private readonly NBAContext _context;
@@ -28,7 +28,7 @@ public class PlayersController : ControllerBase
             List<Player> players = await _context.tbl_Players!.ToListAsync();
 
             //example of implementing response model we will need to do this for the teams controller.
-            //var response = new Response<List<Player>>(players, true, "success");
+            //var response = new Response<List<Player>>(players, true, "message");
 
             return Ok(players);
         }
