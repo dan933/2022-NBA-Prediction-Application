@@ -11,17 +11,8 @@ function PlayerDataGridPage() {
         <Grid container spacing={3}>
             {/* Chart */}
             <Grid item xs={12} md={12} lg={12}>
-                <Paper
-                    sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 'auto',
-                    }}
-                >
-                    {/* this is the table of players, see playerTableLoader.tsx */}
-                    <FilledPlayerTable></FilledPlayerTable>
-                </Paper>
+                {/* this is the table of players, see playerTableLoader.tsx */}
+                <FilledPlayerTable></FilledPlayerTable>
             </Grid>
         </Grid>
     </Container>

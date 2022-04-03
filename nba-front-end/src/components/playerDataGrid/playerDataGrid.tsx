@@ -1,19 +1,24 @@
 import * as React from 'react';
 import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams } from '@mui/x-data-grid';
-import { TextField } from '@mui/material';
+import { FormControl, Grid, IconButton, Input, InputAdornment, InputLabel, OutlinedInput, Paper, TextField } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import { useEffect } from 'react';
 // import { Player } from '../models/IPlayer';
 
 // Setting up the columns of the player table
 const playerColumns: GridColDef[] = [
-    { field: 'PlayerID', headerName: 'ID', width: 90 },
+    { field: 'PlayerID', headerName: 'ID', width: 90, hide: true },
+    { field: 'FirstName', headerName: 'First Name', width: 120, },
+    { field: 'LastName', headerName: 'Last Name', width: 120, },
     {
       field: 'FullName',
       headerName: 'Name',
       sortable: false,
       width: 160,
+      hide: true,
       valueGetter: (params: GridValueGetterParams) =>
         `${params.row.FirstName || ''} ${params.row.LastName || ''}`,
+        
     },
     { field: 'PlayerWinPercentage', headerName: 'Win Percentage', width: 150,
       valueFormatter: (params) => {
@@ -64,26 +69,49 @@ const DataGridPlayers: React.FC<any> = (props) => {
   })},[search]);
 
   return (
-      <div style={{ height: '380px', width: '100%' }}>
-        <TextField 
-          id="outlined-search"
-          label="Search for a player"
-          value={search}
-          onChange={handleChange}
-        >
-        </TextField>
-        <DataGrid
+    <Paper
+        sx={{
+          p: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          height: 'auto',
+        }}
+      >
+        <Grid container spacing={2}>
+         <Grid item xl={4} md={6} xs={12}>
+        <FormControl variant="outlined" size="small" fullWidth={true}>
+          <InputLabel htmlFor="outlined-search">Search for a player</InputLabel>
+          <OutlinedInput
+            id="outlined-search"
+            label="Search for a player"
+            value={search}
+            onChange={handleChange}
+            endAdornment={
+              <InputAdornment position="end">
+                <SearchIcon />
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+        <div style={{ height: '423px', width: '100%' }}>
+          <DataGrid
           rows={playerList}
           getRowId={(row) => row.PlayerID}
           columns={playerColumns}
-          pageSize={50}
-          rowsPerPageOptions={[50]}
+          disableColumnSelector={true}
+          pageSize={6}
+          rowsPerPageOptions={[6]}
           checkboxSelection
           disableSelectionOnClick
           filterModel={filterModel}
           onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
-        />
-      </div>
-    );
+          />
+        </div>
+        </Grid>
+        </Grid>
+      </Paper>
+  );
 }
 export default DataGridPlayers;
