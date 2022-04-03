@@ -12,7 +12,7 @@ public class Response<T>
     public Response(T data, bool success, string message)
     {
         this.Data = data;
-        this.Sueccess = success;
+        this.Success = success;
         this.Message = message;
     }
 
@@ -20,10 +20,8 @@ public class Response<T>
     public T? Data { get; set; }
     
     [JsonPropertyName("Success")]
-    public bool Sueccess { get; set; }
+    public bool Success { get; set; }
 
     [JsonPropertyName("Message")]
     public string? Message { get; set; }
-
-    
 }
