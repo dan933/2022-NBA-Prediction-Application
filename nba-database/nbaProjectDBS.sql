@@ -30,14 +30,16 @@ CREATE TABLE tbl_Players (
 ,   PRIMARY KEY (PlayerID)
 );
 
+
 CREATE TABLE tbl_Teams (
     TeamID INT,
-    PlayerID INT,
     TeamName NVARCHAR(35),
-    TeamWinPercent FLOAT
     PRIMARY KEY (TeamID),
-    FOREIGN KEY (PlayerID) REFERENCES tbl_Players
 );
+
+--todo player selection table
+--todo create view to combine player selection and player table, aggregating / grouping relevant data 
+
 
 CREATE TABLE tbl_User (
     UserID INT
@@ -47,23 +49,11 @@ CREATE TABLE tbl_User (
 PRIMARY KEY (UserID)
 );
 
-SELECT * FROM tbl_Players;
+--SELECT * FROM tbl_Players;
 
 -- to check tables exist
 -- SELECT * FROM  information_schema.tables;
 
-
--- Inserting data from CSVs into the SQL using Tsql
-
--- BULK INSERT PLAYER
--- FROM 'D:\2022Stats.csv' -- need to find a directory for the CSV when this is up on the cloud
--- WITH
--- (
---     FIRSTROW = 2, -- as 1st one is header
---     FIELDTERMINATOR = ',',  --CSV field delimiter
---     ROWTERMINATOR = '\n',   --Use to shift the control to next row
---     TABLOCK
--- )
 
 Go
 
