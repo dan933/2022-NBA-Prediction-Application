@@ -22,7 +22,7 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 
 builder.Services.AddControllers();
-string connString = builder.Configuration.GetConnectionString("WebApiDatabase");
+string connString = builder.Configuration.GetConnectionString("AzureDatabase");
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -53,7 +53,7 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddDbContext<NBAContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DanDesktopDB"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AzureDatabase"));
 
 });
 

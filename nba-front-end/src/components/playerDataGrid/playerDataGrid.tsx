@@ -20,7 +20,7 @@ const playerColumns: GridColDef[] = [
         `${params.row.FirstName || ''} ${params.row.LastName || ''}`,
         
     },
-    { field: 'PlayerWinPercentage', headerName: 'Win Percentage', width: 150,
+    { field: 'PlayerWinPercent', headerName: 'Win Percentage', width: 150,
       valueFormatter: (params) => {
         const valueFormatted = Number((params.value as number) * 100).toLocaleString();
         return `${valueFormatted} %`;
