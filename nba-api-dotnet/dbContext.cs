@@ -2,6 +2,7 @@ namespace nba_api_dotnet;
 
 using Microsoft.EntityFrameworkCore;
 using models.players;
+using nba_api_dotnet.models.Teams;
 
 public class NBAContext : DbContext
 {
@@ -21,8 +22,12 @@ public class NBAContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Player>()
-            .HasNoKey();
+            .HasKey( c => new {c.PlayerID});
+
+        modelBuilder.Entity<Team>()
+        .HasKey(c => new { c.TeamID });
     }
 
-    public DbSet<Player> tbl_Players { get; set; }
+    public DbSet<Player>? tbl_Players { get; set; }
+    public DbSet<Team>? tbl_Teams { get; set; }
 }

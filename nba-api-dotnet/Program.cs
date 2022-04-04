@@ -15,15 +15,14 @@ builder.Services.AddCors(options =>
                       builder =>
                       {
                           builder.WithOrigins(
-                            "http://localhost:3000",
-                            "https://golden-clafoutis-f56a92.netlify.app");
+                            " https://nbaseasonpredictor.netlify.app");
                       });
 });
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-string connString = builder.Configuration.GetConnectionString("WebApiDatabase");
+string connString = builder.Configuration.GetConnectionString("AzureDatabase");
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
