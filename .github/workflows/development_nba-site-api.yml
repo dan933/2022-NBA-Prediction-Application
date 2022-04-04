@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'nba-site-api'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9DF762AEC9FE44309242FE60A2DD36AF }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CD3CC50D17EF46DCA79CCD2B66E504D8 }}
           package: .
