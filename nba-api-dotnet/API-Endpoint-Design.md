@@ -92,7 +92,7 @@ http://localhost:3070/api/team/get-all
 
 ### Endpoint:
 
-http://localhost:3070/api/team/create
+http://localhost:3070/api/team/create-team
 
 ### HTTP Method: POST
 
