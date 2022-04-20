@@ -15,6 +15,7 @@ builder.Services.AddCors(options =>
                       builder =>
                       {
                           builder.WithOrigins(
+                            "https://dan933.github.io/dashboard/Players",
                             "https://nbaseasonpredictor.netlify.app");
                       });
 });
