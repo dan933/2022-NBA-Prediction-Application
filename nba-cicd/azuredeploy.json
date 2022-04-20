@@ -1,0 +1,36 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "functions": [],
+    "variables": {},
+    "resources": [{
+        "name": "nba-instance-one",
+        "type": "Microsoft.Sql/servers",
+        "apiVersion": "2014-04-01",
+        "location": "[resourceGroup().location]",
+        "tags": {
+            "displayName": "nba-instance-one"
+        },
+        "properties": {
+            "administratorLogin": "nbaAdmin",
+            "administratorLoginPassword": "nbaPrediction_1"
+        },
+        "resources": [
+            {
+                "type": "firewallRules",
+                "apiVersion": "2014-04-01",
+                "dependsOn": [
+                    "[resourceId('Microsoft.Sql/servers', 'nba-instance-one')]"
+                ],
+                "location": "[resourceGroup().location]",
+                "name": "AllowAllWindowsAzureIps",
+                "properties": {
+                    "startIpAddress": "136.186.248.242",
+                    "endIpAddress": "136.186.248.242"
+                }
+            }
+        ]
+    }],
+    "outputs": {}
+}
