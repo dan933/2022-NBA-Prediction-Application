@@ -5,9 +5,9 @@ trigger:
   branches:
     include:
       - cicd-resource-deployment
-    paths:
-      include:
-        -'nba-front-end/*'
+  paths:
+    include:
+      -'nba-front-end/*'
 pool:
   vmImage: ubuntu-latest
 
