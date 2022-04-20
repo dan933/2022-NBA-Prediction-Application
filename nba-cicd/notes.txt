@@ -1,2 +1,4 @@
-The following code generates secrets for github actions.
-az ad sp create-for-rbac --name {myApp} --role contributor --scopes /subscriptions/{subscription-id}/resourceGroups/{MyResourceGroup} --sdk-auth
+cd 2022-NBA-Prediction-Application\nba-cicd
+
+The command below will create a sql server and database
+az deployment group create --name db-deploy --resource-group NBA --template-file db-deploy.json

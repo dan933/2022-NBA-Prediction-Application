@@ -20,15 +20,15 @@
             {
                 "type": "firewallRules",
                 "apiVersion": "2014-04-01",
-                "dependsOn": [
-                    "[resourceId('Microsoft.Sql/servers', 'nba-instance-one')]"
-                ],
                 "location": "[resourceGroup().location]",
                 "name": "AllowAllWindowsAzureIps",
                 "properties": {
-                    "startIpAddress": "136.186.248.242",
-                    "endIpAddress": "136.186.248.242"
-                }
+                    "startIpAddress": "49.198.192.59",
+                    "endIpAddress": "49.198.192.59"
+                },
+                "dependsOn": [
+                    "[resourceId('Microsoft.Sql/servers', 'nba-instance-one')]"
+                ]
             },
             {
                 "name": "nba-instance-one/NBA",
