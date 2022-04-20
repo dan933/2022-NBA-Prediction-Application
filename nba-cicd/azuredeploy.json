@@ -16,7 +16,7 @@
             "administratorLogin": "nbaAdmin",
             "administratorLoginPassword": "nbaPrediction_1"
         },
-        "resources": [
+        "resources": [ 
             {
                 "type": "firewallRules",
                 "apiVersion": "2014-04-01",
@@ -29,6 +29,22 @@
                     "startIpAddress": "136.186.248.242",
                     "endIpAddress": "136.186.248.242"
                 }
+            },
+            {
+                "name": "nba-instance-one/NBA",
+                "type": "Microsoft.Sql/servers/databases",
+                "apiVersion": "2014-04-01",
+                "location": "[resourceGroup().location]",
+                "tags": {
+                    "displayName": "NBA"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', 'nba-instance-one')]"
+            ],
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS",
+                "edition": "Free"
+            }
             }
         ]
     }],

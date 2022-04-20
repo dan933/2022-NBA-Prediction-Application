@@ -1,0 +1,2 @@
+The following code generates secrets for github actions.
+az ad sp create-for-rbac --name {myApp} --role contributor --scopes /subscriptions/{subscription-id}/resourceGroups/{MyResourceGroup} --sdk-auth
