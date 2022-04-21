@@ -143,7 +143,7 @@ function DashboardContent() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              NBA Prediction Application testing cicd
+              NBA Prediction Application
             </Typography>
             {/* <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
