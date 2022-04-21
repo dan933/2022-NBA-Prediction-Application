@@ -5,7 +5,7 @@ import DefaultPage from "../components/Default";
 import LoginPage from "../components/loginPage/LoginPage";
 import Dashboard from "../components/Menu";
 import PlayerDataGridPage from '../components/playerDataGrid/playerDataGridPage';
-import TeamsPage from "../components/teamsPage/TeamsPage";
+import TeamsPage from "../components/teamsPage/teamsPage";
 
 function RouteConfig() {
   return (
