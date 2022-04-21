@@ -61,7 +61,7 @@ public class TeamController : ControllerBase
         }
         catch (Exception ex)
         {
-            return StatusCode(500, ex);
+            return StatusCode(500, ex.ToString());
         }
 
     }
@@ -83,7 +83,7 @@ public class TeamController : ControllerBase
         }
         catch (Exception ex)
         {
-            return StatusCode(500, ex);
+            return StatusCode(500, ex.ToString());
         }
 
     }
@@ -122,7 +122,7 @@ public class TeamController : ControllerBase
         catch (Exception ex)
         {
 
-            return StatusCode(500, ex);
+            return StatusCode(500, ex.ToString());
         }
         
     }
@@ -197,7 +197,7 @@ public class TeamController : ControllerBase
         }
         catch (Exception ex)
         {
-            return StatusCode(500, ex);
+            return StatusCode(500, ex.ToString());
         }
     }
 
@@ -227,7 +227,7 @@ public class TeamController : ControllerBase
         }
         catch (Exception ex)
         {
-            return StatusCode(500, ex);
+            return StatusCode(500, ex.ToString());
         }
     }
 }
