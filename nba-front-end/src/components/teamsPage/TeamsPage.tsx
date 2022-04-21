@@ -13,6 +13,7 @@ function teamsPage() {
             <Grid item xs={10} md={8} lg={8}>
             {/* {<FilledTeamsTable></FilledTeamsTable>} */}
             {<DataGridTeams></DataGridTeams>}
+            
             </Grid>
         </Grid>
     </Container>
