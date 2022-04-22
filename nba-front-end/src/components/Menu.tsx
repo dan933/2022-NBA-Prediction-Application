@@ -20,7 +20,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 // import NotificationsIcon from '@mui/icons-material/Notifications';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { mainListItems, secondaryListItems } from './listItems';
-import PlayerDataGridPage from './playerDataGrid/playerDataGridPage';
+import PlayerDataGridPage from './playerDataGrid/PlayerDataGridPage';
 
 function Copyright(props: any) {
 // TODO: update link

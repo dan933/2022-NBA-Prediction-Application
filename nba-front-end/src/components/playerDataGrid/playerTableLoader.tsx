@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 // import { Observable, of, Subject } from 'rxjs';
 // import { catchError, reduce, take } from 'rxjs/operators';
-import DataGridPlayers from './playerDataGrid';
-import WithTableLoading from '../componentLoading';
+import DataGridPlayers from './PlayerDataGrid';
+import WithTableLoading from '../ComponentLoading';
 import api from '../../services/api';
-import { Player } from '../../models/IPlayer';
+import { Player } from '../../models/Player';
+
 
 interface PlayerProps{
     loading: boolean;
@@ -30,7 +31,7 @@ function FilledPlayerTable() {
     setAppState({ loading: true, playerList: [] });
     api.get('players/get-all').subscribe((resp) => {
         setAppState({ loading: false, playerList: resp as Player[] });
-      });
+      })
   }, [setAppState]);
 
   return (
