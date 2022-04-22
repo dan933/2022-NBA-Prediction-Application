@@ -1,4 +1,4 @@
-import { AxiosRequestConfig } from 'Axios';
+import { AxiosRequestConfig } from 'axios';
 
 export const axiosRequestConfiguration: AxiosRequestConfig = {
     baseURL: `${process.env.REACT_APP_AzureAPIDotNet}`,
