@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 // import { catchError, reduce, take } from 'rxjs/operators';
 import DataGridPlayers from './PlayerDataGrid';
 import WithTableLoading from '../ComponentLoading';
-import api from '../../services/api';
+import Api from '../../services/Api';
 import { Player } from '../../models/Player';
 
 
@@ -29,7 +29,7 @@ function FilledPlayerTable() {
   // this is the call to the API to get the player data
   useEffect(() => {
     setAppState({ loading: true, playerList: [] });
-    api.get('players/get-all').subscribe((resp) => {
+    Api.get('players/get-all').subscribe((resp) => {
         setAppState({ loading: false, playerList: resp as Player[] });
       })
   }, [setAppState]);

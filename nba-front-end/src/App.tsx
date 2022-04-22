@@ -4,7 +4,7 @@ import { BrowserRouter, Link, Router, Routes, Route } from "react-router-dom";
 import Dashboard from './components/Menu';
 import logo from './logo.svg';
 import './App.css';
-import RouteConfig from './routes/routes';
+import RouteConfig from './routes/Routes';
 
 function App() {
   return (

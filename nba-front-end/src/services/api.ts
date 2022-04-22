@@ -1,8 +1,8 @@
 import { defer, map, Observable } from 'rxjs';
-import { AxiosRequestConfiguration } from './axios_config';
-import initialiseAxios from './axios_setup';
+import { AxiosRequestConfiguration } from './AxiousConfig';
+import InitialiseAxios from './AxiousSetup';
 
-const axiosInstance = initialiseAxios(AxiosRequestConfiguration);
+const axiosInstance = InitialiseAxios(AxiosRequestConfiguration);
 
 const get = <T>(url: string, queryParams?: object): Observable<T> => {
   return defer(()=> axiosInstance.get<T>(url, { params: queryParams }))

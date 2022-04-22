@@ -33,7 +33,7 @@ const playerColumns: GridColDef[] = [
     { field: 'Blocks', headerName: 'Blocks', width: 120 },
   ];
 
-const DataGridPlayers: React.FC<any> = (props) => {
+const dataGridPlayers: React.FC<any> = (props) => {
 
   // this takes the props passed to this component and uses it to populate the table
   const playerList = props.playerList;
@@ -117,4 +117,4 @@ const DataGridPlayers: React.FC<any> = (props) => {
       </Paper>
   );
 }
-export default DataGridPlayers;
+export default dataGridPlayers;
