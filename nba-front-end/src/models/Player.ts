@@ -1,4 +1,4 @@
-export interface IPlayer {
+export interface Player {
     PlayerID: number;
     FirstName: string;
     LastName: string;
@@ -19,7 +19,7 @@ export interface IPlayer {
   
   }
 
-export class Player implements IPlayer {
+export class Player implements Player {
 
     constructor(
         public PlayerID: number,
