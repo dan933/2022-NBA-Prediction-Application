@@ -2,7 +2,7 @@ import * as React from 'react';
 import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams } from '@mui/x-data-grid';
 import { FormControl, Grid, IconButton, Input, InputAdornment, InputLabel, OutlinedInput, Paper, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 // import { Player } from '../models/IPlayer';
 
 // Setting up the columns of the player table
