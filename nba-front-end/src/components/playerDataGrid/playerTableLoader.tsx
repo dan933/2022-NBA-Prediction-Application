@@ -28,7 +28,7 @@ function FilledPlayerTable() {
   // this is the call to the API to get the player data
   useEffect(() => {
     setAppState({ loading: true, playerList: [] });
-    api.get('players/get-all').subscribe((resp) => {
+    api.get('players').subscribe((resp) => {
         setAppState({ loading: false, playerList: resp as Player[] });
       });
   }, [setAppState]);

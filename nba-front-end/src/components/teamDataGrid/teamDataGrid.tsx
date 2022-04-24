@@ -5,28 +5,22 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useEffect } from 'react';
 
 
-const teamsColumns: GridColDef[] = [
-    { field: 'TeamID', headerName: 'ID', width: 90, hide: false },
+const teamColumns: GridColDef[] = [
+    { field: 'TeamID', headerName: 'ID', width: 90, hide: true },
     { field: 'TeamName', headerName: 'Team Name', width: 150, },
     { field: 'TeamWinPercentage', headerName: 'Win Percentage', width: 150,
       valueFormatter: (params) => {
         const valueFormatted = Number((params.value as number) * 100).toLocaleString();
         return `${valueFormatted} %`; 
+      },
     },
-},
-
-  ];
-
-  const rows = [
-    { TeamID: 1, TeamName: 'Team 1', TeamWinPercentage: 0.43},
-    { TeamID: 2, TeamName: 'Team 2', TeamWinPercentage: 0.25},
-    { TeamID: 3, TeamName: 'Team 3', TeamWinPercentage: 0.10 },
-   
   ];
 
   
 const DataGridTeams: React.FC<any> = (props) => {
-    
+  
+  const teamList = props.teamList;
+
   return (
     // white box around the table
     <Paper 
@@ -44,13 +38,12 @@ const DataGridTeams: React.FC<any> = (props) => {
       >
         {/* formats the placement of the searchbar and table */}
         <Grid container spacing={3}/>
-         <Grid item xl={3} md={6} xs={12}/>
           <Grid item xs={12}>
             <div style={{ height: '800px', width: '450px', position:'relative'}}>
               <DataGrid
-              rows={rows}
+              rows={teamList}
               getRowId={(row) => row.TeamID}
-              columns={teamsColumns}
+              columns={teamColumns}
               disableColumnSelector={true}
               pageSize={10}
               rowsPerPageOptions={[5]}

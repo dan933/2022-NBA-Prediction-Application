@@ -1,10 +1,10 @@
-export interface ITeams {
+export interface ITeam {
     TeamID: number;
     TeamName: string;
     TeamWinPercentage: number;
   }
 
-  export class Teams implements ITeams {
+  export class Team implements ITeam {
 
     constructor(
         public TeamID: number,
