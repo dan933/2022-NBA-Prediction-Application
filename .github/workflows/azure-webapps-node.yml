@@ -25,10 +25,10 @@ on:
     paths:
       - 'nba-front-end/**'
     branches:
-      - main
+      - cicd-resource-deployment
   pull_request:
     branches:
-      - main
+      - cicd-resource-deployment
   workflow_dispatch:
 
 env:
