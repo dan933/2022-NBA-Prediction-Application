@@ -27,6 +27,8 @@ on:
     branches:
       - main
   pull_request:
+    paths:
+      - 'nba-front-end/**'
     branches:
       - main
   workflow_dispatch:
