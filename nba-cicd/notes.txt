@@ -1,4 +1,9 @@
 cd 2022-NBA-Prediction-Application\nba-cicd
 
 The command below will create a sql server and database
+
+az deployment group create --name db-deploy --resource-group NBA --template-file api-deploy.json
+
 az deployment group create --name db-deploy --resource-group NBA --template-file db-deploy.json
+
+az deployment group create --name db-deploy --resource-group NBA --template-file fe-deploy.json
