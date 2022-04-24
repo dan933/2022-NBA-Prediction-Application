@@ -26,11 +26,14 @@ on:
 
 env:
   AZURE_WEBAPP_NAME: nba-app    # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: './nba-front-end'      # set this to the path to your web app project, defaults to the repository root
+  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '16.x'                # set this to the node version to use
 
 jobs:
   build:
+    defaults:
+      run:
+        working-directory: ./nba-front-end
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
