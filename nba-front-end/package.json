@@ -1,8 +1,11 @@
 {
   "name": "nba-front-end",
-  "homepage": "https://dan933.github.io/2022-NBA-Prediction-Application/",
+  "homepage": "https://nba-app.azurewebsites.net",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "<=16.0.0"
+  },
   "dependencies": {
     "@emotion/react": "^11.8.2",
     "@emotion/styled": "^11.8.1",
