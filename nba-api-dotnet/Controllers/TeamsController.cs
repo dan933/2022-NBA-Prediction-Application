@@ -35,7 +35,7 @@ public class TeamController : ControllerBase
             if (team.TeamName == null || team.TeamName == "")
             {
                 var response = new Response<Team?>(team, false, "Team Name cannot be Null");
-                return Ok(response);
+                return StatusCode(409,response);
             }
 
             //Check that team doesn't already exist in the database
@@ -47,7 +47,7 @@ public class TeamController : ControllerBase
             if (isTeam != null)
             {
                 var response = new Response<Team?>(isTeam, false, "Team Already Exists");
-                return Ok(response);
+                return StatusCode(409,response);
             }
             else
             {
@@ -108,7 +108,7 @@ public class TeamController : ControllerBase
             if(isTeam == null){
                 var response = new Response<PlayerSelectionView?>(null, false, "This Team does not exist");
 
-                return Ok(response);
+                return StatusCode(409,response);
             }else{
 
                 var players = await _context.view_Team.ToListAsync();
@@ -148,7 +148,7 @@ public class TeamController : ControllerBase
             if(isTeam == null){
                 var response = new Response<Team?>(null, false, "This Team does not exist");
 
-                return Ok(response);
+                return StatusCode(409,response);
             }
 
             //Check to see that player exists
@@ -159,7 +159,7 @@ public class TeamController : ControllerBase
             if(isPlayerExist == null){
                 var response = new Response<Player?>(null, false, "Players in the list do not exist!!!");
 
-                return Ok(response);
+                return StatusCode(409,response);
             }
 
             //Check to see if any player is already on the team
@@ -173,7 +173,7 @@ public class TeamController : ControllerBase
             if(PlayersOnTeam != null){
                 var response = new Response<PlayerDetails>(PlayersOnTeam, false, "There are players that are already on the Team!!!");
 
-                return Ok(response);
+                return StatusCode(409,response);
             }else{
 
                 //Add Players to team
