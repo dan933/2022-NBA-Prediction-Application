@@ -18,13 +18,19 @@ function teamPage() {
           margin: 0,
           width: 5,
           position: "relative",
-          top: -5,
+          top: -30,
           left: -200,
         }}
       >
         Teams
       </h1>
 
+        <h3 
+        style={{
+          position: "relative",
+          left: '-675px"',
+          top: '-100px',
+        }}> (temp) click on your team </h3>
       <Grid container spacing={3}>
         {/* Chart */}
         <Grid item xs={10} md={8} lg={8}>
@@ -32,14 +38,16 @@ function teamPage() {
             style={{
               paddingLeft: "10px",
               display: "flex",
-              marginTop: "20px",
+             
               justifyContent: "center",
               columnGap: "15px",
             }}
           >
             {<FilledTeamTable></FilledTeamTable>}
+            <div id="positioning" style={{top: -80, position: "relative", left: "300px", maxWidth: "auto",  flexDirection: 'column', height: 'auto',}}>
             {<FilledPlayerTable></FilledPlayerTable>}
-          </div>
+            </div>
+            </div>
         </Grid>
       </Grid>
     </Container>

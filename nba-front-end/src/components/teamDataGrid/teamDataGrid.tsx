@@ -88,13 +88,14 @@ const DataGridTeams: React.FC<any> = (props) => {
         // distance from the left side of the page
         left: "-232px",
         width: "392px",
+        top: -80
       }}
     >
       {/* formats the placement of the searchbar and table */}
       <Grid container spacing={3} />
       <Grid item xl={3} md={6} xs={12} />
       <Grid item xs={12}>
-        <div style={{ height: "800px", width: "362px", position: "relative" }}>
+        <div style={{ height: "1200px", width: "362px", position: "relative" }}>
           <DataGrid
             onRowClick={teamInfo}
             rows={rows}
@@ -115,8 +116,9 @@ const DataGridTeams: React.FC<any> = (props) => {
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={closeTeamView}>Cancel</Button>
-              <Button onClick={updateTeams}>Save Edits</Button>
+              <Button onClick={closeTeamView}>Exit</Button>
+              <Button onClick={updateTeams}>Add</Button>
+              <Button onClick={updateTeams}>Remove</Button>
             </DialogActions>
           </Dialog>
           {/* add team button */}

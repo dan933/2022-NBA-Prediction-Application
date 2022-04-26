@@ -77,6 +77,7 @@ const DataGridPlayers: React.FC<any> = (props) => {
           display: 'flex',
           flexDirection: 'column',
           height: 'auto',
+          maxWidth: 'auto'
           
         }}
       >
