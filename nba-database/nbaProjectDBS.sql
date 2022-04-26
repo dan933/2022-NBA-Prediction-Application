@@ -2,6 +2,7 @@
 -- Team WEST FTW
 -- CREATE DATABASE NBA
 -- Used a Local DBS to test data but this is flavour text ^
+
 DROP VIEW IF EXISTS view_Team;
 DROP TABLE IF EXISTS tbl_PlayerSelection;
 DROP TABLE IF EXISTS tbl_Teams;

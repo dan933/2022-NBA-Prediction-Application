@@ -1,0 +1,40 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "functions": [],
+    "variables": {},
+    "resources": [{
+        "name": "nba-api-one",
+        "type": "Microsoft.Web/serverfarms",
+        "apiVersion": "2020-12-01",
+        "location": "[resourceGroup().location]",
+        "sku": {
+            "name": "F1",
+            "capacity": 1
+        },
+        "tags": {
+            "displayName": "nba-api-one"
+        },
+        "properties": {
+            "name": "nba-api-one"
+        }
+    }, {
+        "name": "nba-api-one",
+        "type": "Microsoft.Web/sites",
+        "apiVersion": "2020-12-01",
+        "location": "[resourceGroup().location]",
+        "tags": {
+            "[concat('hidden-related:', resourceGroup().id, '/providers/Microsoft.Web/serverfarms/appServicePlan1')]": "Resource",
+            "displayName": "nba-api-one"
+        },
+        "dependsOn": [
+            "[resourceId('Microsoft.Web/serverfarms', 'nba-api-one')]"
+        ],
+        "properties": {
+            "name": "nba-api-one",
+            "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', 'nba-api-one')]"
+        }
+    }],
+    "outputs": {}
+}
