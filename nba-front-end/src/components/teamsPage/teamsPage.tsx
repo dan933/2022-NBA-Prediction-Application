@@ -4,7 +4,7 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 // import FilledTeamsTable from './teamsTableLoader';
-import DataGridTeams from "./teamsDataGrid";
+import DataGridTeams from "../teamDataGrid/teamDataGrid";
 import FilledPlayerTable from "../playerDataGrid/playerTableLoader";
 
 function teamsPage() {
@@ -19,7 +19,7 @@ function teamsPage() {
       }}
     >
       <DataGridTeams></DataGridTeams>
-      <FilledPlayerTable></FilledPlayerTable>
+      
     </div>
   );
 }

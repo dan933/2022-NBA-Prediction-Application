@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import DataGridTeams from "./teamsDataGrid";
+import DataGridTeams from "../teamDataGrid/teamDataGrid";
 import WithTableLoading from "../componentLoading";
 import api from "../../services/api";
-import { Teams } from "../../models/ITeams";
+import { Team } from "../../models/ITeam"
 
 interface teamsProps {
   loading: boolean;
-  teamsList: Teams[];
+  teamsList: Team[];
 }
 
 function FilledTeamsTable() {
@@ -19,7 +19,7 @@ function FilledTeamsTable() {
   useEffect(() => {
     setAppState({ loading: true, teamsList: [] });
     api.get("players/get-all").subscribe((resp) => {
-      setAppState({ loading: false, teamsList: resp as Teams[] });
+      setAppState({ loading: false, teamsList: resp as Team[] });
     });
   }, [setAppState]);
 
