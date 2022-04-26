@@ -111,7 +111,7 @@ public class TeamController : ControllerBase
                 return StatusCode(409,response);
             }else{
 
-                var players = await _context.view_Team.ToListAsync();
+                var players = await _context.view_Team.Where(t => t.TeamID == teamID).ToListAsync();
 
                 var response = new Response<List<PlayerSelectionView>>(players, true, "Players Successfully returned");
 
@@ -202,13 +202,52 @@ public class TeamController : ControllerBase
     }
 
     [HttpDelete]
-    [Route("{teamID:int}/RemovePlayers")]
+    [Route("{teamID:int}/removePlayers")]
     public async Task<ActionResult<Response<List<int?>>>> RemovePlayersFromTeam([FromBody] List<int?> playerIDList)
     {
         try
         {
             var teamID = Convert.ToInt32(RouteData.Values["teamID"]!);
+            var response = new Response<List<int?>>();
 
+            //check to see if team exists
+            var isTeam = await _context.tbl_Teams
+            .FindAsync(teamID);
+
+            // If the team doesn't exist 
+            if(isTeam == null){
+                response = new Response<List<int?>>(new List<int?>(), false, "This Team does not exist");
+
+                return StatusCode(409,response);
+            }
+
+            // check to see all players are on team
+            var unmatchedPlayers = new List<int?>();
+
+            foreach (var player in playerIDList)
+            {
+                // Check to see if player is already on the team
+                var PlayersOnTeam = await _context.view_Team
+                .Where(t => t.TeamID == teamID)
+                .Where(t => t.PlayerID == player)
+                .Select(c => new PlayerDetails(c.PlayerID, c.FirstName,c.LastName))
+                .FirstOrDefaultAsync();
+
+                // if not on team, add to unmatched player list
+                if(PlayersOnTeam == null){
+                    unmatchedPlayers.Add(player);
+                }
+
+            }
+            
+            // if any players not on team
+            if(unmatchedPlayers.Count>0){
+                response = new Response<List<int?>>(unmatchedPlayers, false, "Players not on team");
+                
+                return StatusCode(409,response);                
+            }
+
+            // if team exists and all players to delete are on team, do so
             _context.tbl_PlayerSelection.RemoveRange(
                 _context.tbl_PlayerSelection
                     .Where(t => t.TeamID == teamID)
@@ -219,8 +258,7 @@ public class TeamController : ControllerBase
 
             // _context.tbl_PlayerSelection!.RemoveRange(players);
 
-
-            var response = new Response<List<int?>>(playerIDList, true, "Players successfully Removed");
+            response = new Response<List<int?>>(playerIDList, true, "Players successfully Removed");
 
             return Ok(response);
 
