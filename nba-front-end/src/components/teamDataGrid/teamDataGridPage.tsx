@@ -18,8 +18,8 @@ function teamPage() {
           margin: 0,
           width: 5,
           position: "relative",
-          top: -30,
-          left: -200,
+          top: -20,
+          left: -30,
         }}
       >
         Teams
@@ -38,13 +38,13 @@ function teamPage() {
             style={{
               paddingLeft: "10px",
               display: "flex",
-             
+
               justifyContent: "center",
               columnGap: "15px",
             }}
           >
             {<FilledTeamTable></FilledTeamTable>}
-            <div id="positioning" style={{top: -80, position: "relative", left: "300px", maxWidth: "auto",  flexDirection: 'column', height: 'auto',}}>
+            <div style={{top: -80, position: "relative", left: 300, maxWidth: "100%", overflow: "scroll", columnWidth: "400", flexDirection: 'column', height: 'auto',}}>
             {<FilledPlayerTable></FilledPlayerTable>}
             </div>
             </div>

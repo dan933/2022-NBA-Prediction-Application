@@ -86,7 +86,7 @@ const DataGridTeams: React.FC<any> = (props) => {
         mt: "auto",
         position: "relative",
         // distance from the left side of the page
-        left: "-232px",
+        left: "-42px",
         width: "392px",
         top: -80
       }}
