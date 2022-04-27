@@ -17,7 +17,7 @@ builder.Services.AddCors(options =>
                           builder.WithOrigins(
                             "https://dan933.github.io/2022-NBA-Prediction-Application",
                             "https://nbaseasonpredictor.netlify.app",
-                            "https://nba-app-one.azurewebsites.net"
+                            "https://nba-app.azurewebsites.net"
                             )                            
                             .AllowAnyHeader()
                             .AllowAnyMethod();
