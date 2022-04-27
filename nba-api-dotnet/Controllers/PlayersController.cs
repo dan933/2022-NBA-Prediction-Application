@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nba_api_dotnet.models.players;
 using nba_api_dotnet.models;
-//hi
+
 namespace nba_api_dotnet.Controllers;
 
 [ApiController]
@@ -33,7 +33,7 @@ public class PlayersController : ControllerBase
             return Ok(players);
         }
         catch(Exception ex){
-            return StatusCode(500, ex);
+            return StatusCode(500, ex.ToString());
         }
 
     }

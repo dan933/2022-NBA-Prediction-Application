@@ -3,6 +3,8 @@
 -- CREATE DATABASE NBA
 -- Used a Local DBS to test data but this is flavour text ^
 
+DROP VIEW IF EXISTS view_Team;
+DROP TABLE IF EXISTS tbl_PlayerSelection;
 DROP TABLE IF EXISTS tbl_Teams;
 DROP TABLE IF EXISTS tbl_User;
 DROP TABLE IF EXISTS tbl_Players;
@@ -10,31 +12,42 @@ DROP TABLE IF EXISTS tbl_Players;
 GO
 
 CREATE TABLE tbl_Players (
-    PlayerID INT
-,   FirstName NVARCHAR(35)
-,   LastName NVARCHAR(35)
-,   Wins INT 
-,   Losses INT
-,   PreviousWins INT 
-,   PreviousLosses INT
-,   PlayerWinPercent FLOAT
-,   Points FLOAT
-,   Rebounds FLOAT
-,   Assists FLOAT
-,   Steals FLOAT
-,   Blocks FLOAT
-,   MissedFieldGoals FLOAT
-,   MissedFreeThrows FLOAT
-,   TurnOvers FLOAT
-,   PRIMARY KEY (PlayerID)
+    PlayerID INT PRIMARY KEY,
+    FirstName NVARCHAR(35),
+    LastName NVARCHAR(35),
+    Wins INT, 
+    Losses INT,
+    PreviousWins INT, 
+    PreviousLosses INT,
+    PlayerWinPercent FLOAT,
+    Points FLOAT,
+    Rebounds FLOAT,
+    Assists FLOAT,
+    Steals FLOAT,
+    Blocks FLOAT,
+    MissedFieldGoals FLOAT,
+    MissedFreeThrows FLOAT,
+    TurnOvers FLOAT,
 );
 
+GO
 
 CREATE TABLE tbl_Teams (
     TeamID INT IDENTITY(1,1) PRIMARY KEY,
     TeamName NVARCHAR(35),
+    CONSTRAINT AK_TeamName UNIQUE(TeamName)
 );
---todo player selection table
+
+GO
+
+CREATE TABLE tbl_PlayerSelection (
+    PlayerSelectionID INT IDENTITY(1,1) PRIMARY KEY,
+    PlayerID INT FOREIGN KEY REFERENCES tbl_Players,
+	TeamID INT FOREIGN KEY REFERENCES tbl_Teams
+    CONSTRAINT AK_PlayerSelection UNIQUE(PlayerID,TeamID)
+)
+
+
 --todo create view to combine player selection and player table, aggregating / grouping relevant data 
 
 
@@ -46,13 +59,15 @@ CREATE TABLE tbl_User (
 PRIMARY KEY (UserID)
 );
 
---SELECT * FROM tbl_Players;
+GO
 
--- to check tables exist
--- SELECT * FROM  information_schema.tables;
+CREATE VIEW view_Team AS
+select t.TeamID, t.TeamName, tp.*
+FROM tbl_Players as tp
+INNER JOIN tbl_PlayerSelection AS ps ON ps.PlayerID = tp.PlayerID
+INNER JOIN tbl_Teams as t ON t.TeamID = ps.TeamID;
 
-
-Go
+GO
 
 INSERT INTO tbl_Players(PlayerID,FirstName,LastName,Wins,Losses,PreviousWins,PreviousLosses,PlayerWinPercent,Points,Rebounds,Assists,Steals,Blocks,MissedFieldGoals,MissedFreeThrows,TurnOvers) VALUES (203932,'Aaron','Gordon',44,28,29,21,0.611,1062,413,181,43,41,383,56,126);
 INSERT INTO tbl_Players(PlayerID,FirstName,LastName,Wins,Losses,PreviousWins,PreviousLosses,PlayerWinPercent,Points,Rebounds,Assists,Steals,Blocks,MissedFieldGoals,MissedFreeThrows,TurnOvers) VALUES (1630565,'Aaron','Henry',6,0,0,0,1,2,1,0,0,2,4,0,2);
@@ -652,3 +667,14 @@ INSERT INTO tbl_Players(PlayerID,FirstName,LastName,Wins,Losses,PreviousWins,Pre
 INSERT INTO tbl_Players(PlayerID,FirstName,LastName,Wins,Losses,PreviousWins,PreviousLosses,PlayerWinPercent,Points,Rebounds,Assists,Steals,Blocks,MissedFieldGoals,MissedFreeThrows,TurnOvers) VALUES (1630192,'Zeke','Nnaji',24,16,30,12,0.6,265,145,15,16,13,82,24,22);
 INSERT INTO tbl_Players(PlayerID,FirstName,LastName,Wins,Losses,PreviousWins,PreviousLosses,PlayerWinPercent,Points,Rebounds,Assists,Steals,Blocks,MissedFieldGoals,MissedFreeThrows,TurnOvers) VALUES (1630533,'Ziaire','Williams',40,18,0,0,0.69,443,120,60,31,12,208,10,38);
 INSERT INTO tbl_Players(PlayerID,FirstName,LastName,Wins,Losses,PreviousWins,PreviousLosses,PlayerWinPercent,Points,Rebounds,Assists,Steals,Blocks,MissedFieldGoals,MissedFreeThrows,TurnOvers) VALUES (1629597,'Zylan','Cheatham',0,1,0,0,0,0,0,0,0,0,3,0,0);
+
+GO 
+
+INSERT INTO [dbo].[tbl_Teams]
+           ([TeamName])
+     VALUES
+           ('Bob''s team')
+
+GO
+
+INSERT INTO tbl_PlayerSelection(PlayerID,TeamID) VALUES(2207,1);
