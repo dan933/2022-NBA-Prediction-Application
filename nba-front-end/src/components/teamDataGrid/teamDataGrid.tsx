@@ -63,6 +63,7 @@ const DataGridTeams: React.FC<any> = (props) => {
     setOpen(true);
   };
   const handleClose = () => {
+    setIsError(false)
     setOpen(false);
   };
 
