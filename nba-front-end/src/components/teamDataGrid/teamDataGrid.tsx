@@ -1,4 +1,4 @@
-  import React, { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   DataGrid,
   GridColDef,
@@ -26,7 +26,7 @@ import { useEffect } from "react";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import FilledPlayerTable from "../playerDataGrid/playerTableLoader";
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import WithTableLoading from '../componentLoading';
 import FilledTeamTable from "./teamTableLoader";
@@ -73,30 +73,29 @@ const DataGridTeams: React.FC<any> = (props) => {
     
     let teamNameObject = { TeamName: teamName.current?.value }
 
-    console.log(teamNameObject)
-
     axios.post(`${url}/team/create-team`, teamNameObject)
     .then(function (response) {
-    if ( response.data.Success == true) {
+    if ( response.data.Success === true) {
         setOpen(false);
         
         // if success call api again.
+        //todo use useEffect() instead
         api.get('/team/get-all').subscribe(
           (resp) => {
             setTeamList(resp)
           })
-    }    
-    else 
-    {
-      setIsError(true)
-      console.log(isError)
     }
     })
-    .catch(function (error) {
-      console.log(error);
+      .catch((error) => {
+
+//https://www.codegrepper.com/code-examples/javascript/response.error+console.log
+        
+        const err: any = error as AxiosError
+        
+        if (err.response.status === 409) {
+          setIsError(true)
+        }
     });
-    
-    return console.log(teamName.current?.value)
 
   };  
   
