@@ -33,7 +33,7 @@ public class PlayersController : ControllerBase
             return Ok(players);
         }
         catch(Exception ex){
-            return StatusCode(500, ex);
+            return StatusCode(500, ex.ToString());
         }
 
     }
