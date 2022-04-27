@@ -16,7 +16,9 @@ builder.Services.AddCors(options =>
                       {
                           builder.WithOrigins(
                             "https://dan933.github.io/2022-NBA-Prediction-Application",
-                            "https://nbaseasonpredictor.netlify.app")                            
+                            "https://nbaseasonpredictor.netlify.app",
+                            "https://nba-app.azurewebsites.net"
+                            )                            
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                       });
@@ -25,7 +27,7 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 
 builder.Services.AddControllers();
-string connString = builder.Configuration.GetConnectionString("AzureDatabase");
+string connString = builder.Configuration.GetConnectionString("DanDesktopDB");
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
