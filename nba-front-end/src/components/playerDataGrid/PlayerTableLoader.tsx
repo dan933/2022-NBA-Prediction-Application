@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import DataGridPlayers from './PlayerDataGrid';
 import WithTableLoading from '../ComponentLoading';
 import Api from '../../services/Api';
-import { Player } from '../../models/Player';
+import { Player } from '../../models/IPlayer';
 
 
 interface PlayerProps{
