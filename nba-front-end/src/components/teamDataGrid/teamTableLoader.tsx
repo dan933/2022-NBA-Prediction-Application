@@ -17,12 +17,18 @@ function FilledTeamTable() {
         teamList: [],
       });
 
+      
       useEffect(() => {
         setAppState({ loading: true, teamList: [] });
         api.get('teams').subscribe((resp) => {
             setAppState({ loading: false, teamList: resp as Team[] });
           });
       }, [setAppState]);
+
+      //todo useEffect
+      useEffect(() => {
+
+      })
     
       
   return (
