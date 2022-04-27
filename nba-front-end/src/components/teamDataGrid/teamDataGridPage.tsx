@@ -6,48 +6,16 @@ import Paper from "@mui/material/Paper";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import { makeStyles } from "@material-ui/core/styles";
 import FilledPlayerTable from "../playerDataGrid/playerTableLoader";
 import FilledTeamTable from "./teamTableLoader";
 
 function teamPage() {
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4, "min-height": 600 }}>
-      <h1
-        style={{
-          margin: 0,
-          width: 5,
-          position: "relative",
-          top: -20,
-          left: -30,
-        }}
-      >
-        Teams
-      </h1>
-
-        <h3 
-        style={{
-          position: "relative",
-          left: '-675px"',
-          top: '-100px',
-        }}> (temp) click on your team </h3>
-      <Grid container spacing={3}>
+    <Container maxWidth="lg" sx={{ mt:4, mb: 4, "min-height": 600 }}>
+      <Grid container>
         {/* Chart */}
-        <Grid item xs={10} md={8} lg={8}>
-          <div
-            style={{
-              paddingLeft: "10px",
-              display: "flex",
-
-              justifyContent: "center",
-              columnGap: "15px",
-            }}
-          >
-            {<FilledTeamTable></FilledTeamTable>}
-            <div style={{top: -80, position: "relative", left: 300, maxWidth: "100%", overflow: "scroll", columnWidth: "400", flexDirection: 'column', height: 'auto',}}>
-            {<FilledPlayerTable></FilledPlayerTable>}
-            </div>
-            </div>
+        <Grid item xs={12} md={12} lg={12}>
+          <FilledTeamTable />
         </Grid>
       </Grid>
     </Container>

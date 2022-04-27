@@ -89,56 +89,18 @@ const DataGridTeams: React.FC<any> = (props) => {
     <Paper
       sx={{
         p: 2,
-        paddingTop: 5,
-        display: "flex",
-        flexDirection: "column",
-        height: "auto",
-        mt: "auto",
-        position: "relative",
-        // distance from the left side of the page
-        left: "-42px",
-        width: "392px",
-        top: -80
+        height: 'auto',
+        maxWidth: 'auto'
       }}
     >
       {/* formats the placement of the searchbar and table */}
-      <Grid container spacing={3} />
-      <Grid item xl={3} md={6} xs={12} />
-      <Grid item xs={12}>
-        <div style={{ height: "1200px", width: "362px", position: "relative" }}>
-          <DataGrid
-            onRowClick={teamInfo}
-            rows={rows}
-            getRowId={(row) => row.TeamID}
-            columns={teamsColumns}
-            disableColumnSelector={true}
-            pageSize={10}
-            rowsPerPageOptions={[5]}
-            disableSelectionOnClick
-          />
-          {/* displays the pop up dialogue box on row click */}
-          <Dialog id="viewTeam" open={view} onClose={handleClose}>
-            <DialogTitle>Team (test) </DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                View All Players In The Team
-                <FilledPlayerTable></FilledPlayerTable>
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={closeTeamView}>Exit</Button>
-              <Button onClick={updateTeams}>Add</Button>
-              <Button onClick={updateTeams}>Remove</Button>
-            </DialogActions>
-          </Dialog>
-          {/* add team button */}
+      <Grid container spacing={3}>
+        <Grid item>
+          <h2 style={{margin: 0}}>Teams</h2>
+        </Grid>
+        <Grid item>
+        {/* add team button */}
           <Button
-            sx={{
-              left: "-98px",
-              top: "-45px",
-              padding: "5px",
-              paddingRight: "9px",
-            }}
             variant="contained"
             color="success"
             startIcon={<AddIcon />}
@@ -146,30 +108,62 @@ const DataGridTeams: React.FC<any> = (props) => {
           >
             Add New Team
           </Button>
-          {/* secondary dialogue box for add player */}
-          <Dialog id="createTeam" open={open} onClose={handleClose}>
-            <DialogTitle>Create a new team:</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                To create a new team, please provide a Team Name.
-              </DialogContentText>
-              <TextField 
-                autoFocus
-                margin="dense"
-                id="TeamName"
-                label="Team Name"
-                type="Team Name"
-                fullWidth
-                variant="standard"
-                inputRef={teamName}
+        </Grid>
+        <Grid item xs={12}>
+          <div style={{ display: 'flex', height: '100%' }}>
+            <div style={{ flexGrow: 1 }}>
+              <DataGrid
+                autoHeight
+                onRowClick={teamInfo}
+                rows={rows}
+                getRowId={(row) => row.TeamID}
+                columns={teamsColumns}
+                disableColumnSelector={true}
+                pageSize={10}
+                rowsPerPageOptions={[10]}
+                disableSelectionOnClick
               />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose}>Cancel</Button>
-              <Button onClick={createTeam}>Create </Button>
-            </DialogActions>
-          </Dialog>
-        </div>
+            </div>
+          </div>
+        </Grid>
+        {/* displays the pop up dialogue box on row click */}
+        <Dialog id="viewTeam" open={view} onClose={handleClose}>
+          <DialogTitle>Team (test) </DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              View All Players In The Team
+              <FilledPlayerTable></FilledPlayerTable>
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={closeTeamView}>Exit</Button>
+            <Button onClick={updateTeams}>Add</Button>
+            <Button onClick={updateTeams}>Remove</Button>
+          </DialogActions>
+        </Dialog>
+        {/* secondary dialogue box for add player */}
+        <Dialog id="createTeam" open={open} onClose={handleClose}>
+          <DialogTitle>Create a new team:</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              To create a new team, please provide a Team Name.
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="TeamName"
+              label="Team Name"
+              type="Team Name"
+              fullWidth
+              variant="standard"
+              inputRef={teamName}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={createTeam}>Create </Button>
+          </DialogActions>
+        </Dialog>
       </Grid>
     </Paper>
   );
