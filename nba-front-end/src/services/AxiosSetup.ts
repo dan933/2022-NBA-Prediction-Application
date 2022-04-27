@@ -1,13 +1,13 @@
-import Axios, { AxiosRequestConfig, AxiosInstance, AxiosPromise } from 'axios';
+import axios, { AxiosRequestConfig, AxiosInstance, AxiosPromise } from 'axios';
 
 const initialiseAxios = (config: AxiosRequestConfig): AxiosInstance => {
-    const axiosInstance = Axios.create(config);
+    const axiosInstance = axios.create(config);
 
     /*
         Add default headers, interceptors etc..
     */
 
-    return axiosInstance;
+    return AxiosInstance;
 };
 
 export default initialiseAxios;
