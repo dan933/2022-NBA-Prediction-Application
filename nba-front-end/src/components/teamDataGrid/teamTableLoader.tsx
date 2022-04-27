@@ -20,7 +20,7 @@ function FilledTeamTable() {
       
       useEffect(() => {
         setAppState({ loading: true, teamList: [] });
-        api.get('teams').subscribe((resp) => {
+        api.get('/team/get-all').subscribe((resp) => {
             setAppState({ loading: false, teamList: resp as Team[] });
           });
       }, [setAppState]);

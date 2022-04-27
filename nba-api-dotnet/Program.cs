@@ -17,14 +17,16 @@ builder.Services.AddCors(options =>
                           builder.WithOrigins(
                             "https://nbaseasonpredictor.netlify.app",
                             "http://localhost:3000"
-                            );
+                            )
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
                       });
 });
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-string connString = builder.Configuration.GetConnectionString("DanDesktopDB");
+string connString = builder.Configuration.GetConnectionString("DanLaptopDB");
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>

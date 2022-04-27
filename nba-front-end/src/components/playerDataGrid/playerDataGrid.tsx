@@ -58,6 +58,7 @@ const DataGridPlayers: React.FC<any> = (props) => {
     // can't update anything else here because of how the hook works, use useEffect hook instead
   }
 
+
   // when [search] is updated, update the table's filter
   useEffect(()=>{setFilterModel({
     items: [

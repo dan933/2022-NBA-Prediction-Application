@@ -16,7 +16,7 @@ public class NBAContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
         // connect to sql server with connection string from app settings
-        options.UseSqlServer(Configuration.GetConnectionString("DanDesktopDB"));
+        options.UseSqlServer(Configuration.GetConnectionString("DanLaptopDB"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

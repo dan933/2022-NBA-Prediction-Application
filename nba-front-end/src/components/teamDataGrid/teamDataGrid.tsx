@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+  import React, { useRef, useState } from "react";
 import {
   DataGrid,
   GridColDef,
@@ -26,6 +26,12 @@ import { useEffect } from "react";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import FilledPlayerTable from "../playerDataGrid/playerTableLoader";
+import axios from 'axios';
+import { axiosRequestConfiguration } from "../../services/axios_config";
+import WithTableLoading from '../componentLoading';
+import FilledTeamTable from "./teamTableLoader";
+import { Team } from "../../models/ITeam";
+import api from "../../services/api";
 
 const teamsColumns: GridColDef[] = [
   { field: "TeamID", headerName: "ID", width: 90, hide: false },
@@ -43,19 +49,16 @@ const teamsColumns: GridColDef[] = [
   },
 ];
 
-// todo connect API instead of hard coding
-const rows = [
-  { TeamID: 1, TeamName: "Team 1", TeamWinPercentage: 0.43 },
-  { TeamID: 2, TeamName: "Team 2", TeamWinPercentage: 0.25 },
-  { TeamID: 3, TeamName: "Team 3", TeamWinPercentage: 0.1 },
-];
-
 const DataGridTeams: React.FC<any> = (props) => {
 
   const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
 
   const [open, setOpen] = React.useState(false);
 
+  const [isError, setIsError] = React.useState(false);
+
+  const [teamList, setTeamList] = React.useState(props.teamList);
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -63,12 +66,40 @@ const DataGridTeams: React.FC<any> = (props) => {
     setOpen(false);
   };
 
-  const createTeam = () => {
-    return console.log(teamName.current?.value)
-  };
-
+  const url = axiosRequestConfiguration.baseURL
   
+  // gets value from create team form
+  const createTeam = () => {
+    
+    let teamNameObject = { TeamName: teamName.current?.value }
 
+    console.log(teamNameObject)
+
+    axios.post(`${url}/team/create-team`, teamNameObject)
+    .then(function (response) {
+    if ( response.data.Success == true) {
+        setOpen(false);
+        
+        // if success call api again.
+        api.get('/team/get-all').subscribe(
+          (resp) => {
+            setTeamList(resp)
+          })
+    }    
+    else 
+    {
+      setIsError(true)
+      console.log(isError)
+    }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    
+    return console.log(teamName.current?.value)
+
+  };  
+  
   // functions related  to team view
   const [view, viewAll] = React.useState(false);
   const teamInfo = () => {
@@ -115,7 +146,7 @@ const DataGridTeams: React.FC<any> = (props) => {
               <DataGrid
                 autoHeight
                 onRowClick={teamInfo}
-                rows={rows}
+                rows={teamList}
                 getRowId={(row) => row.TeamID}
                 columns={teamsColumns}
                 disableColumnSelector={true}
@@ -158,6 +189,7 @@ const DataGridTeams: React.FC<any> = (props) => {
               variant="standard"
               inputRef={teamName}
             />
+            {isError && <p>This Team Already Exist!</p>}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
@@ -170,3 +202,7 @@ const DataGridTeams: React.FC<any> = (props) => {
 };
 
 export default DataGridTeams;
+function setAppState(arg0: { loading: boolean; teamList: Team[]; }) {
+  throw new Error("Function not implemented.");
+}
+
