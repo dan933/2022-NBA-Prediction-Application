@@ -15,8 +15,7 @@ builder.Services.AddCors(options =>
                       builder =>
                       {
                           builder.WithOrigins(
-                            "https://nbaseasonpredictor.netlify.app",
-                            "http://localhost:3000"
+                            "https://nbaseasonpredictor.netlify.app"                            
                             )
                             .AllowAnyHeader()
                             .AllowAnyMethod();
@@ -26,7 +25,7 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 
 builder.Services.AddControllers();
-string connString = builder.Configuration.GetConnectionString("DanLaptopDB");
+string connString = builder.Configuration.GetConnectionString("AzureDatabase");
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
