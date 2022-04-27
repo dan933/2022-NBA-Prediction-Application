@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   DataGrid,
   GridColDef,
@@ -51,6 +51,9 @@ const rows = [
 ];
 
 const DataGridTeams: React.FC<any> = (props) => {
+
+  const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -60,6 +63,13 @@ const DataGridTeams: React.FC<any> = (props) => {
     setOpen(false);
   };
 
+  const createTeam = () => {
+    return console.log(teamName.current?.value)
+  };
+
+  
+
+  // functions related  to team view
   const [view, viewAll] = React.useState(false);
   const teamInfo = () => {
     viewAll(true);
@@ -143,7 +153,7 @@ const DataGridTeams: React.FC<any> = (props) => {
               <DialogContentText>
                 To create a new team, please provide a Team Name.
               </DialogContentText>
-              <TextField
+              <TextField 
                 autoFocus
                 margin="dense"
                 id="TeamName"
@@ -151,11 +161,12 @@ const DataGridTeams: React.FC<any> = (props) => {
                 type="Team Name"
                 fullWidth
                 variant="standard"
+                inputRef={teamName}
               />
             </DialogContent>
             <DialogActions>
               <Button onClick={handleClose}>Cancel</Button>
-              <Button onClick={handleClose}>Create </Button>
+              <Button onClick={createTeam}>Create </Button>
             </DialogActions>
           </Dialog>
         </div>
