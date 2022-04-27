@@ -36,17 +36,17 @@ import api from "../../services/api";
 const teamsColumns: GridColDef[] = [
   { field: "TeamID", headerName: "ID", width: 90, hide: false },
   { field: "TeamName", headerName: "Team Name", width: 150 },
-  {
-    field: "TeamWinPercentage",
-    headerName: "Win Percentage",
-    width: 150,
-    valueFormatter: (params) => {
-      const valueFormatted = Number(
-        (params.value as number) * 100
-      ).toLocaleString();
-      return `${valueFormatted} %`;
-    },
-  },
+  // {
+  //   field: "TeamWinPercentage",
+  //   headerName: "Win Percentage",
+  //   width: 150,
+  //   valueFormatter: (params) => {
+  //     const valueFormatted = Number(
+  //       (params.value as number) * 100
+  //     ).toLocaleString();
+  //     return `${valueFormatted} %`;
+  //   },
+  // },
 ];
 
 const DataGridTeams: React.FC<any> = (props) => {
@@ -189,7 +189,7 @@ const DataGridTeams: React.FC<any> = (props) => {
               variant="standard"
               inputRef={teamName}
             />
-            {isError && <p>This Team Already Exist!</p>}
+            {isError && <p style={{color: "error"}}>This Team Already Exist!</p>}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
