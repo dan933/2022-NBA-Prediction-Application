@@ -7,7 +7,7 @@ const initialiseAxios = (config: AxiosRequestConfig): AxiosInstance => {
         Add default headers, interceptors etc..
     */
 
-    return AxiosInstance;
+    return axiosInstance;
 };
 
 export default initialiseAxios;
