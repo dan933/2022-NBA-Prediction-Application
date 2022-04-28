@@ -17,44 +17,41 @@ public class TeamController : ControllerBase
         _context = context;
     }
 
-    // [HttpPost("AddGameResults")]
-    // public int AddGameResults(GameResults gameResults) 
-    //     {
-    //         // the database returns the number of rows affected, should be 1
-    //         int rows = _gameDB.SaveGameResults(gameResults);
-    //         return rows;
-    //     }
-
-    
-/// <summary>
+    /// <summary>
     /// Creates a Team if the Team name does no
     /// </summary>
     /// <param name="team"></param>
     /// <returns>Team Created</returns>
     [HttpPost]
     [Route("create-team")]
-    public async Task<ActionResult<Response<Team?>>> createTeam([FromBody] Team team){
-        try{
-            
-            if(team.TeamName == null){
-                 var response = new Response<Team?>(team, false, "Team Name cannot be Null");
-                return Ok(response);   
+    public async Task<ActionResult<Response<Team?>>> createTeam([FromBody] Team team)
+    {
+        try
+        {
+            if (team.TeamName is string){
+                team.TeamName = team.TeamName.TrimStart();
+            } 
+
+            if (team.TeamName == null || team.TeamName == "")
+            {
+                var response = new Response<Team?>(team, false, "Team Name cannot be Null");
+                return StatusCode(409,response);
             }
-    
+
             //Check that team doesn't already exist in the database
-            Team? Team = await _context.tbl_Teams!
+            Team? isTeam = await _context.tbl_Teams
             .Where(t => t.TeamName == team.TeamName)
             .FirstOrDefaultAsync();
 
-            
-            if (Team != null)
-            {
-                var response = new Response<Team?>(Team, false, "Team Already Exists");
-                return Ok(response);
-            }
-            else{
 
-                await _context.tbl_Teams!.AddAsync(team);
+            if (isTeam != null)
+            {
+                var response = new Response<Team?>(isTeam, false, "Team Already Exists");
+                return StatusCode(409,response);
+            }
+            else
+            {
+                await _context.tbl_Teams.AddAsync(team);
                 await _context.SaveChangesAsync();
 
                 var response = new Response<Team>(team, true, "Team successfully created");
@@ -62,29 +59,217 @@ public class TeamController : ControllerBase
             }
 
         }
-        catch(Exception ex){
-            return StatusCode(500, ex);
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.ToString());
         }
 
     }
-    
 
-/// <summary>
+
+    /// <summary>
     /// Gets a List of all the teams in the database
     /// </summary>
     /// <returns>A list of Teams</returns>
     [HttpGet]
     [Route("get-all")]
-    //public async Task<ActionResult<Response<List<Player>>>> getPlayers(){
-    public async Task<ActionResult<List<Team>>> getAllTeams(){
-        try{
-            List<Team> teams = await _context.tbl_Teams!.ToListAsync();
+    public async Task<ActionResult<List<Team>>> getAllTeams()
+    {
+        try
+        {
+            List<Team> teams = await _context.tbl_Teams.ToListAsync();
 
             return Ok(teams);
         }
-        catch(Exception ex){
-            return StatusCode(500, ex);
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.ToString());
         }
 
     }
+
+    /// <summary>
+    /// Get Players on a specific team
+    /// </summary>
+    /// <returns>The list of players are on a specific team</returns>
+    [HttpGet]
+    [Route("{teamID:int}/get-players")]
+    public async Task<ActionResult<Response<List<PlayerSelectionView?>>>> GetTeamPlayers()
+    {
+        try
+        {
+            var teamID = Convert.ToInt32(RouteData.Values["teamID"]);
+
+            //check to see if team exists
+            var isTeam = await _context.tbl_Teams
+            .FindAsync(teamID);
+
+            // If the team doesn't exist 
+            if(isTeam == null){
+                var response = new Response<PlayerSelectionView?>(null, false, "This Team does not exist");
+
+                return StatusCode(409,response);
+            }else{
+
+                var players = await _context.view_Team.Where(t => t.TeamID == teamID).ToListAsync();
+
+                var response = new Response<List<PlayerSelectionView>>(players, true, "Players Successfully returned");
+
+                return Ok(response);
+            }
+
+        }
+        catch (Exception ex)
+        {
+
+            return StatusCode(500, ex.ToString());
+        }
+        
+    }
+
+    /// <summary>
+    /// Adds Players to a existing team
+    /// </summary>
+    /// <param name="playerIDList"></param>
+    /// <returns>The list of players that have been added to a team</returns>
+    [HttpPost]
+    [Route("{teamID:int}/addPlayers")]
+    public async Task<ActionResult<Response<List<PlayerSelection?>>>> AddPlayersToTeam([FromBody] List<int?> playerIDList)
+    {
+        try
+        {
+            var teamID = Convert.ToInt32(RouteData.Values["teamID"]);
+
+            //check to see if team exists
+            var isTeam = await _context.tbl_Teams
+            .FindAsync(teamID);
+
+            // If the team doesn't exist 
+            if(isTeam == null){
+                var response = new Response<Team?>(null, false, "This Team does not exist");
+
+                return StatusCode(409,response);
+            }
+
+            //Check to see that player exists
+            var isPlayerExist = await _context.tbl_Players
+            .Where(t => playerIDList.Contains(t.PlayerID))
+            .FirstOrDefaultAsync();
+
+            if(isPlayerExist == null){
+                var response = new Response<Player?>(null, false, "Players in the list do not exist!!!");
+
+                return StatusCode(409,response);
+            }
+
+            //Check to see if any player is already on the team
+            var PlayersOnTeam = await _context.view_Team
+            .Where(t => t.TeamID == teamID)
+            .Where(t => playerIDList.Contains(t.PlayerID))
+            .Select(c => new PlayerDetails(c.PlayerID, c.FirstName,c.LastName))
+            .FirstOrDefaultAsync();
+
+            //If Player is Already on the team
+            if(PlayersOnTeam != null){
+                var response = new Response<PlayerDetails>(PlayersOnTeam, false, "There are players that are already on the Team!!!");
+
+                return StatusCode(409,response);
+            }else{
+
+                //Add Players to team
+                playerIDList.ForEach(p =>
+                {
+                    var newPlayer = new PlayerSelection(p,teamID);
+                    _context.tbl_PlayerSelection.AddAsync(newPlayer);
+                    
+                });
+                await _context.SaveChangesAsync();
+
+                var addedPlayers = (IEnumerable<PlayerDetails>) await _context.view_Team
+                .Where(pv => playerIDList.Contains(pv.PlayerID))
+                .Select(ps => new PlayerDetails(ps.PlayerID,ps.FirstName,ps.LastName))
+                .ToListAsync();
+
+                var response = new Response<IEnumerable<PlayerDetails>>(addedPlayers, true, "Players successfully Added");                
+
+                return Ok(response);
+            }
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.ToString());
+        }
+    }
+
+    [HttpDelete]
+    [Route("{teamID:int}/removePlayers")]
+    public async Task<ActionResult<Response<List<int?>>>> RemovePlayersFromTeam([FromBody] List<int?> playerIDList)
+    {
+        try
+        {
+            var teamID = Convert.ToInt32(RouteData.Values["teamID"]!);
+            var response = new Response<List<int?>>();
+
+            //check to see if team exists
+            var isTeam = await _context.tbl_Teams
+            .FindAsync(teamID);
+
+            // If the team doesn't exist 
+            if(isTeam == null){
+                response = new Response<List<int?>>(new List<int?>(), false, "This Team does not exist");
+
+                return StatusCode(409,response);
+            }
+
+            // check to see all players are on team
+            var unmatchedPlayers = new List<int?>();
+
+            foreach (var player in playerIDList)
+            {
+                // Check to see if player is already on the team
+                var PlayersOnTeam = await _context.view_Team
+                .Where(t => t.TeamID == teamID)
+                .Where(t => t.PlayerID == player)
+                .Select(c => new PlayerDetails(c.PlayerID, c.FirstName,c.LastName))
+                .FirstOrDefaultAsync();
+
+                // if not on team, add to unmatched player list
+                if(PlayersOnTeam == null){
+                    unmatchedPlayers.Add(player);
+                }
+
+            }
+            
+            // if any players not on team
+            if(unmatchedPlayers.Count>0){
+                response = new Response<List<int?>>(unmatchedPlayers, false, "Players not on team");
+                
+                return StatusCode(409,response);                
+            }
+
+            // if team exists and all players to delete are on team, do so
+            _context.tbl_PlayerSelection.RemoveRange(
+                _context.tbl_PlayerSelection
+                    .Where(t => t.TeamID == teamID)
+                    .Where(t => playerIDList.Contains(t.PlayerID))
+            );
+                    
+            await _context.SaveChangesAsync();
+
+            // _context.tbl_PlayerSelection!.RemoveRange(players);
+
+            response = new Response<List<int?>>(playerIDList, true, "Players successfully Removed");
+
+            return Ok(response);
+
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.ToString());
+        }
+    }
 }
+
+//2730
+//2772
+//200746

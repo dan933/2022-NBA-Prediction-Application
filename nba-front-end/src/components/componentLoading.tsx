@@ -11,3 +11,5 @@ function WithTableLoading(Component:React.FC) {
     };
   }
 export default WithTableLoading;
+
+
