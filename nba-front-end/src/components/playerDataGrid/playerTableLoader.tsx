@@ -34,7 +34,7 @@ function FilledPlayerTable() {
     setLoading(true);
     setErrorMessage("");
     setAppState({ playerList: [] });
-    api.get('players').toPromise().then((resp) => {
+    api.get('players/get-all').toPromise().then((resp) => {
         setLoading(false);
         setAppState({ playerList: resp as Player[] });
         })
