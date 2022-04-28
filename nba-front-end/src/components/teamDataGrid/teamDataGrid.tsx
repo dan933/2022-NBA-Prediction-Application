@@ -1,4 +1,4 @@
-  import React, { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   DataGrid,
   GridColDef,
@@ -63,6 +63,7 @@ const DataGridTeams: React.FC<any> = (props) => {
     setOpen(true);
   };
   const handleClose = () => {
+    setIsError(false)
     setOpen(false);
   };
 
@@ -188,7 +189,7 @@ const DataGridTeams: React.FC<any> = (props) => {
               variant="standard"
               inputRef={teamName}
             />
-            {isError && <p style={{color: "error"}}>This Team Already Exist!</p>}
+            {isError && <p style={{color: "red"}}>This Team Already Exist!</p>}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>

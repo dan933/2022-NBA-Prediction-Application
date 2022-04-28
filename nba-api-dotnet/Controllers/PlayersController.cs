@@ -39,4 +39,18 @@ public class PlayersController : ControllerBase
         }
 
     }
+
+    [HttpGet]
+    [Route("test")]
+    //public async Task<ActionResult<Response<List<Player>>>> getPlayers(){
+    public async Task<ActionResult<List<Player>>> getTtest(){
+        try{
+
+            return Ok("woooooo I loooooooooveeeeeeee tests!");
+        }
+        catch(Exception ex){
+            return StatusCode(500, ex.ToString());
+        }
+
+    }
 }

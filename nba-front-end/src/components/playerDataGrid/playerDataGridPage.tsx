@@ -4,6 +4,8 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import FilledPlayerTable from './playerTableLoader';
 
+console.log("tessssssting wooooooooooooooo!!!!!!!!!!!!!")
+
 function PlayerDataGridPage() {
   return (
     //   these lines set up the format of the page
