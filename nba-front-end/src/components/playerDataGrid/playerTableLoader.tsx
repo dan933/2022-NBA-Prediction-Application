@@ -50,7 +50,7 @@ function FilledPlayerTable() {
     <React.Fragment>
       <div>
   {/* if the error message is not empty or does not equal "", then the error message will appear*/}
-        {errorMessage!==""&&<h1>Oops! An Error Occured Please Try Again.</h1>}
+        {errorMessage!==""&&<h1 style={{color: 'red'}}>Oops! An Error Occured Please Try Again.</h1>}
   {/* if  isLoading is true, loading text will apear, if api is able to fetch player data and isLoading is false, then show filled player table*/}
         {isLoading ? (<h1>Hold on, fetching data may take some time :)</h1>) : (<TableLoading playerList={appState.playerList} />)}
       </div>
