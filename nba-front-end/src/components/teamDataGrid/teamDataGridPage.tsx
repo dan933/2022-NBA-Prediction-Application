@@ -15,7 +15,7 @@ function teamPage() {
       <Grid container>
         {/* Chart */}
         <Grid item xs={12} md={12} lg={12}>
-          <FilledTeamTable />
+          <FilledTeamTable/>
         </Grid>
       </Grid>
     </Container>

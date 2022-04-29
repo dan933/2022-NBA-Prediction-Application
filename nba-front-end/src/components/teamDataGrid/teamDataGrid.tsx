@@ -25,16 +25,19 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useEffect } from "react";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
-import FilledPlayerTable from "../playerDataGrid/playerTableLoader";
+import RemoveIcon from '@mui/icons-material/Remove';
+import FilledAddPlayerTable from "./addPlayerTableLoader";
 import axios, { AxiosError } from 'axios';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import WithTableLoading from '../componentLoading';
 import FilledTeamTable from "./teamTableLoader";
 import { Team } from "../../models/ITeam";
 import api from "../../services/api";
+import FilledTeamPlayerTable from "./teamPlayerTableLoader";
+
 
 const teamsColumns: GridColDef[] = [
-  { field: "TeamID", headerName: "ID", width: 90, hide: false },
+  { field: "TeamID", headerName: "ID", width: 90, hide: true },
   { field: "TeamName", headerName: "Team Name", width: 150 },
   // {
   //   field: "TeamWinPercentage",
@@ -49,16 +52,28 @@ const teamsColumns: GridColDef[] = [
   // },
 ];
 
+
 const DataGridTeams: React.FC<any> = (props) => {
 
   const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
 
   const [open, setOpen] = React.useState(false);
 
+  const [openPopup, setOpenPopup] = useState(false);
+
   const [isError, setIsError] = React.useState(false);
 
   const [teamList, setTeamList] = React.useState(props.teamList);
   
+  const handleClickOpenPopup = () => {
+    setOpenPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setOpenPopup(false);
+  };
+
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -115,15 +130,28 @@ const DataGridTeams: React.FC<any> = (props) => {
     //code here
     viewAll(true);
   };
+
+  const removeTeam = () => {
+    
+  };
+
+
   return (
     // white box around the table
+    <div>
+      <Grid container spacing={0}>
+      <Grid item xs={3} sm={3} md={3} lg={3} xl={3}>
     <Paper
       sx={{
         p: 2,
-        height: 'auto',
-        maxWidth: 'auto'
+        position:'relative',
+        left: '-50px',
+        height: '750px',
+        maxWidth: '1000px',
       }}
+
     >
+
       {/* formats the placement of the searchbar and table */}
       <Grid container spacing={3}>
         <Grid item>
@@ -137,14 +165,12 @@ const DataGridTeams: React.FC<any> = (props) => {
             startIcon={<AddIcon />}
             onClick={handleClickOpen}
           >
-            Add New Team
+            Create New Team
           </Button>
         </Grid>
         <Grid item xs={12}>
-          <div style={{ display: 'flex', height: '100%' }}>
-            <div style={{ flexGrow: 1 }}>
+          <div style={{ height: '600px', width: '100%'}}>
               <DataGrid
-                autoHeight
                 onRowClick={teamInfo}
                 rows={teamList}
                 getRowId={(row) => row.TeamID}
@@ -154,7 +180,6 @@ const DataGridTeams: React.FC<any> = (props) => {
                 rowsPerPageOptions={[10]}
                 disableSelectionOnClick
               />
-            </div>
           </div>
         </Grid>
         {/* displays the pop up dialogue box on row click */}
@@ -163,7 +188,7 @@ const DataGridTeams: React.FC<any> = (props) => {
           <DialogContent>
             <DialogContentText>
               View All Players In The Team
-              <FilledPlayerTable></FilledPlayerTable>
+              <FilledAddPlayerTable></FilledAddPlayerTable>
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -197,7 +222,87 @@ const DataGridTeams: React.FC<any> = (props) => {
           </DialogActions>
         </Dialog>
       </Grid>
+      </Paper>
+    </Grid>
+    
+
+
+      {/* formatting and adding of the table that allows for players to be added to a team */}
+    <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
+      <Paper        sx={{
+        p: 2,
+        position:'relative',
+        left: '25px',
+        height: '750px',
+        maxWidth: '1000px'
+      }}
+      >
+        <FilledAddPlayerTable></FilledAddPlayerTable>
+      </Paper>
+    </Grid>
+
+
+
+
+      {/* formatting and adding of table that allows view/removal of players that are on selected team */}
+      <Grid item xs={3} sm={3} md={3} lg={3} xl={3}>
+    <Paper
+        sx={{
+          p: 2,
+          position:'relative',
+          left: '100px',
+          height: '750px',
+          maxWidth: '1000px'
+        }}
+        >
+   {/* formats the placement of the searchbar and table */}
+      <Grid container spacing={3}>
+        <Grid item>
+          <h2 style={{margin: 0}}>Your Lineup</h2>
+        </Grid>
+
+        <Grid item>
+        {/* add team button */}
+          <Button
+            variant="contained"
+            color="error"
+            startIcon={<RemoveIcon />}
+            onClick={handleClickOpenPopup}
+          >
+            Remove Team
+          </Button>
+        </Grid>
+        <Grid item xs={12}>
+          <div style={{ height: '600px', width: '100%'}}>
+          <FilledTeamPlayerTable></FilledTeamPlayerTable>
+          </div>
+        </Grid>
+
+
+        {/* todo: set up onclick for players to be removed from team*/}
+        {/* secondary dialogue box for add player */}
+        <Dialog id="AddPlayerTeam" open={openPopup} onClose={handleClosePopup}>
+
+
+          {/* todo: need to add reference to team name */}
+          <DialogTitle>Remove (Team Name)</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              You'll lose all data relating to (Team Name).
+
+              Are you sure you want to permanently delete this team?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClosePopup} style={{color:"red"}}>Cancel</Button>
+            <Button onClick={handleClosePopup}>Continue </Button>
+          </DialogActions>
+        </Dialog>
+        </Grid>
     </Paper>
+    </Grid>
+    </Grid>
+   </div>
   );
 };
 
