@@ -17,7 +17,8 @@ builder.Services.AddCors(options =>
                           builder.WithOrigins(
                             "https://dan933.github.io/2022-NBA-Prediction-Application",
                             "https://nbaseasonpredictor.netlify.app",
-                            "https://nba-app.azurewebsites.net"
+                            "https://nba-app.azurewebsites.net",
+                            "http://localhost:3000"
                             )                            
                             .AllowAnyHeader()
                             .AllowAnyMethod();
@@ -27,7 +28,7 @@ builder.Services.AddCors(options =>
 // Add services to the container.
 
 builder.Services.AddControllers();
-string connString = builder.Configuration.GetConnectionString("AzureDatabase");
+string connString = builder.Configuration.GetConnectionString("RikiLaptopDB");
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -58,7 +59,7 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddDbContext<NBAContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AzureDatabase"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("RikiLaptopDB"));
 
 });
 

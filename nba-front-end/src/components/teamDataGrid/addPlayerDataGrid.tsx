@@ -115,6 +115,7 @@ const DataGridAddPlayers: React.FC<any> = (props) => {
               disableSelectionOnClick
               filterModel={filterModel}
               onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
+
               />
             </div>
           </Grid>
