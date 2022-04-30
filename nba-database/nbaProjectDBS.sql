@@ -1,7 +1,10 @@
 -- Using a fresh set of data (re-scraped it)
 -- Team WEST FTW
 -- CREATE DATABASE NBA
--- Used a Local DBS to test data but this is flavour text ^
+-- -- Used a Local DBS to test data but this is flavour text ^
+-- use nba
+
+select * from tbl_Players
 
 DROP VIEW IF EXISTS view_Team;
 DROP TABLE IF EXISTS tbl_PlayerSelection;
