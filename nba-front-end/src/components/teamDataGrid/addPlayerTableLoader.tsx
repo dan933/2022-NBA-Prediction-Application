@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react';
 // import { Observable, of, Subject } from 'rxjs';
 // import { catchError, reduce, take } from 'rxjs/operators';
 import DataGridPlayers from './addPlayerDataGrid';
-import WithTableLoading from '../componentLoading';
 import api from '../../services/api';
 import { Player } from '../../models/IPlayer';
-import { throwError, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+
 
 interface PlayerProps{
     playerList: Player[];
 }
 
-function FilledAddPlayerTable() {
+const FilledAddPlayerTable: React.FC<any> = (props) => {
+
+  const teamID = props.teamID;
   // this sets up function (from componentLoading.tsx) which either returns 
   // DataGridPlayers (playerDataGrid.tsx) 
   // or
@@ -28,6 +28,7 @@ function FilledAddPlayerTable() {
   const [errorMessage, setErrorMessage] = useState("");
     // defines a state for when the api is fetching data for players
   const [isLoading, setLoading] = useState(false);
+
 
   // this is the call to the API to get the player data
   useEffect(() => {
@@ -52,7 +53,9 @@ function FilledAddPlayerTable() {
   {/* if the error message is not empty or does not equal "", then the error message will appear*/}
         {errorMessage!==""&&<h1 style={{color: 'red'}}>Oops! An Error Occured Please Try Again.</h1>}
   {/* if  isLoading is true, loading text will apear, if api is able to fetch player data and isLoading is false, then show filled player table*/}
-        {isLoading ? (<h1>Hold on, fetching data may take some time :)</h1>) : (<TableLoading playerList={appState.playerList} />)}
+        {isLoading ? (<h1>Hold on, fetching data may take some time :)</h1>) : (<TableLoading playerList={appState.playerList} teamID={teamID} 
+        tableIsUpdated={props.tableIsUpdated}
+        />)}
       </div>
     </React.Fragment>
 

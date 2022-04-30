@@ -4,6 +4,7 @@ import {
   GridColDef,
   GridFilterModel,
   GridValueGetterParams,
+  GridSelectionModel
 } from "@mui/x-data-grid";
 import {
   FormControl,
@@ -55,6 +56,8 @@ const teamsColumns: GridColDef[] = [
 
 const DataGridTeams: React.FC<any> = (props) => {
 
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+
   const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
 
   const [open, setOpen] = React.useState(false);
@@ -64,6 +67,19 @@ const DataGridTeams: React.FC<any> = (props) => {
   const [isError, setIsError] = React.useState(false);
 
   const [teamList, setTeamList] = React.useState(props.teamList);
+
+  const [isUpdated, setIsUpdated] = React.useState(false);  
+
+
+  const tableIsUpdated = () => {
+    setIsUpdated(true);
+    console.log(isUpdated);
+
+    // useEffect(() => {
+    //     setIsUpdated(true)
+    //  }, [setIsUpdated]);
+  };
+
   
   const handleClickOpenPopup = () => {
     setOpenPopup(true);
@@ -81,6 +97,11 @@ const DataGridTeams: React.FC<any> = (props) => {
     setIsError(false)
     setOpen(false);
   };
+
+  //todo: create handleClickRemoveTeam
+  // const handleClickRemoveTeam = () => {
+
+  // };
 
   const url = axiosRequestConfiguration.baseURL
   
@@ -136,6 +157,8 @@ const DataGridTeams: React.FC<any> = (props) => {
   };
 
 
+
+
   return (
     // white box around the table
     <div>
@@ -171,33 +194,19 @@ const DataGridTeams: React.FC<any> = (props) => {
         <Grid item xs={12}>
           <div style={{ height: '600px', width: '100%'}}>
               <DataGrid
-                onRowClick={teamInfo}
                 rows={teamList}
                 getRowId={(row) => row.TeamID}
                 columns={teamsColumns}
                 disableColumnSelector={true}
                 pageSize={10}
                 rowsPerPageOptions={[10]}
-                disableSelectionOnClick
+                onSelectionModelChange={(newSelectionModel) => {
+                  setSelectionModel(newSelectionModel);
+                }}
+                selectionModel={selectionModel}
               />
           </div>
         </Grid>
-        {/* displays the pop up dialogue box on row click */}
-        <Dialog id="viewTeam" open={view} onClose={handleClose}>
-          <DialogTitle>Team (test) </DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              View All Players In The Team
-              <FilledAddPlayerTable></FilledAddPlayerTable>
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={closeTeamView}>Exit</Button>
-            <Button onClick={updateTeams}>Add</Button>
-            <Button onClick={updateTeams}>Remove</Button>
-          </DialogActions>
-        </Dialog>
-        {/* secondary dialogue box for add player */}
         <Dialog id="createTeam" open={open} onClose={handleClose}>
           <DialogTitle>Create a new team:</DialogTitle>
           <DialogContent>
@@ -237,7 +246,9 @@ const DataGridTeams: React.FC<any> = (props) => {
         maxWidth: '1000px'
       }}
       >
-        <FilledAddPlayerTable></FilledAddPlayerTable>
+        <FilledAddPlayerTable teamID={selectionModel} 
+        tableIsUpdated={tableIsUpdated} isUpdated={isUpdated} setIsUpdated={setIsUpdated}
+        ></FilledAddPlayerTable>
       </Paper>
     </Grid>
 
@@ -274,7 +285,7 @@ const DataGridTeams: React.FC<any> = (props) => {
         </Grid>
         <Grid item xs={12}>
           <div style={{ height: '600px', width: '100%'}}>
-          <FilledTeamPlayerTable></FilledTeamPlayerTable>
+          <FilledTeamPlayerTable teamID={selectionModel} isUpdated={isUpdated} setIsUpdated={setIsUpdated} tableIsUpdated={tableIsUpdated}></FilledTeamPlayerTable>
           </div>
         </Grid>
 

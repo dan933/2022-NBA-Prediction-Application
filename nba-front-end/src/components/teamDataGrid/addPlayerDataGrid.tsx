@@ -1,8 +1,11 @@
 import * as React from 'react';
-import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams, GridSelectionModel  } from '@mui/x-data-grid';
 import { FormControl, Grid, IconButton, Input, InputAdornment, InputLabel, OutlinedInput, Paper, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect } from 'react';
+import { axiosRequestConfiguration } from "../../services/axios_config";
+import axios, { AxiosError } from 'axios';
+import Button from '@mui/material/Button';
 // import { Player } from '../models/IPlayer';
 
 // Setting up the columns of the player table
@@ -38,6 +41,8 @@ const DataGridAddPlayers: React.FC<any> = (props) => {
   // this takes the props passed to this component and uses it to populate the table
   const playerList = props.playerList;
 
+  const teamID = props.teamID;
+
   // initialise the value for the searchbar
   const [search, setSearch] = React.useState('');
 
@@ -59,16 +64,77 @@ const DataGridAddPlayers: React.FC<any> = (props) => {
   }
 
 
+
+// todo: adds the selected player to a list, logs their playerid - this should log their rowdata instead
+
+// const [selected, setSelected] = React.useState<readonly string[]>([]);
+
+
+//   const handleClick = () => {
+//     const selectedIndex = selected.indexOf(playerList);
+//     let newSelected: readonly string[] = [];
+
+//     if (selectedIndex === -1) {
+//       newSelected = newSelected.concat(selected, playerList);
+//     } else if (selectedIndex === 0) {
+//       newSelected = newSelected.concat(selected.slice(1));
+//     } else if (selectedIndex === selected.length - 1) {
+//       newSelected = newSelected.concat(selected.slice(0, -1));
+//     } else if (selectedIndex > 0) {
+//       newSelected = newSelected.concat(
+//         selected.slice(0, selectedIndex),
+//         selected.slice(selectedIndex + 1),
+//       );
+//     }
+
+//     setSelected(newSelected);
+//     console.log(newSelected);
+//   };
+
+  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
+
   // when [search] is updated, update the table's filter
-  useEffect(()=>{setFilterModel({
-    items: [
-      {
-        columnField: 'FullName',
-        operatorValue: 'contains',
-        value: search,
-      },
-    ],
-  })},[search]);
+  useEffect(()=>{
+    setFilterModel({
+      items: [
+        {
+          columnField: 'FullName',
+          operatorValue: 'contains',
+          value: search,
+        },
+      ],
+    });
+    console.log(selectionModel);
+
+},[search, selectionModel]);
+
+const url = axiosRequestConfiguration.baseURL
+
+const addPlayerTeam = () => {
+  // let teamNameObject = { TeamName: teamName.current?.value }
+
+  axios.post(`${url}/team/${teamID}/addPlayers`, selectionModel)
+  .then(function (response) {
+  if ( response.data.Success === true) {
+      props.tableIsUpdated();
+      // if success call api again.
+      //todo use useEffect() instead
+  }
+  })
+    .catch((error) => {
+
+//https://www.codegrepper.com/code-examples/javascript/response.error+console.log
+      
+      const err: any = error as AxiosError
+      
+      // if (err.response.status === 409) {
+      //   setIsError(true)
+      // }
+  });
+
+};  
+
+  
 
 
   // todo: add onclick to update add player to team value
@@ -103,7 +169,7 @@ const DataGridAddPlayers: React.FC<any> = (props) => {
             </FormControl>
           </Grid>
           <Grid item xs={12}>
-            <div style={{ height: '630px', width: '100%' }}>
+            <div style={{ height: '550px', width: '100%' }}>
               <DataGrid
               rows={playerList}
               getRowId={(row) => row.PlayerID}
@@ -111,15 +177,20 @@ const DataGridAddPlayers: React.FC<any> = (props) => {
               disableColumnSelector={true}
               pageSize={11}
               rowsPerPageOptions={[11]}
-              checkboxSelection={false}
-              disableSelectionOnClick
               filterModel={filterModel}
               onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
-
+              disableSelectionOnClick={false}
+              checkboxSelection={true}
+              // onRowClick={handleClick}
+              onSelectionModelChange={(newSelectionModel) => {
+                setSelectionModel(newSelectionModel);
+              }}
+              selectionModel={selectionModel}
               />
             </div>
           </Grid>
         </Grid>
+        <Button variant="contained" onClick={addPlayerTeam}>Add Players</Button>
       </Paper>
       
   );
