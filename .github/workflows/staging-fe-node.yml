@@ -25,7 +25,7 @@ on:
     paths:
       - 'nba-front-end/**'
     branches:
-      - staging
+      - development
   workflow_dispatch:
 
 env:
