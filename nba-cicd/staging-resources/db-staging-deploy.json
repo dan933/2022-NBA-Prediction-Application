@@ -1,0 +1,77 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "functions": [],
+    "variables": {},
+    "resources": [{
+        "name": "nba-instance-staging",
+        "type": "Microsoft.Sql/servers",
+        "apiVersion": "2014-04-01",
+        "location": "[resourceGroup().location]",
+        "tags": {
+            "displayName": "nba-instance-staging"
+        },
+        "properties": {
+            "administratorLogin": "nbaAdmin",
+            "administratorLoginPassword": "nbaPrediction_1"
+        },
+        "resources": [ 
+            {
+                "type": "firewallRules",
+                "apiVersion": "2014-04-01",
+                "location": "[resourceGroup().location]",
+                "name": "LaptopIp",
+                "properties": {
+                    "startIpAddress": "49.198.192.59",
+                    "endIpAddress": "49.198.192.59"
+                },
+                "dependsOn": [
+                    "[resourceId('Microsoft.Sql/servers', 'nba-instance-staging')]"
+                ]
+            },
+            {
+                "type": "firewallRules",
+                "apiVersion": "2014-04-01",
+                "location": "[resourceGroup().location]",
+                "name": "OtherIP",
+                "properties": {
+                    "startIpAddress": "49.198.192.58",
+                    "endIpAddress": "49.198.192.58"
+                },
+                "dependsOn": [
+                    "[resourceId('Microsoft.Sql/servers', 'nba-instance-staging')]"
+                ]
+            },
+                    {
+            "type": "Microsoft.Sql/servers/firewallRules",
+            "apiVersion": "2021-08-01-preview",
+            "name": "nba-instance-staging/AllowAllWindowsAzureIps_1",
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', 'nba-instance-staging')]"
+            ],
+            "properties": {
+                "startIpAddress": "0.0.0.0",
+                "endIpAddress": "0.0.0.0"
+            }
+        },
+            {
+                "name": "nba-instance-staging/NBA",
+                "type": "Microsoft.Sql/servers/databases",
+                "apiVersion": "2014-04-01",
+                "location": "[resourceGroup().location]",
+                "tags": {
+                    "displayName": "NBA"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Sql/servers', 'nba-instance-staging')]"
+            ],
+            "properties": {
+                "collation": "SQL_Latin1_General_CP1_CI_AS",
+                "edition": "Free"
+            }
+            }
+        ]
+    }],
+    "outputs": {}
+}
