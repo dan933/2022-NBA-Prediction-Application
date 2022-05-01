@@ -4,7 +4,8 @@ import {
   GridColDef,
   GridFilterModel,
   GridValueGetterParams,
-  GridSelectionModel
+  GridSelectionModel,
+  gridRowTreeSelector
 } from "@mui/x-data-grid";
 import {
   FormControl,
@@ -97,12 +98,6 @@ const DataGridTeams: React.FC<any> = (props) => {
     setIsError(false)
     setOpen(false);
   };
-
-  //todo: create handleClickRemoveTeam
-  // const handleClickRemoveTeam = () => {
-
-  // };
-
   const url = axiosRequestConfiguration.baseURL
   
   // gets value from create team form
@@ -146,18 +141,33 @@ const DataGridTeams: React.FC<any> = (props) => {
     viewAll(false);
   };
 
-  //todo: onclick create new team entry in table
-  const updateTeams = () => {
-    //code here
-    viewAll(true);
-  };
-
-  const removeTeam = () => {
+   const handleClickRemoveTeam = () => {
     
-  };
+    setOpenPopup(false)
+  
+    axios.delete(`${url}/team/remove-team`, {data: selectionModel})
+   .then(function (response) {
+    if ( response.data != null) {
+        
+        // if success call api again.
+        //todo use useEffect() instead
+        api.get('/team/get-all').subscribe(
+          (resp) => {
+            setTeamList(resp)
+          })
 
-
-
+    }
+    })
+      .catch((error) => {
+        
+        const err: any = error as AxiosError
+        
+        if (err.response.status === 409) {
+          setIsError(true)
+        }
+    });
+    
+   };
 
   return (
     // white box around the table
@@ -294,19 +304,20 @@ const DataGridTeams: React.FC<any> = (props) => {
         {/* secondary dialogue box for add player */}
         <Dialog id="AddPlayerTeam" open={openPopup} onClose={handleClosePopup}>
 
-
+          
           {/* todo: need to add reference to team name */}
-          <DialogTitle>Remove (Team Name)</DialogTitle>
+          <DialogTitle>Remove {selectionModel}</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              You'll lose all data relating to (Team Name).
+              
+              You'll lose all data relating to {selectionModel} .
 
               Are you sure you want to permanently delete this team?
             </DialogContentText>
           </DialogContent>
-          <DialogActions>
+          <DialogActions >
             <Button onClick={handleClosePopup} style={{color:"red"}}>Cancel</Button>
-            <Button onClick={handleClosePopup}>Continue </Button>
+            <Button onClick={handleClickRemoveTeam}>Continue </Button>
           </DialogActions>
         </Dialog>
         </Grid>
