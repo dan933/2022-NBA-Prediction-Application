@@ -140,19 +140,20 @@ const addPlayerTeam = () => {
   // todo: add onclick to update add player to team value
   return (
     // white box around the table
-    <Paper
-        sx={{
-          p: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          height: 'auto',
-          maxWidth: 'auto'
+    // <Paper
+    //     sx={{
+    //       p: 2,
+    //       display: 'flex',
+    //       flexDirection: 'column',
+    //       height: 'auto',
+    //       maxWidth: 'auto'
           
-        }}
-      >
+    //     }}
+    //   >
+    <div>
         {/* formats the placement of the searchbar and table */}
         <Grid container spacing={2}>
-         <Grid item xl={4} md={6} xs={12}>
+         <Grid item xs={12}>
           <FormControl variant="outlined" size="small" fullWidth={true}>
             <InputLabel htmlFor="outlined-search">Search for a player</InputLabel>
             <OutlinedInput
@@ -169,7 +170,7 @@ const addPlayerTeam = () => {
             </FormControl>
           </Grid>
           <Grid item xs={12}>
-            <div style={{ height: '550px', width: '100%' }}>
+            <div style={{ height: '600px', width: '100%' }}>
               <DataGrid
               rows={playerList}
               getRowId={(row) => row.PlayerID}
@@ -191,7 +192,8 @@ const addPlayerTeam = () => {
           </Grid>
         </Grid>
         <Button variant="contained" onClick={addPlayerTeam}>Add Players</Button>
-      </Paper>
+      </div>
+      // </Paper>
       
   );
 }

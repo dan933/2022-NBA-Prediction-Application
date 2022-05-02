@@ -11,7 +11,7 @@ import FilledTeamTable from "./teamTableLoader";
 
 function teamPage() {
   return (
-    <Container maxWidth="lg" sx={{ mt:4, mb: 4, "min-height": 600 }}>
+    <Container maxWidth="lg" sx={{ mt:4, mb: 4, "minHeight": '600px' }}>
       {/* Chart */}
       <FilledTeamTable/>
     </Container>

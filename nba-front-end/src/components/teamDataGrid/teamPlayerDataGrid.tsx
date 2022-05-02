@@ -111,20 +111,11 @@ const removePlayerTeam = () => {
 
   return (
     // white box around the table
-    <Paper
-        sx={{
-          p: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          height: 'auto',
-          maxWidth: 'auto'
-          
-        }}
-      >
+  <div>
         {/* formats the placement of the searchbar and table */}
         <Grid container spacing={2}>
-         <Grid item xl={4} md={6} xs={12}>
-          <FormControl variant="outlined" size="small" max-width="true">
+         <Grid item xs>
+          <FormControl variant="outlined" size="small" fullWidth={true}>
             <InputLabel htmlFor="outlined-search">Search for a player</InputLabel>
             <OutlinedInput
               id="outlined-search"
@@ -140,7 +131,7 @@ const removePlayerTeam = () => {
             </FormControl>
           </Grid>
           <Grid item xs={12}>
-            <div style={{ height: '400px', width: '100%'}}>
+            <div style={{ height: '600px', width: '100%'}}>
               <DataGrid
                 rows={teamPlayerList}
                 getRowId={(row) => row.PlayerID}
@@ -158,7 +149,7 @@ const removePlayerTeam = () => {
           </Grid>
         </Grid>
         <Button variant="contained" onClick={removePlayerTeam}>Remove Player</Button>
-      </Paper>
+      </div>
   );
 }
 export default DataGridTeamPlayers;
