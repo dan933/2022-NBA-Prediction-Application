@@ -18,23 +18,18 @@
 # For more information on the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples
 
-name: FE Deploy
+name: Staging Site FE Deploy
 
 on:
   push:
     paths:
       - 'nba-front-end/**'
     branches:
-      - main
-  pull_request:
-    paths:
-      - 'nba-front-end/**'
-    branches:
-      - main
+      - development
   workflow_dispatch:
 
 env:
-  AZURE_WEBAPP_NAME: nba-app    # set this to your application's name
+  AZURE_WEBAPP_NAME: nba-app-staging    # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: .   # set this to the path to your web app project, defaults to the repository root
   NODE_VERSION: '16.x'                # set this to the node version to use
 
@@ -85,5 +80,5 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        publish-profile: ${{ secrets.STAGING_FE_PUBLISH_PROFILE }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}

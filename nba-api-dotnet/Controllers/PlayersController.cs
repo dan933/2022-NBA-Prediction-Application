@@ -5,8 +5,6 @@ using nba_api_dotnet.models;
 
 namespace nba_api_dotnet.Controllers;
 
-//hello
-
 [ApiController]
 [Route("api/players")]
 public class PlayersController : ControllerBase
