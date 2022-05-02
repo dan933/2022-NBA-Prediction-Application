@@ -12,23 +12,10 @@ import FilledTeamTable from "./teamTableLoader";
 function teamPage() {
   return (
     <Container maxWidth="lg" sx={{ mt:4, mb: 4, "min-height": 600 }}>
-      <Grid container>
-        {/* Chart */}
-        <Grid item xs={12} md={12} lg={12}>
-          <FilledTeamTable/>
-        </Grid>
-      </Grid>
+      {/* Chart */}
+      <FilledTeamTable/>
     </Container>
   );
 }
-
-<Paper
-  sx={{
-    p: 2,
-    display: "flex",
-    flexDirection: "column",
-    height: "auto",
-  }}
-/>;
 
 export default teamPage;
