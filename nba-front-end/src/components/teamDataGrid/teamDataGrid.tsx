@@ -143,6 +143,7 @@ const DataGridTeams: React.FC<any> = (props) => {
 
    const handleClickRemoveTeam = () => {
     
+
     setOpenPopup(false)
   
     axios.delete(`${url}/teams/${selectionModel}/remove-team`)
@@ -170,27 +171,16 @@ const DataGridTeams: React.FC<any> = (props) => {
    };
 
   return (
-    // white box around the table
-    <div>
-      <Grid container spacing={0}>
-      <Grid item xs={3} sm={3} md={3} lg={3} xl={3}>
-    <Paper
-      sx={{
-        p: 2,
-        position:'relative',
-        left: '-50px',
-        height: '750px',
-        maxWidth: '1000px',
-      }}
-
-    >
-
+    <Grid container spacing={2}>
+    <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
+{/* -------------------------- Teams Section ----------------------------- */}
       {/* formats the placement of the searchbar and table */}
+      <Paper
+        sx={{p:2, height:'800px'}}
+      >
       <Grid container spacing={3}>
         <Grid item>
           <h2 style={{margin: 0}}>Teams</h2>
-        </Grid>
-        <Grid item>
         {/* add team button */}
           <Button
             variant="contained"
@@ -202,8 +192,9 @@ const DataGridTeams: React.FC<any> = (props) => {
           </Button>
         </Grid>
         <Grid item xs={12}>
-          <div style={{ height: '600px', width: '100%'}}>
+          <div style={{ width: '100%'}}>
               <DataGrid
+                autoHeight
                 rows={teamList}
                 getRowId={(row) => row.TeamID}
                 columns={teamsColumns}
@@ -243,18 +234,34 @@ const DataGridTeams: React.FC<any> = (props) => {
       </Grid>
       </Paper>
     </Grid>
-    
 
+{/* -------------------------------- Lineup Section -------------------------------------------------- */}
+      {/* formatting and adding of table that allows view/removal of players that are on selected team */}
+      <Grid item xs={12} sm={12} md={4} lg={4} xl>
+        <Paper
+         sx={{p:2, height:'800px'}}
+        >
+          <div style={{display:'flex', columnGap:'10px', marginBottom:'10px'}}>
+            <h2 style={{margin: 0}}>Your Lineup</h2>
+            <Button
+              variant="contained"
+              color="error"
+              startIcon={<RemoveIcon />}
+              onClick={handleClickOpenPopup}
+            >
+              Remove Team
+            </Button>
+          </div>
+          <FilledTeamPlayerTable teamID={selectionModel} isUpdated={isUpdated} setIsUpdated={setIsUpdated} tableIsUpdated={tableIsUpdated}></FilledTeamPlayerTable>
+          </Paper>
+        </Grid>
 
+{/* --------------------------------------- Players Section -------------------------------------- */}
       {/* formatting and adding of the table that allows for players to be added to a team */}
-    <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
-      <Paper        sx={{
-        p: 2,
-        position:'relative',
-        left: '25px',
-        height: '750px',
-        maxWidth: '1000px'
-      }}
+
+      <Grid item xs={12} sm={12} md={4.5} lg={4.5} xl>
+      <Paper
+        sx={{p:2, height:'800px'}}
       >
         <FilledAddPlayerTable teamID={selectionModel} 
         tableIsUpdated={tableIsUpdated} isUpdated={isUpdated} setIsUpdated={setIsUpdated}
@@ -263,48 +270,7 @@ const DataGridTeams: React.FC<any> = (props) => {
     </Grid>
 
 
-
-
-      {/* formatting and adding of table that allows view/removal of players that are on selected team */}
-      <Grid item xs={3} sm={3} md={3} lg={3} xl={3}>
-    <Paper
-        sx={{
-          p: 2,
-          position:'relative',
-          left: '100px',
-          height: '750px',
-          maxWidth: '1000px'
-        }}
-        >
-   {/* formats the placement of the searchbar and table */}
-      <Grid container spacing={3}>
-        <Grid item>
-          <h2 style={{margin: 0}}>Your Lineup</h2>
-        </Grid>
-
-        <Grid item>
-        {/* add team button */}
-          <Button
-            variant="contained"
-            color="error"
-            startIcon={<RemoveIcon />}
-            onClick={handleClickOpenPopup}
-          >
-            Remove Team
-          </Button>
-        </Grid>
-        <Grid item xs={12}>
-          <div style={{ height: '600px', width: '100%'}}>
-          <FilledTeamPlayerTable teamID={selectionModel} isUpdated={isUpdated} setIsUpdated={setIsUpdated} tableIsUpdated={tableIsUpdated}></FilledTeamPlayerTable>
-          </div>
-        </Grid>
-
-
-        {/* todo: set up onclick for players to be removed from team*/}
-        {/* secondary dialogue box for add player */}
         <Dialog id="AddPlayerTeam" open={openPopup} onClose={handleClosePopup}>
-
-          
           {/* todo: need to add reference to team name */}
           <DialogTitle>Remove {selectionModel}</DialogTitle>
           <DialogContent>
@@ -320,11 +286,7 @@ const DataGridTeams: React.FC<any> = (props) => {
             <Button onClick={handleClickRemoveTeam}>Continue </Button>
           </DialogActions>
         </Dialog>
-        </Grid>
-    </Paper>
     </Grid>
-    </Grid>
-   </div>
   );
 };
 
