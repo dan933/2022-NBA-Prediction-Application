@@ -145,7 +145,7 @@ const DataGridTeams: React.FC<any> = (props) => {
     
     setOpenPopup(false)
   
-    axios.delete(`${url}/team/remove-team`, {data: selectionModel})
+    axios.delete(`${url}/teams/${selectionModel}/remove-team`)
    .then(function (response) {
     if ( response.data != null) {
         
