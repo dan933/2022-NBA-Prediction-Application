@@ -15,7 +15,7 @@ on:
 #
 # 2. Change these variables for your configuration:
 env:
-  AZURE_WEBAPP_NAME: nba-api-staging    # set this to your application's name
+  AZURE_WEBAPP_NAME: nba-api-one-staging    # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: '/home/runner/work/2022-NBA-Prediction-Application/2022-NBA-Prediction-Application/nba-api-dotnet/nba-api-dotnet'      # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '6.0.x'           # set this to the dot net version to use
 
