@@ -28,7 +28,9 @@ const FilledTeamPlayerTable: React.FC<any> = (props) => {
     useEffect(() => {
         setLoading(true);
         setAppState({ teamPlayerList: [] });
-        axios.get(`${url}/team/${teamID}/get-players`)
+
+        if(teamID){
+          axios.get(`${url}/team/${teamID}/get-players`)
         .then((response) => {
             setLoading(false);
             setAppState({ teamPlayerList: response.data.Data as TeamPlayer[] });
@@ -40,6 +42,7 @@ const FilledTeamPlayerTable: React.FC<any> = (props) => {
             setLoading(false);
       // this sets 'errorMessage' into the error that has occured
             })
+        }
           }, [setAppState, teamID, isUpdated]);
     
   return (

@@ -146,7 +146,7 @@ const DataGridTeams: React.FC<any> = (props) => {
 
     setOpenPopup(false)
   
-    axios.delete(`${url}/teams/${selectionModel}/remove-team`)
+    axios.delete(`${url}/team/${selectionModel}/removeTeams`)
    .then(function (response) {
     if ( response.data != null) {
         
@@ -169,6 +169,30 @@ const DataGridTeams: React.FC<any> = (props) => {
     });
     
    };
+
+   const lineUpSection =
+   <Grid item xs={12} sm={12} md={4} lg={4} xl>
+     <Paper
+      sx={{p:2, height:'800px'}}
+     >
+       <div style={{display:'flex', columnGap:'10px', marginBottom:'10px'}}>
+         <h2 style={{margin: 0}}>Your Lineup</h2>
+         <Button
+           variant="contained"
+           color="error"
+           startIcon={<RemoveIcon />}
+           onClick={handleClickOpenPopup}
+         >
+           Remove Team
+         </Button>
+       </div>
+       <FilledTeamPlayerTable teamID={selectionModel} isUpdated={isUpdated} setIsUpdated={setIsUpdated} tableIsUpdated={tableIsUpdated}></FilledTeamPlayerTable>
+       </Paper>
+     </Grid>;
+
+   
+   {/* formatting and adding of table that allows view/removal of players that are on selected team */}
+   
 
   return (
     <Grid container spacing={2}>
@@ -235,26 +259,7 @@ const DataGridTeams: React.FC<any> = (props) => {
       </Paper>
     </Grid>
 
-{/* -------------------------------- Lineup Section -------------------------------------------------- */}
-      {/* formatting and adding of table that allows view/removal of players that are on selected team */}
-      <Grid item xs={12} sm={12} md={4} lg={4} xl>
-        <Paper
-         sx={{p:2, height:'800px'}}
-        >
-          <div style={{display:'flex', columnGap:'10px', marginBottom:'10px'}}>
-            <h2 style={{margin: 0}}>Your Lineup</h2>
-            <Button
-              variant="contained"
-              color="error"
-              startIcon={<RemoveIcon />}
-              onClick={handleClickOpenPopup}
-            >
-              Remove Team
-            </Button>
-          </div>
-          <FilledTeamPlayerTable teamID={selectionModel} isUpdated={isUpdated} setIsUpdated={setIsUpdated} tableIsUpdated={tableIsUpdated}></FilledTeamPlayerTable>
-          </Paper>
-        </Grid>
+  {lineUpSection}
 
 {/* --------------------------------------- Players Section -------------------------------------- */}
       {/* formatting and adding of the table that allows for players to be added to a team */}
