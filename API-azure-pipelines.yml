@@ -1,0 +1,40 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include: 
+      - nba-api-dotnet/*
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- script: |
+    dotnet build --configuration $(buildConfiguration)
+    dotnet publish
+  displayName: 'dotnet build and publish'
+  workingDirectory: './nba-api-dotnet'
+
+- task: CopyFiles@2
+  inputs:
+    contents: '/home/vsts/work/1/s/nba-api-dotnet/bin/Debug/net6.0/publish/**'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+
+- script: |
+    ls
+  displayName: check location
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
