@@ -18,10 +18,22 @@ public class NBAContext : DbContext
     public virtual DbSet<Team> tbl_Teams { get; set; } = null!;
     public virtual DbSet<PlayerSelectionView> view_Team { get; set; } = null!;
 
+    
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        // connect to sql server with connection string from app settings
-        options.UseSqlServer(Configuration.GetConnectionString("AzureDatabase"));
+        var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Development;
+        var IsProduction = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Production;
+        var IsStaging = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Staging;
+
+        if(isDevelopment){
+            // connect to sql server with connection string from app settings
+            options.UseSqlServer(Configuration.GetConnectionString("DanDesktopDB"));
+        }else{
+            // connect to sql server with connection string from app settings
+            options.UseSqlServer(Configuration.GetConnectionString("AzureDatabase"));
+        }
+
+        
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
