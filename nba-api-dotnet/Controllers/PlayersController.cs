@@ -37,10 +37,4 @@ public class PlayersController : ControllerBase
         }
 
     }
-
-    [HttpGet]
-    [Route("test")]
-    public ActionResult<string> testCICD() {
-        return Ok("cicd is working");
-    }
 }
