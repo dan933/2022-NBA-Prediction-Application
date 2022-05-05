@@ -21,14 +21,17 @@ public class NBAContext : DbContext
     
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {
-        var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Development;
+        var IsDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Development;
         var IsProduction = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Production;
         var IsStaging = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Staging;
 
-        if(isDevelopment){
+        if(IsDevelopment){
             // connect to sql server with connection string from app settings
-            options.UseSqlServer(Configuration.GetConnectionString("DanDesktopDB"));
-        }else{
+            options.UseSqlServer(Configuration.GetConnectionString("DanLaptopDB"));
+        }else if(IsStaging){
+             options.UseSqlServer(Configuration.GetConnectionString("AzureStagingDatabase"));
+        }else
+        {
             // connect to sql server with connection string from app settings
             options.UseSqlServer(Configuration.GetConnectionString("AzureDatabase"));
         }
