@@ -144,6 +144,8 @@ const removePlayerTeam = () => {
                   setSelectionModel(newSelectionModel);
                 }}
                 selectionModel={selectionModel}
+                filterModel={filterModel}
+                onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}  
               />
           </div>
           </Grid>
