@@ -55,12 +55,27 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
+if(builder.Environment.IsDevelopment()){
+    builder.Services.AddDbContext<NBAContext>(options =>
+    {
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DanDesktopDB"));
+    });
+}else if(builder.Environment.IsStaging()){
 
-builder.Services.AddDbContext<NBAContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AzureDatabase"));
+    builder.Services.AddDbContext<NBAContext>(options =>
+    {
+        options.UseSqlServer(builder.Configuration.GetConnectionString("AzureDatabase"));
+    });
 
-});
+}else{
+
+    builder.Services.AddDbContext<NBAContext>(options =>
+    {
+        options.UseSqlServer(builder.Configuration.GetConnectionString("AzureStagingDatabase"));
+    });
+}
+
+
 
 var app = builder.Build();
 
