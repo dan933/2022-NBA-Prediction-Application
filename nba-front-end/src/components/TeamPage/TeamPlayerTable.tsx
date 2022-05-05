@@ -6,11 +6,12 @@ import { useEffect } from 'react';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import axios, { AxiosError } from 'axios';
 import Button from '@mui/material/Button';
-// import { Player } from '../models/IPlayer';
 
 // Setting up the columns of the player table
-const playerColumns: GridColDef[] = [
-    { field: 'PlayerID', headerName: 'ID', width: 90, hide: true },
+const teamPlayerColumns: GridColDef[] = [
+    { field: 'TeamID', headerName: 'Team ID', width: 90, hide: true },
+    { field: 'TeamName', headerName: 'Team Name', width: 90, hide: true },
+    { field: 'PlayerID', headerName: 'Player ID', width: 90, hide: true },
     { field: 'FirstName', headerName: 'First Name', width: 150, },
     { field: 'LastName', headerName: 'Last Name', width: 150, },
     {
@@ -36,10 +37,10 @@ const playerColumns: GridColDef[] = [
     { field: 'Blocks', headerName: 'Blocks', width: 120 },
   ];
 
-const DataGridAddPlayers: React.FC<any> = (props) => {
+const TeamPlayerTable: React.FC<any> = (props) => {
 
   // this takes the props passed to this component and uses it to populate the table
-  const playerList = props.playerList;
+  const teamPlayerList = props.teamPlayerList;
 
   const teamID = props.teamID;
 
@@ -63,34 +64,6 @@ const DataGridAddPlayers: React.FC<any> = (props) => {
     // can't update anything else here because of how the hook works, use useEffect hook instead
   }
 
-
-
-// todo: adds the selected player to a list, logs their playerid - this should log their rowdata instead
-
-// const [selected, setSelected] = React.useState<readonly string[]>([]);
-
-
-//   const handleClick = () => {
-//     const selectedIndex = selected.indexOf(playerList);
-//     let newSelected: readonly string[] = [];
-
-//     if (selectedIndex === -1) {
-//       newSelected = newSelected.concat(selected, playerList);
-//     } else if (selectedIndex === 0) {
-//       newSelected = newSelected.concat(selected.slice(1));
-//     } else if (selectedIndex === selected.length - 1) {
-//       newSelected = newSelected.concat(selected.slice(0, -1));
-//     } else if (selectedIndex > 0) {
-//       newSelected = newSelected.concat(
-//         selected.slice(0, selectedIndex),
-//         selected.slice(selectedIndex + 1),
-//       );
-//     }
-
-//     setSelected(newSelected);
-//     console.log(newSelected);
-//   };
-
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
 
   // when [search] is updated, update the table's filter
@@ -104,22 +77,20 @@ const DataGridAddPlayers: React.FC<any> = (props) => {
         },
       ],
     });
-    console.log(selectionModel);
 
 },[search, selectionModel]);
 
 const url = axiosRequestConfiguration.baseURL
 
-const addPlayerTeam = () => {
+
+const removePlayerTeam = () => {
   // let teamNameObject = { TeamName: teamName.current?.value }
 
-  axios.post(`${url}/team/${teamID}/addPlayers`, selectionModel)
+  axios.delete(`${url}/team/${teamID}/removePlayers`, {data: selectionModel})
   .then(function (response) {
-  if ( response.data.Success === true) {
+    if ( response.data != null) {
       props.tableIsUpdated();
-      // if success call api again.
-      //todo use useEffect() instead
-  }
+    }
   })
     .catch((error) => {
 
@@ -131,29 +102,17 @@ const addPlayerTeam = () => {
       //   setIsError(true)
       // }
   });
-
-};  
-
   
 
 
-  // todo: add onclick to update add player to team value
+};
+
   return (
     // white box around the table
-    // <Paper
-    //     sx={{
-    //       p: 2,
-    //       display: 'flex',
-    //       flexDirection: 'column',
-    //       height: 'auto',
-    //       maxWidth: 'auto'
-          
-    //     }}
-    //   >
-    <div>
+  <div>
         {/* formats the placement of the searchbar and table */}
         <Grid container spacing={2}>
-         <Grid item xs={12}>
+         <Grid item xs>
           <FormControl variant="outlined" size="small" fullWidth={true}>
             <InputLabel htmlFor="outlined-search">Search for a player</InputLabel>
             <OutlinedInput
@@ -170,31 +129,27 @@ const addPlayerTeam = () => {
             </FormControl>
           </Grid>
           <Grid item xs={12}>
-            <div style={{ height: '600px', width: '100%' }}>
+            <div style={{ height: '600px', width: '100%'}}>
               <DataGrid
-              rows={playerList}
-              getRowId={(row) => row.PlayerID}
-              columns={playerColumns}
-              disableColumnSelector={true}
-              pageSize={11}
-              rowsPerPageOptions={[11]}
-              filterModel={filterModel}
-              onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
-              disableSelectionOnClick={false}
-              checkboxSelection={true}
-              // onRowClick={handleClick}
-              onSelectionModelChange={(newSelectionModel) => {
-                setSelectionModel(newSelectionModel);
-              }}
-              selectionModel={selectionModel}
+                rows={teamPlayerList}
+                getRowId={(row) => row.PlayerID}
+                columns={teamPlayerColumns}
+                disableColumnSelector={true}
+                pageSize={10}
+                rowsPerPageOptions={[10]}
+                checkboxSelection={true}
+                onSelectionModelChange={(newSelectionModel) => {
+                  setSelectionModel(newSelectionModel);
+                }}
+                selectionModel={selectionModel}
+                filterModel={filterModel}
+                onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}  
               />
-            </div>
+          </div>
           </Grid>
         </Grid>
-        <Button variant="contained" onClick={addPlayerTeam}>Add Players</Button>
+        <Button variant="contained" onClick={removePlayerTeam}>Remove Player</Button>
       </div>
-      // </Paper>
-      
   );
 }
-export default DataGridAddPlayers;
+export default TeamPlayerTable;
