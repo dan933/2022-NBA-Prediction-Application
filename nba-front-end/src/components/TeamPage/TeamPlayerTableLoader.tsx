@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { useEffect } from "react";
 import api from "../../services/api";
 import { TeamPlayer } from '../../models/ITeamPlayer';
-import DataGridTeamPlayers from './teamPlayerDataGrid';
+import TeamPlayerTable from './TeamPlayerTable';
 import axios, { AxiosError } from 'axios';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 
@@ -12,10 +12,10 @@ interface TeamPlayerProps{
 
 const url = axiosRequestConfiguration.baseURL
 
-const FilledTeamPlayerTable: React.FC<any> = (props) => {
+const TeamPlayerTableLoader: React.FC<any> = (props) => {
 
   const teamID = props.teamID;
-  const TableLoading = (DataGridTeamPlayers);
+  const TableLoading = (TeamPlayerTable);
   const [appState, setAppState] = useState<TeamPlayerProps>({
     teamPlayerList: [],
   });
@@ -34,7 +34,6 @@ const FilledTeamPlayerTable: React.FC<any> = (props) => {
         .then((response) => {
             setLoading(false);
             setAppState({ teamPlayerList: response.data.Data as TeamPlayer[] });
-            console.log(response);
             setIsUpdated(false);
             })
       // this catches any errors that may occur while fetching for player data
@@ -55,4 +54,4 @@ const FilledTeamPlayerTable: React.FC<any> = (props) => {
   );
 };
 
-export default FilledTeamPlayerTable;
+export default TeamPlayerTableLoader;

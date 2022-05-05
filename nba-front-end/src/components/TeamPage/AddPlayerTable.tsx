@@ -36,7 +36,7 @@ const playerColumns: GridColDef[] = [
     { field: 'Blocks', headerName: 'Blocks', width: 120 },
   ];
 
-const DataGridAddPlayers: React.FC<any> = (props) => {
+const AddPlayerTable: React.FC<any> = (props) => {
 
   // this takes the props passed to this component and uses it to populate the table
   const playerList = props.playerList;
@@ -70,7 +70,7 @@ const DataGridAddPlayers: React.FC<any> = (props) => {
 // const [selected, setSelected] = React.useState<readonly string[]>([]);
 
 
-//   const handleClick = () => {
+//   const handleClick = () => {  
 //     const selectedIndex = selected.indexOf(playerList);
 //     let newSelected: readonly string[] = [];
 
@@ -104,7 +104,6 @@ const DataGridAddPlayers: React.FC<any> = (props) => {
         },
       ],
     });
-    console.log(selectionModel);
 
 },[search, selectionModel]);
 
@@ -197,4 +196,4 @@ const addPlayerTeam = () => {
       
   );
 }
-export default DataGridAddPlayers;
+export default AddPlayerTable;

@@ -20,7 +20,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 // import NotificationsIcon from '@mui/icons-material/Notifications';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { mainListItems, secondaryListItems } from './listItems';
-import PlayerDataGridPage from './playerDataGrid/playerDataGridPage';
 
 function Copyright(props: any) {
 // TODO: update link
@@ -164,7 +163,6 @@ function DashboardContent() {
             overflow: 'auto',
           }}
         >
-          {/* <PlayerDataGridPage /> */}
           <Outlet/>
           <Grid item xs={12} md={12} lg={12}>
             <Copyright sx={{ pt: 4 }} />

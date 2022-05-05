@@ -1,17 +1,13 @@
 import * as React from 'react';
-import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams, GridSelectionModel  } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams } from '@mui/x-data-grid';
 import { FormControl, Grid, IconButton, Input, InputAdornment, InputLabel, OutlinedInput, Paper, TextField } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect } from 'react';
-import { axiosRequestConfiguration } from "../../services/axios_config";
-import axios, { AxiosError } from 'axios';
-import Button from '@mui/material/Button';
+// import { Player } from '../models/IPlayer';
 
 // Setting up the columns of the player table
-const teamPlayerColumns: GridColDef[] = [
-    { field: 'TeamID', headerName: 'Team ID', width: 90, hide: true },
-    { field: 'TeamName', headerName: 'Team Name', width: 90, hide: true },
-    { field: 'PlayerID', headerName: 'Player ID', width: 90, hide: true },
+const playerColumns: GridColDef[] = [
+    { field: 'PlayerID', headerName: 'ID', width: 90, hide: true },
     { field: 'FirstName', headerName: 'First Name', width: 150, },
     { field: 'LastName', headerName: 'Last Name', width: 150, },
     {
@@ -37,12 +33,10 @@ const teamPlayerColumns: GridColDef[] = [
     { field: 'Blocks', headerName: 'Blocks', width: 120 },
   ];
 
-const DataGridTeamPlayers: React.FC<any> = (props) => {
+const PlayerDataGrid: React.FC<any> = (props) => {
 
   // this takes the props passed to this component and uses it to populate the table
-  const teamPlayerList = props.teamPlayerList;
-
-  const teamID = props.teamID;
+  const playerList = props.playerList;
 
   // initialise the value for the searchbar
   const [search, setSearch] = React.useState('');
@@ -64,57 +58,33 @@ const DataGridTeamPlayers: React.FC<any> = (props) => {
     // can't update anything else here because of how the hook works, use useEffect hook instead
   }
 
-  const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
 
   // when [search] is updated, update the table's filter
-  useEffect(()=>{
-    setFilterModel({
-      items: [
-        {
-          columnField: 'FullName',
-          operatorValue: 'contains',
-          value: search,
-        },
-      ],
-    });
-    console.log(selectionModel);
-
-},[search, selectionModel]);
-
-const url = axiosRequestConfiguration.baseURL
-
-
-const removePlayerTeam = () => {
-  // let teamNameObject = { TeamName: teamName.current?.value }
-
-  axios.delete(`${url}/team/${teamID}/removePlayers`, {data: selectionModel})
-  .then(function (response) {
-    if ( response.data != null) {
-      console.log(response);
-      props.tableIsUpdated();
-    }
-  })
-    .catch((error) => {
-
-//https://www.codegrepper.com/code-examples/javascript/response.error+console.log
-      
-      const err: any = error as AxiosError
-      
-      // if (err.response.status === 409) {
-      //   setIsError(true)
-      // }
-  });
-  
-
-
-};
+  useEffect(()=>{setFilterModel({
+    items: [
+      {
+        columnField: 'FullName',
+        operatorValue: 'contains',
+        value: search,
+      },
+    ],
+  })},[search]);
 
   return (
     // white box around the table
-  <div>
+    <Paper
+        sx={{
+          p: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          height: 'auto',
+          maxWidth: 'auto'
+          
+        }}
+      >
         {/* formats the placement of the searchbar and table */}
         <Grid container spacing={2}>
-         <Grid item xs>
+         <Grid item xl={12} md={12} xs={12}>
           <FormControl variant="outlined" size="small" fullWidth={true}>
             <InputLabel htmlFor="outlined-search">Search for a player</InputLabel>
             <OutlinedInput
@@ -130,26 +100,24 @@ const removePlayerTeam = () => {
             />
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
-            <div style={{ height: '600px', width: '100%'}}>
+          <Grid item xl={12} md={12} xs={12}>
+            <div style={{ height: '1151px', width: '100%' }}>
               <DataGrid
-                rows={teamPlayerList}
-                getRowId={(row) => row.PlayerID}
-                columns={teamPlayerColumns}
-                disableColumnSelector={true}
-                pageSize={10}
-                rowsPerPageOptions={[10]}
-                checkboxSelection={true}
-                onSelectionModelChange={(newSelectionModel) => {
-                  setSelectionModel(newSelectionModel);
-                }}
-                selectionModel={selectionModel}
+              rows={playerList}
+              getRowId={(row) => row.PlayerID}
+              columns={playerColumns}
+              disableColumnSelector={true}
+              pageSize={20}
+              rowsPerPageOptions={[20]}
+              checkboxSelection
+              disableSelectionOnClick
+              filterModel={filterModel}
+              onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
               />
-          </div>
+            </div>
           </Grid>
         </Grid>
-        <Button variant="contained" onClick={removePlayerTeam}>Remove Player</Button>
-      </div>
+      </Paper>
   );
 }
-export default DataGridTeamPlayers;
+export default PlayerDataGrid;
