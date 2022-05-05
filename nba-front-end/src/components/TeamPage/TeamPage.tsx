@@ -4,7 +4,7 @@ import TeamPageContentLoader from "./TeamPageContentLoader";
 
 function TeamPage() {
   return (
-    <Container maxWidth="lg" sx={{ mt:4, mb: 4, "minHeight": '600px' }}>
+    <Container maxWidth={false} sx={{ mt:4, mb: 4, "minHeight": '600px' }}>
       {/* Chart */}
       <TeamPageContentLoader/>
     </Container>
