@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     Button, Grid, Paper,
     Dialog,
@@ -16,34 +16,58 @@ import axios, { AxiosError } from 'axios';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import api from "../../services/api";
 
-const teamsColumns: GridColDef[] = [
-    { field: "TeamID", headerName: "ID", width: 90, hide: true },
-    { field: "TeamName", headerName: "Team Name", width: 150 },
-    { 
-        field: "RemoveTeam",
-        headerName: "",
-        width: 80,
-        renderCell:(props: GridRenderCellParams<any>) => (
-        <RemoveTeamButton
-            teamID={ props.row }
-        />
-        )
-    }
-    // {
-    //   field: "TeamWinPercentage",
-    //   headerName: "Win Percentage",
-    //   width: 150,
-    //   valueFormatter: (params) => {
-    //     const valueFormatted = Number(
-    //       (params.value as number) * 100
-    //     ).toLocaleString();
-    //     return `${valueFormatted} %`;
-    //   },
-    // },
-];
+
 
 
 const TeamList: React.FC<any> = (props) => {
+
+    const [removedTeamId, setremovedTeamId] = useState<any>('');
+
+    //this is function gets values from child components
+    const getRemovedTeamNumber = (teamID: any) => {
+        setremovedTeamId(teamID)
+    }
+
+    useEffect(() => {
+        if (!isNaN(removedTeamId)) {
+            api.get('/team/get-all').subscribe(
+                (resp) => {
+                    props.setTeamList(resp)
+                })
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [removedTeamId])
+    
+
+    const teamsColumns: GridColDef[] = [
+        { field: "TeamID", headerName: "ID", width: 90, hide: true },
+        { field: "TeamName", headerName: "Team Name", width: 150 },
+    //-------------------- Renders the remove team button --------------------//
+        { 
+            field: "RemoveTeam",
+            headerName: "",
+            width: 90,
+            renderCell: (params: any) =>
+            (
+                <RemoveTeamButton
+                    teamObject={params.row}
+                    //the function is passed to the child component to get a value
+                    getRemovedTeamNumber={getRemovedTeamNumber}
+                />
+            )
+        }
+        // {
+        //   field: "TeamWinPercentage",
+        //   headerName: "Win Percentage",
+        //   width: 150,
+        //   valueFormatter: (params) => {
+        //     const valueFormatted = Number(
+        //       (params.value as number) * 100
+        //     ).toLocaleString();
+        //     return `${valueFormatted} %`;
+        //   },
+        // },
+    ];
 
     const url = axiosRequestConfiguration.baseURL
 
@@ -61,6 +85,8 @@ const TeamList: React.FC<any> = (props) => {
         setIsError(false)
         setOpen(false);
     };
+
+
 
     // gets value from create team form
     const createTeam = () => {
@@ -89,6 +115,15 @@ const TeamList: React.FC<any> = (props) => {
             });
 
     };
+
+    // on changes to open state api is run
+    useEffect(() => {
+        api.get('/team/get-all').subscribe(
+            (resp) => {
+                props.setTeamList(resp)
+            })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [open])
 
 
     return (

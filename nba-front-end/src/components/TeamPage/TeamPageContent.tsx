@@ -52,42 +52,6 @@ const TeamPageContent: React.FC<any> = (props) => {
     //  }, [setIsUpdated]);
   };
 
-  const handleClickRemoveTeamButton = () => {
-    setOpenPopup(true);
-  };
-
-  const handleCloseRemoveTeamPopup = () => {
-    setOpenPopup(false);
-  };
-
-  const handleClickConfirmRemoveTeam = () => {
-
-    setOpenPopup(false)
-
-    axios.delete(`${url}/team/${selectionTeam}/removeTeams`)
-      .then(function (response) {
-        if (response.data != null) {
-
-          // if success call api again.
-          //todo use useEffect() instead
-          api.get('/team/get-all').subscribe(
-            (resp) => {
-              setTeamList(resp)
-            })
-
-        }
-      })
-      .catch((error) => {
-
-        const err: any = error as AxiosError
-
-        if (err.response.status === 409) {
-          // setIsError(true)
-        }
-      });
-
-  };
-
   return (
     <Grid container spacing={2}>
       {/* -------------------------- Teams Section ----------------------------- */}
@@ -103,29 +67,6 @@ const TeamPageContent: React.FC<any> = (props) => {
         >
           <div style={{ display: 'flex', columnGap: '10px', marginBottom: '10px' }}>
             <h2 style={{ margin: 0 }}>Your Lineup</h2>
-            <Button
-              variant="contained"
-              color="error"
-              startIcon={<RemoveIcon />}
-              onClick={handleClickRemoveTeamButton}
-            >
-              Remove Team
-            </Button>
-            <Dialog id="RemoveTeam" open={openPopup}>
-              {/* todo: need to add reference to team name */}
-              <DialogTitle>Remove {selectionTeam}</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  You'll lose all data relating to {selectionTeam}.
-
-                  Are you sure you want to permanently delete this team?
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions >
-                <Button onClick={handleCloseRemoveTeamPopup} style={{ color: "red" }}>Cancel</Button>
-                <Button onClick={handleClickConfirmRemoveTeam}>Continue </Button>
-              </DialogActions>
-            </Dialog>
           </div>
           <TeamPlayerTableLoader
             teamID={selectionTeam}
