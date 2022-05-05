@@ -8,8 +8,9 @@ import {
     DialogTitle,
     TextField,
 } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
+import RemoveTeamButton from "./RemoveTeam/RemoveTeamButton"
 
 import axios, { AxiosError } from 'axios';
 import { axiosRequestConfiguration } from "../../services/axios_config";
@@ -18,6 +19,16 @@ import api from "../../services/api";
 const teamsColumns: GridColDef[] = [
     { field: "TeamID", headerName: "ID", width: 90, hide: true },
     { field: "TeamName", headerName: "Team Name", width: 150 },
+    { 
+        field: "RemoveTeam",
+        headerName: "",
+        width: 80,
+        renderCell:(props: GridRenderCellParams<any>) => (
+        <RemoveTeamButton
+            teamID={ props.row }
+        />
+        )
+    }
     // {
     //   field: "TeamWinPercentage",
     //   headerName: "Win Percentage",
