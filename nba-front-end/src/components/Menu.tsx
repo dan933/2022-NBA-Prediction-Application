@@ -19,7 +19,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 // import Badge from '@mui/material/Badge';
 // import NotificationsIcon from '@mui/icons-material/Notifications';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { mainListItems } from './listItems';
+import { mainListItems, secondaryListItems } from './listItems';
 import DataGridTeams from './teamDataGrid/teamDataGrid';
 import PlayerDataGridPage from './playerDataGrid/playerDataGridPage';
 
