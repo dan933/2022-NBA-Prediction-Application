@@ -1,0 +1,7 @@
+Staging Site Branch Resources
+
+az deployment group create --name api-staging-deploy --resource-group NBA-Staging --template-file api-staging-deploy.json
+
+az deployment group create --name db-staging-deploy --resource-group NBA-Staging --template-file db-staging-deploy.json
+
+az deployment group create --name fe-staging-deploy --resource-group NBA-Staging --template-file fe-staging-deploy.json

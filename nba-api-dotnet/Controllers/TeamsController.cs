@@ -268,7 +268,61 @@ public class TeamController : ControllerBase
             return StatusCode(500, ex.ToString());
         }
     }
+    [HttpDelete]
+    [Route("{teamID:int}/removeTeams")]
+    public async Task<ActionResult<Response<int>>> RemoveTeams()
+    {
+        try
+        {
+            var teamID = Convert.ToInt32(RouteData.Values["teamID"]!);
+            var response = new Response<int>();
+
+            //check to see if team exists
+            var isTeam = await _context.tbl_Teams
+            .FindAsync(teamID);
+
+            // If the team doesn't exist 
+            if(isTeam == null){
+                response = new Response<int>(0, false, "This Team does not exist");
+
+                return StatusCode(409,response);
+            }
+         
+            
+        
+            // if team exists and all players to delete are on team, do so
+            _context.tbl_PlayerSelection.RemoveRange(
+                _context.tbl_PlayerSelection
+                    .Where(t => t.TeamID == teamID)                    
+            );
+
+            _context.tbl_Teams.RemoveRange(
+               _context.tbl_Teams
+               .Where(t => t.TeamID == teamID) 
+            );       
+            await _context.SaveChangesAsync();
+
+            // _context.tbl_PlayerSelection!.RemoveRange(players);
+
+            response = new Response<int>(teamID, true, "Team Successfully Removed");
+
+            return Ok(response);
+
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.ToString());
+        }
+    }
 }
+
+// remove team
+
+
+
+
+
+
 
 //2730
 //2772

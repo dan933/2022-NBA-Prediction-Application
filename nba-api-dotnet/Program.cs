@@ -17,8 +17,7 @@ builder.Services.AddCors(options =>
                           builder.WithOrigins(
                             "https://dan933.github.io/2022-NBA-Prediction-Application",
                             "https://nbaseasonpredictor.netlify.app",
-                            "https://nba-app.azurewebsites.net",
-                            "http://localhost:3000"
+                            "https://nba-app.azurewebsites.net"
                             )                            
                             .AllowAnyHeader()
                             .AllowAnyMethod();
@@ -56,12 +55,27 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
+if(builder.Environment.IsDevelopment()){
+    builder.Services.AddDbContext<NBAContext>(options =>
+    {
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DanDesktopDB"));
+    });
+}else if(builder.Environment.IsStaging()){
 
-builder.Services.AddDbContext<NBAContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AzureDatabase"));
+    builder.Services.AddDbContext<NBAContext>(options =>
+    {
+        options.UseSqlServer(builder.Configuration.GetConnectionString("AzureDatabase"));
+    });
 
-});
+}else{
+
+    builder.Services.AddDbContext<NBAContext>(options =>
+    {
+        options.UseSqlServer(builder.Configuration.GetConnectionString("AzureStagingDatabase"));
+    });
+}
+
+
 
 var app = builder.Build();
 

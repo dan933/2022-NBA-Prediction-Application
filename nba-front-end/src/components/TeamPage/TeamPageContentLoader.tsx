@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import DataGridTeams from './teamDataGrid';
-import WithTableLoading from '../componentLoading';
+import TeamPageContent from './TeamPageContent';
+import ApiComponentLoader from '../ApiComponentLoader';
 import api from '../../services/api';
 import { Team } from '../../models/ITeam';
 
@@ -10,8 +10,8 @@ interface TeamProps{
     teamList: Team[];
 }
 
-function FilledTeamTable() {
-    const TableLoading = WithTableLoading(DataGridTeams);
+function TeamPageContentLoader() {
+    const TableLoading = ApiComponentLoader(TeamPageContent);
     const [appState, setAppState] = useState<TeamProps>({
         loading: false,
         teamList: [],
@@ -23,20 +23,14 @@ function FilledTeamTable() {
         api.get('/team/get-all').subscribe((resp) => {
             setAppState({ loading: false, teamList: resp as Team[] });
           });
-      }, [setAppState]);
-
-      //todo useEffect
-      useEffect(() => {
-
-      })
-    
+      }, [setAppState]);    
       
   return (
     <div>
         <TableLoading isLoading={appState.loading} teamList={appState.teamList} />
     </div>
-);
+    );
 
 }
 
-export default FilledTeamTable;
+export default TeamPageContentLoader;

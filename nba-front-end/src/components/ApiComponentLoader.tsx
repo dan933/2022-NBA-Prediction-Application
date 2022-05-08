@@ -1,6 +1,6 @@
 import React from 'react';
 
-function WithTableLoading(Component:React.FC) {
+function ApiComponentLoader(Component:React.FC) {
     return function WithLoadingComponent({ isLoading, ...props }:any) {
       if (!isLoading) return <Component {...props} />;
       return (
@@ -10,6 +10,6 @@ function WithTableLoading(Component:React.FC) {
       );
     };
   }
-export default WithTableLoading;
+export default ApiComponentLoader;
 
 

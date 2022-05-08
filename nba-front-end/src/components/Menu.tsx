@@ -165,7 +165,6 @@ function DashboardContent() {
             overflow: 'auto',
           }}
         >
-          {/* <PlayerDataGridPage /> */}
           <Outlet/>
           <Grid item xs={12} md={12} lg={12}>
             <Copyright sx={{ pt: 4 }} />

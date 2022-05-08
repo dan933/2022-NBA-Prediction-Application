@@ -33,7 +33,7 @@ const playerColumns: GridColDef[] = [
     { field: 'Blocks', headerName: 'Blocks', width: 120 },
   ];
 
-const DataGridPlayers: React.FC<any> = (props) => {
+const PlayerDataGrid: React.FC<any> = (props) => {
 
   // this takes the props passed to this component and uses it to populate the table
   const playerList = props.playerList;
@@ -84,7 +84,7 @@ const DataGridPlayers: React.FC<any> = (props) => {
       >
         {/* formats the placement of the searchbar and table */}
         <Grid container spacing={2}>
-         <Grid item xl={4} md={6} xs={12}>
+         <Grid item xl={12} md={12} xs={12}>
           <FormControl variant="outlined" size="small" fullWidth={true}>
             <InputLabel htmlFor="outlined-search">Search for a player</InputLabel>
             <OutlinedInput
@@ -100,7 +100,7 @@ const DataGridPlayers: React.FC<any> = (props) => {
             />
             </FormControl>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xl={12} md={12} xs={12}>
             <div style={{ height: '1151px', width: '100%' }}>
               <DataGrid
               rows={playerList}
@@ -120,4 +120,4 @@ const DataGridPlayers: React.FC<any> = (props) => {
       </Paper>
   );
 }
-export default DataGridPlayers;
+export default PlayerDataGrid;
