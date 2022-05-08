@@ -39,7 +39,6 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
       // this catches any errors that may occur while fetching for player data
             .catch(error => { console.log(error) 
             setLoading(false);
-      // this sets 'errorMessage' into the error that has occured
             })
         }
           }, [setAppState, teamID, isUpdated]);

@@ -43,7 +43,6 @@ const TeamPageContent: React.FC<any> = (props) => {
 
   const [isUpdated, setIsUpdated] = React.useState(false);
 
-
   const tableIsUpdated = () => {
     setIsUpdated(true);
 
