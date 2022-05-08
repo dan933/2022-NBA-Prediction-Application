@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     Button, Grid, Paper,
     Dialog,
@@ -42,6 +42,13 @@ const TeamList: React.FC<any> = (props) => {
 
     const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
 
+    const [newTeamID, setNewTeamID] = React.useState("");
+
+    useEffect(() => {
+        props.setSelectionModel(newTeamID);
+    },[newTeamID]);
+    
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -55,11 +62,15 @@ const TeamList: React.FC<any> = (props) => {
     const createTeam = () => {
 
         let teamNameObject = { TeamName: teamName.current?.value }
+        setNewTeamID("");
 
         axios.post(`${url}/team/create-team`, teamNameObject)
             .then(function (response) {
                 if (response.data.Success === true) {
+    // sets newTeamID to the TeamID of the created team
+                    setNewTeamID(response.data.Data.TeamID);
                     setOpen(false);
+
 
                     // if success call api again.
                     //todo use useEffect() instead
@@ -76,7 +87,6 @@ const TeamList: React.FC<any> = (props) => {
                     setIsError(true)
                 }
             });
-
     };
 
 
