@@ -1,6 +1,7 @@
 import { Button } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import RemoveTeamPopUp from './RemoveTeamPopUp'
+import DeleteIcon from '@mui/icons-material/Delete';
  
 const RemoveTeamButton = (props: any) => {
 
@@ -34,11 +35,10 @@ const RemoveTeamButton = (props: any) => {
   return (
     <>
     <Button
-        variant="contained"
         color="error"
         onClick={ handleopenRemoveTeamPopUp }
     >
-        Remove
+        <DeleteIcon/>
       </Button>
       <RemoveTeamPopUp
         teamObject={props.teamObject}
