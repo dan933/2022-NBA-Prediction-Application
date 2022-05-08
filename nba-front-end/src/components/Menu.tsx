@@ -19,7 +19,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 // import Badge from '@mui/material/Badge';
 // import NotificationsIcon from '@mui/icons-material/Notifications';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems } from './listItems';
 
 function Copyright(props: any) {
 // TODO: update link
@@ -88,7 +88,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 const mdTheme = createTheme();
 
 function DashboardContent() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -114,7 +114,7 @@ function DashboardContent() {
           <List component="nav">
             {mainListItems}
             <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
+            
           </List>
         </Drawer>
         <AppBar open={open} position="absolute" sx={{top: 250}}>
