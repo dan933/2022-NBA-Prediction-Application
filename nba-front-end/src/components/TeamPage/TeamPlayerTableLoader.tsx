@@ -26,10 +26,9 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
   // gets value from create team form
 
     useEffect(() => {
+      if (teamID.length !== 0) {
         setLoading(true);
         setAppState({ teamPlayerList: [] });
-
-        if(teamID){
           axios.get(`${url}/team/${teamID}/get-players`)
         .then((response) => {
             setLoading(false);
@@ -41,13 +40,29 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
             setLoading(false);
             })
         }
-          }, [setAppState, teamID, isUpdated]);
+    }, [setAppState, teamID, isUpdated]);
+  
+  const yourLineUpSection = () => {
+    if (isLoading && teamID.length !== 0) {
+      return (
+        <h1>Hold on, fetching data may take some time :)</h1>
+      )
+    } else if (!isLoading && teamID.length == 0) {
+      return (
+        <h1>Please select a team</h1>
+      )
+    } else {
+      return (
+        <TableLoading teamPlayerList={appState.teamPlayerList} teamID={teamID} tableIsUpdated={props.tableIsUpdated}/>
+      )
+    }
+  }
     
   return (
     <React.Fragment>
       <div>
-  {/* if  isLoading is true, loading text will apear, if api is able to fetch player data and isLoading is false, then show filled player table*/}
-        {isLoading ? (<h1>Hold on, fetching data may take some time :)</h1>) : (<TableLoading teamPlayerList={appState.teamPlayerList} teamID={teamID} tableIsUpdated={props.tableIsUpdated}/>)}
+        {/* if  isLoading is true, loading text will apear, if api is able to fetch player data and isLoading is false, then show filled player table*/}
+        {yourLineUpSection()}        
       </div>
     </React.Fragment>
   );
