@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { useEffect } from "react";
 import api from "../../services/api";
 import { TeamPlayer } from '../../models/ITeamPlayer';
-import DataGridTeamPlayers from './teamPlayerDataGrid';
+import TeamPlayerTable from './TeamPlayerTable';
 import axios, { AxiosError } from 'axios';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 
@@ -12,10 +12,10 @@ interface TeamPlayerProps{
 
 const url = axiosRequestConfiguration.baseURL
 
-const FilledTeamPlayerTable: React.FC<any> = (props) => {
+const TeamPlayerTableLoader: React.FC<any> = (props) => {
 
   const teamID = props.teamID;
-  const TableLoading = (DataGridTeamPlayers);
+  const TableLoading = (TeamPlayerTable);
   const [appState, setAppState] = useState<TeamPlayerProps>({
     teamPlayerList: [],
   });
@@ -26,33 +26,46 @@ const FilledTeamPlayerTable: React.FC<any> = (props) => {
   // gets value from create team form
 
     useEffect(() => {
+      if (teamID.length !== 0) {
         setLoading(true);
         setAppState({ teamPlayerList: [] });
-
-        if(teamID){
           axios.get(`${url}/team/${teamID}/get-players`)
         .then((response) => {
             setLoading(false);
             setAppState({ teamPlayerList: response.data.Data as TeamPlayer[] });
-            console.log(response);
             setIsUpdated(false);
             })
       // this catches any errors that may occur while fetching for player data
             .catch(error => { console.log(error) 
             setLoading(false);
-      // this sets 'errorMessage' into the error that has occured
             })
         }
-          }, [setAppState, teamID, isUpdated]);
+    }, [setAppState, teamID, isUpdated]);
+  
+  const yourLineUpSection = () => {
+    if (isLoading && teamID.length !== 0) {
+      return (
+        <h1>Hold on, fetching data may take some time :)</h1>
+      )
+    } else if (!isLoading && teamID.length == 0) {
+      return (
+        <h1>Please select a team</h1>
+      )
+    } else {
+      return (
+        <TableLoading teamPlayerList={appState.teamPlayerList} teamID={teamID} tableIsUpdated={props.tableIsUpdated}/>
+      )
+    }
+  }
     
   return (
     <React.Fragment>
       <div>
-  {/* if  isLoading is true, loading text will apear, if api is able to fetch player data and isLoading is false, then show filled player table*/}
-        {isLoading ? (<h1>Hold on, fetching data may take some time :)</h1>) : (<TableLoading teamPlayerList={appState.teamPlayerList} teamID={teamID} tableIsUpdated={props.tableIsUpdated}/>)}
+        {/* if  isLoading is true, loading text will apear, if api is able to fetch player data and isLoading is false, then show filled player table*/}
+        {yourLineUpSection()}        
       </div>
     </React.Fragment>
   );
 };
 
-export default FilledTeamPlayerTable;
+export default TeamPlayerTableLoader;
