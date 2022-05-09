@@ -6,6 +6,7 @@
 name: Azure PipeLine FE
 
 trigger:
+  #batch: true
   branches:
     include:
     - main 
