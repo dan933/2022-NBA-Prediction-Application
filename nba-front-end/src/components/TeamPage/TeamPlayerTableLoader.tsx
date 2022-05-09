@@ -62,8 +62,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
     <React.Fragment>
       <div>
         {/* if  isLoading is true, loading text will apear, if api is able to fetch player data and isLoading is false, then show filled player table*/}
-        {yourLineUpSection()}
-        {/* {isLoading ? (<h1>Hold on, fetching data may take some time :)</h1>) : (<TableLoading teamPlayerList={appState.teamPlayerList} teamID={teamID} tableIsUpdated={props.tableIsUpdated}/>)} */}
+        {yourLineUpSection()}        
       </div>
     </React.Fragment>
   );
