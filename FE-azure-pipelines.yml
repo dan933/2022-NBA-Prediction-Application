@@ -5,6 +5,7 @@
 
 name: Azure PipeLine FE
 
+pr: none
 trigger:
   #batch: true
   branches:
