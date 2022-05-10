@@ -13,7 +13,7 @@ const get = <T>(url: string, queryParams?: object): Observable<T> => {
 const url = axiosRequestConfiguration.baseURL
 
 //--------------------------- Remove team api call -----------------------------//
-const RemoveTeam = async (teamId: number) => {
+const RemoveTeam = async (teamId?: number) => {
   
   const res = await axios.delete(`${url}/team/${teamId}/removeTeams`).catch((err) => {
     throw err

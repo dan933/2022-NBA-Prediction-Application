@@ -55,7 +55,12 @@ const TeamPageContent: React.FC<any> = (props) => {
     <Grid container spacing={2}>
       {/* -------------------------- Teams Section ----------------------------- */}
       <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
-        <TeamList setSelectionModel={setSelectionTeam} selectionModel={selectionTeam} teamList={teamList} setTeamList={setTeamList} />
+        <TeamList
+          setSelectionModel={setSelectionTeam}
+          selectionModel={selectionTeam}
+          teamList={teamList}
+          setTeamList={setTeamList}
+        />
       </Grid>
 
       {/* formatting and adding of table that allows view/removal of players that are on selected team */}

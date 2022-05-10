@@ -5,42 +5,42 @@ import api from '../../../services/api';
 
 export default function RemoveTeamPopUp(props: any) {
 
-  const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
+  interface ITeam {
+    TeamID?: number;
+    TeamName?: string;
+  }
+
+  const [teamObject, setTeamObject] = React.useState<ITeam>({TeamID:0,TeamName:""});
+  
+  useEffect(() => {
+    setTeamObject(props.teamList.find((team: any) => team.TeamID === props.teamId[0]))
+    console.log(teamObject)
+  }, [props.teamList, props.teamId, teamObject])
 
   const [IsError, setIsError] = React.useState(false);
-
-  useEffect(() => {
-    //checks loading status
-    if (!props.IsLoading) {
-      setOpenRemoveTeamPopUp(true)
-    }
-  }, [props.handleopenRemoveTeamPopUp, props.IsLoading])
   
-
   const closeRemoveTeamPopup = () => {
-    setOpenRemoveTeamPopUp(false);
+    props.setOpenRemoveTeamPopUp(false);
     setIsError(false)
   }
 
   //--------------------------- Remove Team api call ---------------------------//
   const handleClickConfirmRemoveTeam = async () => {
-    const res: any = await api.RemoveTeam(props.teamObject.TeamID).catch((err) => {
+    const res: any = await api.RemoveTeam(teamObject.TeamID).catch((err) => {
       console.log(err)
       setIsError(true)
-    })
-    props.getRemovedTeamId(res.data.Data)
-    setOpenRemoveTeamPopUp(false);
-    //todo catch error's
+    })    
+    props.setOpenRemoveTeamPopUp(false);
   }
   
 
     return(
-        <Dialog id="RemoveTeam" open={openRemoveTeamPopUp}>
+        <Dialog id="RemoveTeam" open={props.openRemoveTeamPopUp}>
               {/* todo: need to add reference to team name */}
-              <DialogTitle>Remove {props.teamObject.TeamName}</DialogTitle>
+              <DialogTitle>Remove {teamObject?.TeamName}</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  You'll lose all data relating to {props.teamObject.TeamName}.
+                  You'll lose all data relating to {teamObject?.TeamName}.
 
                   Are you sure you want to permanently delete this team?
           </DialogContentText>
@@ -50,6 +50,6 @@ export default function RemoveTeamPopUp(props: any) {
                 <Button onClick={closeRemoveTeamPopup} style={{ color: "red" }}>Cancel</Button>
                 <Button onClick={handleClickConfirmRemoveTeam}>Continue </Button>
               </DialogActions>
-            </Dialog>
+        </Dialog>
     )
 }
