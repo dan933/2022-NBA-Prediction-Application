@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 //ADD CORS
 builder.Services.AddCors(options =>
 {
-    if (!builder.Environment.IsDevelopment())
+    if (builder.Environment.IsDevelopment())
     {
         options.AddPolicy(name: MyAllowSpecificOrigins,
                         builder =>
