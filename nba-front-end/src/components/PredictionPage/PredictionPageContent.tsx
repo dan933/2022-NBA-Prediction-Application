@@ -30,7 +30,7 @@ import TeamList from "./PredictionTeamList";
 import TeamPlayerTableLoader from "../TeamPage/TeamPlayerTableLoader";
 import AddPlayerTableLoader from "../TeamPage/AddPlayerTableLoader";
 import { positions } from '@mui/system';
-import PreviewIcon from '@mui/icons-material/Preview';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 const PredictionTeamList: React.FC<any> = (props) => {
 
@@ -66,7 +66,7 @@ const PredictionTeamList: React.FC<any> = (props) => {
                   style={{left: '0px', top: '0px', position: 'absolute'}}
                   variant="contained"
                   color="primary"
-                  startIcon={<PreviewIcon />}
+                  startIcon={<RefreshIcon />}
                   
                   
                 >
