@@ -83,34 +83,25 @@ const TeamList: React.FC<any> = (props) => {
     };
 
     // gets value from create team form
-    const createTeam = () => {
-        let teamNameObject = { TeamName: teamName.current?.value }
-        setNewTeamID("");
-
-        axios.post(`${url}/team/create-team`, teamNameObject)
-            .then(function (response) {
-                if (response.data.Success === true) {
-    // sets newTeamID to the TeamID of the created team
-                    setNewTeamID(response.data.Data.TeamID);
-                    setOpen(false);
-
-
-                    // if success call api again.
-                    //todo use useEffect() instead
-                    api.get('/team/get-all').subscribe(
-                        (resp) => {
-                            props.setTeamList(resp)
-                        })
-                }
-            })
+    const createTeam = async () => {
+        const resp: any = await api.CreateTeam(teamName.current?.value)
             .catch((error) => {
+            
                 const err: any = error as AxiosError
 
                 if (err.response.status === 409) {
                     setIsError(true)
                 }
-            });
-    };
+            
+            })
+    
+        if (resp.data.Success === true) {
+            // sets newTeamID to the TeamID of the created team
+            setNewTeamID(resp.data.Data.TeamID);
+            setOpen(false);
+            setIsError(false)
+        }
+    }
 
     // on changes to open state api is run
     useEffect(() => {
