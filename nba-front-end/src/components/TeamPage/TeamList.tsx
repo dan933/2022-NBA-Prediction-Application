@@ -6,7 +6,7 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    TextField,
+    TextField
 } from "@mui/material";
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
@@ -15,29 +15,19 @@ import RemoveTeamButton from "./RemoveTeam/RemoveTeamButton"
 import axios, { AxiosError } from 'axios';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import api from "../../services/api";
+import RemoveTeamPopUp from "./RemoveTeam/RemoveTeamPopUp";
 
 
 
 
 const TeamList: React.FC<any> = (props) => {
 
-    const [removedTeamId, setremovedTeamId] = useState<any>('');
+    const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
 
-    //this is function gets values from child components
-    const getRemovedTeamNumber = (teamID: any) => {
-        setremovedTeamId(teamID)
+    //opens remove team popup
+    const handleopenRemoveTeamPopUp = () => {
+    setOpenRemoveTeamPopUp((prev) => !prev)
     }
-
-    useEffect(() => {
-        if (!isNaN(removedTeamId)) {
-            api.get('/team/get-all').subscribe(
-                (resp) => {
-                    props.setTeamList(resp)
-                })
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [removedTeamId])
-    
 
     const teamsColumns: GridColDef[] = [
         { field: "TeamID", headerName: "ID", width: 90, hide: true },
@@ -51,8 +41,7 @@ const TeamList: React.FC<any> = (props) => {
             (
                 <RemoveTeamButton
                     teamObject={params.row}
-                    //the function is passed to the child component to get a value
-                    getRemovedTeamNumber={getRemovedTeamNumber}
+                    handleopenRemoveTeamPopUp={handleopenRemoveTeamPopUp}
                 />
             )
         }
@@ -81,9 +70,9 @@ const TeamList: React.FC<any> = (props) => {
 
     useEffect(() => {
         props.setSelectionModel(newTeamID);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[newTeamID]);
     
-
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -93,11 +82,8 @@ const TeamList: React.FC<any> = (props) => {
         setOpen(false);
     };
 
-
-
     // gets value from create team form
     const createTeam = () => {
-
         let teamNameObject = { TeamName: teamName.current?.value }
         setNewTeamID("");
 
@@ -133,8 +119,7 @@ const TeamList: React.FC<any> = (props) => {
                 props.setTeamList(resp)
             })
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [open])
-
+    }, [open, openRemoveTeamPopUp])
 
     return (
         <Paper
@@ -171,7 +156,8 @@ const TeamList: React.FC<any> = (props) => {
                             selectionModel={props.selectionModel}
                         />
                     </div>
-                </Grid>
+                </Grid>                
+                {/* this should be a create team popup component VVV */}
                 <Dialog id="createTeam" open={open} onClose={handleClose}>
                     <DialogTitle>Create a new team:</DialogTitle>
                     <DialogContent>
@@ -195,9 +181,15 @@ const TeamList: React.FC<any> = (props) => {
                         <Button onClick={createTeam}>Create </Button>
                     </DialogActions>
                 </Dialog>
+                
+                <RemoveTeamPopUp
+                    openRemoveTeamPopUp={openRemoveTeamPopUp}
+                    setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
+                    teamId={props.selectionModel}
+                    teamList={props.teamList}                    
+                />
             </Grid>
         </Paper>
     );
 }
-
 export default TeamList;
