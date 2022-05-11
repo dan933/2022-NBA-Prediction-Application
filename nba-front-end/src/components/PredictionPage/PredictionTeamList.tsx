@@ -73,7 +73,9 @@ const TeamList: React.FC<any> = (props) => {
         <Grid item>
             
         </Grid>
-        <a href="/dashboard/Teams">
+        <a 
+        style={{textDecoration: 'none'}}
+        href="/dashboard/Teams">
                   <Button
                   style={{top: '20px', left: '1120px', textDecoration: 'none'}}
                   variant="contained"
@@ -85,9 +87,11 @@ const TeamList: React.FC<any> = (props) => {
                   Edit Teams
                 </Button>
                 </a>
-                <a href="/dashboard/Players">
+                <a 
+                 style={{textDecoration: 'none'}}
+                href="/dashboard/Players">
                   <Button
-                  style={{top: '20px', left: '780px', textDecoration: 'none'}}
+                  style={{top: '20px', left: '780px'}}
                   variant="contained"
                   color="primary"
                   startIcon={<PreviewIcon />}
