@@ -16,11 +16,14 @@ import axios, { AxiosError } from 'axios';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import api from "../../services/api";
 import RemoveTeamPopUp from "./RemoveTeam/RemoveTeamPopUp";
+import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";
 
 
 
 
 const TeamList: React.FC<any> = (props) => {
+
+    const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
 
     const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
 
@@ -58,13 +61,11 @@ const TeamList: React.FC<any> = (props) => {
         // },
     ];
 
-    const url = axiosRequestConfiguration.baseURL
-
-    const [isError, setIsError] = React.useState(false);
-
     const [open, setOpen] = React.useState(false);
 
-    const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
+        const handleClickOpen = () => {
+        setOpen(true);
+    };
 
     const [newTeamID, setNewTeamID] = React.useState("");
 
@@ -73,35 +74,7 @@ const TeamList: React.FC<any> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[newTeamID]);
     
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
 
-    const handleClose = () => {
-        setIsError(false)
-        setOpen(false);
-    };
-
-    // gets value from create team form
-    const createTeam = async () => {
-        const resp: any = await api.CreateTeam(teamName.current?.value)
-            .catch((error) => {
-            
-                const err: any = error as AxiosError
-
-                if (err.response.status === 409) {
-                    setIsError(true)
-                }
-            
-            })
-    
-        if (resp.data.Success === true) {
-            // sets newTeamID to the TeamID of the created team
-            setNewTeamID(resp.data.Data.TeamID);
-            setOpen(false);
-            setIsError(false)
-        }
-    }
 
     // on changes to open state api is run
     useEffect(() => {
@@ -148,36 +121,20 @@ const TeamList: React.FC<any> = (props) => {
                         />
                     </div>
                 </Grid>                
-                {/* this should be a create team popup component VVV */}
-                <Dialog id="createTeam" open={open} onClose={handleClose}>
-                    <DialogTitle>Create a new team:</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            To create a new team, please provide a Team Name.
-                        </DialogContentText>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="TeamName"
-                            label="Team Name"
-                            type="Team Name"
-                            fullWidth
-                            variant="standard"
-                            inputRef={teamName}
-                        />
-                        {isError && <p style={{ color: "red" }}>This Team Already Exist!</p>}
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button onClick={createTeam}>Create </Button>
-                    </DialogActions>
-                </Dialog>
+                
+                <CreateTeamPopUp
+                    open={open}
+                    setOpen={setOpen}
+                    teamName={teamName}
+                    setNewTeamID={setNewTeamID}
+                />
                 
                 <RemoveTeamPopUp
                     openRemoveTeamPopUp={openRemoveTeamPopUp}
                     setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
                     teamId={props.selectionModel}
-                    teamList={props.teamList}                    
+                    teamList={props.teamList}
+                    setNewTeamID={setNewTeamID}
                 />
             </Grid>
         </Paper>
