@@ -11,18 +11,32 @@ var builder = WebApplication.CreateBuilder(args);
 //ADD CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
+    if (builder.Environment.IsDevelopment())
+    {
+        options.AddPolicy(name: MyAllowSpecificOrigins,
+                        builder =>
+                        {
+                            builder.WithOrigins(
+                            "http://localhost:3000"
+                            )
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                        });
+    }else{
+        options.AddPolicy(name: MyAllowSpecificOrigins,
                       builder =>
                       {
                           builder.WithOrigins(
                             "https://dan933.github.io/2022-NBA-Prediction-Application",
                             "https://nbaseasonpredictor.netlify.app",
-                            "https://nba-app.azurewebsites.net"//,
-                            //"http://localhost:3000"
+                            "https://nba-app.azurewebsites.net"
                             )                            
                             .AllowAnyHeader()
                             .AllowAnyMethod();
-                      });
+                      });        
+    }
+
+    
 });
 
 // Add services to the container.
