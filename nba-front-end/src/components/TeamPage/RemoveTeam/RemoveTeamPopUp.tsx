@@ -13,8 +13,7 @@ export default function RemoveTeamPopUp(props: any) {
   const [teamObject, setTeamObject] = React.useState<ITeam>({TeamID:0,TeamName:""});
   
   useEffect(() => {
-    setTeamObject(props.teamList.find((team: any) => team.TeamID === props.teamId[0]))
-    console.log(teamObject)
+    setTeamObject(props.teamList.find((team: any) => team.TeamID === props.teamId[0]))    
   }, [props.teamList, props.teamId, teamObject])
 
   const [IsError, setIsError] = React.useState(false);
@@ -26,11 +25,11 @@ export default function RemoveTeamPopUp(props: any) {
 
   //--------------------------- Remove Team api call ---------------------------//
   const handleClickConfirmRemoveTeam = async () => {
-    const res: any = await api.RemoveTeam(teamObject.TeamID).catch((err) => {
-      console.log(err)
+    const res:any = await api.RemoveTeam(teamObject.TeamID).catch((err) => {
       setIsError(true)
     })    
-    props.setOpenRemoveTeamPopUp(false);
+    
+    if(res) props.setOpenRemoveTeamPopUp(false);
   }
   
 
