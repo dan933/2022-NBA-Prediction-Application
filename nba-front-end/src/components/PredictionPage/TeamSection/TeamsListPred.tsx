@@ -1,5 +1,6 @@
 import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid';
 import React, { useState } from 'react'
+import CSS from 'csstype';
 import TeamList from '../../TeamPage/TeamList'
 
 function TeamsListPred(props: any) {
@@ -9,8 +10,8 @@ function TeamsListPred(props: any) {
         { field: "TeamName", headerName: "Team Name", width: 150 },
         {
           field: "WinPer",
-          headerName: "Win Percentage",
-          width: 150,
+          headerName: "Win Percentage",          
+          minWidth: 120,
           valueFormatter: (params) => {
             const valueFormatted = Number(
               (params.value as number) * 100
@@ -19,6 +20,10 @@ function TeamsListPred(props: any) {
           },
         }
   ];
+
+  const teamListGridStyle:CSS.Properties = {
+    maxWidth: '330px'
+  }
 
   //todo loading please wait
 
@@ -32,7 +37,7 @@ function TeamsListPred(props: any) {
     return id
   }
 
-  const checkTeamSelection = (rowID: any) => {
+  const checkTeamSelection = (rowID: any) => {    
     if (idList.length < 2) {
       return true
     } else if(idList.includes(rowID)) {
@@ -42,12 +47,11 @@ function TeamsListPred(props: any) {
     }
   }
 
-
-
   return (
     <>
       {(!props.IsLoading && props.teamList) &&
         <DataGrid
+          style={teamListGridStyle}
           autoHeight
           rows={props.teamList}
           getRowId={(row) => row.TeamID}
@@ -55,7 +59,7 @@ function TeamsListPred(props: any) {
           disableColumnSelector={true}
           pageSize={4}
           rowsPerPageOptions={[4]}
-        onSelectionModelChange={(id) => {
+          onSelectionModelChange={(id) => {
           GetSelectedTeamsId(id as number[])
           }}
         checkboxSelection
