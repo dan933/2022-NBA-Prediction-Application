@@ -19,6 +19,18 @@ function PredictionPage() {
 
   const [selectedTeams, setSelectedTeams] = React.useState<number[]>([])
 
+  const IsSelected = (id: number) => {
+    return selectedTeams.includes(id)
+  }
+ 
+
+  // Functions should be put in services/predictionServices later on
+  const calculatePrediction = () => {
+    console.log(teamList?.filter((x) => IsSelected(x.TeamID as number)))
+
+    
+  }
+
 
 
 //--------------------------- API Call get teams with win percentage ---------------------//  
@@ -39,6 +51,7 @@ return (
             setIsLoading={setIsLoading}            
             setSelectedTeams={setSelectedTeams}
             selectedTeams={selectedTeams}
+            calculatePrediction={calculatePrediction}
         />
 {/* ------------------------------------ Prediction stuff goes here -------------------- */}
       </Grid>

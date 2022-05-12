@@ -16,6 +16,7 @@ function TeamsSection(props:any) {
                 
                 <TeamHeader
                     selectedTeams={props.selectedTeams}
+                    calculatePrediction={props.calculatePrediction}
                 />
                 <TeamListPred
                     teamList={props.teamList}

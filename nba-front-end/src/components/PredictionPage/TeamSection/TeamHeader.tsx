@@ -10,7 +10,7 @@ function TeamHeader(props: any) {
     
     const compareTeams = () => {
         if (props.selectedTeams.length === 2) {
-            //todo compare function from prediction component
+            props.calculatePrediction()
             setIsBothTeamsSelected(true)
         } else {
 
