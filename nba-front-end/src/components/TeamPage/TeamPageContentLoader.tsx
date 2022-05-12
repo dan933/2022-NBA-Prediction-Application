@@ -13,7 +13,7 @@ interface TeamProps{
 function TeamPageContentLoader() {
     const TableLoading = ApiComponentLoader(TeamPageContent);
     const [appState, setAppState] = useState<TeamProps>({
-        loading: false,
+        loading: true,
         teamList: [],
       });
 
