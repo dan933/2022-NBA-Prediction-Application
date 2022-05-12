@@ -8,21 +8,28 @@ function PredictionPage() {
 
   interface ITeam {
     TeamID ?: number,
-    TeamName?:string
+    TeamName?: string,
+    WinPer?:number
   }
-
-  api.GetAllTeams()
 
   const [teamList, setTeamList] = React.useState<ITeam[]>()
 
-//TeamList state goes here
-//API call to get the list of teams here 
-//Possibly use effect goes here
+  const [IsLoading, setIsLoading] = React.useState<boolean>(true)
+
+
+//--------------------------- API Call get teams with win percentage ---------------------//  
+  React.useEffect(() => {
+    setTeamList(api.GetAllTeams())    
+    setIsLoading(false)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[IsLoading])
     return (
 <Container maxWidth={false} sx={{ mt: 4, mb: 4, "minHeight": '600px' }}>
 {/* -------------------------------- Grid stuff goes here ------------------------------- */}
         <TeamsSection
-          
+          teamList={teamList}
+          IsLoading={IsLoading}
+          setIsLoading={setIsLoading}
         />
 {/* ------------------------------------ Prediction stuff goes here -------------------- */}
   </Container>

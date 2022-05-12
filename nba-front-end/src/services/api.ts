@@ -58,22 +58,22 @@ interface ITeam {
       WinPer: 0,
     },
     {
-      TeamID: 1,
+      TeamID: 2,
       TeamName: 'Greg',
       WinPer: 0.57,
     },
     {
-      TeamID: 1,
+      TeamID: 99,
       TeamName: 'Hi',
-      WinPer: 0.57,
+      WinPer: 0.5754,
     },
     {
-      TeamID: 1,
+      TeamID: 4,
       TeamName: 'Jeff',
       WinPer: 0.17,
     },
     {
-      TeamID: 1,
+      TeamID: 5,
       TeamName: 'James',
       WinPer: 0.58,
     }

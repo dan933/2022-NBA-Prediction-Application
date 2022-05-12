@@ -1,12 +1,14 @@
 import React from 'react'
-import TeamList from '../TeamSection/TeamsList'
+import TeamListPred from './TeamsListPred'
 import TeamHeader from './TeamHeader'
 
-function TeamsSection() {
+function TeamsSection(props:any) {
     return (
     <>
         <TeamHeader />
-        <TeamList/>
+        <TeamListPred
+        teamList={props.teamList}
+        />
     </>
 
   )
