@@ -12,8 +12,24 @@ const get = <T>(url: string, queryParams?: object): Observable<T> => {
 
 const url = axiosRequestConfiguration.baseURL
 
-//--------------------------- Remove team api call -----------------------------//
-const RemoveTeam = async (teamId: number) => {
+interface ICreateTeamRequest {
+  TeamName?:string
+}
+
+//---------------------------- Create Team API call ----------------------------//
+const CreateTeam = async (teamName?: string) => {
+  const createTeamRequest: ICreateTeamRequest = { TeamName: teamName }
+  const res = await axios.post(`${url}/team/create-team`, createTeamRequest)
+  .catch((err) => {
+  throw err
+  })
+
+  return res
+}
+
+
+//--------------------------- Remove Team API call -----------------------------//
+const RemoveTeam = async (teamId?: number) => {
   
   const res = await axios.delete(`${url}/team/${teamId}/removeTeams`).catch((err) => {
     throw err
@@ -33,4 +49,4 @@ const RemoveTeam = async (teamId: number) => {
 // }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { get, RemoveTeam };
+export default { get, RemoveTeam, CreateTeam };

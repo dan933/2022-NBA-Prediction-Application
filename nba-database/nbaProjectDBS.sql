@@ -72,6 +72,14 @@ INNER JOIN tbl_Teams as t ON t.TeamID = ps.TeamID;
 
 GO
 
+CREATE VIEW view_WinChance AS
+SELECT tbl_Teams.TeamID, tbl_Teams.TeamName, CONVERT(DECIMAL,SUM(tbl_Players.PreviousWins)) / CONVERT(DECIMAL,SUM(tbl_Players.PreviousWins + tbl_Players.PreviousLosses)) AS WinChance
+FROM tbl_Players, tbl_PlayerSelection, tbl_Teams 
+WHERE tbl_Teams.TeamID = tbl_PlayerSelection.TeamID AND tbl_Players.PlayerID = tbl_PlayerSelection.PlayerID
+GROUP BY tbl_Teams.TeamID, tbl_Teams.TeamName
+
+GO
+
 INSERT INTO tbl_Players(PlayerID,FirstName,LastName,Wins,Losses,PreviousWins,PreviousLosses,PlayerWinPercent,Points,Rebounds,Assists,Steals,Blocks,MissedFieldGoals,MissedFreeThrows,TurnOvers) VALUES (203932,'Aaron','Gordon',44,28,29,21,0.611,1062,413,181,43,41,383,56,126);
 INSERT INTO tbl_Players(PlayerID,FirstName,LastName,Wins,Losses,PreviousWins,PreviousLosses,PlayerWinPercent,Points,Rebounds,Assists,Steals,Blocks,MissedFieldGoals,MissedFreeThrows,TurnOvers) VALUES (1630565,'Aaron','Henry',6,0,0,0,1,2,1,0,0,2,4,0,2);
 INSERT INTO tbl_Players(PlayerID,FirstName,LastName,Wins,Losses,PreviousWins,PreviousLosses,PlayerWinPercent,Points,Rebounds,Assists,Steals,Blocks,MissedFieldGoals,MissedFreeThrows,TurnOvers) VALUES (1628988,'Aaron','Holiday',32,26,30,36,0.552,374,111,141,40,9,164,8,61);
