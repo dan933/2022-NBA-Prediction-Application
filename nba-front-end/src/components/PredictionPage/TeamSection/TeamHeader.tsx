@@ -1,8 +1,24 @@
 import { Button, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import React from 'react'
+import React, { useState } from 'react'
 
-function TeamHeader() {
+
+
+function TeamHeader(props: any) {
+
+    const [IsBothTeamsSelected, setIsBothTeamsSelected] = useState(true)
+    
+    const compareTeams = () => {
+        if (props.selectedTeams.length === 2) {
+            //todo compare function from prediction component
+            setIsBothTeamsSelected(true)
+        } else {
+
+            setIsBothTeamsSelected(false)
+        }
+
+    }
+
   return (
       <>
           <Box
@@ -15,7 +31,7 @@ function TeamHeader() {
           >
             <Button
                 variant="contained"
-                  sx={{                    
+                sx={{                    
                     maxWidth: '170px',
                 }}
             >

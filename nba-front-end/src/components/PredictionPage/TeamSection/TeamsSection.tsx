@@ -14,10 +14,14 @@ function TeamsSection(props:any) {
             }}
             >
                 
-                <TeamHeader />
+                <TeamHeader
+                    selectedTeams={props.selectedTeams}
+                />
                 <TeamListPred
-                    teamList={props.teamList}            
-                        />
+                    teamList={props.teamList}
+                    setSelectedTeams={props.setSelectedTeams}
+                    selectedTeams={props.selectedTeams}
+                />
             </Paper>
     </>
 

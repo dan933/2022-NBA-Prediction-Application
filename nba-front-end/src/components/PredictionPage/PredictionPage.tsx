@@ -17,7 +17,8 @@ function PredictionPage() {
 
   const [IsLoading, setIsLoading] = React.useState<boolean>(true)
 
-  const [ teamMatchUp, setTeamMatchUp ] = React.useState<number[]>([])
+  const [selectedTeams, setSelectedTeams] = React.useState<number[]>([])
+
 
 
 //--------------------------- API Call get teams with win percentage ---------------------//  
@@ -35,13 +36,13 @@ return (
            <TeamsSection
             teamList={teamList}
             IsLoading={IsLoading}
-            setIsLoading={setIsLoading}
-            setTeamMatchUp={setTeamMatchUp}
-        />       
+            setIsLoading={setIsLoading}            
+            setSelectedTeams={setSelectedTeams}
+            selectedTeams={selectedTeams}
+        />
+{/* ------------------------------------ Prediction stuff goes here -------------------- */}
       </Grid>
     </Grid>
-        
-{/* ------------------------------------ Prediction stuff goes here -------------------- */}
   </Container>
 );
     }
