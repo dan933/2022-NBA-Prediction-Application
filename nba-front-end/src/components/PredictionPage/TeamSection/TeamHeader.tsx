@@ -1,4 +1,4 @@
-import { Button, Typography } from '@mui/material'
+import { Alert, Button, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { useState } from 'react'
 
@@ -20,7 +20,7 @@ function TeamHeader(props: any) {
     }
 
   return (
-      <>
+      <>          
           <Box
               sx={{
                   display:'flex',
@@ -33,13 +33,18 @@ function TeamHeader(props: any) {
                 variant="contained"
                 sx={{                    
                     maxWidth: '170px',
-                }}
+                    marginBottom:'10px'
+                  }}
+                onClick={compareTeams}
             >
                 Compare Teams
             </Button>
-            <Typography variant="caption" display="block" gutterBottom>
-            Select two teams and click compare.
-            </Typography>
+              { IsBothTeamsSelected ?
+                <Typography variant="caption" display="block" gutterBottom>
+                    Select two teams and click compare.
+                </Typography> :
+                <Alert severity="info">Please select two teams to continue.</Alert>
+              }
         </Box>
          
       </>
