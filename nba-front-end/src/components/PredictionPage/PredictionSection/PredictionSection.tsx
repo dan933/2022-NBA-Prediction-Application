@@ -38,8 +38,7 @@ function PredictionSection(props: any) {
         ]
       }
     
-      teamMatchUp.teams.forEach((team: any) => team.winChance = team.WinPer / totalWinPer)
-      console.log(teamMatchUp)
+      teamMatchUp.teams.forEach((team: any) => team.winChance = team.WinPer / totalWinPer)      
 
       let winner: string = "";
       let loser: string = "";
