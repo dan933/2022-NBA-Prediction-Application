@@ -119,7 +119,8 @@ const [matchUpResultHtml, setMatchUpResultHtml] = useState<any>(<></>)
             }}
             >
         {props.selectedTeams.length !== 2 && <h1>Please Select Two Teams</h1>}  
-        {predictionResult.teams.length === 2 && createMatchUpResultHtml()}       
+        {(predictionResult.teams.length === 2 && !predictionResult.IsDraw) && createMatchUpResultHtml()}        
+        {(predictionResult.teams.length === 2 && predictionResult.IsDraw) && <h1>{predictionResult.teams[0].TeamName} and {predictionResult.teams[1].TeamName} are evenly matched</h1>}        
           </Paper>
       </>
   )
