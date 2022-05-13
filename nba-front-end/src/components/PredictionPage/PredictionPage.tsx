@@ -61,7 +61,7 @@ return (
       </Grid>
 
 {/* ------------------------------- Prediction Section ---------------------------       */}
-      <Grid item xs={12} sm={6} md={6} lg={6}>
+      <Grid item xs={12} sm={12} md={12} lg={8}>
         <PredictionSection
           selectedTeams={selectedTeams}
         />
