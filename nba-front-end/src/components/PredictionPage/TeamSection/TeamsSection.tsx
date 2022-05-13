@@ -17,6 +17,7 @@ function TeamsSection(props:any) {
                 <TeamHeader
                     selectedTeamsId={props.selectedTeamsId}
                     getTeamMatchUp={props.getTeamMatchUp}
+                    setValue={props.setValue}
                 />
                 <TeamListPred
                     teamList={props.teamList}

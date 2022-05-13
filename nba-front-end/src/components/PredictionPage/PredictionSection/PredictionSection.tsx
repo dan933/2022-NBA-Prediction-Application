@@ -1,4 +1,4 @@
-import { Paper } from '@mui/material'
+import { Button, Paper } from '@mui/material'
 import './PredictionSectionStyles.css';
 import React, { useEffect, useState } from 'react'
 
@@ -90,6 +90,7 @@ function PredictionSection(props: any) {
   }, [props.selectedTeams])
 
 
+  const navigateToMatchUps = () => { props.setValue(0) }
 
 
   const createMatchUpResultHtml = () => {
@@ -116,7 +117,13 @@ function PredictionSection(props: any) {
             >
         {props.selectedTeams.length !== 2 && <h1>Please Select Two Teams</h1>}  
         {(predictionResult.teams.length === 2 && !predictionResult.IsDraw) && createMatchUpResultHtml()}        
-        {(predictionResult.teams.length === 2 && predictionResult.IsDraw) && <h1>{predictionResult.teams[0].TeamName} and {predictionResult.teams[1].TeamName} are evenly matched</h1>}        
+        {(predictionResult.teams.length === 2 && predictionResult.IsDraw) && <h1>{predictionResult.teams[0].TeamName} and {predictionResult.teams[1].TeamName} are evenly matched</h1>}
+        <Button
+          variant="contained"
+          onClick={props.navigateToMatchUps}
+        >
+          MATCH UPS
+        </Button>
           </Paper>
       </>
   )

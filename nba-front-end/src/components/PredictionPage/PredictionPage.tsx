@@ -3,13 +3,40 @@ import Container from '@mui/material/Container';
 
 import api from '../../services/api';
 import TeamsSection from './TeamSection/TeamsSection';
-import { Grid } from '@mui/material';
+import { Box, Grid, Tab, Tabs, Typography } from '@mui/material';
 import PredictionSection from './PredictionSection/PredictionSection';
 
 export interface ITeam {
   TeamID ?: number,
   TeamName?: string,
   WinPer?:number
+}
+
+//-------------------------------- Might be good to put this component in services so that other components can reuse it ??? ---------------------------------//
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography component={'span'} variant={'body2'}>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
 }
 
 function PredictionPage() {
@@ -40,36 +67,77 @@ function PredictionPage() {
     setIsLoading(false)    
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [IsLoading])
+
+  const [value, setValue] = React.useState(0);
   
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    
+    setValue(newValue);
+    setSelectedTeamsId([])
+    setSelectedTeams([])
+  };
+
+  const navigateToMatchUps = () => {
+    setValue(0);
+    setSelectedTeamsId([])
+    setSelectedTeams([])
+  }
 
 
-//------------------------------- Todod create tabs to navigate from compare teams to predictions ---------------------/
 
 return (
   <Container sx={{ mt: 4, mb: 4, "minHeight": '600px' }}>
-    <Grid container spacing={2} >
-{/* ------------------------------- Teams Section ---------------------------       */}
-      <Grid item>
-        <TeamsSection
-        teamList={teamList}
-        IsLoading={IsLoading}
-        setIsLoading={setIsLoading}            
-        setSelectedTeamsId={setSelectedTeamsId}
-        selectedTeamsId={selectedTeamsId}
-        getTeamMatchUp={getTeamMatchUp}
-        />
-      </Grid>
+    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+      <Tab label="Match Up"/>
+      <Tab label="Prediction"/>
+    </Tabs>
+    <>
+    <TabPanel value={value} index={0}>
+      <TeamsSection
+          teamList={teamList}
+          IsLoading={IsLoading}
+          setIsLoading={setIsLoading}            
+          setSelectedTeamsId={setSelectedTeamsId}
+          selectedTeamsId={selectedTeamsId}
+          getTeamMatchUp={getTeamMatchUp}
+          setValue={setValue}
+      />
+    </TabPanel>
+    <TabPanel value={value} index={1}>
+      <PredictionSection
+        selectedTeams={selectedTeams}
+        navigateToMatchUps={navigateToMatchUps}
+    />
+      </TabPanel>
+      </>
 
-{/* ------------------------------- Prediction Section ---------------------------       */}
-      <Grid item xs={12} sm={12} md={12} lg={8}>
-        <PredictionSection
-          selectedTeams={selectedTeams}
-        />
-      </Grid>
-    </Grid>
   </Container>
 );
     }
     
   export default PredictionPage;
   
+
+
+
+//----------------------------------------- Option 1 no tabs ------------------------------------------//
+  // <Grid container spacing={2} >
+  // {/* ------------------------------- Teams Section ---------------------------       */}
+  //       <Grid item>
+  //         <TeamsSection
+  //         teamList={teamList}
+  //         IsLoading={IsLoading}
+  //         setIsLoading={setIsLoading}            
+  //         setSelectedTeamsId={setSelectedTeamsId}
+  //         selectedTeamsId={selectedTeamsId}
+  //         getTeamMatchUp={getTeamMatchUp}
+  //         />
+  //       </Grid>
+  
+  // {/* ------------------------------- Prediction Section ---------------------------       */}
+  //       <Grid item xs={12} sm={12} md={12} lg={8}>
+  //         <PredictionSection
+  //           selectedTeams={selectedTeams}
+  //         />
+  //       </Grid>
+  //     </Grid>
