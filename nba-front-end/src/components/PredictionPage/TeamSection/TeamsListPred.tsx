@@ -4,12 +4,13 @@ import './TeamSection.css';
 function TeamsListPred(props: any) {
     //-------------------- Column Headers ----------------------------//
     const teamsColumns: GridColDef[] = [
-        { field: "TeamID", headerName: "ID", width: 90, hide: true },
-        { field: "TeamName", headerName: "Team Name", width: 150 },
+        { field: "TeamID", headerName: "ID", minWidth: 90, hide: true, flex:1 },
+        { field: "TeamName", headerName: "Team Name", minWidth: 150, flex:1 },
         {
           field: "WinPer",
           headerName: "Win Percentage",          
           minWidth: 120,
+          flex:1,
           valueFormatter: (params) => {
             const valueFormatted = Number(
               (params.value as number) * 100
@@ -43,7 +44,6 @@ function TeamsListPred(props: any) {
     <>
       {(!props.IsLoading && props.teamList) &&
         <DataGrid
-          sx={{ minWidth: '330px'}}
           autoHeight
           rows={props.teamList}
           getRowId={(row) => row.TeamID}

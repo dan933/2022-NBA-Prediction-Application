@@ -9,8 +9,7 @@ function TeamsSection(props:any) {
             <Paper
             sx={{
                 p: 2,
-                height: 'auto',
-                maxWidth: '360px'
+                height: 'auto',                
             }}
             >
                 
