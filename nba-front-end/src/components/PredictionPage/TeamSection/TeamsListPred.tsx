@@ -1,5 +1,4 @@
 import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid';
-import CSS from 'csstype';
 import './TeamSection.css';
 
 function TeamsListPred(props: any) {
@@ -19,10 +18,6 @@ function TeamsListPred(props: any) {
           },
         }
   ];
-
-  const teamListGridStyle:CSS.Properties = {
-    maxWidth: '330px'
-  }
 
   //todo loading please wait
 
@@ -48,7 +43,7 @@ function TeamsListPred(props: any) {
     <>
       {(!props.IsLoading && props.teamList) &&
         <DataGrid
-          style={teamListGridStyle}
+          sx={{ minWidth: '330px'}}
           autoHeight
           rows={props.teamList}
           getRowId={(row) => row.TeamID}

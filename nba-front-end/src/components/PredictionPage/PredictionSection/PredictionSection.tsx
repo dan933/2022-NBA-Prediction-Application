@@ -83,9 +83,6 @@ function PredictionSection(props: any) {
   
 
   }
-
-const [matchUpResultHtml, setMatchUpResultHtml] = useState<any>(<></>)
-
   useEffect(() => {
     calculatePrediction()
     
@@ -114,8 +111,7 @@ const [matchUpResultHtml, setMatchUpResultHtml] = useState<any>(<></>)
           <Paper
               sx={{
                 p: 2,
-                height: 'auto',
-                maxWidth: '560px'
+                height: 'auto'                
             }}
             >
         {props.selectedTeams.length !== 2 && <h1>Please Select Two Teams</h1>}  

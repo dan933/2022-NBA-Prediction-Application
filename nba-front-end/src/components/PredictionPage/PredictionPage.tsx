@@ -46,9 +46,10 @@ function PredictionPage() {
 //------------------------------- Todod create tabs to navigate from compare teams to predictions ---------------------/
 
 return (
-  <Container maxWidth={false} sx={{ mt: 4, mb: 4, "minHeight": '600px' }}>
-    <Grid container spacing={2}>
-      <Grid item xs={12} sm={10} md={8} lg={4}>
+  <Container sx={{ mt: 4, mb: 4, "minHeight": '600px' }}>
+    <Grid container spacing={2} >
+{/* ------------------------------- Teams Section ---------------------------       */}
+      <Grid item>
         <TeamsSection
         teamList={teamList}
         IsLoading={IsLoading}
@@ -58,7 +59,9 @@ return (
         getTeamMatchUp={getTeamMatchUp}
         />
       </Grid>
-      <Grid item xs={12} sm={10} md={8} lg={4}>
+
+{/* ------------------------------- Prediction Section ---------------------------       */}
+      <Grid item xs={12} sm={6} md={6} lg={6}>
         <PredictionSection
           selectedTeams={selectedTeams}
         />
