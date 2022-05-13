@@ -1,7 +1,5 @@
 import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid';
-import React, { useState } from 'react'
 import CSS from 'csstype';
-import TeamList from '../../TeamPage/TeamList'
 import './TeamSection.css';
 
 function TeamsListPred(props: any) {
@@ -31,15 +29,15 @@ function TeamsListPred(props: any) {
 // todo The Below functions should go into a predictionServices file eventually
   
   const GetSelectedTeamsId = (id: number[]) => {
-    props.setSelectedTeams(id)
+    props.setSelectedTeamsId(id)
     console.log(id)
     return id
   }
 
   const checkTeamSelection = (rowID: any) => {    
-    if (props.selectedTeams.length < 2) {
+    if (props.selectedTeamsId.length < 2) {
       return true
-    } else if(props.selectedTeams.includes(rowID)) {
+    } else if(props.selectedTeamsId.includes(rowID)) {
       return true
     } else {
       return false

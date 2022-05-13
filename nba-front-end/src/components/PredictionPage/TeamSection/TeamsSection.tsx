@@ -15,13 +15,13 @@ function TeamsSection(props:any) {
             >
                 
                 <TeamHeader
-                    selectedTeams={props.selectedTeams}
-                    calculatePrediction={props.calculatePrediction}
+                    selectedTeamsId={props.selectedTeamsId}
+                    getTeamMatchUp={props.getTeamMatchUp}
                 />
                 <TeamListPred
                     teamList={props.teamList}
-                    setSelectedTeams={props.setSelectedTeams}
-                    selectedTeams={props.selectedTeams}
+                    setSelectedTeamsId={props.setSelectedTeamsId}
+                    selectedTeamsId={props.selectedTeamsId}
                 />
             </Paper>
     </>

@@ -9,8 +9,8 @@ function TeamHeader(props: any) {
     const [IsBothTeamsSelected, setIsBothTeamsSelected] = useState(true)
     
     const compareTeams = () => {
-        if (props.selectedTeams.length === 2) {
-            props.calculatePrediction()
+        if (props.selectedTeamsId.length === 2) {
+            props.getTeamMatchUp()
             setIsBothTeamsSelected(true)
         } else {
 
