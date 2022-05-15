@@ -1,6 +1,7 @@
 import { Button, Paper } from '@mui/material'
 import './PredictionSectionStyles.css';
 import React, { useEffect, useState } from 'react'
+import PredictionServices from '../../../services/PredictionServices/PredictionServices';
 
 //todo make models/predictionModels section
 import {ITeam} from '../../PredictionPage/PredictionPage'
@@ -25,11 +26,11 @@ function PredictionSection(props: any) {
 
   const calculatePrediction = () => {
 
+
+
     if (props.selectedTeams.length === 2) {
       
-      let totalWinPer = 0
-      props.selectedTeams.forEach((team: any) => totalWinPer += team.WinPer)
-      // totalWinPer = (Math.round((totalWinPer + Number.EPSILON) * 100) / 100)   
+      const totalWinPer = PredictionServices.calculateTotal(props.selectedTeams);
 
       let teamMatchUp: any =
       {
