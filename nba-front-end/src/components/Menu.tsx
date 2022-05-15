@@ -153,7 +153,7 @@ function DashboardContent() {
         </AppBar>
         <Box
           component="main"
-          sx={{ "margin-top":64,
+          sx={{ "marginTop":'64px',
             backgroundColor: (theme) =>
               theme.palette.mode === 'light'
                 ? theme.palette.grey[100]
