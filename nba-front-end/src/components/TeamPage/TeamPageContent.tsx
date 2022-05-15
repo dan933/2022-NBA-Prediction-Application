@@ -99,7 +99,9 @@ function a11yProps(index: number) {
     <Grid container spacing={2}>
       
       {/* -------------------------- Teams Section ----------------------------- */}
-      <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
+        <Grid item xs={12} sm={12} md={3} lg={3} xl
+          display={{ xs: "none", lg: "block" }}
+        >
         <TeamList
           setSelectionModel={setSelectionTeam}
           selectionModel={selectionTeam}
@@ -167,9 +169,7 @@ function a11yProps(index: number) {
       </Box>
 
       <TabPanel value={value} index={0}>
-        <TeamList 
-        style={{ height: 400, width:"100vw" }}
-        sx={{height: 400, width: '200px'}}
+        <TeamList
           setSelectionModel={setSelectionTeam} 
           selectionModel={selectionTeam} 
           teamList={teamList} 
