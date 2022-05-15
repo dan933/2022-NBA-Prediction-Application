@@ -49,7 +49,7 @@ function PredictionSection(props: any) {
     return (
       <>        
         <h1><span className='blue'>{predictionResult.teams[0].TeamName}</span> VS <span className='red'>{predictionResult.teams[1].TeamName}</span></h1>
-        <h1><span className={winnerColour}>{predictionResult.winner}</span> has an edge of {predictionResult.edge} against <span className={loserColour}>{predictionResult.loser}</span></h1>
+        <h1><span className={winnerColour}>{predictionResult.winner}</span> has a {predictionResult.edge} chance of  winning against <span className={loserColour}>{predictionResult.loser}</span></h1>
       </>
     )            
   }
