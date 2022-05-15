@@ -69,13 +69,13 @@ const TeamList: React.FC<any> = (props) => {
 
     const [newTeamID, setNewTeamID] = React.useState("");
 
-    const [newValue, setNewValue] = React.useState(0);
-
+    const [newValue, setNewValue] = React.useState(props.value);
 
 
     useEffect(() => {
         props.setSelectionModel(newTeamID);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        setNewValue('2');
+        props.setValue(newValue);
     },[newTeamID]);
     
 
