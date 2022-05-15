@@ -55,18 +55,18 @@ const TeamList: React.FC<any> = (props) => {
                     getRemovedTeamNumber={getRemovedTeamNumber}
                 />
             )
+        },
+        {
+          field: "TeamWinPercentage",
+          headerName: "Win Percentage",
+          width: 150,
+          valueFormatter: (params) => {
+            const valueFormatted = Number(
+              (params.value as number) * 100
+            ).toLocaleString();
+            return `${valueFormatted} %`;
+          },
         }
-        // {
-        //   field: "TeamWinPercentage",
-        //   headerName: "Win Percentage",
-        //   width: 150,
-        //   valueFormatter: (params) => {
-        //     const valueFormatted = Number(
-        //       (params.value as number) * 100
-        //     ).toLocaleString();
-        //     return `${valueFormatted} %`;
-        //   },
-        // },
     ];
 
     const url = axiosRequestConfiguration.baseURL
@@ -79,8 +79,14 @@ const TeamList: React.FC<any> = (props) => {
 
     const [newTeamID, setNewTeamID] = React.useState("");
 
+    const [newValue, setNewValue] = React.useState(0);
+
+
+
     useEffect(() => {
         props.setSelectionModel(newTeamID);
+        setNewValue(1);
+        props.setValue(newValue);
     },[newTeamID]);
     
 
@@ -156,7 +162,7 @@ const TeamList: React.FC<any> = (props) => {
                     </Button>
                 </Grid>
                 <Grid item xs={12}>
-                    <div style={{ width: '100%' }}>
+                    <div style={{ height: '600px', width: '100%'}}>
                         <DataGrid
                             autoHeight
                             rows={props.teamList}
