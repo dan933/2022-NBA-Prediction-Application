@@ -314,7 +314,43 @@ public class TeamController : ControllerBase
             return StatusCode(500, ex.ToString());
         }
     }
+
+    // Get the team win percentage
+
+    [HttpGet]
+    [Route("get-winrate")]
+    public async Task<ActionResult<Response<List<WinChanceView?>>>> GetWinChance()
+    {
+        try
+        {                 
+                        
+            
+
+            var teams = await _context.view_WinChance.ToListAsync();
+
+            var response = new Response<List<WinChanceView>>(teams, true, "Team Successfully returned");
+
+            return Ok(response);
+            
+
+        }
+        catch (Exception ex)
+        {
+
+            return StatusCode(500, ex.ToString());
+        }
+        
+    }
 }
+
+
+
+
+
+
+
+
+
 
 // remove team
 
