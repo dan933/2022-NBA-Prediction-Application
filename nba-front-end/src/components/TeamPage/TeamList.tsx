@@ -69,13 +69,9 @@ const TeamList: React.FC<any> = (props) => {
 
     const [newTeamID, setNewTeamID] = React.useState("");
 
-    const [newValue, setNewValue] = React.useState(props.value);
-
 
     useEffect(() => {
         props.setSelectionModel(newTeamID);
-        setNewValue('2');
-        props.setValue(newValue);
     },[newTeamID]);
     
 

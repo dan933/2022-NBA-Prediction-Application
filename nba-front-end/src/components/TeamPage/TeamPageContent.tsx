@@ -59,7 +59,7 @@ const TeamPageContent: React.FC<any> = (props) => {
     //  }, [setIsUpdated]);
   };
 
-  const [value, setValue] = React.useState('1');
+  const [value, setValue] = React.useState("1");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -77,8 +77,6 @@ const TeamPageContent: React.FC<any> = (props) => {
           selectionModel={selectionTeam}
           teamList={teamList}
           setTeamList={setTeamList}
-          value={value}
-          setValue={setValue}
         />
       </Grid>
 
@@ -98,7 +96,8 @@ const TeamPageContent: React.FC<any> = (props) => {
             teamID={selectionTeam}
             isUpdated={isUpdated}
             setIsUpdated={setIsUpdated}
-            tableIsUpdated={tableIsUpdated} />
+            tableIsUpdated={tableIsUpdated} 
+            />
         </Paper>
       </Grid>
 
@@ -139,8 +138,6 @@ const TeamPageContent: React.FC<any> = (props) => {
               selectionModel={selectionTeam}
               teamList={teamList}
               setTeamList={setTeamList}
-              value={value}
-              setValue={setValue}
             />
           </TabPanel>
 
