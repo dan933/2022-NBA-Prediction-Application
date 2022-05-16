@@ -3,13 +3,17 @@
 -- CREATE DATABASE NBA
 -- -- Used a Local DBS to test data but this is flavour text ^
 -- use nba
-
-select * from tbl_Players
-
+GO
+DROP VIEW IF EXISTS view_WinChance;
+GO
 DROP VIEW IF EXISTS view_Team;
+GO
 DROP TABLE IF EXISTS tbl_PlayerSelection;
+GO
 DROP TABLE IF EXISTS tbl_Teams;
+GO
 DROP TABLE IF EXISTS tbl_User;
+GO
 DROP TABLE IF EXISTS tbl_Players;
 
 GO

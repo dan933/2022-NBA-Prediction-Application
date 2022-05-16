@@ -32,6 +32,7 @@ const TeamList: React.FC<any> = (props) => {
     setOpenRemoveTeamPopUp((prev) => !prev)
     }
 
+//-------------------- Column Headers ----------------------------//
     const teamsColumns: GridColDef[] = [
         { field: "TeamID", headerName: "ID", width: 90, hide: true },
         { field: "TeamName", headerName: "Team Name", width: 150 },
@@ -76,7 +77,7 @@ const TeamList: React.FC<any> = (props) => {
     
 
 
-    // on changes to open state api is run
+    //when open changes API is run
     useEffect(() => {
         api.get('/team/get-all').subscribe(
             (resp) => {

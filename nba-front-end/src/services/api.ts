@@ -31,22 +31,70 @@ const CreateTeam = async (teamName?: string) => {
 //--------------------------- Remove Team API call -----------------------------//
 const RemoveTeam = async (teamId?: number) => {
   
-  const res = await axios.delete(`${url}/team/${teamId}/removeTeams`).catch((err) => {
-    throw err
+  const res = await axios.delete(`${url}/team/${teamId}/removeTeams`)
+    .catch((err) => {
+      throw err
   })
   
   return res
 };
 
 //------------------------------ Get Teams ------------------------------------//
-// todo
-// const GetTeams = async () => {
-//   get('/team/get-all').subscribe(
-//     (resp:any) => {
-//         return resp
-//     })
+//todo look into observable api calls https://github.com/zhaosiyang/axios-observable
+const GetAllTeams = /*async*/ () => {
 
-// }
+//---------------------------- Mock Data for predictions page ------------------------//
+interface ITeam {  
+  TeamID ?: number,
+  TeamName?: string
+  //win percentage data is expected to be in decimals from the API
+  WinPer?:number
+  }
+
+  const teamList: ITeam[] = [
+    {
+      TeamID: 1,
+      TeamName: 'Bob',
+      WinPer: 0.97574643,
+    },
+    {
+      TeamID: 2,
+      TeamName: 'Greg',
+      WinPer: 0.1737222234,
+    },
+    {
+      TeamID: 99,
+      TeamName: 'Hi',
+      WinPer: 0.5,
+    },
+    {
+      TeamID: 4,
+      TeamName: 'Jeff',
+      WinPer: 0.5,
+    },
+    {
+      TeamID: 5,
+      TeamName: 'James',
+      WinPer: 0.58,
+    }
+  ]
+
+  return teamList
+
+  
+
+
+
+//----------------------------- API call replaces the code below --------------------//
+  // const res = await axios.get(`${url}/team/get-all`)
+  //   .catch((err) => {
+  //   throw err
+  //   })
+  
+  // return res
+}
+
+
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { get, RemoveTeam, CreateTeam };
+export default { get, RemoveTeam, CreateTeam, GetAllTeams };
