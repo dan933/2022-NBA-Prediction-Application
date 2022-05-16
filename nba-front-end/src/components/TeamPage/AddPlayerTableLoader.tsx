@@ -54,7 +54,7 @@ const AddPlayerTableLoader: React.FC<any> = (props) => {
         {errorMessage!==""&&<h1 style={{color: 'red'}}>Oops! An Error Occured Please Try Again.</h1>}
   {/* if  isLoading is true, loading text will apear, if api is able to fetch player data and isLoading is false, then show filled player table*/}
         {isLoading ? (<h1>Hold on, fetching data may take some time :)</h1>) : (<TableLoading playerList={appState.playerList} teamID={teamID} 
-        tableIsUpdated={props.tableIsUpdated}
+        tableIsUpdated={props.tableIsUpdated} teamPlayersList={props.teamPlayersList}
         />)}
       </div>
     </React.Fragment>

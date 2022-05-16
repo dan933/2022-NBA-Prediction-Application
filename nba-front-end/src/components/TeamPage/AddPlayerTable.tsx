@@ -21,7 +21,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
       renderCell: (params: any) =>
       (
           <AddPlayerButton
-              disabled={false}
+              disabled={checkIsNotAddable(params.row.PlayerID,props.teamPlayersList,teamID)}
               handleAddPlayer={ () => addPlayerTeam([params.row.PlayerID])}
           />
       )
@@ -71,11 +71,22 @@ const AddPlayerTable: React.FC<any> = (props) => {
     ],
   });
 
+  const checkIsNotAddable = (playerId:number, teamPlayerIds:number[], teamId:any) => {
+    if(teamID.length == 0){
+      return true;
+    }
+    if(teamPlayerIds.includes(playerId)){
+      return true;
+    }
+    return false;
+
+  };
+
   // when you type in the searchbar, update the value of the object
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
     // can't update anything else here because of how the hook works, use useEffect hook instead
-  }
+  };
 
   const [selectionModel, setSelectionModel] = React.useState<GridSelectionModel>([]);
 

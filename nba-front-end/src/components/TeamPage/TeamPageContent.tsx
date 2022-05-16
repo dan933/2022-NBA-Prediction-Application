@@ -38,6 +38,8 @@ const TeamPageContent: React.FC<any> = (props) => {
   const [selectionTeam, setSelectionTeam] = React.useState<GridSelectionModel>([]);
 
   const [teamList, setTeamList] = React.useState(props.teamList);
+  
+  const [teamPlayersList, setTeamPlayersList] = React.useState([]);
 
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -76,7 +78,8 @@ const TeamPageContent: React.FC<any> = (props) => {
             teamID={selectionTeam}
             isUpdated={isUpdated}
             setIsUpdated={setIsUpdated}
-            tableIsUpdated={tableIsUpdated} />
+            tableIsUpdated={tableIsUpdated}
+            setTeamPlayersList={setTeamPlayersList} />
         </Paper>
       </Grid>
 
@@ -92,6 +95,7 @@ const TeamPageContent: React.FC<any> = (props) => {
             tableIsUpdated={tableIsUpdated}
             isUpdated={isUpdated}
             setIsUpdated={setIsUpdated}
+            teamPlayersList={teamPlayersList}
           />
         </Paper>
       </Grid>
