@@ -17,6 +17,7 @@ public class NBAContext : DbContext
     public virtual DbSet<Player> tbl_Players { get; set; } = null!;
     public virtual DbSet<Team> tbl_Teams { get; set; } = null!;
     public virtual DbSet<PlayerSelectionView> view_Team { get; set; } = null!;
+    public virtual DbSet<WinChanceView> view_WinChance { get; set; } = null!;
 
     
     protected override void OnConfiguring(DbContextOptionsBuilder options)
@@ -110,6 +111,23 @@ public class NBAContext : DbContext
             entity.Property(e => e.TeamName).HasMaxLength(35);
 
 
+        });
+
+        //Win Chance View
+
+        modelBuilder.Entity<WinChanceView>(entity =>
+        {
+            entity.HasNoKey();
+
+            entity.ToView("view_WinChance");
+
+            entity.Property(e => e.TeamID).HasMaxLength(35);
+
+            entity.Property(e => e.TeamName).HasMaxLength(35);
+
+            entity.Property(e => e.WinChance).HasMaxLength(35);
+
+            
         });
 
     }
