@@ -73,7 +73,7 @@ INNER JOIN tbl_Teams as t ON t.TeamID = ps.TeamID;
 GO
 
 CREATE VIEW view_WinChance AS
-SELECT tbl_Teams.TeamID, tbl_Teams.TeamName, CONVERT(DECIMAL,SUM(tbl_Players.PreviousWins)) / CONVERT(DECIMAL,SUM(tbl_Players.PreviousWins + tbl_Players.PreviousLosses)) AS WinChance
+SELECT tbl_Teams.TeamID, tbl_Teams.TeamName, NULLIF(CONVERT(DECIMAL(5,4),(CONVERT(DECIMAL,SUM(tbl_Players.PreviousWins)) / CONVERT(DECIMAL,SUM(tbl_Players.PreviousWins + tbl_Players.PreviousLosses))))  ,0) AS WinChance
 FROM tbl_Players, tbl_PlayerSelection, tbl_Teams 
 WHERE tbl_Teams.TeamID = tbl_PlayerSelection.TeamID AND tbl_Players.PlayerID = tbl_PlayerSelection.PlayerID
 GROUP BY tbl_Teams.TeamID, tbl_Teams.TeamName
