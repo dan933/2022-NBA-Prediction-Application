@@ -28,14 +28,15 @@ public class TeamController : ControllerBase
     {
         try
         {
-            if (team.TeamName is string){
+            if (team.TeamName is string)
+            {
                 team.TeamName = team.TeamName.TrimStart();
-            } 
+            }
 
             if (team.TeamName == null || team.TeamName == "")
             {
                 var response = new Response<Team?>(team, false, "Team Name cannot be Null");
-                return StatusCode(409,response);
+                return StatusCode(409, response);
             }
 
             //Check that team doesn't already exist in the database
@@ -47,7 +48,7 @@ public class TeamController : ControllerBase
             if (isTeam != null)
             {
                 var response = new Response<Team?>(isTeam, false, "Team Already Exists");
-                return StatusCode(409,response);
+                return StatusCode(409, response);
             }
             else
             {
@@ -105,11 +106,14 @@ public class TeamController : ControllerBase
             .FindAsync(teamID);
 
             // If the team doesn't exist 
-            if(isTeam == null){
+            if (isTeam == null)
+            {
                 var response = new Response<PlayerSelectionView?>(null, false, "This Team does not exist");
 
-                return StatusCode(409,response);
-            }else{
+                return StatusCode(409, response);
+            }
+            else
+            {
 
                 var players = await _context.view_Team.Where(t => t.TeamID == teamID).ToListAsync();
 
@@ -124,7 +128,7 @@ public class TeamController : ControllerBase
 
             return StatusCode(500, ex.ToString());
         }
-        
+
     }
 
     /// <summary>
@@ -145,10 +149,11 @@ public class TeamController : ControllerBase
             .FindAsync(teamID);
 
             // If the team doesn't exist 
-            if(isTeam == null){
+            if (isTeam == null)
+            {
                 var response = new Response<Team?>(null, false, "This Team does not exist");
 
-                return StatusCode(409,response);
+                return StatusCode(409, response);
             }
 
             //Check to see that player exists
@@ -156,41 +161,45 @@ public class TeamController : ControllerBase
             .Where(t => playerIDList.Contains(t.PlayerID))
             .FirstOrDefaultAsync();
 
-            if(isPlayerExist == null){
+            if (isPlayerExist == null)
+            {
                 var response = new Response<Player?>(null, false, "Players in the list do not exist!!!");
 
-                return StatusCode(409,response);
+                return StatusCode(409, response);
             }
 
             //Check to see if any player is already on the team
             var PlayersOnTeam = await _context.view_Team
             .Where(t => t.TeamID == teamID)
             .Where(t => playerIDList.Contains(t.PlayerID))
-            .Select(c => new PlayerDetails(c.PlayerID, c.FirstName,c.LastName))
+            .Select(c => new PlayerDetails(c.PlayerID, c.FirstName, c.LastName))
             .FirstOrDefaultAsync();
 
             //If Player is Already on the team
-            if(PlayersOnTeam != null){
+            if (PlayersOnTeam != null)
+            {
                 var response = new Response<PlayerDetails>(PlayersOnTeam, false, "There are players that are already on the Team!!!");
 
-                return StatusCode(409,response);
-            }else{
+                return StatusCode(409, response);
+            }
+            else
+            {
 
                 //Add Players to team
                 playerIDList.ForEach(p =>
                 {
-                    var newPlayer = new PlayerSelection(p,teamID);
+                    var newPlayer = new PlayerSelection(p, teamID);
                     _context.tbl_PlayerSelection.AddAsync(newPlayer);
-                    
+
                 });
                 await _context.SaveChangesAsync();
 
-                var addedPlayers = (IEnumerable<PlayerDetails>) await _context.view_Team
+                var addedPlayers = (IEnumerable<PlayerDetails>)await _context.view_Team
                 .Where(pv => playerIDList.Contains(pv.PlayerID))
-                .Select(ps => new PlayerDetails(ps.PlayerID,ps.FirstName,ps.LastName))
+                .Select(ps => new PlayerDetails(ps.PlayerID, ps.FirstName, ps.LastName))
                 .ToListAsync();
 
-                var response = new Response<IEnumerable<PlayerDetails>>(addedPlayers, true, "Players successfully Added");                
+                var response = new Response<IEnumerable<PlayerDetails>>(addedPlayers, true, "Players successfully Added");
 
                 return Ok(response);
             }
@@ -215,10 +224,11 @@ public class TeamController : ControllerBase
             .FindAsync(teamID);
 
             // If the team doesn't exist 
-            if(isTeam == null){
+            if (isTeam == null)
+            {
                 response = new Response<List<int?>>(new List<int?>(), false, "This Team does not exist");
 
-                return StatusCode(409,response);
+                return StatusCode(409, response);
             }
 
             // check to see all players are on team
@@ -230,21 +240,23 @@ public class TeamController : ControllerBase
                 var PlayersOnTeam = await _context.view_Team
                 .Where(t => t.TeamID == teamID)
                 .Where(t => t.PlayerID == player)
-                .Select(c => new PlayerDetails(c.PlayerID, c.FirstName,c.LastName))
+                .Select(c => new PlayerDetails(c.PlayerID, c.FirstName, c.LastName))
                 .FirstOrDefaultAsync();
 
                 // if not on team, add to unmatched player list
-                if(PlayersOnTeam == null){
+                if (PlayersOnTeam == null)
+                {
                     unmatchedPlayers.Add(player);
                 }
 
             }
-            
+
             // if any players not on team
-            if(unmatchedPlayers.Count>0){
+            if (unmatchedPlayers.Count > 0)
+            {
                 response = new Response<List<int?>>(unmatchedPlayers, false, "Players not on team");
-                
-                return StatusCode(409,response);                
+
+                return StatusCode(409, response);
             }
 
             // if team exists and all players to delete are on team, do so
@@ -253,7 +265,7 @@ public class TeamController : ControllerBase
                     .Where(t => t.TeamID == teamID)
                     .Where(t => playerIDList.Contains(t.PlayerID))
             );
-                    
+
             await _context.SaveChangesAsync();
 
             // _context.tbl_PlayerSelection!.RemoveRange(players);
@@ -282,24 +294,25 @@ public class TeamController : ControllerBase
             .FindAsync(teamID);
 
             // If the team doesn't exist 
-            if(isTeam == null){
+            if (isTeam == null)
+            {
                 response = new Response<int>(0, false, "This Team does not exist");
 
-                return StatusCode(409,response);
+                return StatusCode(409, response);
             }
-         
-            
-        
+
+
+
             // if team exists and all players to delete are on team, do so
             _context.tbl_PlayerSelection.RemoveRange(
                 _context.tbl_PlayerSelection
-                    .Where(t => t.TeamID == teamID)                    
+                    .Where(t => t.TeamID == teamID)
             );
 
             _context.tbl_Teams.RemoveRange(
                _context.tbl_Teams
-               .Where(t => t.TeamID == teamID) 
-            );       
+               .Where(t => t.TeamID == teamID)
+            );
             await _context.SaveChangesAsync();
 
             // _context.tbl_PlayerSelection!.RemoveRange(players);
@@ -322,7 +335,7 @@ public class TeamController : ControllerBase
     public async Task<ActionResult<Response<List<WinChanceView?>>>> GetWinChance()
     {
         try
-        {                                         
+        {
             var teams = await _context.view_WinChance.ToListAsync();
 
             var response = new Response<List<WinChanceView>>(teams, true, "Team Successfully returned");
@@ -335,12 +348,12 @@ public class TeamController : ControllerBase
 
             return StatusCode(500, ex.ToString());
         }
-        
+
     }
 
     [HttpGet]
     [Route("{teamID:int}/{teamID2:int}/CompareWinChance")]
-    public async Task<ActionResult<Response<List<WinChanceView?>>>> GetWinChanceCompare()
+    public async Task<ActionResult<Response<List<WinChanceCompare?>>>> GetWinChanceCompare()
     {
         try
         {
@@ -356,39 +369,72 @@ public class TeamController : ControllerBase
             var isTeam2 = await _context.tbl_Teams
             .FindAsync(teamID2);
 
+
+            //creates a list for the selected teams
+            var teamMatchUpIdArray = new List<int> { teamID, teamID2 };
+
             // If the team doesn't exist 
-            if(isTeam == null){
+            if (isTeam == null)
+            {
                 var response = new Response<WinChanceView?>(null, false, "Team 1 does not exist");
 
-                return StatusCode(409,response);
+                return StatusCode(409, response);
             }
-            else if(isTeam2 ==null){
+            else if (isTeam2 == null)
+            {
                 var response = new Response<WinChanceView?>(null, false, "Team 2 does not exist");
 
-                return StatusCode(409,response);
+                return StatusCode(409, response);
             }
-            else{
+            else
+            {
+                var teamMatchUpObject = await _context.view_WinChance
+                .Where(t => teamMatchUpIdArray.Contains(t.TeamID)).ToListAsync();
 
-                var teamWinrate = await _context.view_WinChance.Where(t => t.TeamID == teamID).ToListAsync();
+                decimal team1WinRate = teamMatchUpObject[0].WinChance;
 
-                var team2Winrate =  await _context.view_WinChance.Where(t => t.TeamID == teamID2).ToListAsync();
+                decimal team2WinRate = teamMatchUpObject[1].WinChance ;
+
+                var teamMatchUpWinRates = new List<decimal> { team1WinRate, team2WinRate };
+
+                var winTeamProbability = teamMatchUpWinRates.Max() / (team1WinRate + team2WinRate);
+
+                string? winningTeam;
+
+                if (teamMatchUpObject[0].WinChance == teamMatchUpWinRates.Max())
+                {
+                    winningTeam = teamMatchUpObject[0].TeamName;
+                }
+                else
+                {
+                    winningTeam = teamMatchUpObject[1].TeamName;
+                }
+
+                Boolean isDraw;
+
+                if (team1WinRate==team2WinRate)
+                {
+                    isDraw = true;
+                }
+                else
+                {
+                    isDraw = false;
+                }
+
+                // var responseData = (winningTeam, winTeamProbability, isDraw);
+
+                // var response = new Response<List<WinChanceCompare>>(responseFormat, true, "Winning Team Details Successfully Returned");
 
 
-
-                var response = new Response<List<WinChanceView>>(teamWinrate, true, "Team 1 Successfully returned");
-
-                var response2 = new Response<List<WinChanceView>>(team2Winrate, true, "Team 2 Successfully returned");
-
-                return Ok(new {response, response2});
+                return Ok (new {winningTeam, winTeamProbability, isDraw});
             }
-
         }
         catch (Exception ex)
         {
 
             return StatusCode(500, ex.ToString());
         }
-        
+
     }
 
 }
