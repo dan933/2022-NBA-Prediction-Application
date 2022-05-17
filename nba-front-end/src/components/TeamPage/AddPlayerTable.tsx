@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import axios, { AxiosError } from 'axios';
 import Button from '@mui/material/Button';
+import { makeStyles } from "@material-ui/core/styles";
 // import { Player } from '../models/IPlayer';
 
 // Setting up the columns of the player table
@@ -18,6 +19,7 @@ const playerColumns: GridColDef[] = [
       headerName: 'Name',
       sortable: false,
       width: 160,
+      flex: 1,
       hide: true,
       valueGetter: (params: GridValueGetterParams) =>
         `${params.row.FirstName || ''} ${params.row.LastName || ''}`,
@@ -29,11 +31,11 @@ const playerColumns: GridColDef[] = [
         return `${valueFormatted} %`;
       }, 
     },
-    { field: 'Points', headerName: 'Points', width: 120 },
-    { field: 'Rebounds', headerName: 'Rebounds', width: 120 },
-    { field: 'Assists', headerName: 'Assists', width: 120 },
-    { field: 'Steals', headerName: 'Steals', width: 120 },
-    { field: 'Blocks', headerName: 'Blocks', width: 120 },
+    { field: 'Points', headerName: 'Points', width: 120, flex: 0.3 },
+    { field: 'Rebounds', headerName: 'Rebounds', width: 120, flex: 0.3 },
+    { field: 'Assists', headerName: 'Assists', width: 120, flex: 0.3 },
+    { field: 'Steals', headerName: 'Steals', width: 120, flex: 0.3 },
+    { field: 'Blocks', headerName: 'Blocks', width: 120, flex: 0.3 },
   ];
 
 const AddPlayerTable: React.FC<any> = (props) => {
@@ -132,6 +134,19 @@ const addPlayerTeam = () => {
   });
 
 };  
+  
+  const useStyles = makeStyles({
+    root: {
+      "&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus, &.MuiDataGrid-root .MuiDataGrid-cell:focus":
+        {
+          outline: "none",
+        },
+    },
+  });
+
+  const classes = useStyles();
+
+
 
   
 
@@ -171,6 +186,7 @@ const addPlayerTeam = () => {
           <Grid item xs={12}>
             <div style={{ height: '600px', width: '100%' }}>
               <DataGrid
+               className={classes.root}
               rows={playerList}
               getRowId={(row) => row.PlayerID}
               columns={playerColumns}

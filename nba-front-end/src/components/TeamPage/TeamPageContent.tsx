@@ -29,7 +29,7 @@ import api from "../../services/api";
 import TeamList from "./TeamList";
 import TeamPlayerTableLoader from "./TeamPlayerTableLoader";
 import AddPlayerTableLoader from "./AddPlayerTableLoader";
-
+import { makeStyles } from '@material-ui/core/styles';
 
 const TeamPageContent: React.FC<any> = (props) => {
 
@@ -50,6 +50,16 @@ const TeamPageContent: React.FC<any> = (props) => {
     //     setIsUpdated(true)
     //  }, [setIsUpdated]);
   };
+  const useStyles = makeStyles({
+    root: {
+        '&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus, &.MuiDataGrid-root .MuiDataGrid-cell:focus': {
+            outline: 'none',
+        },
+    }
+});
+
+
+const classes = useStyles();
 
   return (
     <Grid container spacing={2}>
@@ -69,11 +79,12 @@ const TeamPageContent: React.FC<any> = (props) => {
         <Paper
           sx={{ p: 2, height: '800px' }}
         >
-          <div style={{ display: 'flex', columnGap: '10px', marginBottom: '10px' }}>
+           <div style={{ display: 'flex', columnGap: '10px', marginBottom: '10px', flex: 1 }}>
             <h2 style={{ margin: 0 }}>Your Lineup</h2>
           </div>
           <TeamPlayerTableLoader
             teamID={selectionTeam}
+            className={classes.root}
             isUpdated={isUpdated}
             setIsUpdated={setIsUpdated}
             tableIsUpdated={tableIsUpdated} />
