@@ -337,8 +337,61 @@ public class TeamController : ControllerBase
         }
         
     }
-}
 
+    [HttpGet]
+    [Route("{teamID:int}/{teamID2:int}/CompareWinChance")]
+    public async Task<ActionResult<Response<List<WinChanceView?>>>> GetWinChanceCompare()
+    {
+        try
+        {
+            var teamID = Convert.ToInt32(RouteData.Values["teamID"]);
+
+            //check to see if team exists
+            var isTeam = await _context.tbl_Teams
+            .FindAsync(teamID);
+
+            var teamID2 = Convert.ToInt32(RouteData.Values["teamID2"]);
+
+            //check to see if second team exists
+            var isTeam2 = await _context.tbl_Teams
+            .FindAsync(teamID2);
+
+            // If the team doesn't exist 
+            if(isTeam == null){
+                var response = new Response<WinChanceView?>(null, false, "Team 1 does not exist");
+
+                return StatusCode(409,response);
+            }
+            else if(isTeam2 ==null){
+                var response = new Response<WinChanceView?>(null, false, "Team 2 does not exist");
+
+                return StatusCode(409,response);
+            }
+            else{
+
+                var teamWinrate = await _context.view_WinChance.Where(t => t.TeamID == teamID).ToListAsync();
+
+                var team2Winrate =  await _context.view_WinChance.Where(t => t.TeamID == teamID2).ToListAsync();
+
+
+
+                var response = new Response<List<WinChanceView>>(teamWinrate, true, "Team 1 Successfully returned");
+
+                var response2 = new Response<List<WinChanceView>>(team2Winrate, true, "Team 2 Successfully returned");
+
+                return Ok(new {response, response2});
+            }
+
+        }
+        catch (Exception ex)
+        {
+
+            return StatusCode(500, ex.ToString());
+        }
+        
+    }
+
+}
 
 
 
