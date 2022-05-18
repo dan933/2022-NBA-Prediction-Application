@@ -59,9 +59,7 @@ function PredictionPage() {
     let teamListResp:any = await api.GetAllTeams()
     .catch((err) => {
       throw err
-    })
-
-    console.log(teamListResp.data.Data[0])
+    })   
 
     setTeamList(teamListResp.data.Data)
 

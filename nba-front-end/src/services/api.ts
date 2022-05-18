@@ -39,57 +39,29 @@ const RemoveTeam = async (teamId?: number) => {
   return res
 };
 
-//------------------------------ Get Teams ------------------------------------//
+//---------------------------- API get teams for predictions page ------------------------//
 //todo look into observable api calls https://github.com/zhaosiyang/axios-observable
 const GetAllTeams = async () => {
-
-//---------------------------- Mock Data for predictions page ------------------------//
-interface ITeam {  
-  TeamID ?: number,
-  TeamName?: string
-  //win percentage data is expected to be in decimals from the API
-  WinChance?:number
-  }
 
   const res:any = await axios.get(`${url}/team/get-winrate`)
   .catch((err) => {
     throw err
   })
 
-  console.log(res)
-
   return res;
 
-  // const teamList: ITeam[] = [
-  //   {
-  //     TeamID: 1,
-  //     TeamName: 'Bob',
-  //     WinPer: 0.97574643,
-  //   },
-  //   {
-  //     TeamID: 2,
-  //     TeamName: 'Greg',
-  //     WinPer: 0.1737222234,
-  //   },
-  //   {
-  //     TeamID: 99,
-  //     TeamName: 'Hi',
-  //     WinPer: 0.5,
-  //   },
-  //   {
-  //     TeamID: 4,
-  //     TeamName: 'Jeff',
-  //     WinPer: 0.5,
-  //   },
-  //   {
-  //     TeamID: 5,
-  //     TeamName: 'James',
-  //     WinPer: 0.58,
-  //   }
-  // ]
 }
 
+//---------------------------- API Team Match Up for predictions page ------------------------//
+const GetTeamMatchUp = async (team1:number, team2:number) => {
+    const res:any = await axios.get(`${url}/team/${team1}/${team2}/get-winrate`)
+    .catch((err) => {
+      throw err
+    })
+    
+    return res;
 
+}
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { get, RemoveTeam, CreateTeam, GetAllTeams };
+export default { get, RemoveTeam, CreateTeam, GetAllTeams, GetTeamMatchUp };

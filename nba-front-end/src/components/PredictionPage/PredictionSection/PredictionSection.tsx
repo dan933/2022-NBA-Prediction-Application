@@ -6,9 +6,7 @@ import PredictionServices from '../../../services/PredictionServices/PredictionS
 //todo make models/predictionModels section
 import {ITeam} from '../../PredictionPage/PredictionPage'
 
-function PredictionSection(props: any) {
-
-  console.log(props);
+function PredictionSection(props: any) { 
 
   const calculatePrediction = () => {
 
