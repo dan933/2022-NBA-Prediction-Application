@@ -334,6 +334,7 @@ public class TeamController : ControllerBase
     [Route("get-winrate")]
     public async Task<ActionResult<Response<List<WinChanceView?>>>> GetWinChance()
     {
+        
         try
         {
             var teams = await _context.view_WinChance.ToListAsync();
@@ -388,13 +389,15 @@ public class TeamController : ControllerBase
             }
             else
             {
+                
+                
                 var teamMatchUpObject = await _context.view_WinChance
                 .Where(t => teamMatchUpIdArray.Contains(t.TeamID)).ToListAsync();
 
                 decimal team1WinRate = teamMatchUpObject[0].WinChance;
 
                 decimal team2WinRate = teamMatchUpObject[1].WinChance ;
-
+               
                 var teamMatchUpWinRates = new List<decimal> { team1WinRate, team2WinRate };
 
                 var winTeamProbability = teamMatchUpWinRates.Max() / (team1WinRate + team2WinRate);
