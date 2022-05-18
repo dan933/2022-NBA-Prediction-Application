@@ -41,57 +41,52 @@ const RemoveTeam = async (teamId?: number) => {
 
 //------------------------------ Get Teams ------------------------------------//
 //todo look into observable api calls https://github.com/zhaosiyang/axios-observable
-const GetAllTeams = /*async*/ () => {
+const GetAllTeams = async () => {
 
 //---------------------------- Mock Data for predictions page ------------------------//
 interface ITeam {  
   TeamID ?: number,
   TeamName?: string
   //win percentage data is expected to be in decimals from the API
-  WinPer?:number
+  WinChance?:number
   }
 
-  const teamList: ITeam[] = [
-    {
-      TeamID: 1,
-      TeamName: 'Bob',
-      WinPer: 0.97574643,
-    },
-    {
-      TeamID: 2,
-      TeamName: 'Greg',
-      WinPer: 0.1737222234,
-    },
-    {
-      TeamID: 99,
-      TeamName: 'Hi',
-      WinPer: 0.5,
-    },
-    {
-      TeamID: 4,
-      TeamName: 'Jeff',
-      WinPer: 0.5,
-    },
-    {
-      TeamID: 5,
-      TeamName: 'James',
-      WinPer: 0.58,
-    }
-  ]
+  const res:any = await axios.get(`${url}/team/get-winrate`)
+  .catch((err) => {
+    throw err
+  })
 
-  return teamList
+  console.log(res)
 
-  
+  return res;
 
-
-
-//----------------------------- API call replaces the code below --------------------//
-  // const res = await axios.get(`${url}/team/get-all`)
-  //   .catch((err) => {
-  //   throw err
-  //   })
-  
-  // return res
+  // const teamList: ITeam[] = [
+  //   {
+  //     TeamID: 1,
+  //     TeamName: 'Bob',
+  //     WinPer: 0.97574643,
+  //   },
+  //   {
+  //     TeamID: 2,
+  //     TeamName: 'Greg',
+  //     WinPer: 0.1737222234,
+  //   },
+  //   {
+  //     TeamID: 99,
+  //     TeamName: 'Hi',
+  //     WinPer: 0.5,
+  //   },
+  //   {
+  //     TeamID: 4,
+  //     TeamName: 'Jeff',
+  //     WinPer: 0.5,
+  //   },
+  //   {
+  //     TeamID: 5,
+  //     TeamName: 'James',
+  //     WinPer: 0.58,
+  //   }
+  // ]
 }
 
 

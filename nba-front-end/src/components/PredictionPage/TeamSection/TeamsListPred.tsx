@@ -7,13 +7,14 @@ function TeamsListPred(props: any) {
         { field: "TeamID", headerName: "ID", minWidth: 90, hide: true, flex:1 },
         { field: "TeamName", headerName: "Team Name", minWidth: 150, flex:1 },
         {
-          field: "WinPer",
+          field: "WinChance",
           headerName: "Win Percentage",          
           minWidth: 120,
           flex:1,
-          valueFormatter: (params) => {
+          valueFormatter:(params) => {
+            console.log(params)
             const valueFormatted = Number(
-              (params.value as number) * 100
+            (params.value as number) * 100
             ).toLocaleString();
             return `${valueFormatted} %`;
           },
