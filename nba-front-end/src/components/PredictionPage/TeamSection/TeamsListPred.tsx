@@ -8,8 +8,8 @@ function TeamsListPred(props: any) {
         { field: "TeamName", headerName: "Team Name", minWidth: 150, flex:1 },
         {
           field: "WinChance",
-          headerName: "Win Percentage",          
-          minWidth: 120,
+          headerName: "Predicted Win Percentage",          
+          minWidth: 180,
           flex:1,
           valueFormatter:(params) => {
             console.log(params)
