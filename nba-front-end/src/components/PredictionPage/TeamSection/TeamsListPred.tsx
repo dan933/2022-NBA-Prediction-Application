@@ -12,7 +12,6 @@ function TeamsListPred(props: any) {
           minWidth: 180,
           flex:1,
           valueFormatter:(params) => {
-            console.log(params)
             const valueFormatted = Number(
             (params.value as number) * 100
             ).toLocaleString();

@@ -120,7 +120,7 @@ return (
     </TabPanel>
     <TabPanel value={value} index={1}>
       <PredictionSection
-        selectedTeams={selectedTeams}
+        selectedTeamsId={selectedTeamsId}
         navigateToMatchUps={navigateToMatchUps}
     />
       </TabPanel>
