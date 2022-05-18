@@ -54,7 +54,7 @@ const GetAllTeams = async () => {
 
 //---------------------------- API Team Match Up for predictions page ------------------------//
 const GetTeamMatchUp = async (team1:number, team2:number) => {
-    const res:any = await axios.get(`${url}/team/${team1}/${team2}/get-winrate`)
+    const res:any = await axios.get(`${url}/team/${team1}/${team2}/CompareWinChance`)
     .catch((err) => {
       throw err
     })

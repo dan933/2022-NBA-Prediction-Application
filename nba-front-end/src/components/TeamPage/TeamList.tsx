@@ -118,7 +118,7 @@ const TeamList: React.FC<any> = (props) => {
                             onSelectionModelChange={(newSelectionModel) => {
                                 props.setSelectionModel(newSelectionModel);
                             }}
-                            selectionModel={props.selectionModel}
+                            selectionModel={props.selectionModel}                            
                         />
                     </div>
                 </Grid>                

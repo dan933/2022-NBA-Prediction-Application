@@ -1,5 +1,4 @@
 import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid';
-import './TeamSection.css';
 
 function TeamsListPred(props: any) {
     //-------------------- Column Headers ----------------------------//
@@ -25,6 +24,8 @@ function TeamsListPred(props: any) {
 // todo The Below functions should go into a predictionServices file eventually
   
   const GetSelectedTeamsId = (id: number[]) => {
+    console.log(id.slice(0, 2))
+    if(id.length > 2){id = id.slice(0,2)}
     props.setSelectedTeamsId(id)    
     return id
   }
@@ -43,13 +44,14 @@ function TeamsListPred(props: any) {
     <>
       {(!props.IsLoading && props.teamList) &&
         <DataGrid
+        className='prediction-list'
           autoHeight
           rows={props.teamList}
           getRowId={(row) => row.TeamID}
           columns={teamsColumns}
           disableColumnSelector={true}
-          pageSize={4}
-          rowsPerPageOptions={[4]}
+          pageSize={8}
+          rowsPerPageOptions={[8]}
           onSelectionModelChange={(id) => {
           GetSelectedTeamsId(id as number[])
           }}
