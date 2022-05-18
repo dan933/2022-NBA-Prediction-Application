@@ -12,6 +12,8 @@ public class WinChanceCompare
 
     [JsonPropertyName("WinningTeam")]
     public string? WinningTeam { get; set; }
+    [JsonPropertyName("LosingTeam")]
+    public string? LosingTeam { get; set; }
     [JsonPropertyName("WinTeamProbability")]
     public decimal WinTeamProbability { get; set; }
     [JsonPropertyName("IsDraw")]

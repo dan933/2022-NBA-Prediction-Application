@@ -403,7 +403,6 @@ public class TeamController : ControllerBase
                 var winTeamProbability = teamMatchUpWinRates.Max() / (team1WinRate + team2WinRate);
 
                 string? winningTeam;
-
                 if (teamMatchUpObject[0].WinChance == teamMatchUpWinRates.Max())
                 {
                     winningTeam = teamMatchUpObject[0].TeamName;
@@ -413,8 +412,19 @@ public class TeamController : ControllerBase
                     winningTeam = teamMatchUpObject[1].TeamName;
                 }
 
-                Boolean isDraw;
 
+                string? losingTeam;
+                if (teamMatchUpObject[0].WinChance != teamMatchUpWinRates.Max())
+                {
+                    losingTeam = teamMatchUpObject[0].TeamName;
+                }
+                else
+                {
+                    losingTeam = teamMatchUpObject[1].TeamName;
+                }
+
+
+                Boolean isDraw;
                 if (team1WinRate==team2WinRate)
                 {
                     isDraw = true;
@@ -429,7 +439,7 @@ public class TeamController : ControllerBase
                 // var response = new Response<List<WinChanceCompare>>(responseData, true, "Winning Team Details Successfully Returned");
 
 
-                return Ok (new {winningTeam, winTeamProbability, isDraw});
+                return Ok (new {winningTeam, losingTeam, winTeamProbability, isDraw});
             }
         }
         catch (Exception ex)
