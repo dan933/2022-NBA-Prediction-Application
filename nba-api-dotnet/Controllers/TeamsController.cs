@@ -423,7 +423,7 @@ public class TeamController : ControllerBase
 
                 // var responseData = (winningTeam, winTeamProbability, isDraw);
 
-                // var response = new Response<List<WinChanceCompare>>(responseFormat, true, "Winning Team Details Successfully Returned");
+                // var response = new Response<List<WinChanceCompare>>(responseData, true, "Winning Team Details Successfully Returned");
 
 
                 return Ok (new {winningTeam, winTeamProbability, isDraw});
