@@ -77,7 +77,7 @@ INNER JOIN tbl_Teams as t ON t.TeamID = ps.TeamID;
 GO
 
 CREATE VIEW view_WinChance AS
-SELECT tt.*, CONVERT(DECIMAL(5,4),(CONVERT(DECIMAL,SUM(tp.PreviousWins)) / NULLIF(CONVERT(DECIMAL,SUM(tp.PreviousWins + tp.PreviousLosses)),0))) AS WinChance
+SELECT tt.*, ISNULL(CONVERT(DECIMAL(5,4),(CONVERT(DECIMAL,SUM(tp.PreviousWins)) / NULLIF(CONVERT(DECIMAL,SUM(tp.PreviousWins + tp.PreviousLosses)),0))),0) AS WinChance
 FROM tbl_Teams AS tt
 LEFT JOIN tbl_PlayerSelection AS tps ON tt.TeamID = tps.TeamID
 LEFT JOIN tbl_Players AS tp ON tp.PlayerID = tps.PlayerID
