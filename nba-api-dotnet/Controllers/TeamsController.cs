@@ -400,7 +400,16 @@ public class TeamController : ControllerBase
                
                 var teamMatchUpWinRates = new List<decimal> { team1WinRate, team2WinRate };
 
-                var winTeamProbability = teamMatchUpWinRates.Max() / (team1WinRate + team2WinRate);
+                decimal winTeamProbability;  
+                if(teamMatchUpObject[0].WinChance == teamMatchUpObject[1].WinChance)
+                {
+                    winTeamProbability = 0;
+                }
+                else
+                {
+                    winTeamProbability = teamMatchUpWinRates.Max() / (team1WinRate + team2WinRate);
+                }
+
 
                 string? winningTeam;
                 if (teamMatchUpObject[0].WinChance == teamMatchUpWinRates.Max())
