@@ -65,14 +65,14 @@ if(builder.Environment.IsDevelopment()){
 
     builder.Services.AddDbContext<NBAContext>(options =>
     {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("AzureDatabase"));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("AzureStagingDatabase"));
     });
 
 }else{
 
     builder.Services.AddDbContext<NBAContext>(options =>
     {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("AzureStagingDatabase"));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("AzureDatabase"));
     });
 }
 
