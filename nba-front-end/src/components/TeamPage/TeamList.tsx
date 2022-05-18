@@ -48,18 +48,18 @@ const TeamList: React.FC<any> = (props) => {
                     handleopenRemoveTeamPopUp={handleopenRemoveTeamPopUp}
                 />
             )
+        },
+        {
+          field: "TeamWinPercentage",
+          headerName: "Win Percentage",
+          width: 150,
+          valueFormatter: (params) => {
+            const valueFormatted = Number(
+              (params.value as number) * 100
+            ).toLocaleString();
+            return `${valueFormatted} %`;
+          },
         }
-        // {
-        //   field: "TeamWinPercentage",
-        //   headerName: "Win Percentage",
-        //   width: 150,
-        //   valueFormatter: (params) => {
-        //     const valueFormatted = Number(
-        //       (params.value as number) * 100
-        //     ).toLocaleString();
-        //     return `${valueFormatted} %`;
-        //   },
-        // },
     ];
 
     const [open, setOpen] = React.useState(false);
@@ -70,9 +70,9 @@ const TeamList: React.FC<any> = (props) => {
 
     const [newTeamID, setNewTeamID] = React.useState("");
 
+
     useEffect(() => {
         props.setSelectionModel(newTeamID);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[newTeamID]);
     
 
@@ -106,7 +106,7 @@ const TeamList: React.FC<any> = (props) => {
                     </Button>
                 </Grid>
                 <Grid item xs={12}>
-                    <div style={{ width: '100%' }}>
+                    <div style={{ height: '600px', width: '100%'}}>
                         <DataGrid
                             autoHeight
                             rows={props.teamList}
