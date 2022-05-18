@@ -2,7 +2,7 @@
 -- Team WEST FTW
 -- CREATE DATABASE NBA
 -- -- Used a Local DBS to test data but this is flavour text ^
--- use nba
+use nba
 GO
 DROP VIEW IF EXISTS view_WinChance;
 GO
