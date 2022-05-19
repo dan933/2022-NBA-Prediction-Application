@@ -39,10 +39,20 @@ CREATE TABLE tbl_Players (
 
 GO
 
+CREATE TABLE tbl_User (
+    UserID INT,
+    /* This type will need to be changed later */
+    UserIdentifier NVARCHAR(35)    
+PRIMARY KEY (UserID)
+);
+
+GO
+
 CREATE TABLE tbl_Teams (
     TeamID INT IDENTITY(1,1) PRIMARY KEY,
     TeamName NVARCHAR(35),
-    CONSTRAINT AK_TeamName UNIQUE(TeamName)
+    UserIdentifier NVARCHAR(35) FOREIGN KEY REFERENCES tbl_User,
+    CONSTRAINT AK_TeamName UNIQUE(TeamName, UserIdentifier)
 );
 
 GO
@@ -53,18 +63,6 @@ CREATE TABLE tbl_PlayerSelection (
 	TeamID INT FOREIGN KEY REFERENCES tbl_Teams
     CONSTRAINT AK_PlayerSelection UNIQUE(PlayerID,TeamID)
 )
-
-
---todo create view to combine player selection and player table, aggregating / grouping relevant data 
-
-
-CREATE TABLE tbl_User (
-    UserID INT
-,   Username    NVARCHAR(35)
-,   Password    NVARCHAR(35)
-,   Email   NVARCHAR(35)
-PRIMARY KEY (UserID)
-);
 
 GO
 
@@ -82,6 +80,7 @@ FROM tbl_Teams AS tt
 LEFT JOIN tbl_PlayerSelection AS tps ON tt.TeamID = tps.TeamID
 LEFT JOIN tbl_Players AS tp ON tp.PlayerID = tps.PlayerID
 GROUP BY tps.TeamID, tt.TeamID, tt.TeamName;
+
 GO
 
 INSERT INTO tbl_Players(PlayerID,FirstName,LastName,Wins,Losses,PreviousWins,PreviousLosses,PlayerWinPercent,Points,Rebounds,Assists,Steals,Blocks,MissedFieldGoals,MissedFreeThrows,TurnOvers) VALUES (203932,'Aaron','Gordon',44,28,29,21,0.611,1062,413,181,43,41,383,56,126);
@@ -686,9 +685,9 @@ INSERT INTO tbl_Players(PlayerID,FirstName,LastName,Wins,Losses,PreviousWins,Pre
 GO 
 
 INSERT INTO [dbo].[tbl_Teams]
-           ([TeamName])
+           ([TeamName], [UserIdentifier])
      VALUES
-           ('Bob''s team')
+           ('Bob''s team','12341dfha')
 
 GO
 
