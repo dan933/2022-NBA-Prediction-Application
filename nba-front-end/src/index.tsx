@@ -15,11 +15,16 @@ const auth0Object: Iauth0Object = {
   clientId:process.env.REACT_APP_AUTH0_CLIENT_ID!
 }
 
+const domain = "dev-8ba7t05q.au.auth0.com";
+const scope="read:current_user"
+
 ReactDOM.render(
   <Auth0Provider
-      domain={auth0Object.domain}
-      clientId={auth0Object.clientId}
-      redirectUri={window.location.origin}
+    domain={auth0Object.domain}
+    clientId={auth0Object.clientId}
+    redirectUri={window.location.origin}
+    audience={`https://${domain}/api/v2/`}
+    scope={scope}
   >
     <BrowserRouter>
       <App />
