@@ -73,20 +73,20 @@ builder.Services.AddSwaggerGen(options =>
 if(builder.Environment.IsDevelopment()){
     builder.Services.AddDbContext<NBAContext>(options =>
     {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DanDesktopDB"));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DanLaptopDB"));
     });
 }else if(builder.Environment.IsStaging()){
 
     builder.Services.AddDbContext<NBAContext>(options =>
     {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("AzureDatabase"));
+        options.UseSqlServer(builder.Configuration["AzureStagingDatabase"]);
     });
 
 }else{
 
     builder.Services.AddDbContext<NBAContext>(options =>
     {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("AzureStagingDatabase"));
+        options.UseSqlServer(builder.Configuration["AzureDatabase"]);
     });
 }
 
