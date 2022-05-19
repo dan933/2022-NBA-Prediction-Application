@@ -38,6 +38,16 @@ const RemoveTeam = async (teamId?: number) => {
   return res
 };
 
+//--------------------------- Remove Player API call -----------------------------//
+const RemovePlayer = async (teamId?: number, playersToRemove?:number[]) => {
+  
+  const res = await axios.delete(`${url}/team/${teamId}/removePlayers`, {data: playersToRemove}).catch((err) => {
+    throw err
+  })
+  
+  return res
+};
+
 //------------------------------ Get Teams ------------------------------------//
 // todo
 // const GetTeams = async () => {
@@ -49,4 +59,4 @@ const RemoveTeam = async (teamId?: number) => {
 // }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { get, RemoveTeam, CreateTeam };
+export default { get, RemoveTeam, CreateTeam, RemovePlayer };
