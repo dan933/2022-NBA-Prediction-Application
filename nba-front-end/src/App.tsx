@@ -15,6 +15,7 @@ function App() {
     user,
     isAuthenticated,
     isLoading,
+    getAccessTokenSilently, 
     loginWithRedirect
   } = useAuth0();
   
