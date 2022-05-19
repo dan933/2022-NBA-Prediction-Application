@@ -1,55 +1,45 @@
 import { Button, Paper } from '@mui/material'
 import './PredictionSectionStyles.css';
-import React, { useEffect, useState } from 'react'
-import PredictionServices from '../../../services/PredictionServices/PredictionServices';
+import React, { useEffect, useState } from 'react';
+import GetTeamMatchUp from '../../../services/api';
 
 //todo make models/predictionModels section
 import {ITeam} from '../../PredictionPage/PredictionPage'
+import api from '../../../services/api';
 
 function PredictionSection(props: any) {
 
-  interface IPredictionResult {
-    teams: ITeam[],
-    winner: string,
-    loser: string,
-    edge: string,
-    IsDraw: boolean,    
+  interface ITeamMatchUp{
+    winningTeam?: string,
+    losingTeam?: string,
+    winTeamProbability: number,
+    isDraw?:boolean
   }
 
-  const [predictionResult, setPredictionResult] = useState<IPredictionResult>({
-    teams: [],
-    winner: "",
-    loser:"",
-    edge: "",
-    IsDraw:false
-  })
+  const [teamMatchUp, setTeamMatchUp] = useState<ITeamMatchUp>()
 
-  const calculatePrediction = () => {
-
-    if (props.selectedTeams.length === 2) {
-      
-      const teamMatchUp = PredictionServices.calculatePrediction(props.selectedTeams)
-
-      setPredictionResult(teamMatchUp as IPredictionResult)
+  const calculatePrediction = async () => {
+    if (props.selectedTeamsId.length === 2) {
+      const res = await api.GetTeamMatchUp(props.selectedTeamsId[0], props.selectedTeamsId[1])
+      setTeamMatchUp(res.data)
     }
     
   }
   useEffect(() => {
-    calculatePrediction()
-    
+    if (props.selectedTeamsId.length === 2) {
+      calculatePrediction()
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.selectedTeams])
+  }, [props.selectedTeamsId])
 
 
   const createMatchUpResultHtml = () => {
-    
-    let winnerColour = predictionResult.winner === predictionResult.teams[0].TeamName ? 'blue' : 'red'
-    let loserColour = winnerColour === 'blue' ? 'red':'blue'
+    let WinChance: number = teamMatchUp?.winTeamProbability !== undefined ? teamMatchUp?.winTeamProbability * 100 : 0;
 
     return (
       <>        
-        <h1><span className='blue'>{predictionResult.teams[0].TeamName}</span> VS <span className='red'>{predictionResult.teams[1].TeamName}</span></h1>
-        <h1><span className={winnerColour}>{predictionResult.winner}</span> has a {predictionResult.edge} chance of  winning against <span className={loserColour}>{predictionResult.loser}</span></h1>
+        <h1><span className='blue'>{teamMatchUp?.winningTeam}</span> VS <span className='red'>{teamMatchUp?.losingTeam}</span></h1>
+        <h1><span className='blue'>{teamMatchUp?.winningTeam}</span> is predicted to have a {WinChance.toLocaleString()} % chance of  winning against <span className='red'>{teamMatchUp?.losingTeam}</span></h1>
       </>
     )            
   }
@@ -63,9 +53,9 @@ function PredictionSection(props: any) {
                 height: 'auto'                
             }}
             >
-        {props.selectedTeams.length !== 2 && <h1>Please Select Two Teams</h1>}  
-        {(predictionResult.teams.length === 2 && !predictionResult.IsDraw) && createMatchUpResultHtml()}        
-        {(predictionResult.teams.length === 2 && predictionResult.IsDraw) && <h1>{predictionResult.teams[0].TeamName} and {predictionResult.teams[1].TeamName} are evenly matched</h1>}
+        {props.selectedTeamsId.length !== 2 && <h1>Please Select Two Teams</h1>}  
+        {(teamMatchUp && !teamMatchUp.isDraw) && createMatchUpResultHtml()}
+        {(teamMatchUp && teamMatchUp.isDraw) && <h1>{teamMatchUp?.winningTeam} and {teamMatchUp?.losingTeam} are evenly matched</h1>}
         <Button
           variant="contained"
           onClick={props.navigateToMatchUps}

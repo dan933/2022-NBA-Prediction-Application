@@ -28,16 +28,14 @@ public class NBAContext : DbContext
 
         if(IsDevelopment){
             // connect to sql server with connection string from app settings
-            options.UseSqlServer(Configuration.GetConnectionString("RikiLaptopDB"));
+            options.UseSqlServer(Configuration.GetConnectionString("DanDesktopDB"));
         }else if(IsStaging){
              options.UseSqlServer(Configuration.GetConnectionString("AzureStagingDatabase"));
         }else
         {
             // connect to sql server with connection string from app settings
             options.UseSqlServer(Configuration.GetConnectionString("AzureDatabase"));
-        }
-
-        
+        }        
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

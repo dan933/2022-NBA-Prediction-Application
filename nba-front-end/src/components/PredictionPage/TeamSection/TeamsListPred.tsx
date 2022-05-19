@@ -1,5 +1,4 @@
 import { DataGrid, GridColDef, GridRowParams } from '@mui/x-data-grid';
-import './TeamSection.css';
 
 function TeamsListPred(props: any) {
     //-------------------- Column Headers ----------------------------//
@@ -7,13 +6,13 @@ function TeamsListPred(props: any) {
         { field: "TeamID", headerName: "ID", minWidth: 90, hide: true, flex:1 },
         { field: "TeamName", headerName: "Team Name", minWidth: 150, flex:1 },
         {
-          field: "WinPer",
-          headerName: "Win Percentage",          
-          minWidth: 120,
+          field: "WinChance",
+          headerName: "Predicted Win Percentage",          
+          minWidth: 180,
           flex:1,
-          valueFormatter: (params) => {
+          valueFormatter:(params) => {
             const valueFormatted = Number(
-              (params.value as number) * 100
+            (params.value as number) * 100
             ).toLocaleString();
             return `${valueFormatted} %`;
           },
@@ -25,6 +24,8 @@ function TeamsListPred(props: any) {
 // todo The Below functions should go into a predictionServices file eventually
   
   const GetSelectedTeamsId = (id: number[]) => {
+    console.log(id.slice(0, 2))
+    if(id.length > 2){id = id.slice(0,2)}
     props.setSelectedTeamsId(id)    
     return id
   }
@@ -43,13 +44,14 @@ function TeamsListPred(props: any) {
     <>
       {(!props.IsLoading && props.teamList) &&
         <DataGrid
+        className='prediction-list'
           autoHeight
           rows={props.teamList}
           getRowId={(row) => row.TeamID}
           columns={teamsColumns}
           disableColumnSelector={true}
-          pageSize={4}
-          rowsPerPageOptions={[4]}
+          pageSize={8}
+          rowsPerPageOptions={[8]}
           onSelectionModelChange={(id) => {
           GetSelectedTeamsId(id as number[])
           }}
