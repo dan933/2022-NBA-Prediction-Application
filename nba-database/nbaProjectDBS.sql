@@ -64,7 +64,6 @@ CREATE TABLE tbl_PlayerSelection (
     CONSTRAINT AK_PlayerSelection UNIQUE(PlayerID,TeamID)
 )
 
-
 GO
 
 CREATE VIEW view_Team AS

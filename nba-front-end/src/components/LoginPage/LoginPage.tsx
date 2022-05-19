@@ -1,8 +1,9 @@
 import * as React from 'react';
+import LoginButton from './LoginButton';
 
 function LoginPage() {
   return (
-    <div>this is a placeholder</div>
+    <LoginButton/>
   );
 }
 
