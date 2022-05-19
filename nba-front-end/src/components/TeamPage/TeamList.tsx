@@ -65,7 +65,7 @@ const TeamList: React.FC<any> = (props) => {
                     handleopenRemoveTeamPopUp={handleopenRemoveTeamPopUp}
                 />
             )
-        }
+        },
     ];
 
     
@@ -77,6 +77,7 @@ const TeamList: React.FC<any> = (props) => {
     };
 
     const [newTeamID, setNewTeamID] = React.useState("");
+
 
     useEffect(() => {
         props.setSelectionModel(newTeamID);
@@ -165,6 +166,7 @@ const TeamList: React.FC<any> = (props) => {
                     </Button>
                 </Grid>
                 <Grid item xs={12}>
+
                     <div style={{ width: '100%' }}>
                         <DataGrid  
                             className={classes.root}
@@ -179,7 +181,7 @@ const TeamList: React.FC<any> = (props) => {
                             onSelectionModelChange={(newSelectionModel) => {
                                 props.setSelectionModel(newSelectionModel);
                             }}
-                            selectionModel={props.selectionModel}
+                            selectionModel={props.selectionModel}                            
                         />
                     </div>
                 </Grid>                

@@ -9,7 +9,7 @@ import PredictionSection from './PredictionSection/PredictionSection';
 export interface ITeam {
   TeamID ?: number,
   TeamName?: string,
-  WinPer?:number
+  WinChance?:number
 }
 
 //-------------------------------- Might be good to put this component in services so that other components can reuse it ??? ---------------------------------//
@@ -41,8 +41,6 @@ function TabPanel(props: TabPanelProps) {
 
 function PredictionPage() {
 
-
-
   const [teamList, setTeamList] = React.useState<ITeam[]>()
 
   const [IsLoading, setIsLoading] = React.useState<boolean>(true)
@@ -57,13 +55,28 @@ function PredictionPage() {
  
   const [selectedTeams, setSelectedTeams] = React.useState<ITeam[]>([])
 
+  const getAllTeams = async () => {
+    let teamListResp:any = await api.GetAllTeams()
+    .catch((err) => {
+      throw err
+    })   
+
+    setTeamList(teamListResp.data.Data)
+
+    return teamListResp;
+
+  }
+
   const getTeamMatchUp = () => {
     setSelectedTeams(teamList?.filter((x) => IsSelected(x.TeamID as number)) as ITeam[])    
   }
 
 //--------------------------- API Call get teams with win percentage ---------------------//  
   React.useEffect(() => {
-    setTeamList(api.GetAllTeams())    
+
+    getAllTeams()
+    
+      
     setIsLoading(false)    
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [IsLoading])
@@ -105,7 +118,7 @@ return (
     </TabPanel>
     <TabPanel value={value} index={1}>
       <PredictionSection
-        selectedTeams={selectedTeams}
+        selectedTeamsId={selectedTeamsId}
         navigateToMatchUps={navigateToMatchUps}
     />
       </TabPanel>
