@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import axios, { AxiosError } from 'axios';
 import Button from '@mui/material/Button';
-
+import { makeStyles } from '@material-ui/core/styles';
 // Setting up the columns of the player table
 const teamPlayerColumns: GridColDef[] = [
     { field: 'TeamID', headerName: 'Team ID', width: 90, hide: true },
@@ -30,11 +30,11 @@ const teamPlayerColumns: GridColDef[] = [
         return `${valueFormatted} %`;
       }, 
     },
-    { field: 'Points', headerName: 'Points', width: 120 },
-    { field: 'Rebounds', headerName: 'Rebounds', width: 120 },
-    { field: 'Assists', headerName: 'Assists', width: 120 },
-    { field: 'Steals', headerName: 'Steals', width: 120 },
-    { field: 'Blocks', headerName: 'Blocks', width: 120 },
+    { field: 'Points', headerName: 'Points', width: 120, flex: 0.3 },
+    { field: 'Rebounds', headerName: 'Rebounds', width: 120, flex: 0.3 },
+    { field: 'Assists', headerName: 'Assists', width: 120, flex: 0.3 },
+    { field: 'Steals', headerName: 'Steals', width: 120, flex: 0.3 },
+    { field: 'Blocks', headerName: 'Blocks', width: 120, flex: 0.3 },
   ];
 
 const TeamPlayerTable: React.FC<any> = (props) => {
@@ -103,9 +103,21 @@ const removePlayerTeam = () => {
       // }
   });
   
+  // refreshes team wr
 
 
 };
+
+const useStyles = makeStyles({
+  root: {
+      '&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus, &.MuiDataGrid-root .MuiDataGrid-cell:focus': {
+          outline: 'none',
+      },
+  }
+});
+
+
+const classes = useStyles();
 
   return (
     // white box around the table
@@ -132,6 +144,7 @@ const removePlayerTeam = () => {
             <div style={{ height: '600px', width: '100%'}}>
               <DataGrid
                 rows={teamPlayerList}
+                className={classes.root}
                 getRowId={(row) => row.PlayerID}
                 columns={teamPlayerColumns}
                 disableColumnSelector={true}

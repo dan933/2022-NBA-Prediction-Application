@@ -15,7 +15,6 @@ const url = axiosRequestConfiguration.baseURL
 interface ICreateTeamRequest {
   TeamName?:string
 }
-
 //---------------------------- Create Team API call ----------------------------//
 const CreateTeam = async (teamName?: string) => {
   const createTeamRequest: ICreateTeamRequest = { TeamName: teamName }
@@ -26,8 +25,6 @@ const CreateTeam = async (teamName?: string) => {
 
   return res
 }
-
-
 //--------------------------- Remove Team API call -----------------------------//
 const RemoveTeam = async (teamId?: number) => {
   
@@ -38,7 +35,16 @@ const RemoveTeam = async (teamId?: number) => {
   
   return res
 };
+//--------------------------- Get Winrate Team API call -----------------------------//
+const WinChance = async () => {
 
+  const res:any = await axios.get(`${url}/team/get-winrate`)
+  .catch((err) => {
+    throw err
+  })
+  
+  return res;
+}
 //---------------------------- API get teams for predictions page ------------------------//
 //todo look into observable api calls https://github.com/zhaosiyang/axios-observable
 const GetAllTeams = async () => {
@@ -49,9 +55,7 @@ const GetAllTeams = async () => {
   })
 
   return res;
-
 }
-
 //---------------------------- API Team Match Up for predictions page ------------------------//
 const GetTeamMatchUp = async (team1:number, team2:number) => {
     const res:any = await axios.get(`${url}/team/${team1}/${team2}/CompareWinChance`)
@@ -60,8 +64,8 @@ const GetTeamMatchUp = async (team1:number, team2:number) => {
     })
     
     return res;
-
 }
-
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { get, RemoveTeam, CreateTeam, GetAllTeams, GetTeamMatchUp };
+
+export default { get, RemoveTeam, CreateTeam, GetAllTeams, GetTeamMatchUp, WinChance };
+
