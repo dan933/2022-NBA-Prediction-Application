@@ -35,13 +35,14 @@ export const mainListItems = (
           <ListItemText primary="Team Creation" />
       </ListItemButton>
     </Link>
+    <Link style={linkStyle} to="/dashboard/Prediction">
     <ListItemButton>
       <ListItemIcon>
         <BarChartIcon />
       </ListItemIcon>
       <ListItemText primary="Predictions" />
     </ListItemButton>
-    
+  </Link>
   </React.Fragment>
 );
 

@@ -12,25 +12,56 @@ const get = <T>(url: string, queryParams?: object): Observable<T> => {
 
 const url = axiosRequestConfiguration.baseURL
 
-//--------------------------- Remove team api call -----------------------------//
-const RemoveTeam = async (teamId: number) => {
+interface ICreateTeamRequest {
+  TeamName?:string
+}
+
+//---------------------------- Create Team API call ----------------------------//
+const CreateTeam = async (teamName?: string) => {
+  const createTeamRequest: ICreateTeamRequest = { TeamName: teamName }
+  const res = await axios.post(`${url}/team/create-team`, createTeamRequest)
+  .catch((err) => {
+  throw err
+  })
+
+  return res
+}
+
+
+//--------------------------- Remove Team API call -----------------------------//
+const RemoveTeam = async (teamId?: number) => {
   
-  const res = await axios.delete(`${url}/team/${teamId}/removeTeams`).catch((err) => {
-    throw err
+  const res = await axios.delete(`${url}/team/${teamId}/removeTeams`)
+    .catch((err) => {
+      throw err
   })
   
   return res
 };
 
-//------------------------------ Get Teams ------------------------------------//
-// todo
-// const GetTeams = async () => {
-//   get('/team/get-all').subscribe(
-//     (resp:any) => {
-//         return resp
-//     })
+//---------------------------- API get teams for predictions page ------------------------//
+//todo look into observable api calls https://github.com/zhaosiyang/axios-observable
+const GetAllTeams = async () => {
 
-// }
+  const res:any = await axios.get(`${url}/team/get-winrate`)
+  .catch((err) => {
+    throw err
+  })
+
+  return res;
+
+}
+
+//---------------------------- API Team Match Up for predictions page ------------------------//
+const GetTeamMatchUp = async (team1:number, team2:number) => {
+    const res:any = await axios.get(`${url}/team/${team1}/${team2}/CompareWinChance`)
+    .catch((err) => {
+      throw err
+    })
+    
+    return res;
+
+}
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { get, RemoveTeam };
+export default { get, RemoveTeam, CreateTeam, GetAllTeams, GetTeamMatchUp };

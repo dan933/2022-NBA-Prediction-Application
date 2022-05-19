@@ -79,7 +79,6 @@ const PlayerDataGrid: React.FC<any> = (props) => {
           flexDirection: 'column',
           height: 'auto',
           maxWidth: 'auto'
-          
         }}
       >
         {/* formats the placement of the searchbar and table */}

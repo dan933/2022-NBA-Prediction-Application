@@ -2,14 +2,18 @@
 -- Team WEST FTW
 -- CREATE DATABASE NBA
 -- -- Used a Local DBS to test data but this is flavour text ^
--- use nba
-
-select * from tbl_Players
-
+use nba
+GO
+DROP VIEW IF EXISTS view_WinChance;
+GO
 DROP VIEW IF EXISTS view_Team;
+GO
 DROP TABLE IF EXISTS tbl_PlayerSelection;
+GO
 DROP TABLE IF EXISTS tbl_Teams;
+GO
 DROP TABLE IF EXISTS tbl_User;
+GO
 DROP TABLE IF EXISTS tbl_Players;
 
 GO
@@ -70,6 +74,14 @@ FROM tbl_Players as tp
 INNER JOIN tbl_PlayerSelection AS ps ON ps.PlayerID = tp.PlayerID
 INNER JOIN tbl_Teams as t ON t.TeamID = ps.TeamID;
 
+GO
+
+CREATE VIEW view_WinChance AS
+SELECT tt.*, ISNULL(CONVERT(DECIMAL(5,4),(CONVERT(DECIMAL,SUM(tp.PreviousWins)) / NULLIF(CONVERT(DECIMAL,SUM(tp.PreviousWins + tp.PreviousLosses)),0))),0) AS WinChance
+FROM tbl_Teams AS tt
+LEFT JOIN tbl_PlayerSelection AS tps ON tt.TeamID = tps.TeamID
+LEFT JOIN tbl_Players AS tp ON tp.PlayerID = tps.PlayerID
+GROUP BY tps.TeamID, tt.TeamID, tt.TeamName;
 GO
 
 INSERT INTO tbl_Players(PlayerID,FirstName,LastName,Wins,Losses,PreviousWins,PreviousLosses,PlayerWinPercent,Points,Rebounds,Assists,Steals,Blocks,MissedFieldGoals,MissedFreeThrows,TurnOvers) VALUES (203932,'Aaron','Gordon',44,28,29,21,0.611,1062,413,181,43,41,383,56,126);
