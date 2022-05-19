@@ -41,15 +41,16 @@ const RemoveTeam = async (teamId?: number) => {
 
 
 //--------------------------- Get Winrate Team API call -----------------------------//
-const WinChance = async (teamId?: number) => {
-  
-  const res = await axios.get(`${url}/team/${teamId}/get-winrate`)
-    .catch((err) => {
-      throw err
+const WinChance = async () => {
+
+  const res:any = await axios.get(`${url}/team/get-winrate`)
+  .catch((err) => {
+    throw err
   })
-  
-  return res
-};
+
+  return res;
+}
+
 
 //------------------------------ Get Teams ------------------------------------//
 //todo look into observable api calls https://github.com/zhaosiyang/axios-observable
