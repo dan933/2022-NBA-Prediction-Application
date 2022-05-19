@@ -47,9 +47,10 @@ const WinChance = async () => {
   .catch((err) => {
     throw err
   })
-
+  
   return res;
 }
+
 
 
 //------------------------------ Get Teams ------------------------------------//
@@ -94,17 +95,6 @@ interface ITeam {
 
   return teamList
 
-  
-
-
-
-//----------------------------- API call replaces the code below --------------------//
-  // const res = await axios.get(`${url}/team/get-all`)
-  //   .catch((err) => {
-  //   throw err
-  //   })
-  
-  // return res
 }
 
 

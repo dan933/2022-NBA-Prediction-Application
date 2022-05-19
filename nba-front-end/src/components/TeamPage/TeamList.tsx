@@ -18,14 +18,12 @@ import api from "../../services/api";
 import RemoveTeamPopUp from "./RemoveTeam/RemoveTeamPopUp";
 import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";
 import { makeStyles } from '@material-ui/core/styles';
-
-
-
-
+import WinChance from '../../services/api';
 
 const TeamList: React.FC<any> = (props) => {
 
     const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
+    
 
     const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
 
@@ -42,13 +40,15 @@ const TeamList: React.FC<any> = (props) => {
         {
             field: "WinChance",
             headerName: "Win Percentage",
-            width: 125,
-            flex:1,
+            width: 125, 
+            flex:1, 
+            
             valueFormatter: (params) => {
               const valueFormatted = Number(
                 (params.value as number) * 100
               ).toLocaleString();
               return `${valueFormatted} %`;
+              
             },
           },
           
@@ -68,6 +68,8 @@ const TeamList: React.FC<any> = (props) => {
         }
     ];
 
+    
+
     const [open, setOpen] = React.useState(false);
 
         const handleClickOpen = () => {
@@ -79,9 +81,27 @@ const TeamList: React.FC<any> = (props) => {
     useEffect(() => {
         props.setSelectionModel(newTeamID);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[newTeamID]);
-    
+    },[newTeamID]); 
+     
+    const getWinChance = async () => {
+      await api.WinChance()
+       .then((resp)=> {
+        if (resp.data.Success === true) {
+            props.setTeamList(resp.data.Data)
+        }
 
+       })
+        .catch((err) => {
+          throw err
+        })   
+      }   
+
+      useEffect(() => {
+
+       getWinChance ()
+            
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },)
 
     // on changes to open state api is run
     useEffect(() => {
@@ -105,11 +125,12 @@ const TeamList: React.FC<any> = (props) => {
     useEffect(() => {
         api.get('/team/get-all').subscribe(
             (resp) => {
-                props.setTeamList(resp)
+                props.setTeamList(resp)                     
             })
             
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open, openRemoveTeamPopUp])
+
 
     const useStyles = makeStyles({
         root: {
