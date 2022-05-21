@@ -1,5 +1,6 @@
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
+import LogedOutPlayersSection from './LogedOutPlayersSection';
 
 
 
@@ -13,7 +14,8 @@ function LoginPage() {
     <div>
       <Button variant="contained" sx={{'margin':2}}>
         <Link style={linkStyle} to="/dashboard/Players">Login</Link>        
-      </Button>      
+      </Button>
+      <LogedOutPlayersSection/>
     </div>
   );
 }
