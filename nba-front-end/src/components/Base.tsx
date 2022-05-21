@@ -3,12 +3,10 @@ import { Link, Outlet } from 'react-router-dom';
 import logo from '../logo.svg';
 import { ReactComponent as IconMenu } from '../images/top-nav-bar-img.svg'
 import { height } from '@mui/system';
-import GetTeams from './APItestAuth/GetTeams';
 
 function BasePage() {
   return (
-    <div>
-      <GetTeams/>
+    <div>      
       <div className='Background-Color'>
         <header className="App-header">
   {/* ----------------------- nba image for top nav bar --------------- */}
