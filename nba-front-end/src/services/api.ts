@@ -49,9 +49,13 @@ const RemoveTeam = async (token:string, teamId?: number) => {
 
 //---------------------------- API get teams for predictions page ------------------------//
 //todo look into observable api calls https://github.com/zhaosiyang/axios-observable
-const GetAllTeams = async () => {
+const GetAllTeams = async (token:string) => {
 
-  const res:any = await axios.get(`${url}/team/get-winrate`)
+  const res: any = await axios.get(`${url}/team/get-winrate`, {
+    headers: {
+      'Authorization':`Bearer ${token}`
+    }
+  })
   .catch((err) => {
     throw err
   })
@@ -61,8 +65,12 @@ const GetAllTeams = async () => {
 }
 
 //---------------------------- API Team Match Up for predictions page ------------------------//
-const GetTeamMatchUp = async (team1:number, team2:number) => {
-    const res:any = await axios.get(`${url}/team/${team1}/${team2}/CompareWinChance`)
+const GetTeamMatchUp = async (token:string, team1:number, team2:number) => {
+  const res: any = await axios.get(`${url}/team/${team1}/${team2}/CompareWinChance`, {
+    headers: {
+        'Authorization':`Bearer ${token}`
+      }
+    })
     .catch((err) => {
       throw err
     })
