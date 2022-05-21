@@ -1,0 +1,45 @@
+# Node.js with React
+# Build a Node.js project that uses React.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+name: Azure PipeLine FE
+
+pr: none
+trigger:
+  #batch: true
+  branches:
+    include:
+    - main 
+  paths:
+    include: 
+      - nba-front-end/*
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    CI=false
+    npm install
+    npm run build
+  displayName: 'npm install and build'
+  workingDirectory: ./nba-front-end
+
+# - task: ArchiveFiles@2
+#   inputs:
+#     rootFolderOrFile: './nba-front-end/build'
+#     includeRootFolder: false
+#     archiveType: 'zip'
+#     archiveFile: 'build.zip'
+#     replaceExistingArchive: true
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: './nba-front-end/build'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
