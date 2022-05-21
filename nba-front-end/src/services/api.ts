@@ -17,9 +17,13 @@ interface ICreateTeamRequest {
 }
 
 //---------------------------- Create Team API call ----------------------------//
-const CreateTeam = async (teamName?: string) => {
+const CreateTeam = async ( token:string, teamName?: string) => {
   const createTeamRequest: ICreateTeamRequest = { TeamName: teamName }
-  const res = await axios.post(`${url}/team/create-team`, createTeamRequest)
+  const res = await axios.post(`${url}/team/create-team`, createTeamRequest, {
+    headers: {
+      'Authorization':`Bearer ${token}`
+    }
+  })
   .catch((err) => {
   throw err
   })
@@ -29,9 +33,13 @@ const CreateTeam = async (teamName?: string) => {
 
 
 //--------------------------- Remove Team API call -----------------------------//
-const RemoveTeam = async (teamId?: number) => {
+const RemoveTeam = async (token:string, teamId?: number) => {
   
-  const res = await axios.delete(`${url}/team/${teamId}/removeTeams`)
+  const res = await axios.delete(`${url}/team/${teamId}/removeTeams`, {
+    headers: {
+      'Authorization':`Bearer ${token}`
+    }
+  })
     .catch((err) => {
       throw err
   })
@@ -41,9 +49,13 @@ const RemoveTeam = async (teamId?: number) => {
 
 //---------------------------- API get teams for predictions page ------------------------//
 //todo look into observable api calls https://github.com/zhaosiyang/axios-observable
-const GetAllTeams = async () => {
+const GetAllTeams = async (token:string) => {
 
-  const res:any = await axios.get(`${url}/team/get-winrate`)
+  const res: any = await axios.get(`${url}/team/get-winrate`, {
+    headers: {
+      'Authorization':`Bearer ${token}`
+    }
+  })
   .catch((err) => {
     throw err
   })
@@ -53,8 +65,12 @@ const GetAllTeams = async () => {
 }
 
 //---------------------------- API Team Match Up for predictions page ------------------------//
-const GetTeamMatchUp = async (team1:number, team2:number) => {
-    const res:any = await axios.get(`${url}/team/${team1}/${team2}/CompareWinChance`)
+const GetTeamMatchUp = async (token:string, team1:number, team2:number) => {
+  const res: any = await axios.get(`${url}/team/${team1}/${team2}/CompareWinChance`, {
+    headers: {
+        'Authorization':`Bearer ${token}`
+      }
+    })
     .catch((err) => {
       throw err
     })

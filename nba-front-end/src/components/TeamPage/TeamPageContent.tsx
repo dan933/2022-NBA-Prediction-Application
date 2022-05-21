@@ -81,7 +81,7 @@ const TeamPageContent: React.FC<any> = (props) => {
       </Grid>
 
       {/* formatting and adding of table that allows view/removal of players that are on selected team */}
-      {/* -------------------------- Team Players Section ----------------------------- */}
+      {/* --------------------------Your Lineup Section ----------------------------- */}
       <Grid
         item xs={12} sm={12} md={4} lg={4} xl
         display={{ xs: "none", lg: "block" }}

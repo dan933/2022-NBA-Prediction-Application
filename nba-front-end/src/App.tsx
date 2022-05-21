@@ -11,16 +11,15 @@ import LoginPage from './components/LoginPage/LoginPage';
 import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
-  const {
-    user,
+  const {    
     isAuthenticated,
-    isLoading,
+    isLoading,    
     loginWithRedirect
   } = useAuth0();
   
   return (
     <>
-      {(isLoading && !isAuthenticated) && (<h1>Please Wait Loading...</h1>)}
+      {(isLoading && !isAuthenticated) && (<>Page is loading</>)}
       {(!isLoading && isAuthenticated ) && 
         <div className="App">
           <RouteConfig />

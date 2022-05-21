@@ -11,6 +11,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import LogoutButton from './LoginPage/LogoutButton';
 
 const linkStyle = {
   textDecoration: "none",
@@ -42,7 +43,8 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Predictions" />
     </ListItemButton>
-  </Link>
+    </Link>
+    <LogoutButton/>
   </React.Fragment>
 );
 

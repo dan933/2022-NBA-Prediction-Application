@@ -11,7 +11,7 @@ function LogoutButton() {
           onClick={() => logout()}
       
       >
-          LogoutButton
+          Logout
       </Button>
   )
 }
