@@ -11,7 +11,7 @@ function DefaultPage() {
   return (
     <div>
       <Button variant="contained" sx={{'margin':2}}>
-        <Link style={linkStyle} to="/dashboard/Players">Launch Application</Link>
+        <Link style={linkStyle} to="/dashboard/Players">Login</Link>
       </Button>
     </div>
   );
