@@ -1,18 +1,20 @@
-import { Button } from '@mui/material'
-import React from 'react'
+import {ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 import { useAuth0 } from '@auth0/auth0-react'
+import LogoutIcon from '@mui/icons-material/Logout';
 
 function LogoutButton() {
     const { logout } = useAuth0();
-  return (
-      <Button
-          style={{ margin: '10px', padding: '10px' }}
-          variant="contained"
-          onClick={() => logout()}
-      
-      >
-          Logout
-      </Button>
+    return (
+        <>  
+        <ListItemButton onClick={() => logout()}>
+            <ListItemIcon>
+                <LogoutIcon />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+        </ListItemButton>
+        </>
+     
+   
   )
 }
 
