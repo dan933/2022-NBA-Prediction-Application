@@ -17,6 +17,7 @@ import { axiosRequestConfiguration } from "../../services/axios_config";
 import api from "../../services/api";
 import RemoveTeamPopUp from "./RemoveTeam/RemoveTeamPopUp";
 import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";
+import { useAuth0 } from "@auth0/auth0-react";
 
 
 
@@ -71,18 +72,39 @@ const TeamList: React.FC<any> = (props) => {
     const [newTeamID, setNewTeamID] = React.useState("");
 
 
+    const { getAccessTokenSilently } = useAuth0();
+
+
+
     useEffect(() => {
         props.setSelectionModel(newTeamID);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[newTeamID]);
     
+    const getAllTeams = async () => {
+
+        const token = await getAccessTokenSilently();
+
+        console.log(token)
+
+        api.get('/team/get-all', {
+            Headers: {
+                'Authorization':`Bearer ${token}`
+            }
+        }).subscribe(
+            (resp) => {
+                props.setTeamList(resp)
+            })
+        
+
+    }
 
 
     //when open changes API is run
     useEffect(() => {
-        api.get('/team/get-all').subscribe(
-            (resp) => {
-                props.setTeamList(resp)
-            })
+        
+        getAllTeams()
+        
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open, openRemoveTeamPopUp])
 
