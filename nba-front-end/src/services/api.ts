@@ -17,9 +17,13 @@ interface ICreateTeamRequest {
 }
 
 //---------------------------- Create Team API call ----------------------------//
-const CreateTeam = async (teamName?: string) => {
+const CreateTeam = async ( token:string, teamName?: string) => {
   const createTeamRequest: ICreateTeamRequest = { TeamName: teamName }
-  const res = await axios.post(`${url}/team/create-team`, createTeamRequest)
+  const res = await axios.post(`${url}/team/create-team`, createTeamRequest, {
+    headers: {
+      'Authorization':`Bearer ${token}`
+    }
+  })
   .catch((err) => {
   throw err
   })
