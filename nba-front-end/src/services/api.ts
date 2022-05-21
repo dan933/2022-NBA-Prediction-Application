@@ -33,9 +33,13 @@ const CreateTeam = async ( token:string, teamName?: string) => {
 
 
 //--------------------------- Remove Team API call -----------------------------//
-const RemoveTeam = async (teamId?: number) => {
+const RemoveTeam = async (token:string, teamId?: number) => {
   
-  const res = await axios.delete(`${url}/team/${teamId}/removeTeams`)
+  const res = await axios.delete(`${url}/team/${teamId}/removeTeams`, {
+    headers: {
+      'Authorization':`Bearer ${token}`
+    }
+  })
     .catch((err) => {
       throw err
   })
