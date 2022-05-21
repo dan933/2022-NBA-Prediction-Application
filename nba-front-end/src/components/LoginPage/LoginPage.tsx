@@ -1,9 +1,20 @@
-import * as React from 'react';
-import LoginButton from './LoginButton';
+import { Button } from '@mui/material';
+import { Link } from 'react-router-dom';
+
+
+
+const linkStyle = {
+  textDecoration: "none",
+  color: 'white'
+};
 
 function LoginPage() {
   return (
-    <LoginButton/>
+    <div>
+      <Button variant="contained" sx={{'margin':2}}>
+        <Link style={linkStyle} to="/dashboard/Players">Login</Link>        
+      </Button>      
+    </div>
   );
 }
 
