@@ -32,11 +32,10 @@ const playerColumns: GridColDef[] = [
     { field: 'Blocks', headerName: 'Blocks', minWidth: 120, flex:1 },
 ];
 
-function LogedOutPlayersSection() {
-
-    const [IsLoaded, setIsLoaded] = useState(false);
+function LogedOutPlayersSection() {   
     
     const [playerList, setPlayerList] = useState<Player[]>()
+    const [IsError, setIsError] = useState<boolean>(false)
 
     const getAllPlayers = () => {
         
@@ -45,20 +44,18 @@ function LogedOutPlayersSection() {
                 next: (players) => {
                     console.log(players)
                     setPlayerList(players as Player[]);
-                    setIsLoaded(true);
+                    setIsError(false)
                 },
-                error: (e) => {
-                    setIsLoaded(true);
-                    // this sets 'errorMessage' into the error that has occured
-                    //setErrorMessage(e);
-                }
-          
+                error: (e) => {                
+                    // this sets 'errorMessage' into the error that has occured                    
+                    setIsError(true)
+                }          
             })
     }
 
     useEffect(() => {
         getAllPlayers()
-    }, [setIsLoaded])
+    }, [setPlayerList])
     
     const renderPlayersTable = () => {
         if (playerList) {
@@ -74,8 +71,10 @@ function LogedOutPlayersSection() {
                 />
                 
             )
-        } else {
+        } else if(!IsError) {
             return(<h1>Loading Please Wait</h1>)
+        } else {
+            return(<h1 style={{color:'red'}}>Sorry the API is down</h1>)
         }
     }
     
