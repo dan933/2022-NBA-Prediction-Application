@@ -49,7 +49,7 @@ function CreateTeamPopUp(props:any) {
 
 
     return (
-        <Dialog id="createTeam" open={props.open} onClose={handleClose}>
+        <Dialog id="createTeam" open={props.open} onClose={handleClose} disableScrollLock={true}>
         <DialogTitle>Create a new team:</DialogTitle>
         <DialogContent>
             <DialogContentText>

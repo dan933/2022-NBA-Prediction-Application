@@ -41,7 +41,7 @@ export default function RemoveTeamPopUp(props: any) {
   
 
     return(
-        <Dialog id="RemoveTeam" open={props.openRemoveTeamPopUp}>
+        <Dialog id="RemoveTeam" open={props.openRemoveTeamPopUp} disableScrollLock={true}>
               {/* todo: need to add reference to team name */}
               <DialogTitle>Remove {teamObject?.TeamName}</DialogTitle>
               <DialogContent>
