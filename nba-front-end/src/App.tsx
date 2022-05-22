@@ -3,8 +3,7 @@ import './App.css';
 import RouteConfig from './routes/routes';
 
 
-function App() {  
-  console.log(window.location.origin)
+function App() {    
   return (
     <>
         <div className="App">

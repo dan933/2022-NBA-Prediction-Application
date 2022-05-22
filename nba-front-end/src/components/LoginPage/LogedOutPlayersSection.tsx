@@ -41,8 +41,7 @@ function LogedOutPlayersSection() {
         
         api.get('players/get-all')
             .subscribe({
-                next: (players) => {
-                    console.log(players)
+                next: (players) => {                    
                     setPlayerList(players as Player[]);
                     setIsError(false)
                 },
