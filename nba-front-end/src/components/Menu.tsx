@@ -21,6 +21,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { mainListItems } from './listItems';
 import { withAuthenticationRequired } from '@auth0/auth0-react';
+import UserInformation from './UserInformation/UserInformation';
 
 function Copyright(props: any) {
 // TODO: update link
@@ -111,6 +112,8 @@ function DashboardContent() {
               <ChevronLeftIcon />
             </IconButton>
           </Toolbar>
+          <Divider />
+            <UserInformation/>
           <Divider />
           <List component="nav">
             {mainListItems}
