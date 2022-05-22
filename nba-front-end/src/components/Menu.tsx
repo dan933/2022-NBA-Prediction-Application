@@ -113,7 +113,9 @@ function DashboardContent() {
             </IconButton>
           </Toolbar>
           <Divider />
+          <List>
             <UserInformation/>
+          </List>
           <Divider />
           <List component="nav">
             {mainListItems}
