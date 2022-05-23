@@ -8,7 +8,7 @@ import ListItemText from '@mui/material/ListItemText';
 import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import LayersIcon from '@mui/icons-material/Layers';
-import LogoutButton from './LoginPage/LogoutButton';
+import LogoutButton from './LogoutButton';
 
 const linkStyle = {
   textDecoration: "none",
