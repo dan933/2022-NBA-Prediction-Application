@@ -22,11 +22,9 @@ import { makeStyles } from '@material-ui/core/styles';
 const TeamList: React.FC<any> = (props) => {
 
     const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
-    
-    const [TeamList, setTeamList] = React.useState();
+
 
     const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
-
 
     //opens remove team popup
     const handleopenRemoveTeamPopUp = () => {
