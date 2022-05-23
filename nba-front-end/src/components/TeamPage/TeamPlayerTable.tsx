@@ -6,7 +6,9 @@ import { useEffect } from 'react';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import axios, { AxiosError } from 'axios';
 import Button from '@mui/material/Button';
+import api from "../../services/api";
 import { makeStyles } from '@material-ui/core/styles';
+import teamList from './TeamPageContent';
 // Setting up the columns of the player table
 const teamPlayerColumns: GridColDef[] = [
     { field: 'TeamID', headerName: 'Team ID', width: 90, hide: true },
@@ -47,6 +49,18 @@ const TeamPlayerTable: React.FC<any> = (props) => {
   // initialise the value for the searchbar
   const [search, setSearch] = React.useState('');
 
+  const getWinChance = async() => { api.GetAllTeams()
+    .then(function (response) {
+        if ( response.data.Success === true) {  
+          props.setTeamList(response.data.Data);
+      }
+  
+     })
+      .catch((err) => {
+        throw err
+      })   
+    }
+      
   // initialise the parameters that the table uses to filter values (when using the searchbar)
   const [filterModel, setFilterModel] = React.useState<GridFilterModel>({
     items: [
@@ -104,8 +118,6 @@ const removePlayerTeam = () => {
   });
   
   // refreshes team wr
-
-
 };
 
 const useStyles = makeStyles({
@@ -117,6 +129,14 @@ const useStyles = makeStyles({
 });
 
 
+    React.useEffect(() => {
+
+        getWinChance()
+
+         
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [null, removePlayerTeam])
+      
 const classes = useStyles();
 
   return (

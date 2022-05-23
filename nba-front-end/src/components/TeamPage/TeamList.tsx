@@ -11,21 +11,22 @@ import {
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveTeamButton from "./RemoveTeam/RemoveTeamButton"
-
+import TeamPageContentLoader from "./TeamPageContentLoader";
 import axios, { AxiosError } from 'axios';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import api from "../../services/api";
 import RemoveTeamPopUp from "./RemoveTeam/RemoveTeamPopUp";
 import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";
 import { makeStyles } from '@material-ui/core/styles';
-import WinChance from '../../services/api';
 
 const TeamList: React.FC<any> = (props) => {
 
     const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
     
+    const [TeamList, setTeamList] = React.useState();
 
     const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
+
 
     //opens remove team popup
     const handleopenRemoveTeamPopUp = () => {
@@ -68,7 +69,21 @@ const TeamList: React.FC<any> = (props) => {
         },
     ];
 
+    const getWinChance = async () => {
+        await api.GetAllTeams()
+        .then(function (response) {
+            if ( response.data.Success === true) {  
+              props.setTeamList(response.data.Data);
+              
+          }
+  
+         })
+          .catch((err) => {
+            throw err
+          })   
+          
     
+        }      
 
     const [open, setOpen] = React.useState(false);
 
@@ -77,36 +92,13 @@ const TeamList: React.FC<any> = (props) => {
     };
 
     const [newTeamID, setNewTeamID] = React.useState("");
-    
-    const [IsLoading, setIsLoading] = React.useState<boolean>(true)
 
+    
     useEffect(() => {
         props.setSelectionModel(newTeamID);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[newTeamID]); 
-     
-    const getWinChance = async () => {
-      await api.WinChance()
-       .then((resp)=> {
-        if (resp.data.Success === true) {
-            props.setTeamList(resp.data.Data)
-        }
-
-       })
-        .catch((err) => {
-          throw err
-        })   
-      }   
-
-     React.useEffect(() => {
-
-        getWinChance()
-    
-      
-    setIsLoading(false)    
-
-  }, [IsLoading])
-
+         
     // on changes to open state api is run
     useEffect(() => {
         api.get('/team/get-all').subscribe(
@@ -116,25 +108,16 @@ const TeamList: React.FC<any> = (props) => {
             
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open, openRemoveTeamPopUp])
-    useEffect(() => {
-        api.get('/team/get-all').subscribe(
-            (resp) => {
-                props.setTeamList(resp)
-            })
-            
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [open, openRemoveTeamPopUp])
 
 
-    useEffect(() => {
-        api.get('/team/get-all').subscribe(
-            (resp) => {
-                props.setTeamList(resp)                     
-            })
-            
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [open, openRemoveTeamPopUp])
+          React.useEffect(() => {
 
+            getWinChance()
+    
+             
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+          }, [])
+      
 
     const useStyles = makeStyles({
         root: {
@@ -147,7 +130,7 @@ const TeamList: React.FC<any> = (props) => {
  
     const classes = useStyles();
 
-               
+   
 
     return (
         <Paper
