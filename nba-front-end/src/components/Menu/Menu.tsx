@@ -20,6 +20,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 // import NotificationsIcon from '@mui/icons-material/Notifications';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { mainListItems } from './listItems';
+import { withAuthenticationRequired } from '@auth0/auth0-react';
 
 function Copyright(props: any) {
 // TODO: update link
@@ -172,6 +173,4 @@ function DashboardContent() {
   );
 }
 
-export default function Dashboard() {
-  return <DashboardContent />;
-}
+export default withAuthenticationRequired(DashboardContent, {onRedirecting:() => <h1>Loading Please Wait</h1>,})
