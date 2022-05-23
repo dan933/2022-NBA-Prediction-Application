@@ -64,6 +64,7 @@ const AppBar = styled(MuiAppBar, {
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     '& .MuiDrawer-paper': {
+      overflow:'hidden',
       position: 'relative',
       whiteSpace: 'nowrap',
       width: drawerWidth,
@@ -120,7 +121,6 @@ function DashboardContent() {
           <List component="nav">
             {mainListItems}
             <Divider sx={{ my: 1 }} />
-            
           </List>
         </Drawer>
         <AppBar open={open} position="absolute" sx={{top: 250}}>

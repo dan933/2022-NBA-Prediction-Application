@@ -30,7 +30,12 @@ function UserInformation() {
            aria-expanded={open ? 'true' : undefined}
            onClick={handleClick}
         >
-          <div className='blue-circle'><span>{user?.name && user.name.slice(0,2)}</span></div>
+          <div >
+              <div className='blue-circle'>{user?.name && user.email?.slice(0,2) }</div>
+          </div>
+          <div>
+            <div style={{textOverflow:'ellipsis'}} className='full-email'>{user?.email}</div>
+          </div>
         </Button>
         
       </ListItemButton>
