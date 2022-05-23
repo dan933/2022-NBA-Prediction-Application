@@ -3,10 +3,18 @@ import { defer, map, Observable } from 'rxjs';
 import { axiosRequestConfiguration } from './axios_config';
 import initialiseAxios from './axios_setup';
 
-const axiosInstance = initialiseAxios(axiosRequestConfiguration);
+const get = <T>(url: string, token?:string, queryParams?: object): Observable<T> => {
+  
+  const axiosConfig = axiosRequestConfiguration
 
-const get = <T>(url: string, queryParams?: object): Observable<T> => {
-  return defer(()=> axiosInstance.get<T>(url, { params: queryParams }))
+  axiosConfig.headers = {
+    ...axiosConfig.headers,
+    'Authorization':`Bearer ${token}`
+  }
+
+  const axiosInstance = initialiseAxios(axiosConfig);
+
+  return defer(()=> axiosInstance.get<T>(url))
       .pipe(map(result => result.data));
 };
 

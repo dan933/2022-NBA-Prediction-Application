@@ -41,11 +41,7 @@ function PlayerTableLoader() {
     setErrorMessage("");
     setAppState({ playerList: [] });
 
-    api.get('players/get-all', {
-      Headers: {
-        'Authorization':`Bearer ${token}`
-      }
-    }).subscribe({
+    api.get('players/get-all').subscribe({
       next: (players) => {
         setAppState({ playerList: players as Player[] });
         setLoading(false);

@@ -25,13 +25,7 @@ function TeamPageContentLoader() {
       const getAllTeams = async () => {
         const token = await getAccessTokenSilently();
 
-        api.get('/team/get-all',
-        {
-            Headers:
-            {
-              'Authorization':`Bearer ${token}`
-            }  
-        })
+        api.get('/team/get-all', token)
         .subscribe((resp) => {
             setAppState({ loading: false, teamList: resp as Team[] });
           });
