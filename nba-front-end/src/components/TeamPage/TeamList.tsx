@@ -77,7 +77,8 @@ const TeamList: React.FC<any> = (props) => {
     };
 
     const [newTeamID, setNewTeamID] = React.useState("");
-
+    
+    const [IsLoading, setIsLoading] = React.useState<boolean>(true)
 
     useEffect(() => {
         props.setSelectionModel(newTeamID);
@@ -97,12 +98,14 @@ const TeamList: React.FC<any> = (props) => {
         })   
       }   
 
-      useEffect(() => {
+     React.useEffect(() => {
 
-       getWinChance ()
-            
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    },)
+        getWinChance()
+    
+      
+    setIsLoading(false)    
+
+  }, [IsLoading])
 
     // on changes to open state api is run
     useEffect(() => {
