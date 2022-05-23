@@ -2,6 +2,7 @@ import { Button, ListItem, ListItemButton, ListItemIcon, ListItemText, Menu, Men
 import React from 'react'
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { useAuth0 } from '@auth0/auth0-react';
+import './UserInformation.css'
 
 function UserInformation() {
 
@@ -22,17 +23,14 @@ function UserInformation() {
         style={{padding:'0px'}}
       >
         <Button
-          style={{width:'100%', color:'black', marginLeft:'16px'}}  
+          style={{width:'100%', color:'black', display:'flex', justifyContent:'flex-start'}}  
            id="demo-positioned-button"
            aria-controls={open ? 'demo-positioned-menu' : undefined}
            aria-haspopup="true"
            aria-expanded={open ? 'true' : undefined}
            onClick={handleClick}
         >
-          <ListItemIcon>
-            <AccountBoxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Account"/>
+          <div className='blue-circle'><span>{user?.name && user.name.slice(0,2)}</span></div>
         </Button>
         
       </ListItemButton>

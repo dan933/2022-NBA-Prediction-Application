@@ -1,0 +1,11 @@
+.blue-circle{
+    justify-content: center;
+    display: flex;
+    padding-top:10px;    
+    width: 45px;
+    height: 45px;
+    background-color: #1976d2;
+    color: white;
+    font-weight: bold;
+    border-radius: 50px;
+}
