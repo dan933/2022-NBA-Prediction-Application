@@ -35,17 +35,7 @@ const RemoveTeam = async (teamId?: number) => {
   
   return res
 };
-//--------------------------- Get Winrate Team API call -----------------------------//
-const WinChance = async () => {
-
-  const res:any = await axios.get(`${url}/team/get-winrate`)
-  .catch((err) => {
-    throw err
-  })
-  
-  return res;
-}
-//---------------------------- API get teams for predictions page ------------------------//
+//---------------------------- API Get Teams Winrate ------------------------//
 //todo look into observable api calls https://github.com/zhaosiyang/axios-observable
 const GetAllTeams = async () => {
 
@@ -67,5 +57,5 @@ const GetTeamMatchUp = async (team1:number, team2:number) => {
 }
 // eslint-disable-next-line import/no-anonymous-default-export
 
-export default { get, RemoveTeam, CreateTeam, GetAllTeams, GetTeamMatchUp, WinChance };
+export default { get, RemoveTeam, CreateTeam, GetAllTeams, GetTeamMatchUp};
 
