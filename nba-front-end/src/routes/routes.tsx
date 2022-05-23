@@ -2,7 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import BasePage from "../components/Base";
 import LoginPage from "../components/LoginPage/LoginPage";
-import Dashboard from "../components/Menu";
+import Dashboard from "../components/Menu/Menu";
 import PlayerPage from '../components/PlayerPage/PlayerPage';
 import PredictionPage from "../components/PredictionPage/PredictionPage";
 import TeamPage from "../components/TeamPage/TeamPage";
