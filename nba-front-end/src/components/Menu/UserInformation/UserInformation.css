@@ -13,6 +13,8 @@
 
 .full-email{
     font-size: smaller;
+    overflow: hidden;
     text-overflow: ellipsis; 
     width:min-content; 
+    width:150px;
 }

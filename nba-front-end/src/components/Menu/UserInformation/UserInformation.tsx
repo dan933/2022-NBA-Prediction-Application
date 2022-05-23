@@ -34,7 +34,7 @@ function UserInformation() {
               <div className='blue-circle'>{user?.name && user.email?.slice(0,2) }</div>
           </div>
           <div>
-            <div style={{textOverflow:'ellipsis'}} className='full-email'>{user?.email}</div>
+            <div className='full-email'>{user?.email}</div>
           </div>
         </Button>
         

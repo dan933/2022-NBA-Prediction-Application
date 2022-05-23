@@ -15,7 +15,6 @@ const auth0Object: Iauth0Object = {
   clientId:process.env.REACT_APP_AUTH0_CLIENT_ID!
 }
 
-const domain = "dev-8ba7t05q.au.auth0.com";
 const audience = "https://nba-api-one.azurewebsites.net/api"
 const scope = "read:current_user"
 
