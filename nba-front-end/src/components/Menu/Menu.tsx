@@ -21,6 +21,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { mainListItems } from './listItems';
 import { withAuthenticationRequired } from '@auth0/auth0-react';
+import UserInformation from './UserInformation/UserInformation';
 
 function Copyright(props: any) {
 // TODO: update link
@@ -63,6 +64,7 @@ const AppBar = styled(MuiAppBar, {
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     '& .MuiDrawer-paper': {
+      overflow:'hidden',
       position: 'relative',
       whiteSpace: 'nowrap',
       width: drawerWidth,
@@ -112,10 +114,13 @@ function DashboardContent() {
             </IconButton>
           </Toolbar>
           <Divider />
+          <List>
+            <UserInformation/>
+          </List>
+          <Divider />
           <List component="nav">
             {mainListItems}
             <Divider sx={{ my: 1 }} />
-            
           </List>
         </Drawer>
         <AppBar open={open} position="absolute" sx={{top: 250}}>

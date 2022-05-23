@@ -15,7 +15,7 @@ const auth0Object: Iauth0Object = {
   clientId:process.env.REACT_APP_AUTH0_CLIENT_ID!
 }
 
-const domain = "dev-8ba7t05q.au.auth0.com";
+const audience = "https://nba-api-one.azurewebsites.net/api"
 const scope = "read:current_user"
 
 ReactDOM.render(
@@ -23,12 +23,13 @@ ReactDOM.render(
     domain={auth0Object.domain}
     clientId={auth0Object.clientId}
     redirectUri="http://localhost:3000/dashboard/Players"
-    audience={`https://${domain}/api/v2/`}
+    audience={`${audience}`}
     scope={scope}
   >
     <BrowserRouter>
       <App />
     </BrowserRouter>
+    
   </Auth0Provider>,
   document.getElementById('root')
 );
