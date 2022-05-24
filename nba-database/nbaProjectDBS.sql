@@ -82,6 +82,7 @@ FROM tbl_Teams AS tt
 LEFT JOIN tbl_PlayerSelection AS tps ON tt.TeamID = tps.TeamID
 LEFT JOIN tbl_Players AS tp ON tp.PlayerID = tps.PlayerID
 GROUP BY tps.TeamID, tt.TeamID, tt.TeamName;
+
 GO
 
 INSERT INTO tbl_Players(PlayerID,FirstName,LastName,Wins,Losses,PreviousWins,PreviousLosses,PlayerWinPercent,Points,Rebounds,Assists,Steals,Blocks,MissedFieldGoals,MissedFreeThrows,TurnOvers) VALUES (203932,'Aaron','Gordon',44,28,29,21,0.611,1062,413,181,43,41,383,56,126);

@@ -87,6 +87,7 @@ const classes = useStyles();
           setSelectionModel={setSelectionTeam}
           selectionModel={selectionTeam}
           teamList={teamList}
+
           setTeamList={setTeamList}
         />
       </Grid>
@@ -149,6 +150,7 @@ const classes = useStyles();
               setSelectionModel={setSelectionTeam}
               selectionModel={selectionTeam}
               teamList={teamList}
+              isUpdated={isUpdated}
               setTeamList={setTeamList}
             />
           </TabPanel>

@@ -21,25 +21,11 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const TeamList: React.FC<any> = (props) => {
 
+
     const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
 
     const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
 
-    const getWinChance = async () => {
-        await api.GetAllTeams()
-        .then(function (response) {
-            if ( response.data.Success === true) {  
-              props.setTeamList(response.data.Data);
-              
-          }
-  
-         })
-          .catch((err) => {
-            throw err
-          })   
-          
-    
-        }      
 
     //opens remove team popup
     const handleopenRemoveTeamPopUp = () => {
@@ -96,28 +82,37 @@ const TeamList: React.FC<any> = (props) => {
     useEffect(() => {
         props.setSelectionModel(newTeamID);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[newTeamID]); 
+    }, [newTeamID]); 
+
+    
+
+    const getWinChance = async () => {
+
+
+        api.GetAllTeams().then(resp => {
+
+            props.setTeamList(resp.data.Data);            
+            
+        }).catch((err) => { console.log(err) })
+            
+        // const resp = await api.GetAllTeams()
+        //     .catch((err) => {
+        //         console.log(err)
+        //     })
+        
+        // if (resp) {
+        //     props.setTeamList(resp.data.Data);
+        // }
+        
+    }
          
     // on changes to open state api is run
     useEffect(() => {
-        api.get('/team/get-all').subscribe(
-            (resp) => {
-                props.setTeamList(resp)
-            })
-            
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [open, openRemoveTeamPopUp])
-
-
-      // iniital load up of WR 
-    React.useEffect(() => {
 
         getWinChance()
-
-         
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [])
-
+            
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [open, openRemoveTeamPopUp, props.isUpdated])
 
     const useStyles = makeStyles({
         root: {
@@ -168,7 +163,7 @@ const TeamList: React.FC<any> = (props) => {
                                 props.setSelectionModel(newSelectionModel);
                             }}
                             selectionModel={props.selectionModel}                            
-                        />
+                        />                        
                     </div>
                 </Grid>                
                 

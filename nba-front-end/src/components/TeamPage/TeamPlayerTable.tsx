@@ -49,10 +49,12 @@ const TeamPlayerTable: React.FC<any> = (props) => {
   // initialise the value for the searchbar
   const [search, setSearch] = React.useState('');
 
-  const getWinChance = async() => { api.GetAllTeams()
-    .then(function (response) {
+  const getWinChance = async () => {
+    
+    api.GetAllTeams()
+      .then((response) => {      
         if ( response.data.Success === true) {  
-          props.setTeamList(response.data.Data);
+          //props.setTeamList(response.data.Data);
       }
   
      })

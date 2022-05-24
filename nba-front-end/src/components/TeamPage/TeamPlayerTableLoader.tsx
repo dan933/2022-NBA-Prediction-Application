@@ -47,7 +47,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
       return (
         <h1>Hold on, fetching data may take some time :)</h1>
       )
-    } else if (!isLoading && teamID.length == 0) {
+    } else if (!isLoading && teamID.length === 0) {
       return (
         <h1>Please select a team</h1>
       )
