@@ -26,7 +26,7 @@ ReactDOM.render(
     domain={auth0Object.domain}
     clientId={auth0Object.clientId}
     redirectUri={auth0Object.redirectUri}
-    audience={auth0Object.audience}
+    audience={`${auth0Object.audience}`}
     scope={auth0Object.scope}
   >
     <BrowserRouter>
