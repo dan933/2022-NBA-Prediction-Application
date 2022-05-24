@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using nba_api_dotnet.models.players;
 using nba_api_dotnet.models;
 using nba_api_dotnet.models.Teams;
+using Microsoft.AspNetCore.Authorization;
 
 namespace nba_api_dotnet.Controllers;
 
@@ -23,6 +24,7 @@ public class TeamController : ControllerBase
     /// <param name="team"></param>
     /// <returns>Team Created</returns>
     [HttpPost]
+    [Authorize]
     [Route("create-team")]
     public async Task<ActionResult<Response<Team?>>> createTeam([FromBody] Team team)
     {
@@ -73,6 +75,7 @@ public class TeamController : ControllerBase
     /// </summary>
     /// <returns>A list of Teams</returns>
     [HttpGet]
+    [Authorize]
     [Route("get-all")]
     public async Task<ActionResult<List<Team>>> getAllTeams()
     {
@@ -94,6 +97,7 @@ public class TeamController : ControllerBase
     /// </summary>
     /// <returns>The list of players are on a specific team</returns>
     [HttpGet]
+    [Authorize]
     [Route("{teamID:int}/get-players")]
     public async Task<ActionResult<Response<List<PlayerSelectionView?>>>> GetTeamPlayers()
     {
@@ -137,6 +141,7 @@ public class TeamController : ControllerBase
     /// <param name="playerIDList"></param>
     /// <returns>The list of players that have been added to a team</returns>
     [HttpPost]
+    [Authorize]
     [Route("{teamID:int}/addPlayers")]
     public async Task<ActionResult<Response<List<PlayerSelection?>>>> AddPlayersToTeam([FromBody] List<int?> playerIDList)
     {
@@ -211,6 +216,7 @@ public class TeamController : ControllerBase
     }
 
     [HttpDelete]
+    [Authorize]
     [Route("{teamID:int}/removePlayers")]
     public async Task<ActionResult<Response<List<int?>>>> RemovePlayersFromTeam([FromBody] List<int?> playerIDList)
     {
@@ -281,6 +287,7 @@ public class TeamController : ControllerBase
         }
     }
     [HttpDelete]
+    [Authorize]
     [Route("{teamID:int}/removeTeams")]
     public async Task<ActionResult<Response<int>>> RemoveTeams()
     {
@@ -331,6 +338,7 @@ public class TeamController : ControllerBase
     // Get the team win percentage
 
     [HttpGet]
+    [Authorize]
     [Route("get-winrate")]
     public async Task<ActionResult<Response<List<WinChanceView?>>>> GetWinChance()
     {
@@ -353,6 +361,7 @@ public class TeamController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     [Route("{teamID:int}/{teamID2:int}/CompareWinChance")]
     public async Task<ActionResult<Response<List<WinChanceCompare?>>>> GetWinChanceCompare()
     {

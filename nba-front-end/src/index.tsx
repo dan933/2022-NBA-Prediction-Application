@@ -23,7 +23,7 @@ ReactDOM.render(
     domain={auth0Object.domain}
     clientId={auth0Object.clientId}
     redirectUri="http://localhost:3000/dashboard/Players"
-    audience={`https://${domain}/api/v2/`}
+    audience={'https://nba-api-one.azurewebsites.net/api'}
     scope={scope}
   >
     <BrowserRouter>
