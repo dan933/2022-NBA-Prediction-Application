@@ -8,7 +8,7 @@ import axios, { AxiosError } from 'axios';
 import Button from '@mui/material/Button';
 import api from "../../services/api";
 import { makeStyles } from '@material-ui/core/styles';
-import teamList from './TeamPageContent';
+import TeamPageContentLoader from './TeamPageContentLoader';
 // Setting up the columns of the player table
 const teamPlayerColumns: GridColDef[] = [
     { field: 'TeamID', headerName: 'Team ID', width: 90, hide: true },
@@ -58,9 +58,34 @@ const TeamPlayerTable: React.FC<any> = (props) => {
      })
       .catch((err) => {
         throw err
-      })   
+      });
+     
     }
       
+    
+const removePlayerTeam = () => {
+  // let teamNameObject = { TeamName: teamName.current?.value }
+
+  axios.delete(`${url}/team/${teamID}/removePlayers`, {data: selectionModel})
+  .then(function (response) {
+    if ( response.data != null) {
+      props.tableIsUpdated();
+    }
+  })
+    .catch((error) => {
+
+//https://www.codegrepper.com/code-examples/javascript/response.error+console.log
+      
+      const err: any = error as AxiosError
+      
+      // if (err.response.status === 409) {
+      //   setIsError(true)
+      // }
+  });
+  
+  // refreshes team wr
+  TeamPageContentLoader()
+};
   // initialise the parameters that the table uses to filter values (when using the searchbar)
   const [filterModel, setFilterModel] = React.useState<GridFilterModel>({
     items: [
@@ -97,28 +122,6 @@ const TeamPlayerTable: React.FC<any> = (props) => {
 const url = axiosRequestConfiguration.baseURL
 
 
-const removePlayerTeam = () => {
-  // let teamNameObject = { TeamName: teamName.current?.value }
-
-  axios.delete(`${url}/team/${teamID}/removePlayers`, {data: selectionModel})
-  .then(function (response) {
-    if ( response.data != null) {
-      props.tableIsUpdated();
-    }
-  })
-    .catch((error) => {
-
-//https://www.codegrepper.com/code-examples/javascript/response.error+console.log
-      
-      const err: any = error as AxiosError
-      
-      // if (err.response.status === 409) {
-      //   setIsError(true)
-      // }
-  });
-  
-  // refreshes team wr
-};
 
 const useStyles = makeStyles({
   root: {
@@ -132,10 +135,10 @@ const useStyles = makeStyles({
     React.useEffect(() => {
 
         getWinChance()
-
+      
          
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [null, removePlayerTeam])
+      }, [null, TeamPageContentLoader])
       
 const classes = useStyles();
 

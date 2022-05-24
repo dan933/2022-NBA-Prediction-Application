@@ -23,8 +23,23 @@ const TeamList: React.FC<any> = (props) => {
 
     const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
 
-
     const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
+
+    const getWinChance = async () => {
+        await api.GetAllTeams()
+        .then(function (response) {
+            if ( response.data.Success === true) {  
+              props.setTeamList(response.data.Data);
+              
+          }
+  
+         })
+          .catch((err) => {
+            throw err
+          })   
+          
+    
+        }      
 
     //opens remove team popup
     const handleopenRemoveTeamPopUp = () => {
@@ -67,21 +82,7 @@ const TeamList: React.FC<any> = (props) => {
         },
     ];
 
-    const getWinChance = async () => {
-        await api.GetAllTeams()
-        .then(function (response) {
-            if ( response.data.Success === true) {  
-              props.setTeamList(response.data.Data);
-              
-          }
-  
-         })
-          .catch((err) => {
-            throw err
-          })   
-          
     
-        }      
 
     const [open, setOpen] = React.useState(false);
 
@@ -108,14 +109,15 @@ const TeamList: React.FC<any> = (props) => {
     }, [open, openRemoveTeamPopUp])
 
 
-          React.useEffect(() => {
+      // iniital load up of WR 
+    React.useEffect(() => {
 
-            getWinChance()
-    
-             
-          // eslint-disable-next-line react-hooks/exhaustive-deps
-          }, [])
-      
+        getWinChance()
+
+         
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [])
+
 
     const useStyles = makeStyles({
         root: {
