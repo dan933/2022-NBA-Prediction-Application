@@ -85,11 +85,7 @@ const TeamList: React.FC<any> = (props) => {
 
         console.log(token)
 
-        api.get('/team/get-all', {
-            Headers: {
-                'Authorization':`Bearer ${token}`
-            }
-        }).subscribe(
+        api.get('/team/get-all', token).subscribe(
             (resp) => {
                 props.setTeamList(resp)
             })

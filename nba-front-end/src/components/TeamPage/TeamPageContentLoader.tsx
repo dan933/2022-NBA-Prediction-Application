@@ -3,12 +3,15 @@ import TeamPageContent from './TeamPageContent';
 import ApiComponentLoader from '../ApiComponentLoader';
 import api from '../../services/api';
 import { Team } from '../../models/ITeam';
+import { useAuth0 } from '@auth0/auth0-react';
 
 
 interface TeamProps{
     loading: boolean;
     teamList: Team[];
 }
+
+
 
 function TeamPageContentLoader() {
     const TableLoading = ApiComponentLoader(TeamPageContent);
@@ -17,12 +20,23 @@ function TeamPageContentLoader() {
         teamList: [],
       });
 
-      
-      useEffect(() => {
-        setAppState({ loading: true, teamList: [] });
-        api.get('/team/get-all').subscribe((resp) => {
+      const { getAccessTokenSilently } = useAuth0();
+
+      const getAllTeams = async () => {
+        const token = await getAccessTokenSilently();
+
+        api.get('/team/get-all', token)
+        .subscribe((resp) => {
             setAppState({ loading: false, teamList: resp as Team[] });
           });
+
+      }
+
+      useEffect(() => {
+        getAllTeams()
+        setAppState({ loading: true, teamList: [] });
+        
+        
       }, [setAppState]);    
       
   return (

@@ -30,6 +30,8 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
 
   const getPlayersFromTeam = async () => {
 
+
+
     if (teamID.length !== 0) {
 
       const token = await getAccessTokenSilently();
@@ -39,11 +41,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
       setLoading(true);
       setAppState({ teamPlayerList: [] });
 
-      api.get(`${url}/team/${teamID}/get-players`, {
-        Headers: {
-          'Authorization':`Bearer ${token}`
-        }
-      }).subscribe({
+      api.get(`${url}/team/${teamID}/get-players`, token).subscribe({
         next: (resp: any) => {         
 
           setLoading(false);
@@ -72,7 +70,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
       return (
         <h1>Hold on, fetching data may take some time :)</h1>
       )
-    } else if (!isLoading && teamID.length == 0) {
+    } else if (!isLoading && teamID.length === 0) {
       return (
         <h1>Please select a team</h1>
       )

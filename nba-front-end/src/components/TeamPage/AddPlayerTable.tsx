@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import axios, { AxiosError } from 'axios';
 import Button from '@mui/material/Button';
+import { useAuth0 } from '@auth0/auth0-react';
 // import { Player } from '../models/IPlayer';
 
 // Setting up the columns of the player table
@@ -107,12 +108,16 @@ const AddPlayerTable: React.FC<any> = (props) => {
 
 },[search, selectionModel]);
 
-const url = axiosRequestConfiguration.baseURL
+  const url = axiosRequestConfiguration.baseURL
+  
+  const { getAccessTokenSilently } = useAuth0();
 
-const addPlayerTeam = () => {
+const addPlayerTeam = async () => {
   // let teamNameObject = { TeamName: teamName.current?.value }
 
-  axios.post(`${url}/team/${teamID}/addPlayers`, selectionModel)
+  const token = await getAccessTokenSilently();
+
+  axios.post(`${url}/team/${teamID}/addPlayers`, selectionModel,{headers:{'Authorization':`Bearer ${token}`}})
   .then(function (response) {
   if ( response.data.Success === true) {
       props.tableIsUpdated();
