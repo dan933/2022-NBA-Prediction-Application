@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import axios, { AxiosError } from 'axios';
 import Button from '@mui/material/Button';
+import { useAuth0 } from '@auth0/auth0-react';
 
 // Setting up the columns of the player table
 const teamPlayerColumns: GridColDef[] = [
@@ -81,12 +82,23 @@ const TeamPlayerTable: React.FC<any> = (props) => {
 },[search, selectionModel]);
 
 const url = axiosRequestConfiguration.baseURL
+  
+const { getAccessTokenSilently } = useAuth0();
 
 
-const removePlayerTeam = () => {
-  // let teamNameObject = { TeamName: teamName.current?.value }
+const removePlayerTeam = async () => {
+  
+  const token = await getAccessTokenSilently();
 
-  axios.delete(`${url}/team/${teamID}/removePlayers`, {data: selectionModel})
+  axios
+    .delete(`${url}/team/${teamID}/removePlayers`,
+      {
+        headers:
+        {
+          'Authorization':`Bearer ${token}`    
+        },
+        data: selectionModel
+      })
   .then(function (response) {
     if ( response.data != null) {
       props.tableIsUpdated();
