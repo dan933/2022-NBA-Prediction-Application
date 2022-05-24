@@ -14,7 +14,7 @@ const get = <T>(url: string, token?:string, queryParams?: object): Observable<T>
 
   const axiosInstance = initialiseAxios(axiosConfig);
 
-  return defer(()=> axiosInstance.get<T>(url))
+  return defer(()=> axiosInstance.get<T>(url, { params: queryParams }))
       .pipe(map(result => result.data));
 };
 
