@@ -12,8 +12,6 @@ import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveTeamButton from "./RemoveTeam/RemoveTeamButton"
 
-import axios, { AxiosError } from 'axios';
-import { axiosRequestConfiguration } from "../../services/axios_config";
 import api from "../../services/api";
 import RemoveTeamPopUp from "./RemoveTeam/RemoveTeamPopUp";
 import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";
