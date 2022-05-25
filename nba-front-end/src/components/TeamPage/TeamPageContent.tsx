@@ -31,6 +31,7 @@ import api from "../../services/api";
 import TeamList from "./TeamList";
 import TeamPlayerTableLoader from "./TeamPlayerTableLoader";
 import AddPlayerTableLoader from "./AddPlayerTableLoader";
+import { makeStyles } from '@material-ui/core/styles';
 import Tabs from '@mui/material/Tabs';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -54,6 +55,16 @@ const TeamPageContent: React.FC<any> = (props) => {
   const tableIsUpdated = () => {
     setIsUpdated(true);
   };
+  const useStyles = makeStyles({
+    root: {
+        '&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus, &.MuiDataGrid-root .MuiDataGrid-cell:focus': {
+            outline: 'none',
+        },
+    }
+});
+
+
+const classes = useStyles();
 
   // declares a state for value. this references which tab the website will display. default value is set to "Teams" which shows the Team List
   const [value, setValue] = React.useState("Teams");
@@ -147,6 +158,7 @@ const TeamPageContent: React.FC<any> = (props) => {
               setSelectionModel={setSelectionTeam}
               selectionModel={selectionTeam}
               teamList={teamList}
+              isUpdated={isUpdated}
               setTeamList={setTeamList}
             />
           </TabPanel>
@@ -185,4 +197,4 @@ const TeamPageContent: React.FC<any> = (props) => {
 };
 
 
-export default TeamPageContent;
+export default TeamPageContent; 

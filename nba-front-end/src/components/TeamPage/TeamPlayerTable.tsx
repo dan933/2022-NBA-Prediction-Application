@@ -6,7 +6,9 @@ import { useEffect } from 'react';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import axios, { AxiosError } from 'axios';
 import Button from '@mui/material/Button';
-
+import api from "../../services/api";
+import { makeStyles } from '@material-ui/core/styles';
+import TeamPageContentLoader from './TeamPageContentLoader';
 // Setting up the columns of the player table
 const teamPlayerColumns: GridColDef[] = [
     { field: 'TeamID', headerName: 'Team ID', width: 90, hide: true },
@@ -30,11 +32,11 @@ const teamPlayerColumns: GridColDef[] = [
         return `${valueFormatted} %`;
       }, 
     },
-    { field: 'Points', headerName: 'Points', width: 120 },
-    { field: 'Rebounds', headerName: 'Rebounds', width: 120 },
-    { field: 'Assists', headerName: 'Assists', width: 120 },
-    { field: 'Steals', headerName: 'Steals', width: 120 },
-    { field: 'Blocks', headerName: 'Blocks', width: 120 },
+    { field: 'Points', headerName: 'Points', width: 120, flex: 0.3 },
+    { field: 'Rebounds', headerName: 'Rebounds', width: 120, flex: 0.3 },
+    { field: 'Assists', headerName: 'Assists', width: 120, flex: 0.3 },
+    { field: 'Steals', headerName: 'Steals', width: 120, flex: 0.3 },
+    { field: 'Blocks', headerName: 'Blocks', width: 120, flex: 0.3 },
   ];
 
 const TeamPlayerTable: React.FC<any> = (props) => {
@@ -47,6 +49,45 @@ const TeamPlayerTable: React.FC<any> = (props) => {
   // initialise the value for the searchbar
   const [search, setSearch] = React.useState('');
 
+  const getWinChance = async () => {
+    
+    api.GetAllTeams()
+      .then((response) => {      
+        if ( response.data.Success === true) {  
+          //props.setTeamList(response.data.Data);
+      }
+  
+     })
+      .catch((err) => {
+        throw err
+      });
+     
+    }
+      
+    
+const removePlayerTeam = () => {
+  // let teamNameObject = { TeamName: teamName.current?.value }
+
+  axios.delete(`${url}/team/${teamID}/removePlayers`, {data: selectionModel})
+  .then(function (response) {
+    if ( response.data != null) {
+      props.tableIsUpdated();
+    }
+  })
+    .catch((error) => {
+
+//https://www.codegrepper.com/code-examples/javascript/response.error+console.log
+      
+      const err: any = error as AxiosError
+      
+      // if (err.response.status === 409) {
+      //   setIsError(true)
+      // }
+  });
+  
+  // refreshes team wr
+  TeamPageContentLoader()
+};
   // initialise the parameters that the table uses to filter values (when using the searchbar)
   const [filterModel, setFilterModel] = React.useState<GridFilterModel>({
     items: [
@@ -83,29 +124,25 @@ const TeamPlayerTable: React.FC<any> = (props) => {
 const url = axiosRequestConfiguration.baseURL
 
 
-const removePlayerTeam = () => {
-  // let teamNameObject = { TeamName: teamName.current?.value }
 
-  axios.delete(`${url}/team/${teamID}/removePlayers`, {data: selectionModel})
-  .then(function (response) {
-    if ( response.data != null) {
-      props.tableIsUpdated();
-    }
-  })
-    .catch((error) => {
+const useStyles = makeStyles({
+  root: {
+      '&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus, &.MuiDataGrid-root .MuiDataGrid-cell:focus': {
+          outline: 'none',
+      },
+  }
+});
 
-//https://www.codegrepper.com/code-examples/javascript/response.error+console.log
+
+    React.useEffect(() => {
+
+        getWinChance()
       
-      const err: any = error as AxiosError
+         
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [null, TeamPageContentLoader])
       
-      // if (err.response.status === 409) {
-      //   setIsError(true)
-      // }
-  });
-  
-
-
-};
+const classes = useStyles();
 
   return (
     // white box around the table
@@ -132,6 +169,7 @@ const removePlayerTeam = () => {
             <div style={{ height: '600px', width: '100%'}}>
               <DataGrid
                 rows={teamPlayerList}
+                className={classes.root}
                 getRowId={(row) => row.PlayerID}
                 columns={teamPlayerColumns}
                 disableColumnSelector={true}
