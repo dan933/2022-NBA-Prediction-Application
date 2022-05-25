@@ -159,7 +159,7 @@ const ResponsiveAppBar = () => {
         <HeaderImage/>
         </header>
       </div>
-      <AppBar style={{padding: '0'}} position="sticky">
+      <AppBar position="sticky">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <SportsBasketballIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
