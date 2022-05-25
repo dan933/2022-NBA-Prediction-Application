@@ -13,7 +13,12 @@ function DefaultPage() {
   console.log(process.env);
   return (
     <div>
-      <IconMenu/>
+      <div className='Background-Color'>
+        <header className="App-header">
+  {/* ----------------------- nba image for top nav bar --------------- */}
+        <IconMenu display= 'block'/>
+        </header>
+      </div>
       <Button variant="contained" sx={{'margin':2}}>
         <Link style={linkStyle} to="/dashboard/players">Launch Application</Link>
       </Button>

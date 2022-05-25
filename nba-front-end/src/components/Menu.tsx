@@ -156,9 +156,20 @@ const ResponsiveAppBar = () => {
       <div className='Background-Color'>
         <header className="App-header">
   {/* ----------------------- nba image for top nav bar --------------- */}
-        <HeaderImage/>
+        <HeaderImage display= 'block'/>
         </header>
       </div>
+      <Box
+          component="main"
+          sx={{
+            backgroundColor: (theme) =>
+              theme.palette.mode === 'light'
+                ? theme.palette.grey[100]
+                : theme.palette.grey[900],
+            flexGrow: 1,
+            height: 'auto'            
+          }}
+        >
       <AppBar position="sticky">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -283,7 +294,6 @@ const ResponsiveAppBar = () => {
           </Toolbar>
         </Container>
       </AppBar>
-
       {/* the <Outlet /> component allows the page to display the various tables*/}
       <Outlet />
       <Grid item xs={12} md={12} lg={12}>
@@ -291,6 +301,7 @@ const ResponsiveAppBar = () => {
       {/* "br" adds space between copyright mark and bottom of page */}
         <br></br>
       </Grid>
+      </Box>
     </>
   );
 };

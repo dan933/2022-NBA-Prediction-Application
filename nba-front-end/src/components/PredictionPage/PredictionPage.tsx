@@ -99,10 +99,8 @@ function PredictionPage() {
 
 
 return (
-  <Container sx={{ mt: 4, mb: 4, "minHeight": '600px' }}>
+  <Container sx={{mb: 4, "minHeight": '600px' }}>
     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-      <Tab label="Match Up"/>
-      <Tab label="Prediction"/>
     </Tabs>
     <>
     <TabPanel value={value} index={0}>
