@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Dialog from '@mui/material/Dialog';
-import { Alert, Button, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Alert, Button, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Checkbox } from '@mui/material';
 import api from '../../../services/api';
 
 export default function RemoveTeamPopUp(props: any) {
@@ -46,6 +46,7 @@ export default function RemoveTeamPopUp(props: any) {
           {IsError && <Alert severity="error">We are sorry the API is currently down</Alert>}
               </DialogContent>
               <DialogActions >
+              <FormControlLabel control={<Checkbox />} id="checkbox" onChange={ e => props.handleopenRemoveTeamPopUp(e)} style={{marginRight: "45%"}} label="Don't ask again" /> 
                 <Button onClick={closeRemoveTeamPopup} style={{ color: "red" }}>Cancel</Button>
                 <Button onClick={handleClickConfirmRemoveTeam}>Continue </Button>
               </DialogActions>

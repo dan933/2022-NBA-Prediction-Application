@@ -18,19 +18,53 @@ import api from "../../services/api";
 import RemoveTeamPopUp from "./RemoveTeam/RemoveTeamPopUp";
 import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";
 import { makeStyles } from '@material-ui/core/styles';
+import { bake_cookie, read_cookie, delete_cookie } from 'sfcookies';
 
+
+    
+    
 const TeamList: React.FC<any> = (props) => {
 
+    const [checked, setChecked] = useState(false);
+    const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
+    //const [cookies, setCookie] = useCookies(['askAgain']);
+    //const [cookies, setCookie] = useCookies([]);
+    const cookie_key = 'askAgain';
+    
+
+    //console.log(cookies)
+    const handleChangeCheckbox = (event:any) => {
+        console.log(event.target.checked)
+        setChecked(event.currentTarget.checked);
+    }
+    //opens remove team popup
+    const handleopenRemoveTeamPopUp = (event:any) => {
+
+       const IsChecked = event.target.checked;
+       let Cookie = read_cookie(cookie_key);
+       
+    
+    if ( Cookie !== "1" && !openRemoveTeamPopUp)
+    {
+        
+        setOpenRemoveTeamPopUp((prev) => !prev)
+    }
+    else if (IsChecked == true) {    
+        bake_cookie(cookie_key, '1');          
+        Cookie = read_cookie(cookie_key);
+        console.log(Cookie);
+    } 
+    }
 
     const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
 
-    const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
+   
 
 
     //opens remove team popup
-    const handleopenRemoveTeamPopUp = () => {
-    setOpenRemoveTeamPopUp((prev) => !prev)
-    }
+    // const handleopenRemoveTeamPopUp = () => {
+    // setOpenRemoveTeamPopUp((prev) => !prev)
+    // }
 
     const teamsColumns: GridColDef[] = [
         { field: "TeamID", headerName: "ID", width: 90, hide: true, flex:1 },
@@ -177,6 +211,7 @@ const TeamList: React.FC<any> = (props) => {
                 <RemoveTeamPopUp
                     openRemoveTeamPopUp={openRemoveTeamPopUp}
                     setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
+                    handleopenRemoveTeamPopUp={handleopenRemoveTeamPopUp}
                     teamId={props.selectionModel}
                     teamList={props.teamList}
                     setNewTeamID={setNewTeamID}
