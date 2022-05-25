@@ -26,9 +26,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
   // gets value from create team form
 
   useEffect(() => {
-    var processing = false;
-    if (!processing && teamID.length !== 0) {
-      processing = true;
+    if (!isLoading && teamID.length !== 0) {
       setLoading(true);
       setAppState({ teamPlayerList: [] });
       axios.get(`${url}/team/${teamID}/get-players`)
@@ -36,13 +34,11 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
           setLoading(false);
           setAppState({ teamPlayerList: response.data.Data as TeamPlayer[] });
           setIsUpdated(false);
-          processing = false;
         })
         // this catches any errors that may occur while fetching for player data
         .catch(error => {
           console.log(error)
           setLoading(false);
-          processing = false;
         })
     }
   }, [setAppState, teamID, isUpdated]);
