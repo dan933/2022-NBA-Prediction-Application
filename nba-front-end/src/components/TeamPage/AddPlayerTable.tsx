@@ -75,7 +75,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
     if(teamID.length == 0){
       return true;
     }
-    if(teamPlayerIds.includes(playerId)){
+    if(teamPlayerIds?.includes(playerId)){
       return true;
     }
     return false;
