@@ -15,7 +15,6 @@ const url = axiosRequestConfiguration.baseURL
 const TeamPlayerTableLoader: React.FC<any> = (props) => {
 
   const teamID = props.teamID;
-  const TableLoading = (TeamPlayerTable);
   const [appState, setAppState] = useState<TeamPlayerProps>({
     teamPlayerList: [],
   });
@@ -31,30 +30,30 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
       setAppState({ teamPlayerList: [] });
       axios.get(`${url}/team/${teamID}/get-players`)
         .then((response) => {
-          setLoading(false);
-          setAppState({ teamPlayerList: response.data.Data as TeamPlayer[] });
-          setIsUpdated(false);
-        })
-        // this catches any errors that may occur while fetching for player data
-        .catch(error => {
-          console.log(error)
-          setLoading(false);
-        })
-    }
-  }, [setAppState, teamID, isUpdated]);
-
+            setLoading(false);
+            setAppState({ teamPlayerList: response.data.Data as TeamPlayer[] });
+            setIsUpdated(false);
+            })
+      // this catches any errors that may occur while fetching for player data
+            .catch(error => { 
+            console.log(error); 
+            setLoading(false);
+            })
+        }
+    }, [setAppState, teamID, isUpdated]);
+  
   const yourLineUpSection = () => {
     if (isLoading && teamID.length !== 0) {
       return (
         <h1>Hold on, fetching data may take some time :)</h1>
       )
-    } else if (!isLoading && teamID.length == 0) {
+    } else if (!isLoading && teamID.length === 0) {
       return (
         <h1>Please select a team</h1>
       )
     } else {
       return (
-        <TableLoading teamPlayerList={appState.teamPlayerList} teamID={teamID} tableIsUpdated={props.tableIsUpdated} />
+        <TeamPlayerTable teamPlayerList={appState.teamPlayerList} teamID={teamID} tableIsUpdated={props.tableIsUpdated}/>
       )
     }
   }
