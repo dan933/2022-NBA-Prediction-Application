@@ -2,14 +2,18 @@
 -- Team WEST FTW
 -- CREATE DATABASE NBA
 -- -- Used a Local DBS to test data but this is flavour text ^
--- use nba
-
-select * from tbl_Players
-
+use nba
+GO
+DROP VIEW IF EXISTS view_WinChance;
+GO
 DROP VIEW IF EXISTS view_Team;
+GO
 DROP TABLE IF EXISTS tbl_PlayerSelection;
+GO
 DROP TABLE IF EXISTS tbl_Teams;
+GO
 DROP TABLE IF EXISTS tbl_User;
+GO
 DROP TABLE IF EXISTS tbl_Players;
 
 GO
@@ -73,10 +77,11 @@ INNER JOIN tbl_Teams as t ON t.TeamID = ps.TeamID;
 GO
 
 CREATE VIEW view_WinChance AS
-SELECT tbl_Teams.TeamID, tbl_Teams.TeamName, CONVERT(DECIMAL,SUM(tbl_Players.PreviousWins)) / CONVERT(DECIMAL,SUM(tbl_Players.PreviousWins + tbl_Players.PreviousLosses)) AS WinChance
-FROM tbl_Players, tbl_PlayerSelection, tbl_Teams 
-WHERE tbl_Teams.TeamID = tbl_PlayerSelection.TeamID AND tbl_Players.PlayerID = tbl_PlayerSelection.PlayerID
-GROUP BY tbl_Teams.TeamID, tbl_Teams.TeamName
+SELECT tt.*, ISNULL(CONVERT(DECIMAL(5,4),(CONVERT(DECIMAL,SUM(tp.PreviousWins)) / NULLIF(CONVERT(DECIMAL,SUM(tp.PreviousWins + tp.PreviousLosses)),0))),0) AS WinChance
+FROM tbl_Teams AS tt
+LEFT JOIN tbl_PlayerSelection AS tps ON tt.TeamID = tps.TeamID
+LEFT JOIN tbl_Players AS tp ON tp.PlayerID = tps.PlayerID
+GROUP BY tps.TeamID, tt.TeamID, tt.TeamName;
 
 GO
 

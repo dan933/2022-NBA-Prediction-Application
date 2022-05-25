@@ -13,16 +13,17 @@ interface TeamProps{
 function TeamPageContentLoader() {
     const TableLoading = ApiComponentLoader(TeamPageContent);
     const [appState, setAppState] = useState<TeamProps>({
-        loading: false,
+        loading: true,
         teamList: [],
       });
 
       
       useEffect(() => {
         setAppState({ loading: true, teamList: [] });
-        api.get('/team/get-all').subscribe((resp) => {
-            setAppState({ loading: false, teamList: resp as Team[] });
-          });
+        api.GetAllTeams()
+        .then((resp) => {
+            setAppState({ loading: false, teamList: resp.data.Data as Team[] });
+        })
       }, [setAppState]);    
       
   return (
