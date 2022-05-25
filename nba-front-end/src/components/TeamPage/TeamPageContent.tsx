@@ -127,6 +127,9 @@ const classes = useStyles();
             <Paper
               sx={{ p: 2, height: '800px' }}
             >
+              <div style={{ display: 'flex', columnGap: '10px', marginBottom: '10px' }}>
+                <h2 style={{ margin: 0 }}>All Players</h2>
+              </div>
               <AddPlayerTableLoader
                   teamID={selectionTeam}
                   tableIsUpdated={tableIsUpdated}

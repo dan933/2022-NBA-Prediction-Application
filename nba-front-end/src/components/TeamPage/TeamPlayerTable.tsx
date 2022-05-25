@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams, GridSelectionModel } from '@mui/x-data-grid';
-import { FormControl, Grid, IconButton, Input, InputAdornment, InputLabel, OutlinedInput, Paper, TextField } from '@mui/material';
+import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams, GridSelectionModel  } from '@mui/x-data-grid';
+import { FormControl, Grid, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
 import { axiosRequestConfiguration } from "../../services/axios_config";
@@ -125,8 +125,9 @@ const teamPlayerColumns: GridColDef[] = [
           </FormControl>
         </Grid>
         <Grid item xs={12}>
-          <div style={{ height: '600px', width: '100%' }}>
+          <div style={{ height:'648px'}}>
             <DataGrid
+              loading={props.loading}
               rows={teamPlayerList}
               getRowId={(row) => row.PlayerID}
               columns={teamPlayerColumns}
@@ -149,13 +150,6 @@ const teamPlayerColumns: GridColDef[] = [
         teamPlayerList ={props.teamPlayerList}
         tableIsUpdated={props.tableIsUpdated}
       />
-      {/* <RemoveTeamPopUp
-                    openRemoveTeamPopUp={openRemoveTeamPopUp}
-                    setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
-                    teamId={props.selectionModel}
-                    teamList={props.teamList}
-                    setNewTeamID={setNewTeamID}
-                /> */}
     </>
   );
 }

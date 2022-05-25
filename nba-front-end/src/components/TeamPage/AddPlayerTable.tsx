@@ -138,14 +138,15 @@ const AddPlayerTable: React.FC<any> = (props) => {
           </FormControl>
         </Grid>
         <Grid item xs={12}>
-          <div style={{ height: '600px', width: '100%' }}>
+          <div style={{ width: '100%' }}>
             <DataGrid
+            autoHeight
             rows={playerList}
             getRowId={(row) => row.PlayerID}
             columns={playerColumns}
             disableColumnSelector={true}
-            pageSize={11}
-            rowsPerPageOptions={[11]}
+            pageSize={10}
+            rowsPerPageOptions={[10]}
             filterModel={filterModel}
             onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
             disableSelectionOnClick={true}
