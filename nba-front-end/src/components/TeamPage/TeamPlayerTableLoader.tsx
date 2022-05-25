@@ -23,7 +23,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
   const isUpdated = props.isUpdated;
   const setIsUpdated = props.setIsUpdated;
   const setTeamPlayersList = props.setTeamPlayersList;
-  
+ 
   // gets value from create team form
 
     useEffect(() => {

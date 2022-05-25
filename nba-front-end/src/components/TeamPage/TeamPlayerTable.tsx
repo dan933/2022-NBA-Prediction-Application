@@ -145,7 +145,7 @@ const teamPlayerColumns: GridColDef[] = [
         setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}
         teamId={teamID}
         PlayerID={PlayerToDelete}
-
+        tableIsUpdated={props.tableIsUpdated}
       />
       {/* <RemoveTeamPopUp
                     openRemoveTeamPopUp={openRemoveTeamPopUp}

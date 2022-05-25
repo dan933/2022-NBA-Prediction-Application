@@ -24,9 +24,12 @@ export default function RemovePlayerPopUp(props: any) {
   const handleClickConfirmRemovePlayer = async () => {
     const res:any = await api.RemovePlayer(props.teamId, props.PlayerID).catch((err) => {
       setIsError(true)
+      
     })    
     
-    if(res) props.setOpenRemovePlayerPopUp(false);
+    if(res) 
+    props.setOpenRemovePlayerPopUp(false);
+    props.tableIsUpdated();
   }
   
 
