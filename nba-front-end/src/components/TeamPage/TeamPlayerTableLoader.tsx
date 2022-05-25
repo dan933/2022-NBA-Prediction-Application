@@ -6,8 +6,8 @@ import TeamPlayerTable from './TeamPlayerTable';
 import axios, { AxiosError } from 'axios';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 
-interface TeamPlayerProps{
-    teamPlayerList: any[];
+interface TeamPlayerProps {
+  teamPlayerList: any[];
 }
 
 const url = axiosRequestConfiguration.baseURL
@@ -21,21 +21,22 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
   const [isLoading, setLoading] = useState(false);
   const isUpdated = props.isUpdated;
   const setIsUpdated = props.setIsUpdated;
-  
+
   // gets value from create team form
 
-    useEffect(() => {
-      if (teamID.length !== 0) {
-        setLoading(true);
-        setAppState({ teamPlayerList: [] });
-          axios.get(`${url}/team/${teamID}/get-players`)
+  useEffect(() => {
+    if (!isLoading && teamID.length !== 0) {
+      setLoading(true);
+      setAppState({ teamPlayerList: [] });
+      axios.get(`${url}/team/${teamID}/get-players`)
         .then((response) => {
             setLoading(false);
             setAppState({ teamPlayerList: response.data.Data as TeamPlayer[] });
             setIsUpdated(false);
             })
       // this catches any errors that may occur while fetching for player data
-            .catch(error => { console.log(error); 
+            .catch(error => { 
+            console.log(error); 
             setLoading(false);
             })
         }
@@ -56,12 +57,12 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
       )
     }
   }
-    
+
   return (
     <React.Fragment>
       <div>
         {/* if  isLoading is true, loading text will apear, if api is able to fetch player data and isLoading is false, then show filled player table*/}
-        {yourLineUpSection()}        
+        {yourLineUpSection()}
       </div>
     </React.Fragment>
   );
