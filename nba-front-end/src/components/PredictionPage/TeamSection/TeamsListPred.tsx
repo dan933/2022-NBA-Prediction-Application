@@ -24,9 +24,9 @@ function TeamsListPred(props: any) {
 // todo The Below functions should go into a predictionServices file eventually
   
   const GetSelectedTeamsId = (id: number[]) => {
-    console.log(id.slice(0, 2))
+    console.log(id.slice(0, 2));
     if(id.length > 2){id = id.slice(0,2)}
-    props.setSelectedTeamsId(id)    
+    props.setSelectedTeamsId(id);    
     return id
   }
 

@@ -17,13 +17,13 @@ const AddPlayerTableLoader: React.FC<any> = (props) => {
   // AddPlayerTable (playerDataGrid.tsx) 
   // or
   // a message 'Hold on, fetching data may take some time :)'
-  // we call this as <TableLoading isLoading={appState.loading} playerList={appState.playerList} />
   // isLoading={appState.loading} says that the boolean for whether data is available is 'appState.loading' variable
   // playerList={appState.playerList} says that (if the data is available) send the appState.playerList to the AddPlayerTable Component
-  const TableLoading = (AddPlayerTable);
   const [appState, setAppState] = useState<PlayerProps>({
     playerList: [],
   });
+  const isUpdated = props.isUpdated;
+  const setIsUpdated = props.setIsUpdated;
   // defines a state for whenever an error occurs
   const [errorMessage, setErrorMessage] = useState("");
     // defines a state for when the api is fetching data for players
@@ -38,9 +38,10 @@ const AddPlayerTableLoader: React.FC<any> = (props) => {
     api.get('players/get-all').toPromise().then((resp) => {
         setLoading(false);
         setAppState({ playerList: resp as Player[] });
+        setIsUpdated(false);
         })
   // this catches any errors that may occur while fetching for player data
-        .catch(error => { console.log(error) 
+        .catch(error => { console.log(error); 
         setLoading(false);
   // this sets 'errorMessage' into the error that has occured
         setErrorMessage(error);
@@ -53,8 +54,8 @@ const AddPlayerTableLoader: React.FC<any> = (props) => {
   {/* if the error message is not empty or does not equal "", then the error message will appear*/}
         {errorMessage!==""&&<h1 style={{color: 'red'}}>Oops! An Error Occured Please Try Again.</h1>}
   {/* if  isLoading is true, loading text will apear, if api is able to fetch player data and isLoading is false, then show filled player table*/}
-        {isLoading ? (<h1>Hold on, fetching data may take some time :)</h1>) : (<TableLoading playerList={appState.playerList} teamID={teamID} 
-        tableIsUpdated={props.tableIsUpdated}
+  {isLoading ? (<h1>Hold on, fetching data may take some time :)</h1>) : (<AddPlayerTable playerList={appState.playerList} teamID={teamID} 
+        tableIsUpdated={props.tableIsUpdated} teamPlayersList={props.teamPlayersList}
         />)}
       </div>
     </React.Fragment>
