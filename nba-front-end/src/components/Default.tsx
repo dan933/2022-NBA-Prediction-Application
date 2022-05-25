@@ -13,7 +13,7 @@ function DefaultPage() {
   console.log(process.env);
   return (
     <div>
-      <IconMenu/>
+      <IconMenu margin-top={-40}/>
       <Button variant="contained" sx={{'margin':2}}>
         <Link style={linkStyle} to="/dashboard/players">Launch Application</Link>
       </Button>
