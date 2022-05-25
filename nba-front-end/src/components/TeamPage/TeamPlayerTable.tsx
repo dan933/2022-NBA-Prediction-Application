@@ -166,9 +166,8 @@ const classes = useStyles();
             </FormControl>
           </Grid>
           <Grid item xs={12}>
-            <div style={{ width: '100%'}}>
+            <div style={{ height:'648px'}}>
               <DataGrid
-                autoHeight
                 loading={props.loading}
                 rows={teamPlayerList}
                 className={classes.root}
