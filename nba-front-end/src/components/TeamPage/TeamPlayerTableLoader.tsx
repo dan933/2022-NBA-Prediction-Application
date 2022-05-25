@@ -21,7 +21,8 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
   const [isLoading, setLoading] = useState(false);
   const isUpdated = props.isUpdated;
   const setIsUpdated = props.setIsUpdated;
-
+  const setTeamPlayersList = props.setTeamPlayersList;
+  
   // gets value from create team form
 
   useEffect(() => {
@@ -31,6 +32,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
       axios.get(`${url}/team/${teamID}/get-players`)
         .then((response) => {
             setAppState({ teamPlayerList: response.data.Data as TeamPlayer[] });
+            setTeamPlayersList(response.data.Data.map((a:any)=>a.PlayerID));
             setLoading(false);
             setIsUpdated(false);
           })

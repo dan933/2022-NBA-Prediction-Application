@@ -47,6 +47,8 @@ const TeamPageContent: React.FC<any> = (props) => {
   const [selectionTeam, setSelectionTeam] = React.useState<GridSelectionModel>([]);
 
   const [teamList, setTeamList] = React.useState(props.teamList);
+  
+  const [teamPlayersList, setTeamPlayersList] = React.useState([]);
 
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -98,25 +100,23 @@ const classes = useStyles();
             />
           </Grid>
 
-          {/* formatting and adding of table that allows view/removal of players that are on selected team */}
-          {/* -------------------------- Team Players Section ----------------------------- */}
-          <Grid
-            item xs={12} sm={12} md={4} lg={4} xl={4}
-          >
-            <Paper
-              sx={{ p: 2, height: '800px' }}
-            >
-              <div style={{ display: 'flex', columnGap: '10px', marginBottom: '10px' }}>
-                <h2 style={{ margin: 0 }}>Your Lineup</h2>
-              </div>
-              <TeamPlayerTableLoader
-                teamID={selectionTeam}
-                isUpdated={isUpdated}
-                setIsUpdated={setIsUpdated}
-                tableIsUpdated={tableIsUpdated}
-              />
-            </Paper>
-          </Grid>
+      {/* formatting and adding of table that allows view/removal of players that are on selected team */}
+      {/* -------------------------- Team Players Section ----------------------------- */}
+      <Grid item xs={12} sm={12} md={4} lg={4} xl>
+        <Paper
+          sx={{ p: 2, height: '800px' }}
+        >
+          <div style={{ display: 'flex', columnGap: '10px', marginBottom: '10px' }}>
+            <h2 style={{ margin: 0 }}>Your Lineup</h2>
+          </div>
+          <TeamPlayerTableLoader
+            teamID={selectionTeam}
+            isUpdated={isUpdated}
+            setIsUpdated={setIsUpdated}
+            tableIsUpdated={tableIsUpdated}
+            setTeamPlayersList={setTeamPlayersList} />
+        </Paper>
+      </Grid>
 
           {/* --------------------------------------- Players Section -------------------------------------- */}
           {/* formatting and adding of the table that allows for players to be added to a team */}
@@ -131,10 +131,11 @@ const classes = useStyles();
                 <h2 style={{ margin: 0 }}>All Players</h2>
               </div>
               <AddPlayerTableLoader
-                teamID={selectionTeam}
-                tableIsUpdated={tableIsUpdated}
-                isUpdated={isUpdated}
-                setIsUpdated={setIsUpdated}
+                  teamID={selectionTeam}
+                  tableIsUpdated={tableIsUpdated}
+                  isUpdated={isUpdated}
+                  setIsUpdated={setIsUpdated}
+                  teamPlayersList={teamPlayersList}
               />
             </Paper>
           </Grid>
@@ -172,10 +173,11 @@ const classes = useStyles();
               sx={{ p: 2, height: '800px' }}
             >
               <TeamPlayerTableLoader
-                teamID={selectionTeam}
-                isUpdated={isUpdated}
-                setIsUpdated={setIsUpdated}
-                tableIsUpdated={tableIsUpdated}
+                   teamID={selectionTeam}
+                   tableIsUpdated={tableIsUpdated}
+                   isUpdated={isUpdated}
+                   setIsUpdated={setIsUpdated}
+                   teamPlayersList={teamPlayersList}
               />
             </Paper>
           </TabPanel>
