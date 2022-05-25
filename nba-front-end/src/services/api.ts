@@ -38,8 +38,7 @@ const RemoveTeam = async (teamId?: number) => {
   
   return res
 };
-
-//---------------------------- API get teams for predictions page ------------------------//
+//---------------------------- API Get Teams Winrate ------------------------//
 //todo look into observable api calls https://github.com/zhaosiyang/axios-observable
 const GetAllTeams = async () => {
 
@@ -47,7 +46,6 @@ const GetAllTeams = async () => {
   .catch((err) => {
     throw err
   })
-
   return res;
 
 }
@@ -64,4 +62,6 @@ const GetTeamMatchUp = async (team1:number, team2:number) => {
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { get, RemoveTeam, CreateTeam, GetAllTeams, GetTeamMatchUp };
+
+export default { get, RemoveTeam, CreateTeam, GetAllTeams, GetTeamMatchUp};
+
