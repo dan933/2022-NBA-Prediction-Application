@@ -15,7 +15,6 @@ const url = axiosRequestConfiguration.baseURL
 const TeamPlayerTableLoader: React.FC<any> = (props) => {
 
   const teamID = props.teamID;
-  const TableLoading = (TeamPlayerTable);
   const [appState, setAppState] = useState<TeamPlayerProps>({
     teamPlayerList: [],
   });
@@ -36,7 +35,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
             setIsUpdated(false);
             })
       // this catches any errors that may occur while fetching for player data
-            .catch(error => { console.log(error) 
+            .catch(error => { console.log(error); 
             setLoading(false);
             })
         }
@@ -53,7 +52,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
       )
     } else {
       return (
-        <TableLoading teamPlayerList={appState.teamPlayerList} teamID={teamID} tableIsUpdated={props.tableIsUpdated}/>
+        <TeamPlayerTable teamPlayerList={appState.teamPlayerList} teamID={teamID} tableIsUpdated={props.tableIsUpdated}/>
       )
     }
   }
