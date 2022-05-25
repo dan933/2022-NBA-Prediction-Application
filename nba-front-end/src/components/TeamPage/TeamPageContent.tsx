@@ -188,4 +188,4 @@ const classes = useStyles();
 };
 
 
-export default TeamPageContent;
+export default TeamPageContent; 

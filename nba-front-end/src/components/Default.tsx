@@ -8,6 +8,8 @@ const linkStyle = {
 };
 
 function DefaultPage() {
+
+  console.log(process.env);
   return (
     <div>
       <Button variant="contained" sx={{'margin':2}}>

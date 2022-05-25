@@ -1,7 +1,7 @@
 export interface ITeam {
     TeamID: number;
     TeamName: string;
-    WinChance: number;
+    // TeamWinPercentage: number;
   }
 
   export class Team implements ITeam {
@@ -9,7 +9,7 @@ export interface ITeam {
     constructor(
         public TeamID: number,
         public TeamName: string,
-        public WinChance: number,
+        //public TeamWinPercentage: number,
         ) {
         ;
     }
