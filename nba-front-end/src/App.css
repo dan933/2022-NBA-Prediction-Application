@@ -11,6 +11,11 @@
   background-color:rgb(245 245 245);
 }
 
+.App-header {
+  overflow: hidden;
+  height: 200px;
+}
+
 .App-link {
   color: #61dafb;
 }
