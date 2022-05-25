@@ -20,6 +20,7 @@ const teamPlayerColumns: GridColDef[] = [
     renderCell: (params: any) =>
     (
       <RemovePlayerButton
+        teamObject={params.row}
         handleOpenRemovePlayerPopUp={()=> handleOpenRemovePlayerPopUp([params.row.PlayerID] as number[])}
       />
     )
@@ -145,6 +146,7 @@ const teamPlayerColumns: GridColDef[] = [
         setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}
         teamId={teamID}
         PlayerID={PlayerToDelete}
+        teamPlayerList ={props.teamPlayerList}
         tableIsUpdated={props.tableIsUpdated}
       />
       {/* <RemoveTeamPopUp

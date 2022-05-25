@@ -8,10 +8,11 @@ export default function RemovePlayerPopUp(props: any) {
   interface ITeam {
     TeamID?: number;
     PlayerID?: number[];
-    PlayerName?: string;
+    FirstName?: string;
+    LastName?: string; 
   }
 
-  const [teamObject, setTeamObject] = React.useState<ITeam>({TeamID:0,PlayerID:[0],PlayerName:""});
+  const [teamObject, setTeamObject] = React.useState<ITeam>({TeamID:0,PlayerID:[0],FirstName:"",LastName:""});
 
   const [IsError, setIsError] = React.useState(false);
   
@@ -20,7 +21,12 @@ export default function RemovePlayerPopUp(props: any) {
     setIsError(false)
   }
 
-  //--------------------------- Remove Team api call ---------------------------//
+
+  useEffect(() => {
+    // setTeamObject(props.teamList.find((team: any) => team.TeamID === props.teamId[0] ))    
+    setTeamObject(props.teamPlayerList.find((player: any) => player.PlayerID === props.PlayerID[0] ))   
+  }, [props.playerList, props.PlayerID, teamObject])
+    //--------------------------- Remove Team api call ---------------------------//
   const handleClickConfirmRemovePlayer = async () => {
     const res:any = await api.RemovePlayer(props.teamId, props.PlayerID).catch((err) => {
       setIsError(true)
@@ -36,10 +42,10 @@ export default function RemovePlayerPopUp(props: any) {
     return(
         <Dialog id="RemovePlayer" open={props.openRemovePlayerPopUp}>
               {/* todo: need to add reference to team name */}
-              <DialogTitle>Remove {teamObject?.PlayerName}</DialogTitle>
+              <DialogTitle>Remove {teamObject?.FirstName} {teamObject?.LastName}</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  Are you sure you want to remove {teamObject?.PlayerName}?
+                  Are you sure you want to remove {teamObject?.FirstName} {teamObject?.LastName}?
           </DialogContentText>
           {IsError && <Alert severity="error">We are sorry the API is currently down</Alert>}
               </DialogContent>
