@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams, GridSelectionModel  } from '@mui/x-data-grid';
-import { FormControl, Grid, IconButton, Input, InputAdornment, InputLabel, OutlinedInput, Paper, TextField } from '@mui/material';
+import { FormControl, Grid, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect } from 'react';
 import { axiosRequestConfiguration } from "../../services/axios_config";
@@ -166,8 +166,10 @@ const classes = useStyles();
             </FormControl>
           </Grid>
           <Grid item xs={12}>
-            <div style={{ height: '600px', width: '100%'}}>
+            <div style={{ width: '100%'}}>
               <DataGrid
+                autoHeight
+                loading={props.loading}
                 rows={teamPlayerList}
                 className={classes.root}
                 getRowId={(row) => row.PlayerID}
