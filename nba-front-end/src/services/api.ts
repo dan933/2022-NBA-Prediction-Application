@@ -46,7 +46,6 @@ const GetAllTeams = async () => {
   .catch((err) => {
     throw err
   })
-
   return res;
 
 }
