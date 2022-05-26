@@ -132,6 +132,7 @@ const teamPlayerColumns: GridColDef[] = [
               getRowId={(row) => row.PlayerID}
               columns={teamPlayerColumns}
               disableColumnSelector={true}
+              disableColumnMenu={true}
               pageSize={10}
               rowsPerPageOptions={[10]}
               checkboxSelection={false}

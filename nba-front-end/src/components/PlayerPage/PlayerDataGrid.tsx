@@ -119,9 +119,10 @@ const PlayerDataGrid: React.FC<any> = (props) => {
               getRowId={(row) => row.PlayerID}
               columns={playerColumns}
               disableColumnSelector={true}
+              disableColumnMenu={true}
+              checkboxSelection={false}
               pageSize={20}
               rowsPerPageOptions={[20]}
-              checkboxSelection
               filterModel={filterModel}
               onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
               />

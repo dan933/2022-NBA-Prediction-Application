@@ -192,6 +192,7 @@ const classes = useStyles();
                 tableIsUpdated={tableIsUpdated}
                 isUpdated={isUpdated}
                 setIsUpdated={setIsUpdated}
+                teamPlayersList={teamPlayersList}
               />
             </Paper>
           </TabPanel>

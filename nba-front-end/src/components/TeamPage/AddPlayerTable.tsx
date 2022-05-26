@@ -145,6 +145,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
             getRowId={(row) => row.PlayerID}
             columns={playerColumns}
             disableColumnSelector={true}
+            disableColumnMenu={true}
             pageSize={10}
             rowsPerPageOptions={[10]}
             filterModel={filterModel}
