@@ -157,6 +157,7 @@ const TeamList: React.FC<any> = (props) => {
                             getRowId={(row) => row.TeamID}
                             columns={teamsColumns}
                             disableColumnSelector={true}
+                            disableColumnMenu={true}
                             pageSize={10}
                             rowsPerPageOptions={[10]}
                             onSelectionModelChange={(newSelectionModel) => {
