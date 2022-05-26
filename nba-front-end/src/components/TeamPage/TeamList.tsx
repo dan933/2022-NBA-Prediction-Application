@@ -26,11 +26,16 @@ import { bake_cookie, read_cookie, delete_cookie } from 'sfcookies';
 const TeamList: React.FC<any> = (props) => {
 
     const [checked, setChecked] = useState(false);
+    const [cookieEnabled, setCookieEnabled] = useState(false);
     const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
     //const [cookies, setCookie] = useCookies(['askAgain']);
     //const [cookies, setCookie] = useCookies([]);
     const cookie_key = 'askAgain';
-    
+    const cookie_key2 = 'runFunc';
+
+    // const toggleCheck = () => {
+    //     setChecked((prev) => !prev)
+    // }
 
     //console.log(cookies)
     const handleChangeCheckbox = (event:any) => {
@@ -39,7 +44,7 @@ const TeamList: React.FC<any> = (props) => {
     }
     //opens remove team popup
     const handleopenRemoveTeamPopUp = (event:any) => {
-
+       
        const IsChecked = event.target.checked;
        let Cookie = read_cookie(cookie_key);
        
@@ -47,12 +52,15 @@ const TeamList: React.FC<any> = (props) => {
     if ( Cookie !== "1" && !openRemoveTeamPopUp)
     {
         
-        setOpenRemoveTeamPopUp((prev) => !prev)
+        setOpenRemoveTeamPopUp((prev) => !prev);
     }
-    else if (IsChecked == true) {    
+    else {    
         bake_cookie(cookie_key, '1');          
         Cookie = read_cookie(cookie_key);
         console.log(Cookie);
+        setCookieEnabled((prev) => !prev);
+        
+
     } 
     }
 
@@ -142,9 +150,9 @@ const TeamList: React.FC<any> = (props) => {
          
     // on changes to open state api is run
     useEffect(() => {
-
+        if (props.selectionModel) {
         getWinChance()
-            
+        }    
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open, openRemoveTeamPopUp, props.isUpdated])
 
@@ -215,6 +223,8 @@ const TeamList: React.FC<any> = (props) => {
                     teamId={props.selectionModel}
                     teamList={props.teamList}
                     setNewTeamID={setNewTeamID}
+                    cookieEnabled={cookieEnabled}
+                    
                 />
             </Grid>
         </Paper>

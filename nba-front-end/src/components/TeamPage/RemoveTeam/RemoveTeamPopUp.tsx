@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import Dialog from '@mui/material/Dialog';
 import { Alert, Button, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Checkbox } from '@mui/material';
 import api from '../../../services/api';
+import TeamList from '../TeamList';
+import { bake_cookie, read_cookie, delete_cookie } from 'sfcookies';
 
 export default function RemoveTeamPopUp(props: any) {
 
@@ -14,23 +16,46 @@ export default function RemoveTeamPopUp(props: any) {
   
   useEffect(() => {
     setTeamObject(props.teamList.find((team: any) => team.TeamID === props.teamId[0]))    
-  }, [props.teamList, props.teamId, teamObject])
+  }, [props.teamList, props.teamId, teamObject,props.cookieEnabled])
 
   const [IsError, setIsError] = React.useState(false);
   
   const closeRemoveTeamPopup = () => {
     props.setOpenRemoveTeamPopUp(false);
     setIsError(false)
-  }
+     }
 
   //--------------------------- Remove Team api call ---------------------------//
-  const handleClickConfirmRemoveTeam = async () => {
-    const res:any = await api.RemoveTeam(teamObject.TeamID).catch((err) => {
+  
+  const handleClickConfirmRemoveTeam = async (TeamID:any) => {
+    console.log(teamObject.TeamID);
+    const res:any = await api.RemoveTeam(TeamID).catch((err) => {
       setIsError(true)
     })    
     
-    if(res) props.setOpenRemoveTeamPopUp(false);
+    if(res) 
+    props.setOpenRemoveTeamPopUp(false)
+    
   }
+    
+  
+  const handleRemoveTeamCookies = async () => {
+      const cookie_key = 'askAgain'; 
+      const cookie = read_cookie(cookie_key) 
+    
+        if (cookie == "1") {
+        
+        handleClickConfirmRemoveTeam(teamObject.TeamID);
+      }
+    }
+    
+    useEffect(()=>{
+      console.log(props.teamId)    
+      if (props.teamId && props.teamId.length === 1) {
+        handleRemoveTeamCookies();
+      }
+    },[props.cookieEnabled])
+    
   
 
     return(
