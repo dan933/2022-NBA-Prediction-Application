@@ -17,59 +17,15 @@ import { axiosRequestConfiguration } from "../../services/axios_config";
 import api from "../../services/api";
 import RemoveTeamPopUp from "./RemoveTeam/RemoveTeamPopUp";
 import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";
-import { makeStyles } from '@material-ui/core/styles';
-import { bake_cookie, read_cookie, delete_cookie } from 'sfcookies';
-
-
-    
+import { makeStyles } from '@material-ui/core/styles';    
     
 const TeamList: React.FC<any> = (props) => {
-
-    const [checked, setChecked] = useState(false);
-    const [cookieEnabled, setCookieEnabled] = useState(false);
-    const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
-    //const [cookies, setCookie] = useCookies(['askAgain']);
-    //const [cookies, setCookie] = useCookies([]);
-    const cookie_key = 'askAgain';
-    const cookie_key2 = 'runFunc';
-
-    // const toggleCheck = () => {
-    //     setChecked((prev) => !prev)
-    // }
-
-    //console.log(cookies)
-    const handleChangeCheckbox = (event:any) => {
-        console.log(event.target.checked)
-        setChecked(event.currentTarget.checked);
-    }
-    //opens remove team popup
-    const handleopenRemoveTeamPopUp = (event:any) => {
-       
-       const IsChecked = event.target.checked;
-       let Cookie = read_cookie(cookie_key);
-       
     
-    if ( Cookie !== "1" && !openRemoveTeamPopUp)
-    {
-        
-        setOpenRemoveTeamPopUp((prev) => !prev);
-    }
-    else {    
-        bake_cookie(cookie_key, '1');          
-        Cookie = read_cookie(cookie_key);
-        console.log(Cookie);
-        setCookieEnabled((prev) => !prev);
-        
-
-    } 
-    }
+    const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
 
     const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
 
-   
-
-
-    //opens remove team popup
+    // //opens remove team popup
     // const handleopenRemoveTeamPopUp = () => {
     // setOpenRemoveTeamPopUp((prev) => !prev)
     // }
@@ -93,8 +49,6 @@ const TeamList: React.FC<any> = (props) => {
               
             },
           },
-          
-          
     //-------------------- Renders the remove team button --------------------//
         { 
             field: "RemoveTeam",
@@ -104,7 +58,8 @@ const TeamList: React.FC<any> = (props) => {
             (
                 <RemoveTeamButton
                     teamObject={params.row}
-                    handleopenRemoveTeamPopUp={handleopenRemoveTeamPopUp}
+                    setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
+                    setTeamList={props.setTeamList}
                 />
             )
         },
@@ -218,13 +173,9 @@ const TeamList: React.FC<any> = (props) => {
                 
                 <RemoveTeamPopUp
                     openRemoveTeamPopUp={openRemoveTeamPopUp}
-                    setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
-                    handleopenRemoveTeamPopUp={handleopenRemoveTeamPopUp}
+                    setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}                    
                     teamId={props.selectionModel}
-                    teamList={props.teamList}
-                    setNewTeamID={setNewTeamID}
-                    cookieEnabled={cookieEnabled}
-                    
+                    teamList={props.teamList}                                       
                 />
             </Grid>
         </Paper>

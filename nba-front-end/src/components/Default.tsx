@@ -9,8 +9,6 @@ const linkStyle = {
 };
 
 function DefaultPage() {
-
-  console.log(process.env);
   return (
     <div>
       <div className='Background-Color'>
