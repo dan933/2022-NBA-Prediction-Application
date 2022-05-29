@@ -51,6 +51,7 @@ export default function RemoveTeamPopUp(props: any) {
     
   }  
 
+
     return(
         <Dialog id="RemoveTeam" open={props.openRemoveTeamPopUp}>
               {/* todo: need to add reference to team name */}

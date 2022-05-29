@@ -50,6 +50,7 @@ function TeamsListPred(props: any) {
           getRowId={(row) => row.TeamID}
           columns={teamsColumns}
           disableColumnSelector={true}
+          disableColumnMenu={true}
           pageSize={8}
           rowsPerPageOptions={[8]}
           onSelectionModelChange={(id) => {

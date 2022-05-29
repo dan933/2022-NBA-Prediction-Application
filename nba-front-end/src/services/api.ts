@@ -50,6 +50,17 @@ const GetAllTeams = async () => {
 
 }
 
+//--------------------------- Remove Player API call -----------------------------//
+const RemovePlayer = async (teamId?: number, playersToRemove?:number[]) => {
+  
+  const res = await axios.delete(`${url}/team/${teamId}/removePlayers`, {data: playersToRemove}).catch((err) => {
+    throw err
+  })
+  
+  return res
+};
+
+
 //---------------------------- API Team Match Up for predictions page ------------------------//
 const GetTeamMatchUp = async (team1:number, team2:number) => {
     const res:any = await axios.get(`${url}/team/${team1}/${team2}/CompareWinChance`)
@@ -63,5 +74,5 @@ const GetTeamMatchUp = async (team1:number, team2:number) => {
 
 // eslint-disable-next-line import/no-anonymous-default-export
 
-export default { get, RemoveTeam, CreateTeam, GetAllTeams, GetTeamMatchUp};
+export default { get, RemoveTeam, CreateTeam, GetAllTeams, GetTeamMatchUp, RemovePlayer};
 
