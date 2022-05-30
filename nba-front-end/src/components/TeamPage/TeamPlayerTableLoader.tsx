@@ -19,9 +19,6 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
     teamPlayerList: [],
   });
   const [isLoading, setLoading] = useState(false);
-  const isUpdated = props.isUpdated;
-  const setIsUpdated = props.setIsUpdated;
-  const setTeamPlayersList = props.setTeamPlayersList;
   
   // gets value from create team form
 
@@ -32,9 +29,9 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
       axios.get(`${url}/team/${teamID}/get-players`)
         .then((response) => {
             setAppState({ teamPlayerList: response.data.Data as TeamPlayer[] });
-            setTeamPlayersList(response.data.Data.map((a:any)=>a.PlayerID));
+            props.setTeamPlayersList(response.data.Data.map((a:any)=>a.PlayerID));
             setLoading(false);
-            setIsUpdated(false);
+            props.setIsUpdated(false);
           })
       // this catches any errors that may occur while fetching for player data
             .catch(error => { 
@@ -42,7 +39,8 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
             setLoading(false);
           })
         }
-    }, [setAppState, teamID, isUpdated]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [setAppState, teamID, props.isUpdated]);
   
   const yourLineUpSection = () => {
     if (!isLoading && teamID.length === 0) {
