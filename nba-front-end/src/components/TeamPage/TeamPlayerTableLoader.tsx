@@ -13,8 +13,6 @@ interface TeamPlayerProps {
 const url = axiosRequestConfiguration.baseURL
 
 const TeamPlayerTableLoader: React.FC<any> = (props) => {
-
-  const teamID = props.teamID;
   const [appState, setAppState] = useState<TeamPlayerProps>({
     teamPlayerList: [],
   });
@@ -23,10 +21,10 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
   // gets value from create team form
 
   useEffect(() => {
-    if (!isLoading && teamID.length !== 0) {
+    if (!isLoading && props.teamID.length !== 0) {
       setLoading(true);
       setAppState({ teamPlayerList: [] });
-      axios.get(`${url}/team/${teamID}/get-players`)
+      axios.get(`${url}/team/${props.teamID}/get-players`)
         .then((response) => {
             setAppState({ teamPlayerList: response.data.Data as TeamPlayer[] });
             props.setTeamPlayersList(response.data.Data.map((a:any)=>a.PlayerID));
@@ -40,16 +38,16 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
           })
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [setAppState, teamID, props.isUpdated]);
+    }, [setAppState, props.teamID, props.isUpdated,props.setTeamPlayersList]);
   
   const yourLineUpSection = () => {
-    if (!isLoading && teamID.length === 0) {
+    if (!isLoading && props.teamID.length === 0) {
       return (
         <h1>Please select a team</h1>
       )
     } else {
       return (
-        <TeamPlayerTable loading={isLoading} teamPlayerList={appState.teamPlayerList} teamID={teamID} tableIsUpdated={props.tableIsUpdated}/>
+        <TeamPlayerTable loading={isLoading} teamPlayerList={appState.teamPlayerList} teamID={props.teamID} tableIsUpdated={props.tableIsUpdated}/>
       )
     }
   }

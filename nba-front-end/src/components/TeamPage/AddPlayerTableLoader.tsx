@@ -10,7 +10,7 @@ interface PlayerProps{
     playerList: Player[];
 }
 
-const AddPlayerTableLoader: React.FC<any> = (props) => {
+const AddPlayerTableLoader: React.FC<any> = (props) => {  
 
   const teamID = props.teamID;
   // this sets up function (from componentLoading.tsx) which either returns 

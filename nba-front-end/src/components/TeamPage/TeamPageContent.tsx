@@ -64,7 +64,12 @@ const TeamPageContent: React.FC<any> = (props) => {
             outline: 'none',
         },
     }
-});
+  });
+  
+   // declares a constant for defaultView which is used in the display property for bigger screens.
+   const defaultView = { xs: "none", lg: "block" };
+   // declares a constant for mobileView which is used in the display property for smaller screens.
+   const mobileView = { xs: "block", lg: "none" };
 
 
 const classes = useStyles();
@@ -78,48 +83,52 @@ const classes = useStyles();
     setValue(newValue);
   };
 
-  const teamListSection = (
-    <TeamList
-                setSelectionModel={setSelectionTeam}
-                selectionModel={selectionTeam}
-                teamList={teamList}
-                isUpdated={isUpdated}
-                setTeamList={setTeamList}
-              />
+  const teamListSection =
+    (
+      <TeamList
+        setSelectionModel={setSelectionTeam}
+        selectionModel={selectionTeam}
+        teamList={teamList}
+        isUpdated={isUpdated}
+        setTeamList={setTeamList}
+      />
 
-  )
+    )
+  
 
-  const teamPlayerTableLoaderSection = (
-    <TeamPlayerTableLoader
-      teamID={selectionTeam}
-      isUpdated={isUpdated}
-      setIsUpdated={setIsUpdated}
-      tableIsUpdated={tableIsUpdated}
-      setTeamPlayersList={setTeamPlayersList}
-    />
-  )
+  const teamPlayerTableLoaderSection = 
+    (
+      <TeamPlayerTableLoader
+        teamID={selectionTeam}
+        isUpdated={isUpdated}
+        setIsUpdated={setIsUpdated}
+        tableIsUpdated={tableIsUpdated}
+        setTeamPlayersList={setTeamPlayersList}
+      />
+    )
 
-  const addPlayerTableLoaderSection = (
-    <AddPlayerTableLoader
-      teamID={selectionTeam}
-      tableIsUpdated={tableIsUpdated}
-      isUpdated={isUpdated}
-      setIsUpdated={setIsUpdated}
-      teamPlayersList={teamPlayersList}
-    />
-  )
+  const addPlayerTableLoaderSection =
+    (
+      <AddPlayerTableLoader
+        teamID={selectionTeam}
+        tableIsUpdated={tableIsUpdated}
+        isUpdated={isUpdated}
+        setIsUpdated={setIsUpdated}
+        teamPlayersList={teamPlayersList}
+      />
+    )
 
   return (
     // the empty div "<>" container wraps the whole return component
     <>
       {/* --------------------------------------- This Box contains all tables for the Default view -------------------------------------- */}
       {/* screens lg and lower are hidden */}
-      <Hidden lgDown>
-        <Box>
+      
+        <Box  display={defaultView}>
           <Grid container spacing={2}>
             {/* -------------------------- Teams Section ----------------------------- */}
             <Grid
-              item md={4} lg={4} xl={4}
+              item xs={12} sm={12} md={4} lg={4} xl={4}
             >
                 {teamListSection}
             </Grid>        
@@ -156,13 +165,13 @@ const classes = useStyles();
           </Grid>
         </Grid>
         </Box>
-        </Hidden>
 
 
       {/* --------------------------------------- This Box contains all tables for the Mobile View -------------------------------------- */}
       {/*hides screens lg and up*/}
-      <Hidden lgUp>
-        <Box
+      
+      <Box
+        display={mobileView}
         sx={{ width: '100%', typography: 'body1'}}>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -197,7 +206,6 @@ const classes = useStyles();
           </TabPanel>
         </TabContext>
         </Box>
-      </Hidden>
     </>
   );
 };
