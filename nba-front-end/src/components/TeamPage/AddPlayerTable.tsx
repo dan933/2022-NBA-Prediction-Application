@@ -1,11 +1,10 @@
 import * as React from 'react';
-import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams, GridSelectionModel  } from '@mui/x-data-grid';
-import { FormControl, Grid, IconButton, Input, InputAdornment, InputLabel, OutlinedInput, Paper, TextField } from '@mui/material';
+import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams  } from '@mui/x-data-grid';
+import { FormControl, Grid, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect } from 'react';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import axios, { AxiosError } from 'axios';
-import Button from '@mui/material/Button';
 import AddPlayerButton from './AddPlayer/AddPlayerButton';
 // import { Player } from '../models/IPlayer';
 
@@ -72,7 +71,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
   });
 
   const checkIsNotAddable = (playerId:number, teamPlayerIds:number[], teamId:any) => {
-    if(teamID.length == 0){
+    if(teamID.length === 0){
       return true;
     }
     if(teamPlayerIds?.includes(playerId)){
@@ -114,6 +113,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
     })
       .catch((error) => {
         const err: any = error as AxiosError
+        console.log(err);
     });
   };  
 

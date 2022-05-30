@@ -1,19 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
-import {
-    Button, Grid, Paper,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    TextField
-} from "@mui/material";
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import React, { useEffect, useRef } from "react";
+import { Button, Grid, Paper } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveTeamButton from "./RemoveTeam/RemoveTeamButton"
-import TeamPageContentLoader from "./TeamPageContentLoader";
-import axios, { AxiosError } from 'axios';
-import { axiosRequestConfiguration } from "../../services/axios_config";
 import api from "../../services/api";
 import RemoveTeamPopUp from "./RemoveTeam/RemoveTeamPopUp";
 import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";

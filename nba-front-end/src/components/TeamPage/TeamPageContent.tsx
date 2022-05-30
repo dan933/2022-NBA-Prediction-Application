@@ -1,39 +1,11 @@
-import React, { useRef, useState } from "react";
-import {
-  GridSelectionModel,
-} from "@mui/x-data-grid";
-import {
-  FormControl,
-  Grid,
-  IconButton,
-  Input,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Paper,
-  TextField,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from "@mui/material";
+import React from "react";
+import { GridSelectionModel } from "@mui/x-data-grid";
+import { Grid, Paper } from "@mui/material";
 import type { } from '@mui/lab/themeAugmentation';
 import '@mui/lab/themeAugmentation';
-import SearchIcon from "@mui/icons-material/Search";
-import { useEffect } from "react";
-import Button from "@mui/material/Button";
-import RemoveIcon from '@mui/icons-material/Remove';
-import axios, { AxiosError } from 'axios';
-import { axiosRequestConfiguration } from "../../services/axios_config";
-import { Team } from "../../models/ITeam";
-import api from "../../services/api";
 import TeamList from "./TeamList";
 import TeamPlayerTableLoader from "./TeamPlayerTableLoader";
 import AddPlayerTableLoader from "./AddPlayerTableLoader";
-import { makeStyles } from '@material-ui/core/styles';
-import Tabs from '@mui/material/Tabs';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -42,31 +14,17 @@ import TabPanel from '@mui/lab/TabPanel';
 
 const TeamPageContent: React.FC<any> = (props) => {
 
-  const url = axiosRequestConfiguration.baseURL
-
   const [selectionTeam, setSelectionTeam] = React.useState<GridSelectionModel>([]);
 
   const [teamList, setTeamList] = React.useState(props.teamList);
   
   const [teamPlayersList, setTeamPlayersList] = React.useState([]);
 
-  const [openPopup, setOpenPopup] = useState(false);
-
   const [isUpdated, setIsUpdated] = React.useState(false);
 
   const tableIsUpdated = () => {
     setIsUpdated(true);
   };
-  const useStyles = makeStyles({
-    root: {
-        '&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus, &.MuiDataGrid-root .MuiDataGrid-cell:focus': {
-            outline: 'none',
-        },
-    }
-});
-
-
-const classes = useStyles();
 
   // declares a state for value. this references which tab the website will display. default value is set to "Teams" which shows the Team List
   const [value, setValue] = React.useState("Teams");
