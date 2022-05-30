@@ -78,6 +78,37 @@ const classes = useStyles();
     setValue(newValue);
   };
 
+  const teamListSection = (
+    <TeamList
+                setSelectionModel={setSelectionTeam}
+                selectionModel={selectionTeam}
+                teamList={teamList}
+                isUpdated={isUpdated}
+                setTeamList={setTeamList}
+              />
+
+  )
+
+  const teamPlayerTableLoaderSection = (
+    <TeamPlayerTableLoader
+      teamID={selectionTeam}
+      isUpdated={isUpdated}
+      setIsUpdated={setIsUpdated}
+      tableIsUpdated={tableIsUpdated}
+      setTeamPlayersList={setTeamPlayersList}
+    />
+  )
+
+  const addPlayerTableLoaderSection = (
+    <AddPlayerTableLoader
+      teamID={selectionTeam}
+      tableIsUpdated={tableIsUpdated}
+      isUpdated={isUpdated}
+      setIsUpdated={setIsUpdated}
+      teamPlayersList={teamPlayersList}
+    />
+  )
+
   return (
     // the empty div "<>" container wraps the whole return component
     <>
@@ -87,16 +118,11 @@ const classes = useStyles();
         <Box>
           <Grid container spacing={2}>
             {/* -------------------------- Teams Section ----------------------------- */}
-            <Grid item md={4} lg={4} xl={4}
+            <Grid
+              item md={4} lg={4} xl={4}
             >
-              <TeamList
-                setSelectionModel={setSelectionTeam}
-                selectionModel={selectionTeam}
-                teamList={teamList}
-                isUpdated={isUpdated}
-                setTeamList={setTeamList}
-              />
-              </Grid>        
+                {teamListSection}
+            </Grid>        
 
       {/* formatting and adding of table that allows view/removal of players that are on selected team */}
       {/* -------------------------- Team Players Section ----------------------------- */}
@@ -107,12 +133,7 @@ const classes = useStyles();
           <div style={{ display: 'flex', columnGap: '10px', marginBottom: '10px' }}>
             <h2 style={{ margin: 0 }}>Your Lineup</h2>
           </div>
-          <TeamPlayerTableLoader
-            teamID={selectionTeam}
-            isUpdated={isUpdated}
-            setIsUpdated={setIsUpdated}
-            tableIsUpdated={tableIsUpdated}
-            setTeamPlayersList={setTeamPlayersList} />
+            {teamPlayerTableLoaderSection}
         </Paper>
       </Grid>
 
@@ -127,14 +148,10 @@ const classes = useStyles();
             >
               <div style={{ display: 'flex', columnGap: '10px', marginBottom: '10px' }}>
                 <h2 style={{ margin: 0 }}>All Players</h2>
-              </div>
-              <AddPlayerTableLoader
-                  teamID={selectionTeam}
-                  tableIsUpdated={tableIsUpdated}
-                  isUpdated={isUpdated}
-                  setIsUpdated={setIsUpdated}
-                  teamPlayersList={teamPlayersList}
-              />
+                </div>
+                
+                {addPlayerTableLoaderSection}
+                
             </Paper>
           </Grid>
         </Grid>
@@ -158,13 +175,7 @@ const classes = useStyles();
 
           {/* --------------------------------------- Teams Section -------------------------------------- */}
           <TabPanel value="Teams">
-            <TeamList
-              setSelectionModel={setSelectionTeam}
-              selectionModel={selectionTeam}
-              teamList={teamList}
-              isUpdated={isUpdated}
-              setTeamList={setTeamList}
-            />
+            {teamListSection}
           </TabPanel>
 
           {/* --------------------------------------- Lineup Section -------------------------------------- */}
@@ -172,13 +183,7 @@ const classes = useStyles();
             <Paper
               sx={{ p: 2, height: '800px' }}
             >
-              <TeamPlayerTableLoader
-                   teamID={selectionTeam}
-                   tableIsUpdated={tableIsUpdated}
-                   isUpdated={isUpdated}
-                   setIsUpdated={setIsUpdated}
-                   teamPlayersList={teamPlayersList}
-              />
+              {teamPlayerTableLoaderSection}
             </Paper>
           </TabPanel>
 
@@ -187,13 +192,7 @@ const classes = useStyles();
             <Paper
               sx={{ p: 2, height: '800px' }}
             >
-              <AddPlayerTableLoader
-                teamID={selectionTeam}
-                tableIsUpdated={tableIsUpdated}
-                isUpdated={isUpdated}
-                setIsUpdated={setIsUpdated}
-                teamPlayersList={teamPlayersList}
-              />
+              {addPlayerTableLoaderSection}
             </Paper>
           </TabPanel>
         </TabContext>

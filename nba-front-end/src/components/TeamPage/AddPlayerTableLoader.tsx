@@ -22,8 +22,7 @@ const AddPlayerTableLoader: React.FC<any> = (props) => {
   const [appState, setAppState] = useState<PlayerProps>({
     playerList: [],
   });
-  const isUpdated = props.isUpdated;
-  const setIsUpdated = props.setIsUpdated;
+
   // defines a state for whenever an error occurs
   const [errorMessage, setErrorMessage] = useState("");
     // defines a state for when the api is fetching data for players
@@ -38,7 +37,7 @@ const AddPlayerTableLoader: React.FC<any> = (props) => {
     api.get('players/get-all').toPromise().then((resp) => {
         setLoading(false);
         setAppState({ playerList: resp as Player[] });
-        setIsUpdated(false);
+        props.setIsUpdated(false);
         })
   // this catches any errors that may occur while fetching for player data
         .catch(error => { console.log(error); 
@@ -46,7 +45,7 @@ const AddPlayerTableLoader: React.FC<any> = (props) => {
   // this sets 'errorMessage' into the error that has occured
         setErrorMessage(error);
         })
-      }, [setAppState]);
+      }, [props.setAppState]);
 
   return (
     <React.Fragment>
