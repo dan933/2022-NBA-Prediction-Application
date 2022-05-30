@@ -21,3 +21,6 @@
   color: #61dafb;
 }
 
+#clearBtn {
+  cursor: pointer;
+}

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams } from '@mui/x-data-grid';
 import { FormControl, Grid, InputAdornment, InputLabel, OutlinedInput, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
 import { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 // import { Player } from '../models/IPlayer';
@@ -81,6 +82,11 @@ const PlayerDataGrid: React.FC<any> = (props) => {
   
   
   const classes = useStyles();
+
+  const clearInput = () => {
+    setSearch("");
+  }
+
   
   return (
     // white box around the table
@@ -105,7 +111,11 @@ const PlayerDataGrid: React.FC<any> = (props) => {
               onChange={handleChange}
               endAdornment={
                 <InputAdornment position="end">
-                  <SearchIcon />
+                  {search.length === 0 ? (
+                    <SearchIcon /> 
+                    ) : (
+                    <CloseIcon id="clearBtn" onClick={clearInput}/> 
+                  )}
                 </InputAdornment>
               }
             />
