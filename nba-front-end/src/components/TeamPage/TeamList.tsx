@@ -45,19 +45,21 @@ const TeamList: React.FC<any> = (props) => {
             },
           },
     //-------------------- Renders the remove team button --------------------//
-        { 
+        {
             field: "RemoveTeam",
             headerName: "",
             width: 90,
-            hideSortIcons:true,
-            renderCell: (params: any) =>
-            (               
-                <RemoveTeamButton                    
-                    teamObject={params.row}
-                    setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
-                    setTeamList={props.setTeamList}                    
-                />
-            )
+            hideSortIcons: true,
+            renderCell: (params: any) => {
+                return (               
+                    <RemoveTeamButton                    
+                        teamObject={params.row}
+                        setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
+                        setTeamList={props.setTeamList}                    
+                    />
+                )
+                
+            }
         },
     ];
 
@@ -68,6 +70,13 @@ const TeamList: React.FC<any> = (props) => {
         const handleClickOpen = () => {
         setOpen(true);
     };
+
+    const handleRowChanges = (selectedRow: any) => {
+
+        if (selectedRow.field !== "RemoveTeam") {
+            props.setSelectionModel(selectedRow.row.TeamID)
+        }
+    }
 
     const [newTeamID, setNewTeamID] = React.useState("");
 
@@ -145,9 +154,7 @@ const TeamList: React.FC<any> = (props) => {
                             disableColumnMenu={true}
                             pageSize={10}
                             rowsPerPageOptions={[10]}
-                            onSelectionModelChange={(newSelectionModel) => {                               
-                                changeTeamSelected(newSelectionModel);
-                            }}
+                            onCellClick={(event) => {handleRowChanges(event)}}
                             selectionModel={props.selectionModel}                            
                         />                        
                     </div>

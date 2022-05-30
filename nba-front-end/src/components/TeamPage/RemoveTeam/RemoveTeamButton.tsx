@@ -36,7 +36,7 @@ const RemoveTeamButton = (props: any) => {
 
   return (
     <>
-    <Button
+      <Button        
         color="error"
         onClick={handleopenRemoveTeam}
     >
