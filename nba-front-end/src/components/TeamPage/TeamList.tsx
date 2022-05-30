@@ -49,6 +49,7 @@ const TeamList: React.FC<any> = (props) => {
             field: "RemoveTeam",
             headerName: "",
             width: 90,
+            hideSortIcons:true,
             renderCell: (params: any) =>
             (               
                 <RemoveTeamButton                    
