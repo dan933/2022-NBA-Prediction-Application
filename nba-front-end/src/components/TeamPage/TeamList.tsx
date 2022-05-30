@@ -50,12 +50,11 @@ const TeamList: React.FC<any> = (props) => {
             headerName: "",
             width: 90,
             renderCell: (params: any) =>
-            (
-                <RemoveTeamButton
+            (               
+                <RemoveTeamButton                    
                     teamObject={params.row}
                     setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
-                    setTeamList={props.setTeamList}
-                    setTeamId={props.setSelectionModel}
+                    setTeamList={props.setTeamList}                    
                 />
             )
         },
@@ -71,9 +70,12 @@ const TeamList: React.FC<any> = (props) => {
 
     const [newTeamID, setNewTeamID] = React.useState("");
 
+    const changeTeamSelected = (newSelectionModel: any) => {
+        props.setSelectionModel(newSelectionModel)
+    }
     
     useEffect(() => {
-        props.setSelectionModel(newTeamID);
+       changeTeamSelected(newTeamID)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [newTeamID]); 
 
@@ -81,22 +83,11 @@ const TeamList: React.FC<any> = (props) => {
 
     const getWinChance = async () => {
 
-
         api.GetAllTeams().then(resp => {
 
             props.setTeamList(resp.data.Data);            
             
-        }).catch((err) => { console.log(err) })
-            
-        // const resp = await api.GetAllTeams()
-        //     .catch((err) => {
-        //         console.log(err)
-        //     })
-        
-        // if (resp) {
-        //     props.setTeamList(resp.data.Data);
-        // }
-        
+        }).catch((err) => { console.log(err) })        
     }
          
     // on changes to open state api is run
@@ -149,12 +140,12 @@ const TeamList: React.FC<any> = (props) => {
                             rows={props.teamList}
                             getRowId={(row) => row.TeamID}
                             columns={teamsColumns}
-                            disableColumnSelector={true}
+                            disableColumnSelector={true}                            
                             disableColumnMenu={true}
                             pageSize={10}
                             rowsPerPageOptions={[10]}
-                            onSelectionModelChange={(newSelectionModel) => {
-                                props.setSelectionModel(newSelectionModel);
+                            onSelectionModelChange={(newSelectionModel) => {                               
+                                changeTeamSelected(newSelectionModel);
                             }}
                             selectionModel={props.selectionModel}                            
                         />                        

@@ -1,7 +1,7 @@
 //testing azure pullrequest pipeline
 import { Button } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
-import {read_cookie, delete_cookie } from 'sfcookies';
+import {read_cookie } from 'sfcookies';
 import api from '../../../services/api';
  
 const RemoveTeamButton = (props: any) => {
@@ -17,20 +17,20 @@ const RemoveTeamButton = (props: any) => {
     if (removeTeamDontAskAgain !== "1") {
         props.setOpenRemoveTeamPopUp((prev:any) => !prev)
     } else {
-    //delete team by clicking button
+
+    //delete team by clicking bin button if there is a cookie
         const res: any = await api.RemoveTeam(props.teamObject.TeamID).catch((err) => {
-            console.log(err)            
+            console.log(err)
         })
         
+      if (res)
+      {
         api.GetAllTeams().then(resp => {
-            props.setTeamList(resp.data.Data);
-            if(resp.data.Data.length > 0){
-              props.setTeamId([resp.data.Data[0].TeamID])    
-            }
-
-            console.log([resp.data.Data[0].TeamID]);
-                    
+          props.setTeamList(resp.data.Data);          
         }).catch((err) => { console.log(err) })
+        
+      }
+
     } 
   }
 

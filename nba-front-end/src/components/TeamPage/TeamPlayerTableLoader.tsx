@@ -42,7 +42,8 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
             setLoading(false);
           })
         }
-    }, [setAppState, teamID, isUpdated]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [teamID, isUpdated]);
   
   const yourLineUpSection = () => {
     if (!isLoading && teamID.length === 0) {
