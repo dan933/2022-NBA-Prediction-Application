@@ -17,6 +17,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Hidden,
 } from "@mui/material";
 import type { } from '@mui/lab/themeAugmentation';
 import '@mui/lab/themeAugmentation';
@@ -77,29 +78,25 @@ const classes = useStyles();
     setValue(newValue);
   };
 
-  // declares a constant for defaultView which is used in the display property for bigger screens.
-  const defaultView = { xs: "none", lg: "block" };
-  // declares a constant for mobileView which is used in the display property for smaller screens.
-  const mobileView = { xs: "block", lg: "none" };
-
-
   return (
     // the empty div "<>" container wraps the whole return component
     <>
       {/* --------------------------------------- This Box contains all tables for the Default view -------------------------------------- */}
-      <Box display={defaultView}>
-        <Grid container spacing={2}>
-          {/* -------------------------- Teams Section ----------------------------- */}
-          <Grid item xs={12} sm={12} md={4} lg={4} xl={4}
-          >
-            <TeamList
-              setSelectionModel={setSelectionTeam}
-              selectionModel={selectionTeam}
-              teamList={teamList}
-              isUpdated={isUpdated}
-              setTeamList={setTeamList}
-            />
-          </Grid>
+      {/* screens lg and lower are hidden */}
+      <Hidden lgDown>
+        <Box>
+          <Grid container spacing={2}>
+            {/* -------------------------- Teams Section ----------------------------- */}
+            <Grid item md={4} lg={4} xl={4}
+            >
+              <TeamList
+                setSelectionModel={setSelectionTeam}
+                selectionModel={selectionTeam}
+                teamList={teamList}
+                isUpdated={isUpdated}
+                setTeamList={setTeamList}
+              />
+              </Grid>        
 
       {/* formatting and adding of table that allows view/removal of players that are on selected team */}
       {/* -------------------------- Team Players Section ----------------------------- */}
@@ -141,13 +138,15 @@ const classes = useStyles();
             </Paper>
           </Grid>
         </Grid>
-      </Box>
+        </Box>
+        </Hidden>
 
 
       {/* --------------------------------------- This Box contains all tables for the Mobile View -------------------------------------- */}
-      <Box
-        display={mobileView}
-        sx={{ width: '100%', typography: 'body1' }}>
+      {/*hides screens lg and up*/}
+      <Hidden lgUp>
+        <Box
+        sx={{ width: '100%', typography: 'body1'}}>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChange} aria-label="NBA Prediction Tabs" variant="fullWidth">
@@ -198,7 +197,8 @@ const classes = useStyles();
             </Paper>
           </TabPanel>
         </TabContext>
-      </Box>
+        </Box>
+      </Hidden>
     </>
   );
 };
