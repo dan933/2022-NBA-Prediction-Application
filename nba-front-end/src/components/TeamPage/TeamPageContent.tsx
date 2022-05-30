@@ -96,6 +96,7 @@ const classes = useStyles();
               setSelectionModel={setSelectionTeam}
               selectionModel={selectionTeam}
               teamList={teamList}
+              isUpdated={isUpdated}
               setTeamList={setTeamList}
             />
           </Grid>
