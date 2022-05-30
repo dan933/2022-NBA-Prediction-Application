@@ -25,11 +25,6 @@ const TeamList: React.FC<any> = (props) => {
 
     const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
 
-    // //opens remove team popup
-    // const handleopenRemoveTeamPopUp = () => {
-    // setOpenRemoveTeamPopUp((prev) => !prev)
-    // }
-
     const teamsColumns: GridColDef[] = [
         { field: "TeamID", headerName: "ID", width: 90, hide: true, flex:1 },
         { field: "TeamName", headerName: "Team Name", width: 150, flex:1  },
@@ -60,6 +55,7 @@ const TeamList: React.FC<any> = (props) => {
                     teamObject={params.row}
                     setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
                     setTeamList={props.setTeamList}
+                    setTeamId={props.setSelectionModel}
                 />
             )
         },
@@ -174,9 +170,9 @@ const TeamList: React.FC<any> = (props) => {
                 
                 <RemoveTeamPopUp
                     openRemoveTeamPopUp={openRemoveTeamPopUp}
-                    setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}                    
-                    teamId={props.selectionModel}
-                    teamList={props.teamList}                                       
+                    setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
+                    teamId={props.selectionModel}                    
+                    teamList={props.teamList}
                 />
             </Grid>
         </Paper>

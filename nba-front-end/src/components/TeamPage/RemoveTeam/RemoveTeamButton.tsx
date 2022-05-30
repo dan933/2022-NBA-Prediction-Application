@@ -17,13 +17,19 @@ const RemoveTeamButton = (props: any) => {
     if (removeTeamDontAskAgain !== "1") {
         props.setOpenRemoveTeamPopUp((prev:any) => !prev)
     } else {
-    //if cookie exist delete team by clicking button
+    //delete team by clicking button
         const res: any = await api.RemoveTeam(props.teamObject.TeamID).catch((err) => {
-            console.log(err)
+            console.log(err)            
         })
         
         api.GetAllTeams().then(resp => {
-            props.setTeamList(resp.data.Data);            
+            props.setTeamList(resp.data.Data);
+            if(resp.data.Data.length > 0){
+              props.setTeamId([resp.data.Data[0].TeamID])    
+            }
+
+            console.log([resp.data.Data[0].TeamID]);
+                    
         }).catch((err) => { console.log(err) })
     } 
   }

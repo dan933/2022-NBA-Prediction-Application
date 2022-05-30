@@ -38,13 +38,13 @@ export default function RemoveTeamPopUp(props: any) {
     if (IsCookieEnabled)
     {      
       bake_cookie('removeTeamDontAskAgain', "1");
-      console.log(read_cookie('removeTeamDontAskAgain'))
     }
     
     //removes selected team
-    const res:any = await api.RemoveTeam(props.teamId).catch((err) => {
+    const res:any = await api.RemoveTeam(props.teamId)
+    .catch((err) => {
       setIsError(true)
-    })    
+    })
     
     if(res) 
     props.setOpenRemoveTeamPopUp(false)
