@@ -30,7 +30,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { makeStyles } from "@material-ui/core";
 import { ReactComponent as HeaderImage } from '../../images/top-nav-bar-img.svg'
 import { mainListItems } from './listItems';
-import { withAuthenticationRequired } from '@auth0/auth0-react';
+import { withAuthenticationRequired,  useAuth0} from '@auth0/auth0-react';
 import UserInformation from './UserInformation/UserInformation';
 
 // type Anchor determines the direction for the drawer. you can use: left, right, top, bottom
@@ -55,6 +55,8 @@ function Copyright(props: any) {
 
 
 const ResponsiveAppBar = () => {
+
+  const { logout, user } = useAuth0();
 
   // defines and adds style for the nav bar - removes blue highlighted text which is the default style
   const useStyles = makeStyles((theme) => ({
@@ -326,6 +328,8 @@ const ResponsiveAppBar = () => {
               NBA Predictions
             </Typography>
 
+            
+
             <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
               <Button
                 onClick={() => navigate(`/dashboard/players`)}
@@ -353,6 +357,8 @@ const ResponsiveAppBar = () => {
               </Button>
             </Box>
 
+
+
             <Box marginLeft={'auto'}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -375,11 +381,14 @@ const ResponsiveAppBar = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
+              
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">{user?.email}</Typography>
                   </MenuItem>
-                ))}
+                  <MenuItem onClick={ () => {logout()} }>
+                    <Typography textAlign="center">Logout</Typography>
+                  </MenuItem>
+
               </Menu>
             </Box>
           </Toolbar>
