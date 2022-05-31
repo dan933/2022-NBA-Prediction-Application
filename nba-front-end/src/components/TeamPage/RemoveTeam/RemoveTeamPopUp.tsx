@@ -36,9 +36,12 @@ export default function RemoveTeamPopUp(props: any) {
       setIsError(true)
     })    
     
-    if(res) props.setOpenRemoveTeamPopUp(false);
+    if(res) 
+    props.setOpenRemoveTeamPopUp(false)
+    
   }
   
+
 
     return(
         <Dialog id="RemoveTeam" open={props.openRemoveTeamPopUp} disableScrollLock={true}>

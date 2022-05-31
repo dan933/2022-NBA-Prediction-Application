@@ -20,29 +20,28 @@ function TeamPageContentLoader() {
         teamList: [],
       });
 
-      const { getAccessTokenSilently } = useAuth0();
+    const { getAccessTokenSilently } = useAuth0();
 
-      const getAllTeams = async () => {
-        const token = await getAccessTokenSilently();
+    const getAllTeams = async () => {
+      const token = await getAccessTokenSilently();
 
-        api.get('/team/get-all', token)
-        .subscribe((resp) => {
-            setAppState({ loading: false, teamList: resp as Team[] });
-          });
-
-      }
-
+      api.GetAllTeams(token)
+        .then((resp) => {
+            setAppState({ loading: false, teamList: resp.data.Data as Team[] });
+        });
+    };
+      
       useEffect(() => {
-        getAllTeams()
         setAppState({ loading: true, teamList: [] });
-        
+
+        getAllTeams()        
         
       }, [setAppState]);    
       
   return (
-    <div>
+    <>
         <TableLoading isLoading={appState.loading} teamList={appState.teamList} />
-    </div>
+    </>
     );
 
 }

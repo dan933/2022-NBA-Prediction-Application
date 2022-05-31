@@ -54,8 +54,7 @@ const RemoveTeam = async (token:string, teamId?: number) => {
   
   return res
 };
-
-//---------------------------- API get teams for predictions page ------------------------//
+//---------------------------- API Get Teams Winrate ------------------------//
 //todo look into observable api calls https://github.com/zhaosiyang/axios-observable
 const GetAllTeams = async (token:string) => {
 
@@ -67,10 +66,22 @@ const GetAllTeams = async (token:string) => {
   .catch((err) => {
     throw err
   })
-
   return res;
 
 }
+
+//--------------------------- Remove Player API call -----------------------------//
+const RemovePlayer = async (token:string, teamId?: number, playersToRemove?:number[]) => {
+  
+  const res = await axios.delete(`${url}/team/${teamId}/removePlayers`, {data: playersToRemove, headers: {
+    'Authorization':`Bearer ${token}`
+  }}).catch((err) => {
+    throw err
+  })
+  
+  return res
+};
+
 
 //---------------------------- API Team Match Up for predictions page ------------------------//
 const GetTeamMatchUp = async (token:string, team1:number, team2:number) => {
@@ -88,4 +99,6 @@ const GetTeamMatchUp = async (token:string, team1:number, team2:number) => {
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { get, RemoveTeam, CreateTeam, GetAllTeams, GetTeamMatchUp };
+
+export default { get, RemoveTeam, CreateTeam, GetAllTeams, GetTeamMatchUp, RemovePlayer};
+

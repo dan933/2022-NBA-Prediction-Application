@@ -17,7 +17,7 @@ const linkStyle = {
 
 export const mainListItems = (
   <React.Fragment>
-    <Link style={linkStyle} to="/dashboard/Players">
+    <Link style={linkStyle} to="/dashboard/players">
       <ListItemButton>
         <ListItemIcon>
           <PeopleIcon />
@@ -25,7 +25,7 @@ export const mainListItems = (
           <ListItemText primary="Players" />
       </ListItemButton>
     </Link>
-    <Link style={linkStyle} to="/dashboard/Teams">
+    <Link style={linkStyle} to="/dashboard/teams">
       <ListItemButton>
         <ListItemIcon>
           <LayersIcon />
@@ -33,7 +33,7 @@ export const mainListItems = (
           <ListItemText primary="Team Creation" />
       </ListItemButton>
     </Link>
-    <Link style={linkStyle} to="/dashboard/Prediction">
+    <Link style={linkStyle} to="/dashboard/prediction">
     <ListItemButton>
       <ListItemIcon>
         <BarChartIcon />

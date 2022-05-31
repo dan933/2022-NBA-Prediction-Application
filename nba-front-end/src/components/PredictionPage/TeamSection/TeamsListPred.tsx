@@ -25,7 +25,7 @@ function TeamsListPred(props: any) {
   
   const GetSelectedTeamsId = (id: number[]) => {    
     if(id.length > 2){id = id.slice(0,2)}
-    props.setSelectedTeamsId(id)    
+    props.setSelectedTeamsId(id);    
     return id
   }
 
@@ -49,6 +49,7 @@ function TeamsListPred(props: any) {
           getRowId={(row) => row.TeamID}
           columns={teamsColumns}
           disableColumnSelector={true}
+          disableColumnMenu={true}
           pageSize={8}
           rowsPerPageOptions={[8]}
           onSelectionModelChange={(id) => {
