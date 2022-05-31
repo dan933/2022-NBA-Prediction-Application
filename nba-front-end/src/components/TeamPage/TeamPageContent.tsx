@@ -76,8 +76,8 @@ const TeamPageContent: React.FC<any> = (props) => {
   const theme = useTheme();
   const IsMobile = useMediaQuery(theme.breakpoints.down('md'))
   const IsdefaultView = useMediaQuery(theme.breakpoints.up('md'))
-  const mobileView = IsMobile ? { visibility: "visible" } : { visibility: "hidden",  maxHeight:'0' }
-  const defaultView = IsdefaultView ? { visibility: "visible" } : { visibility: "hidden",  maxHeight:'0' }
+  const mobileView = IsMobile ? { visibility: "visible" } : { visibility: "hidden",  maxHeight:'0', overflow:'hidden' }
+  const defaultView = IsdefaultView ? { visibility: "visible" } : { visibility: "hidden",  maxHeight:'0', overflow:'hidden' }
 
 
 const classes = useStyles();
