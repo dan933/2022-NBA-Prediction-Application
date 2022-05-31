@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Dialog from '@mui/material/Dialog';
 import { Alert, Button, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import api from '../../../services/api';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function RemovePlayerPopUp(props: any) {
 
@@ -11,6 +12,8 @@ export default function RemovePlayerPopUp(props: any) {
     FirstName?: string;
     LastName?: string; 
   }
+
+  const { getAccessTokenSilently } = useAuth0();
 
   const [teamObject, setTeamObject] = React.useState<ITeam>({TeamID:0,PlayerID:[0],FirstName:"",LastName:""});
 
@@ -26,9 +29,10 @@ export default function RemovePlayerPopUp(props: any) {
     // setTeamObject(props.teamList.find((team: any) => team.TeamID === props.teamId[0] ))    
     setTeamObject(props.teamPlayerList.find((player: any) => player.PlayerID === props.PlayerID[0] ))   
   }, [props.playerList, props.PlayerID, teamObject])
-    //--------------------------- Remove Team api call ---------------------------//
+    //--------------------------- Remove Player api call ---------------------------//
   const handleClickConfirmRemovePlayer = async () => {
-    const res:any = await api.RemovePlayer(props.teamId, props.PlayerID).catch((err) => {
+    const token = await getAccessTokenSilently();
+    const res:any = await api.RemovePlayer(token, props.teamId, props.PlayerID).catch((err) => {
       setIsError(true)
       
     })    

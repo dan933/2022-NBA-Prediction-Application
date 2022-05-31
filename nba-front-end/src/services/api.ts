@@ -3,9 +3,17 @@ import { defer, map, Observable } from 'rxjs';
 import { axiosRequestConfiguration } from './axios_config';
 import initialiseAxios from './axios_setup';
 
-const axiosInstance = initialiseAxios(axiosRequestConfiguration);
+const get = <T>(url: string, token?:string, queryParams?: object): Observable<T> => {
+  
+  const axiosConfig = axiosRequestConfiguration
 
-const get = <T>(url: string, queryParams?: object): Observable<T> => {
+  axiosConfig.headers = {
+    ...axiosConfig.headers,
+    'Authorization':`Bearer ${token}`
+  }
+
+  const axiosInstance = initialiseAxios(axiosConfig);
+
   return defer(()=> axiosInstance.get<T>(url, { params: queryParams }))
       .pipe(map(result => result.data));
 };
@@ -17,9 +25,13 @@ interface ICreateTeamRequest {
 }
 
 //---------------------------- Create Team API call ----------------------------//
-const CreateTeam = async (teamName?: string) => {
+const CreateTeam = async ( token:string, teamName?: string) => {
   const createTeamRequest: ICreateTeamRequest = { TeamName: teamName }
-  const res = await axios.post(`${url}/team/create-team`, createTeamRequest)
+  const res = await axios.post(`${url}/team/create-team`, createTeamRequest, {
+    headers: {
+      'Authorization':`Bearer ${token}`
+    }
+  })
   .catch((err) => {
   throw err
   })
@@ -29,9 +41,13 @@ const CreateTeam = async (teamName?: string) => {
 
 
 //--------------------------- Remove Team API call -----------------------------//
-const RemoveTeam = async (teamId?: number) => {
+const RemoveTeam = async (token:string, teamId?: number) => {
   
-  const res = await axios.delete(`${url}/team/${teamId}/removeTeams`)
+  const res = await axios.delete(`${url}/team/${teamId}/removeTeams`, {
+    headers: {
+      'Authorization':`Bearer ${token}`
+    }
+  })
     .catch((err) => {
       throw err
   })
@@ -40,9 +56,13 @@ const RemoveTeam = async (teamId?: number) => {
 };
 //---------------------------- API Get Teams Winrate ------------------------//
 //todo look into observable api calls https://github.com/zhaosiyang/axios-observable
-const GetAllTeams = async () => {
+const GetAllTeams = async (token:string) => {
 
-  const res:any = await axios.get(`${url}/team/get-winrate`)
+  const res: any = await axios.get(`${url}/team/get-winrate`, {
+    headers: {
+      'Authorization':`Bearer ${token}`
+    }
+  })
   .catch((err) => {
     throw err
   })
@@ -51,9 +71,11 @@ const GetAllTeams = async () => {
 }
 
 //--------------------------- Remove Player API call -----------------------------//
-const RemovePlayer = async (teamId?: number, playersToRemove?:number[]) => {
+const RemovePlayer = async (token:string, teamId?: number, playersToRemove?:number[]) => {
   
-  const res = await axios.delete(`${url}/team/${teamId}/removePlayers`, {data: playersToRemove}).catch((err) => {
+  const res = await axios.delete(`${url}/team/${teamId}/removePlayers`, {data: playersToRemove, headers: {
+    'Authorization':`Bearer ${token}`
+  }}).catch((err) => {
     throw err
   })
   
@@ -62,8 +84,12 @@ const RemovePlayer = async (teamId?: number, playersToRemove?:number[]) => {
 
 
 //---------------------------- API Team Match Up for predictions page ------------------------//
-const GetTeamMatchUp = async (team1:number, team2:number) => {
-    const res:any = await axios.get(`${url}/team/${team1}/${team2}/CompareWinChance`)
+const GetTeamMatchUp = async (token:string, team1:number, team2:number) => {
+  const res: any = await axios.get(`${url}/team/${team1}/${team2}/CompareWinChance`, {
+    headers: {
+        'Authorization':`Bearer ${token}`
+      }
+    })
     .catch((err) => {
       throw err
     })

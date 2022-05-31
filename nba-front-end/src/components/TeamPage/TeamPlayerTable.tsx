@@ -8,51 +8,52 @@ import axios, { AxiosError } from 'axios';
 import Button from '@mui/material/Button';
 import RemovePlayerButton from './RemovePlayer/RemovePlayerButton';
 import RemovePlayerPopUp from './RemovePlayer/RemovePlayerPopUp';
+import { useAuth0 } from '@auth0/auth0-react';
 
 // Setting up the columns of the player table
 const TeamPlayerTable: React.FC<any> = (props) => {
 
-const teamPlayerColumns: GridColDef[] = [
-  {
-    field: "addplayer",
-    headerName: "",
-    width: 90,
-    renderCell: (params: any) =>
-    (
-      <RemovePlayerButton
-        teamObject={params.row}
-        handleOpenRemovePlayerPopUp={()=> handleOpenRemovePlayerPopUp([params.row.PlayerID] as number[])}
-      />
-    )
-  },
-  { field: 'TeamID', headerName: 'Team ID', width: 90, hide: true },
-  { field: 'TeamName', headerName: 'Team Name', width: 90, hide: true },
-  { field: 'PlayerID', headerName: 'Player ID', width: 90, hide: true },
-  { field: 'FirstName', headerName: 'First Name', width: 150, },
-  { field: 'LastName', headerName: 'Last Name', width: 150, },
-  {
-    field: 'FullName',
-    headerName: 'Name',
-    sortable: false,
-    width: 160,
-    hide: true,
-    valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.FirstName || ''} ${params.row.LastName || ''}`,
-
-  },
-  {
-    field: 'PlayerWinPercent', headerName: 'Win Percentage', width: 150,
-    valueFormatter: (params) => {
-      const valueFormatted = Number((params.value as number) * 100).toLocaleString();
-      return `${valueFormatted} %`;
+  const teamPlayerColumns: GridColDef[] = [
+    {
+      field: "addplayer",
+      headerName: "",
+      width: 90,
+      renderCell: (params: any) =>
+      (
+        <RemovePlayerButton
+          teamObject={params.row}
+          handleOpenRemovePlayerPopUp={()=> handleOpenRemovePlayerPopUp([params.row.PlayerID] as number[])}
+        />
+      )
     },
-  },
-  { field: 'Points', headerName: 'Points', width: 120 },
-  { field: 'Rebounds', headerName: 'Rebounds', width: 120 },
-  { field: 'Assists', headerName: 'Assists', width: 120 },
-  { field: 'Steals', headerName: 'Steals', width: 120 },
-  { field: 'Blocks', headerName: 'Blocks', width: 120 },
-];
+    { field: 'TeamID', headerName: 'Team ID', width: 90, hide: true },
+    { field: 'TeamName', headerName: 'Team Name', width: 90, hide: true },
+    { field: 'PlayerID', headerName: 'Player ID', width: 90, hide: true },
+    { field: 'FirstName', headerName: 'First Name', width: 150, },
+    { field: 'LastName', headerName: 'Last Name', width: 150, },
+    {
+      field: 'FullName',
+      headerName: 'Name',
+      sortable: false,
+      width: 160,
+      hide: true,
+      valueGetter: (params: GridValueGetterParams) =>
+        `${params.row.FirstName || ''} ${params.row.LastName || ''}`,
+
+    },
+    {
+      field: 'PlayerWinPercent', headerName: 'Win Percentage', width: 150,
+      valueFormatter: (params) => {
+        const valueFormatted = Number((params.value as number) * 100).toLocaleString();
+        return `${valueFormatted} %`;
+      },
+    },
+    { field: 'Points', headerName: 'Points', width: 120 },
+    { field: 'Rebounds', headerName: 'Rebounds', width: 120 },
+    { field: 'Assists', headerName: 'Assists', width: 120 },
+    { field: 'Steals', headerName: 'Steals', width: 120 },
+    { field: 'Blocks', headerName: 'Blocks', width: 120 },
+  ];
 
 
   const [openRemovePlayerPopUp, setOpenRemovePlayerPopUp]=useState(false);
@@ -101,8 +102,9 @@ const teamPlayerColumns: GridColDef[] = [
         },
       ],
     });
+  },[search]);
 
-  }, [search]);
+  const url = axiosRequestConfiguration.baseURL
 
   return (
     <>

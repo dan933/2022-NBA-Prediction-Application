@@ -28,7 +28,10 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { makeStyles } from "@material-ui/core";
-import { ReactComponent as HeaderImage } from '../images/top-nav-bar-img.svg'
+import { ReactComponent as HeaderImage } from '../../images/top-nav-bar-img.svg'
+import { mainListItems } from './listItems';
+import { withAuthenticationRequired } from '@auth0/auth0-react';
+import UserInformation from './UserInformation/UserInformation';
 
 // type Anchor determines the direction for the drawer. you can use: left, right, top, bottom
 type Anchor = 'left';
@@ -67,6 +70,33 @@ const ResponsiveAppBar = () => {
   const [state, setState] = React.useState({
     left: false
   });
+
+// const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+//   ({ theme, open }) => ({
+//     '& .MuiDrawer-paper': {
+//       overflow:'hidden',
+//       position: 'relative',
+//       whiteSpace: 'nowrap',
+//       width: drawerWidth,
+//       transition: theme.transitions.create('width', {
+//         easing: theme.transitions.easing.sharp,
+//         duration: theme.transitions.duration.enteringScreen,
+//       }),
+//       boxSizing: 'border-box',
+//       ...(!open && {
+//         overflowX: 'hidden',
+//         transition: theme.transitions.create('width', {
+//           easing: theme.transitions.easing.sharp,
+//           duration: theme.transitions.duration.leavingScreen,
+//         }),
+//         width: theme.spacing(7),
+//         [theme.breakpoints.up('sm')]: {
+//           width: theme.spacing(9),
+//         },
+//       }),
+//     },
+//   }),
+// );
 
 
   const toggleDrawer =
@@ -160,6 +190,67 @@ const ResponsiveAppBar = () => {
         </header>
       </div>
       <Box
+    // <ThemeProvider theme={mdTheme}>
+    //   <Box sx={{ display: 'flex' }}>
+    //     <CssBaseline />
+    //     <Drawer variant="permanent" open={open}>
+    //       <Toolbar
+    //         sx={{
+    //           display: 'flex',
+    //           alignItems: 'center',
+    //           justifyContent: 'flex-end',
+    //           px: [1],
+    //         }}
+    //       >
+    //         <IconButton onClick={toggleDrawer}>
+    //           <ChevronLeftIcon />
+    //         </IconButton>
+    //       </Toolbar>
+    //       <Divider />
+    //       <List>
+    //         <UserInformation/>
+    //       </List>
+    //       <Divider />
+    //       <List component="nav">
+    //         {mainListItems}
+    //         <Divider sx={{ my: 1 }} />
+    //       </List>
+    //     </Drawer>
+    //     <AppBar open={open} position="absolute" sx={{top: 250}}>
+    //       <Toolbar
+    //         sx={{
+    //           pr: '24px', // keep right padding when drawer closed
+    //         }}
+    //       >
+    //         <IconButton
+    //           edge="start"
+    //           color="inherit"
+    //           aria-label="open drawer"
+    //           onClick={toggleDrawer}
+    //           sx={{
+    //             marginRight: '36px',
+    //             ...(open && { display: 'none' }),
+    //           }}
+    //         >
+    //           <MenuIcon />
+    //         </IconButton>
+    //         <Typography
+    //           component="h1"
+    //           variant="h6"
+    //           color="inherit"
+    //           noWrap
+    //           sx={{ flexGrow: 1 }}
+    //         >
+    //           NBA Prediction Application
+    //         </Typography>
+    //         {/* <IconButton color="inherit">
+    //           <Badge badgeContent={4} color="secondary">
+    //             <NotificationsIcon />
+    //           </Badge>
+    //         </IconButton> */}
+    //       </Toolbar>
+    //     </AppBar>
+    //     <Box
           component="main"
           sx={{
             backgroundColor: (theme) =>
@@ -306,6 +397,4 @@ const ResponsiveAppBar = () => {
   );
 };
 
-export default function Dashboard() {
-  return <ResponsiveAppBar />;
-}
+export default withAuthenticationRequired(ResponsiveAppBar, {onRedirecting:() => <h1>Loading Please Wait</h1>,})

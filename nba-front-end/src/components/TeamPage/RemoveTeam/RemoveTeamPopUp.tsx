@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Dialog from '@mui/material/Dialog';
 import { Alert, Button, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import api from '../../../services/api';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export default function RemoveTeamPopUp(props: any) {
 
@@ -9,6 +10,8 @@ export default function RemoveTeamPopUp(props: any) {
     TeamID?: number;
     TeamName?: string;
   }
+
+  const { getAccessTokenSilently } = useAuth0();
 
   const [teamObject, setTeamObject] = React.useState<ITeam>({TeamID:0,TeamName:""});
   
@@ -25,7 +28,11 @@ export default function RemoveTeamPopUp(props: any) {
 
   //--------------------------- Remove Team api call ---------------------------//
   const handleClickConfirmRemoveTeam = async () => {
-    const res:any = await api.RemoveTeam(teamObject.TeamID).catch((err) => {
+    
+    const token = await getAccessTokenSilently();
+    console.log(token);
+
+    const res:any = await api.RemoveTeam(token, teamObject.TeamID).catch((err) => {
       setIsError(true)
     })    
     
@@ -37,7 +44,7 @@ export default function RemoveTeamPopUp(props: any) {
 
 
     return(
-        <Dialog id="RemoveTeam" open={props.openRemoveTeamPopUp}>
+        <Dialog id="RemoveTeam" open={props.openRemoveTeamPopUp} disableScrollLock={true}>
               {/* todo: need to add reference to team name */}
               <DialogTitle>Remove {teamObject?.TeamName}</DialogTitle>
               <DialogContent>

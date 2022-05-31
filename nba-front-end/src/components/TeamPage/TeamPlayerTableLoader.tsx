@@ -5,6 +5,7 @@ import { TeamPlayer } from '../../models/ITeamPlayer';
 import TeamPlayerTable from './TeamPlayerTable';
 import axios, { AxiosError } from 'axios';
 import { axiosRequestConfiguration } from "../../services/axios_config";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface TeamPlayerProps {
   teamPlayerList: any[];
@@ -23,26 +24,47 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
   const setIsUpdated = props.setIsUpdated;
   const setTeamPlayersList = props.setTeamPlayersList;
   
+  const { getAccessTokenSilently } = useAuth0();
+  
   // gets value from create team form
 
-  useEffect(() => {
-    if (!isLoading && teamID.length !== 0) {
+  const getPlayersFromTeam = async () => {
+
+
+
+    if (teamID.length !== 0) {
+
+      const token = await getAccessTokenSilently();
+
+      console.log(token)
+
       setLoading(true);
       setAppState({ teamPlayerList: [] });
-      axios.get(`${url}/team/${teamID}/get-players`)
-        .then((response) => {
-            setAppState({ teamPlayerList: response.data.Data as TeamPlayer[] });
-            setTeamPlayersList(response.data.Data.map((a:any)=>a.PlayerID));
-            setLoading(false);
-            setIsUpdated(false);
-          })
-      // this catches any errors that may occur while fetching for player data
-            .catch(error => { 
-            console.log(error); 
-            setLoading(false);
-          })
+
+      api.get(`${url}/team/${teamID}/get-players`, token).subscribe({
+        next: (resp: any) => {         
+
+          setAppState({ teamPlayerList: resp.Data as TeamPlayer[] });
+          setTeamPlayersList(resp.Data.map((a:any)=>a.PlayerID));
+          setIsUpdated(false);
+          setLoading(false);
+
+        },
+        error: (e) => {
+          console.log(e);
+          setLoading(false);
         }
-    }, [setAppState, teamID, isUpdated]);
+      })
+    }
+
+  }
+
+  
+
+  useEffect(() => {
+  getPlayersFromTeam();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setAppState, teamID, isUpdated]);
   
   const yourLineUpSection = () => {
     if (!isLoading && teamID.length === 0) {

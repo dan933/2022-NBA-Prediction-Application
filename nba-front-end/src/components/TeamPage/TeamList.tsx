@@ -7,6 +7,8 @@ import api from "../../services/api";
 import RemoveTeamPopUp from "./RemoveTeam/RemoveTeamPopUp";
 import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";
 import { makeStyles } from '@material-ui/core/styles';
+import { useAuth0 } from "@auth0/auth0-react";
+
 
 const TeamList: React.FC<any> = (props) => {
 
@@ -67,18 +69,21 @@ const TeamList: React.FC<any> = (props) => {
 
     const [newTeamID, setNewTeamID] = React.useState("");
 
-    
+
+    const { getAccessTokenSilently } = useAuth0();
+
+
+
     useEffect(() => {
         props.setSelectionModel(newTeamID);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [newTeamID]); 
-
-    
+    },[newTeamID]);
 
     const getWinChance = async () => {
 
+        const token = await getAccessTokenSilently();
 
-        api.GetAllTeams().then(resp => {
+        api.GetAllTeams(token).then(resp => {            
 
             props.setTeamList(resp.data.Data);            
             
