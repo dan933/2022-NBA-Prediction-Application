@@ -18,6 +18,7 @@ import {
   DialogContentText,
   DialogTitle,
   Hidden,
+  useMediaQuery,
 } from "@mui/material";
 import type { } from '@mui/lab/themeAugmentation';
 import '@mui/lab/themeAugmentation';
@@ -40,6 +41,7 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import { useTheme } from '@mui/material/styles';
 
 const TeamPageContent: React.FC<any> = (props) => {
 
@@ -67,9 +69,15 @@ const TeamPageContent: React.FC<any> = (props) => {
   });
   
    // declares a constant for defaultView which is used in the display property for bigger screens.
-   const defaultView = { xs: "none", lg: "block" };
+   //const defaultView = { xs: "none", lg: "block" };
    // declares a constant for mobileView which is used in the display property for smaller screens.
-   const mobileView = { xs: "block", lg: "none" };
+  //const mobileView = { xs: "block", lg: "none" };
+
+  const theme = useTheme();
+  const IsMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const IsdefaultView = useMediaQuery(theme.breakpoints.up('md'))
+  const mobileView = IsMobile ? { visibility: "visible" } : { visibility: "hidden",  maxHeight:'0' }
+  const defaultView = IsdefaultView ? { visibility: "visible" } : { visibility: "hidden",  maxHeight:'0' }
 
 
 const classes = useStyles();

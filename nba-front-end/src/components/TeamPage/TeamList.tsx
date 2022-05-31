@@ -162,6 +162,7 @@ const TeamList: React.FC<any> = (props) => {
                             onSelectionModelChange={(newSelectionModel) => {
                                 props.setSelectionModel(newSelectionModel);
                             }}
+                            hideFooterSelectedRowCount
                             selectionModel={props.selectionModel}                            
                         />                        
                     </div>
