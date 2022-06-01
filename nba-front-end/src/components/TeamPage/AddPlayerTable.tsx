@@ -16,7 +16,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
     { 
       field: "addplayer",
       headerName: "",
-      width: 90,
+      width: 70,
       renderCell: (params: any) =>
       (
           <AddPlayerButton

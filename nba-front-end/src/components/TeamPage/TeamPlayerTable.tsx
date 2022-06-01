@@ -47,11 +47,11 @@ const teamPlayerColumns: GridColDef[] = [
       return `${valueFormatted} %`;
     },
   },
-  { field: 'Points', headerName: 'Points', width: 120 },
-  { field: 'Rebounds', headerName: 'Rebounds', width: 120 },
-  { field: 'Assists', headerName: 'Assists', width: 120 },
-  { field: 'Steals', headerName: 'Steals', width: 120 },
-  { field: 'Blocks', headerName: 'Blocks', width: 120 },
+  { field: 'Points', headerName: 'Points', width: 120, flex: 0.3 },
+  { field: 'Rebounds', headerName: 'Rebounds', width: 120, flex: 0.3 },
+  { field: 'Assists', headerName: 'Assists', width: 120, flex: 0.3 },
+  { field: 'Steals', headerName: 'Steals', width: 120, flex: 0.3 },
+  { field: 'Blocks', headerName: 'Blocks', width: 120, flex: 0.3 },
 ];
 
 
