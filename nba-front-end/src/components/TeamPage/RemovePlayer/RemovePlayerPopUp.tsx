@@ -40,17 +40,7 @@ export default function RemovePlayerPopUp(props: any) {
   
 
   
-  //   //--------------------------- Remove Team api call ---------------------------//
-  // const handleClickConfirmRemovePlayer = async () => {
-  //   const res:any = await api.RemovePlayer(props.teamId, props.PlayerID).catch((err) => {
-  //     setIsError(true)
-      
-  //   })    
-    
-  //   if(res) 
-  //   props.setOpenRemovePlayerPopUp(false);
-  //   props.tableIsUpdated();
-  // }
+  
   const handleClickConfirmRemovePlayer = async () => {
     //sets cookie if checkbox is clicked on confirm
     if (IsCookieEnabled)
@@ -59,7 +49,7 @@ export default function RemovePlayerPopUp(props: any) {
     }
     
     //removes selected player
-    const res:any = await api.RemovePlayer(props.teamId, props.PlayerID).catch((err) => {
+    const res:any = await api.RemovePlayer(props.teamObject.teamId, props.PlayerID).catch((err) => {
       
       setIsError(true)
       

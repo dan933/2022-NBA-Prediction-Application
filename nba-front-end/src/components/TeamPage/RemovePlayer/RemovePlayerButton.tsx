@@ -17,15 +17,14 @@ const RemovePlayerButton = (props: any) => {
     } else {
 
     //delete player by clicking bin button if there is a cookie
+        console.log(props.teamObject.TeamID, props.PlayerID);
         const res: any = await api.RemovePlayer(props.teamObject.TeamID, props.PlayerID).catch((err) => {
-            console.log(err)
+            console.log(props.PlayerID)
         })
         
       if (res)
       {
-        api.GetAllTeams().then(resp => {
-          props.setTeamList(resp.data.Data);          
-        }).catch((err) => { console.log(err) })
+        props.tableIsUpdated();
         
       }
 
