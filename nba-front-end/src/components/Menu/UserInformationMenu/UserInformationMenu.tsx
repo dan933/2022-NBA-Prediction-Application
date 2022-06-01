@@ -8,7 +8,6 @@ function UserInformation() {
   const { user, logout } = useAuth0();
 
   const userEmail = user?.email
-  console.log(userEmail)
 
   // sets events for profile menu
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
