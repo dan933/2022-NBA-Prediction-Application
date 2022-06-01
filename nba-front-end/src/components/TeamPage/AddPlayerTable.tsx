@@ -142,7 +142,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
         <Stack spacing={2} sx={{ width: '100%' }}>
-        <Snackbar open={open} autoHideDuration={650} onClose={handleClose}>
+        <Snackbar open={open} autoHideDuration={1050} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
           Player Successfully Added!
         </Alert>

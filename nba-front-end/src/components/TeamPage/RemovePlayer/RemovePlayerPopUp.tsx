@@ -30,7 +30,7 @@ export default function RemovePlayerPopUp(props: any) {
   const handleClose = () => {
     setOpen(false);
   };
-  
+
   const [teamObject, setTeamObject] = React.useState<ITeam>({TeamID:0,PlayerID:[0],FirstName:"",LastName:""});
 
   const [IsError, setIsError] = React.useState(false);
@@ -77,7 +77,7 @@ export default function RemovePlayerPopUp(props: any) {
         </Dialog>
 
         <Stack spacing={2} sx={{ width: '100%' }}>
-        <Snackbar open={open} autoHideDuration={850} onClose={handleClose}>
+        <Snackbar open={open} autoHideDuration={1050} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
           Player Successfully Removed!
         </Alert>

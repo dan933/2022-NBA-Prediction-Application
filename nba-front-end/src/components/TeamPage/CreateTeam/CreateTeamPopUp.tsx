@@ -88,7 +88,7 @@ function CreateTeamPopUp(props:any) {
     </Dialog>
 
       <Stack spacing={2} sx={{ width: '100%' }}>
-      <Snackbar open={open} autoHideDuration={550} onClose={handleSnackBarClose}>
+      <Snackbar open={open} autoHideDuration={1050} onClose={handleSnackBarClose}>
       <Alert onClose={handleSnackBarClose} severity="info" sx={{ width: '100%' }}>
         Team Successfully Added!!
       </Alert>
