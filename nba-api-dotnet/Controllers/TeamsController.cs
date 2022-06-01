@@ -345,6 +345,9 @@ public class TeamController : ControllerBase
         
         try
         {
+            var sub = HttpContext?.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            Console.WriteLine("sub "+sub);
+
             var teams = await _context.view_WinChance.ToListAsync();
 
             var response = new Response<List<WinChanceView>>(teams, true, "Team Successfully returned");
