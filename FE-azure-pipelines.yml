@@ -43,3 +43,18 @@ steps:
     PathtoPublish: './nba-front-end/build'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+
+
+- script: |
+    CI=false
+    npm install
+    npm run build:staging
+  displayName: 'npm install and build'
+  workingDirectory: ./nba-front-end
+
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: './nba-front-end/build'
+    ArtifactName: 'staging'
+    publishLocation: 'Container'
