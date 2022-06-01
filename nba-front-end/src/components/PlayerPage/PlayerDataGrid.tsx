@@ -1,39 +1,41 @@
 import * as React from 'react';
-import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams, GridToolbarContainer, GridToolbarFilterButton, GridToolbarColumnsButton } from '@mui/x-data-grid';
 import { FormControl, Grid, InputAdornment, InputLabel, OutlinedInput, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import InfoIcon from "@mui/icons-material/Info";
 // import { Player } from '../models/IPlayer';
 
 // Setting up the columns of the player table
 const playerColumns: GridColDef[] = [
-    { field: 'PlayerID', headerName: 'ID', width: 90, hide: true },
-    { field: 'FirstName', headerName: 'First Name', width: 150, },
-    { field: 'LastName', headerName: 'Last Name', width: 150, },
-    {
-      field: 'FullName',
-      headerName: 'Name',
-      sortable: false,
-      width: 160,
-      hide: true,
-      valueGetter: (params: GridValueGetterParams) =>
-        `${params.row.FirstName || ''} ${params.row.LastName || ''}`,
-        
+  { field: 'PlayerID', headerName: 'ID', width: 90, hide: true },
+  { field: 'FirstName', headerName: 'First Name', width: 150, },
+  { field: 'LastName', headerName: 'Last Name', width: 150, },
+  {
+    field: 'FullName',
+    headerName: 'Name',
+    sortable: false,
+    width: 160,
+    hide: true,
+    valueGetter: (params: GridValueGetterParams) =>
+      `${params.row.FirstName || ''} ${params.row.LastName || ''}`,
+
+  },
+  {
+    field: 'PlayerWinPercent', headerName: 'Win Percentage', width: 150,
+    valueFormatter: (params) => {
+      const valueFormatted = Number((params.value as number) * 100).toLocaleString();
+      return `${valueFormatted} %`;
     },
-    { field: 'PlayerWinPercent', headerName: 'Win Percentage', width: 150,
-      valueFormatter: (params) => {
-        const valueFormatted = Number((params.value as number) * 100).toLocaleString();
-        return `${valueFormatted} %`;
-      }, 
-    },
-    { field: 'Points', headerName: 'Points', width: 120 },
-    { field: 'Rebounds', headerName: 'Rebounds', width: 120 },
-    { field: 'Assists', headerName: 'Assists', width: 120 },
-    { field: 'Steals', headerName: 'Steals', width: 120 },
-    { field: 'Blocks', headerName: 'Blocks', width: 120 },
-  ];
+  },
+  { field: 'Points', headerName: 'Points', width: 120 },
+  { field: 'Rebounds', headerName: 'Rebounds', width: 120 },
+  { field: 'Assists', headerName: 'Assists', width: 120 },
+  { field: 'Steals', headerName: 'Steals', width: 120 },
+  { field: 'Blocks', headerName: 'Blocks', width: 120 },
+];
 
 const PlayerDataGrid: React.FC<any> = (props) => {
 
@@ -62,46 +64,56 @@ const PlayerDataGrid: React.FC<any> = (props) => {
 
 
   // when [search] is updated, update the table's filter
-  useEffect(()=>{setFilterModel({
-    items: [
-      {
-        columnField: 'FullName',
-        operatorValue: 'contains',
-        value: search,
-      },
-    ],
-  })},[search]);
+  useEffect(() => {
+    setFilterModel({
+      items: [
+        {
+          columnField: 'FullName',
+          operatorValue: 'contains',
+          value: search,
+        },
+      ],
+    })
+  }, [search]);
 
   const useStyles = makeStyles({
     root: {
-        '&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus, &.MuiDataGrid-root .MuiDataGrid-cell:focus': {
-            outline: 'none',
-        },
+      '&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus, &.MuiDataGrid-root .MuiDataGrid-cell:focus': {
+        outline: 'none',
+      },
     }
   });
-  
-  
+
   const classes = useStyles();
 
   const clearInput = () => {
     setSearch("");
   }
 
-  
+  function CustomToolbar() {
+    return (
+      <GridToolbarContainer>
+        <GridToolbarFilterButton />
+        <GridToolbarColumnsButton />
+      </GridToolbarContainer>
+    );
+  }
+
+
   return (
     // white box around the table
     <Paper
-        sx={{
-          p: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          height: 'auto',
-          maxWidth: 'auto'
-        }}
-      >
-        {/* formats the placement of the searchbar and table */}
-        <Grid container spacing={2}>
-         <Grid item xl={12} md={12} xs={12}>
+      sx={{
+        p: 2,
+        display: 'flex',
+        flexDirection: 'column',
+        height: 'auto',
+        maxWidth: 'auto'
+      }}
+    >
+      {/* formats the placement of the searchbar and table */}
+      <Grid container spacing={2}>
+        <Grid item xl={12} md={12} xs={12}>
           <FormControl variant="outlined" size="small" fullWidth={true}>
             <InputLabel htmlFor="outlined-search">Search for a player</InputLabel>
             <OutlinedInput
@@ -112,34 +124,36 @@ const PlayerDataGrid: React.FC<any> = (props) => {
               endAdornment={
                 <InputAdornment position="end">
                   {search.length === 0 ? (
-                    <SearchIcon /> 
-                    ) : (
-                    <CloseIcon id="clearBtn" onClick={clearInput}/> 
+                    <SearchIcon />
+                  ) : (
+                    <CloseIcon id="clearBtn" onClick={clearInput} />
                   )}
                 </InputAdornment>
               }
             />
-            </FormControl>
-          </Grid>
-          <Grid item xl={12} md={12} xs={12}>
-            <div style={{ height: '1151px', width: '100%' }}>
-              <DataGrid
+          </FormControl>
+        </Grid>
+        <Grid item xl={12} md={12} xs={12}>
+          <div style={{ height: '1151px', width: '100%' }}>
+            <DataGrid
               className={classes.root}
               rows={playerList}
               getRowId={(row) => row.PlayerID}
               columns={playerColumns}
-              disableColumnSelector={true}
               disableColumnMenu={true}
               checkboxSelection={false}
               pageSize={20}
               rowsPerPageOptions={[20]}
               filterModel={filterModel}
               onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
-              />
-            </div>
-          </Grid>
+              components={{
+                Toolbar: CustomToolbar,
+              }}
+            />
+          </div>
         </Grid>
-      </Paper>
+      </Grid>
+    </Paper>
   );
 }
 export default PlayerDataGrid;
