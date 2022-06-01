@@ -101,6 +101,21 @@ builder.Services.AddSwaggerGen(options =>
         Scheme = "Bearer"
     });
 
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+
     // using System.Reflection;
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
@@ -109,7 +124,7 @@ builder.Services.AddSwaggerGen(options =>
 if(builder.Environment.IsDevelopment()){
     builder.Services.AddDbContext<NBAContext>(options =>
     {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DanDesktopDB"));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DanLaptopDB"));
     });
 }else if(builder.Environment.IsStaging()){
 
