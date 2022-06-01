@@ -65,11 +65,6 @@ const teamPlayerColumns: GridColDef[] = [
       setOpenRemovePlayerPopUp((prev) => !prev)
     }
 
-  // this takes the props passed to this component and uses it to populate the table
-  const teamPlayerList = props.teamPlayerList;
-
-  const teamID = props.teamID;
-
   // initialise the value for the searchbar
   const [search, setSearch] = React.useState('');
 
@@ -128,7 +123,7 @@ const teamPlayerColumns: GridColDef[] = [
           <div style={{ height:'648px'}}>
             <DataGrid
               loading={props.loading}
-              rows={teamPlayerList}
+              rows={props.teamPlayerList}
               getRowId={(row) => row.PlayerID}
               columns={teamPlayerColumns}
               disableColumnSelector={true}
@@ -146,7 +141,7 @@ const teamPlayerColumns: GridColDef[] = [
       <RemovePlayerPopUp 
         openRemovePlayerPopUp={openRemovePlayerPopUp}
         setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}
-        teamId={teamID}
+        teamId={props.teamID}
         PlayerID={PlayerToDelete}
         teamPlayerList ={props.teamPlayerList}
         tableIsUpdated={props.tableIsUpdated}
