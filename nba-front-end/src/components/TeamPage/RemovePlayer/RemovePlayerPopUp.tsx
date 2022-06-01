@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
-import { Alert, Button, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Alert, Button, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Checkbox } from '@mui/material';
 import api from '../../../services/api';
+import { bake_cookie, read_cookie, delete_cookie } from 'sfcookies';
 
 export default function RemovePlayerPopUp(props: any) {
 
@@ -16,28 +17,61 @@ export default function RemovePlayerPopUp(props: any) {
 
   const [IsError, setIsError] = React.useState(false);
   
-  const closeRemovePlayerPopup = () => {
-    props.setOpenRemovePlayerPopUp(false);
-    setIsError(false)
-  }
-
+  const [IsCookieEnabled, setIsCookieEnabled] = useState(false)
 
   useEffect(() => {
     // setTeamObject(props.teamList.find((team: any) => team.TeamID === props.teamId[0] ))    
     setTeamObject(props.teamPlayerList.find((player: any) => player.PlayerID === props.PlayerID[0] ))   
   }, [props.playerList, props.PlayerID, teamObject])
-    //--------------------------- Remove Team api call ---------------------------//
+
+  const handleDontAskAgainCheckbox = () => {
+    setIsCookieEnabled(prev => !prev)    
+  }
+
+  
+
+  //
+  
+  const closeRemovePlayerPopup = () => {
+    props.setOpenRemovePlayerPopUp(false);
+    setIsError(false)
+  }
+
+  
+
+  
+  //   //--------------------------- Remove Team api call ---------------------------//
+  // const handleClickConfirmRemovePlayer = async () => {
+  //   const res:any = await api.RemovePlayer(props.teamId, props.PlayerID).catch((err) => {
+  //     setIsError(true)
+      
+  //   })    
+    
+  //   if(res) 
+  //   props.setOpenRemovePlayerPopUp(false);
+  //   props.tableIsUpdated();
+  // }
   const handleClickConfirmRemovePlayer = async () => {
+    //sets cookie if checkbox is clicked on confirm
+    if (IsCookieEnabled)
+    {      
+      bake_cookie('removePlayerDontAskAgain', "1");
+    }
+    
+    //removes selected player
     const res:any = await api.RemovePlayer(props.teamId, props.PlayerID).catch((err) => {
+      
       setIsError(true)
       
-    })    
+    })
     
-    if(res) 
-    props.setOpenRemovePlayerPopUp(false);
+    if(res)
+    
+    props.setOpenRemovePlayerPopUp(false)
     props.tableIsUpdated();
-  }
-  
+    
+    
+  }  
 
     return(
         <Dialog id="RemovePlayer" open={props.openRemovePlayerPopUp}>
@@ -50,6 +84,7 @@ export default function RemovePlayerPopUp(props: any) {
           {IsError && <Alert severity="error">We are sorry the API is currently down</Alert>}
               </DialogContent>
               <DialogActions >
+              <FormControlLabel control={<Checkbox />} id="checkbox" onChange={ e => handleDontAskAgainCheckbox() } style={{marginRight: "45%"}} label="Don't ask again" />
                 <Button onClick={closeRemovePlayerPopup} style={{ color: "red" }}>Cancel</Button>
                 <Button onClick={handleClickConfirmRemovePlayer}>Continue </Button>
               </DialogActions>

@@ -9,9 +9,11 @@ import Button from '@mui/material/Button';
 import RemovePlayerButton from './RemovePlayer/RemovePlayerButton';
 import RemovePlayerPopUp from './RemovePlayer/RemovePlayerPopUp';
 
+
 // Setting up the columns of the player table
 const TeamPlayerTable: React.FC<any> = (props) => {
 
+  
 const teamPlayerColumns: GridColDef[] = [
   {
     field: "addplayer",
