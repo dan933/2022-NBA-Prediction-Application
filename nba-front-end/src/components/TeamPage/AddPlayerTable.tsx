@@ -8,7 +8,6 @@ import axios, { AxiosError } from 'axios';
 import AddPlayerButton from './AddPlayer/AddPlayerButton';
 // import { Player } from '../models/IPlayer';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
@@ -23,7 +22,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
   
   const [open, setOpen] = React.useState(false);
 
-  const openSnackBar = () => {
+  const openAddedSnackBar = () => {
     setOpen(true);
   };
 
@@ -130,7 +129,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
     .then(function (response) {
     if ( response.data.Success === true) {
         props.tableIsUpdated();
-        openSnackBar()
+        openAddedSnackBar()
         // if success call api again.
         //todo use useEffect() instead
     }
