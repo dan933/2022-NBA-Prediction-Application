@@ -6,7 +6,7 @@ import api from '../../../services/api';
 
 const RemovePlayerButton = (props: any) => {
   const handleOpenRemovePlayer = async () => {
-    console.log(3)
+
     const removePlayerDontAskAgain = read_cookie('removePlayerDontAskAgain')
 
     
@@ -14,6 +14,9 @@ const RemovePlayerButton = (props: any) => {
     if (removePlayerDontAskAgain !== "1") {
         console.log(removePlayerDontAskAgain)
         props.setOpenRemovePlayerPopUp((prev:any) => !prev)
+        props.setSelectedTeam(props.teamObject.TeamID)
+        props.setSelectedPlayer(props.PlayerID)
+        
     } else {
 
     //delete player by clicking bin button if there is a cookie

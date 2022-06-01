@@ -35,6 +35,11 @@ const TeamPlayerTable: React.FC<any> = (props) => {
   // initialise the value for the searchbar
   const [search, setSearch] = React.useState('');
 
+  const [SelectedTeam, setSelectedTeam] = React.useState();
+  const [SelectedPlayer, setSelectedPlayer] = React.useState();
+
+
+
   // initialise the parameters that the table uses to filter values (when using the searchbar)
   const [filterModel, setFilterModel] = React.useState<GridFilterModel>({
     items: [
@@ -53,11 +58,13 @@ const TeamPlayerTable: React.FC<any> = (props) => {
       renderCell: (params: any) =>
       (
         <RemovePlayerButton
+          setSelectedTeam={setSelectedTeam}
+          setSelectedPlayer={setSelectedPlayer}
           teamObject={params.row}
           PlayerID={[params.row.PlayerID] as number[]}
           tableIsUpdated={props.tableIsUpdated}
           setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}
-          handleOpenRemovePlayerPopUp={()=> handleOpenRemovePlayerPopUp([params.row.PlayerID] as number[])}
+          setplayerToDelete={setplayerToDelete}
         />
       )
     },
@@ -148,7 +155,9 @@ const TeamPlayerTable: React.FC<any> = (props) => {
           </div>
         </Grid>
       </Grid>
-      <RemovePlayerPopUp 
+      <RemovePlayerPopUp
+        SelectedTeam={SelectedTeam}
+        SelectedPlayer={SelectedPlayer}
         openRemovePlayerPopUp={openRemovePlayerPopUp}
         setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}
         teamId={teamID}
