@@ -30,8 +30,7 @@ import { withAuthenticationRequired } from '@auth0/auth0-react';
 
 // type Anchor determines the direction for the drawer. you can use: left, right, top, bottom
 type Anchor = 'left';
-// sets the menu options for profile menu. they currently have no function
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
 
 function Copyright(props: any) {
   // TODO: update link

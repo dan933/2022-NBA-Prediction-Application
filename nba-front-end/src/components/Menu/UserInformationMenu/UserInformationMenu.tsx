@@ -1,4 +1,4 @@
-import { Avatar, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material'
+import { IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material'
 import React from 'react'
 import { useAuth0 } from '@auth0/auth0-react';
 import './UserInformationMenu.css';
