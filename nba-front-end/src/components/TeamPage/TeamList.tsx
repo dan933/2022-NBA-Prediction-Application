@@ -149,7 +149,7 @@ const TeamList: React.FC<any> = (props) => {
         <Paper
             sx={{ p: 2, height: '800px' }}
         >
-            <Grid container spacing={3}>
+            <Grid container spacing={2}>
                 <Grid item>
                     <h2 style={{ margin: 0 }}>Teams</h2>
                 </Grid>
@@ -199,7 +199,7 @@ const TeamList: React.FC<any> = (props) => {
                             hideFooterSelectedRowCount
                             selectionModel={props.selectionModel}
                             filterModel={SearchTeamModel}
-                            onFilterModelChange={(newFilterModel) => setSearchTeamModel(newFilterModel)}                            
+                            onFilterModelChange={(newFilterModel) => setSearchTeamModel(newFilterModel)}
                         />                        
                     </div>
                 </Grid>                
