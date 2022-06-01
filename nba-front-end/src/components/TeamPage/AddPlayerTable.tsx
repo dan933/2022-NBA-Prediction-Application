@@ -22,15 +22,11 @@ const AddPlayerTable: React.FC<any> = (props) => {
   
   const [open, setOpen] = React.useState(false);
 
-  const openAddedSnackBar = () => {
+  const openAddedPlayerSnackBar = () => {
     setOpen(true);
   };
 
-  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
+  const handleClose = () => {
     setOpen(false);
   };
   // Setting up the columns of the player table
@@ -129,7 +125,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
     .then(function (response) {
     if ( response.data.Success === true) {
         props.tableIsUpdated();
-        openAddedSnackBar()
+        openAddedPlayerSnackBar()
         // if success call api again.
         //todo use useEffect() instead
     }
