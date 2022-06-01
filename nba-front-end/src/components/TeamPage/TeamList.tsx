@@ -1,12 +1,13 @@
 import React, { useEffect, useRef } from "react";
-import { Button, Grid, Paper } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { Button, FormControl, Grid, InputAdornment, InputLabel, OutlinedInput, Paper } from "@mui/material";
+import { DataGrid, GridColDef, GridFilterModel } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveTeamButton from "./RemoveTeam/RemoveTeamButton"
 import api from "../../services/api";
 import RemoveTeamPopUp from "./RemoveTeam/RemoveTeamPopUp";
 import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";
 import { makeStyles } from '@material-ui/core/styles';
+import SearchIcon from '@mui/icons-material/Search';
 
 const TeamList: React.FC<any> = (props) => {
 
@@ -56,7 +57,38 @@ const TeamList: React.FC<any> = (props) => {
         },
     ];
 
+
+    // initialise the value for the searchbar
+    const [searchTeam, setSearchTeam] = React.useState('');
     
+    // initialise the parameters that the table uses to filter values (when using the searchbar)
+    const [SearchTeamModel, setSearchTeamModel] = React.useState<GridFilterModel>({
+        items: [
+            {
+                columnField: 'TeamName',
+                operatorValue: 'contains',
+                value: searchTeam
+            },
+        ],
+    });
+
+    // when you type in the searchbar, update the value of the object
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(event)
+        setSearchTeam(event.target.value);
+        // can't update anything else here because of how the hook works, use useEffect hook instead
+    }
+
+    // when [search] is updated, update the table's filter
+    useEffect(()=>{setSearchTeamModel({
+        items: [
+            {
+                columnField: 'TeamName',
+                operatorValue: 'contains',
+                value: searchTeam,
+            },
+        ],
+    })},[searchTeam]);
 
     const [open, setOpen] = React.useState(false);
 
@@ -111,9 +143,7 @@ const TeamList: React.FC<any> = (props) => {
     });
 
  
-    const classes = useStyles();
-
-   
+    const classes = useStyles();   
 
     return (
         <Paper
@@ -134,9 +164,24 @@ const TeamList: React.FC<any> = (props) => {
                         Create New Team
                     </Button>
                 </Grid>
+                <Grid item xl={12} md={12} xs={12}>
+                    <FormControl variant="outlined" size="small" fullWidth={true}>
+                    <InputLabel htmlFor="outlined-search">Search for a Team</InputLabel>
+                    <OutlinedInput
+                    id="outlined-search"
+                    label="Search for a Team"
+                    value={searchTeam}
+                    onChange={handleChange}
+                    endAdornment={
+                    <InputAdornment position="end">
+                    <SearchIcon />
+                    </InputAdornment>
+                    }
+                    />
+                    </FormControl>
+                </Grid> 
                 <Grid item xs={12}>
-
-                    <div style={{ width: '100%' }}>
+                    <div style={{ width: '100%' }}>   
                         <DataGrid  
                             className={classes.root}
                             style={{ width: '100%', display: '-ms-flexbox'}}
@@ -152,7 +197,9 @@ const TeamList: React.FC<any> = (props) => {
                                 props.setSelectionModel(newSelectionModel);
                             }}
                             hideFooterSelectedRowCount
-                            selectionModel={props.selectionModel}                            
+                            selectionModel={props.selectionModel}
+                            filterModel={SearchTeamModel}
+                            onFilterModelChange={(newFilterModel) => setSearchTeamModel(newFilterModel)}                            
                         />                        
                     </div>
                 </Grid>                
