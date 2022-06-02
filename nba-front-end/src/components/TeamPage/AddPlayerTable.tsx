@@ -112,7 +112,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
         },
       ],
     })
-  }, [search]);
+  }, [search, dropdownColumn]);
 
   const url = axiosRequestConfiguration.baseURL
 

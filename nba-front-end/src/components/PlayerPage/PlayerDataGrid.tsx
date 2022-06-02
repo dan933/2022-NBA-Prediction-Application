@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams, GridToolbarContainer, GridToolbarFilterButton, GridToolbarColumnsButton } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams, GridToolbarContainer, GridToolbarColumnsButton } from '@mui/x-data-grid';
 import { FormControl, Grid, InputAdornment, InputLabel, OutlinedInput, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
@@ -86,7 +86,7 @@ const PlayerDataGrid: React.FC<any> = (props) => {
         },
       ],
     })
-  }, [search]);
+  }, [search, dropdownColumn]);
 
   const useStyles = makeStyles({
     root: {
