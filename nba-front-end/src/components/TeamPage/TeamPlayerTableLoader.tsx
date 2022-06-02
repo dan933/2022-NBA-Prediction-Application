@@ -1,9 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import api from "../../services/api";
 import { TeamPlayer } from '../../models/ITeamPlayer';
 import TeamPlayerTable from './TeamPlayerTable';
-import axios, { AxiosError } from 'axios';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -14,15 +13,10 @@ interface TeamPlayerProps {
 const url = axiosRequestConfiguration.baseURL
 
 const TeamPlayerTableLoader: React.FC<any> = (props) => {
-
-  const teamID = props.teamID;
   const [appState, setAppState] = useState<TeamPlayerProps>({
     teamPlayerList: [],
   });
   const [isLoading, setLoading] = useState(false);
-  const isUpdated = props.isUpdated;
-  const setIsUpdated = props.setIsUpdated;
-  const setTeamPlayersList = props.setTeamPlayersList;
   
   const { getAccessTokenSilently } = useAuth0();
   
@@ -32,7 +26,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
 
 
 
-    if (teamID.length !== 0) {
+    if (props.teamID.length !== 0) {
 
       const token = await getAccessTokenSilently();
 
@@ -41,12 +35,12 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
       setLoading(true);
       setAppState({ teamPlayerList: [] });
 
-      api.get(`${url}/team/${teamID}/get-players`, token).subscribe({
+      api.get(`${url}/team/${props.teamID}/get-players`, token).subscribe({
         next: (resp: any) => {         
 
           setAppState({ teamPlayerList: resp.Data as TeamPlayer[] });
-          setTeamPlayersList(resp.Data.map((a:any)=>a.PlayerID));
-          setIsUpdated(false);
+          props.setTeamPlayersList(resp.Data.map((a:any)=>a.PlayerID));
+          props.setIsUpdated(false);
           setLoading(false);
 
         },
@@ -64,16 +58,16 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
   useEffect(() => {
   getPlayersFromTeam();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setAppState, teamID, isUpdated]);
+  }, [setAppState, props.teamID, props.isUpdated]);
   
   const yourLineUpSection = () => {
-    if (!isLoading && teamID.length === 0) {
+    if (!isLoading && props.teamID.length === 0) {
       return (
         <h1>Please select a team</h1>
       )
     } else {
       return (
-        <TeamPlayerTable loading={isLoading} teamPlayerList={appState.teamPlayerList} teamID={teamID} tableIsUpdated={props.tableIsUpdated}/>
+        <TeamPlayerTable loading={isLoading} teamPlayerList={appState.teamPlayerList} teamID={props.teamID} tableIsUpdated={props.tableIsUpdated}/>
       )
     }
   }

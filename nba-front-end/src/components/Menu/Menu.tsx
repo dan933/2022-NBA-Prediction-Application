@@ -4,17 +4,13 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
 import SportsBasketballIcon from '@mui/icons-material/SportsBasketball';
 import Link from "@mui/material/Link"
 import Grid from '@mui/material/Grid';
-// imported the router Link as "RouterLink" because a MaterialUI Link had already been imported for use in the Copyright component. there cannot be duplicate imports 
+// imported the router Link as "RouterLink" because a MaterialUI Link had already been imported for use in the Copyright component. there cannot be duplicate imports
 import { Outlet, useNavigate, Link as RouterLink } from 'react-router-dom';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -29,14 +25,12 @@ import EqualizerIcon from '@mui/icons-material/Equalizer';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { makeStyles } from "@material-ui/core";
 import { ReactComponent as HeaderImage } from '../../images/top-nav-bar-img.svg'
-import { mainListItems } from './listItems';
-import { withAuthenticationRequired,  useAuth0} from '@auth0/auth0-react';
-import UserInformation from './UserInformation/UserInformation';
+import UserInformationMenu from './UserInformationMenu/UserInformationMenu';
+import { withAuthenticationRequired } from '@auth0/auth0-react';
 
 // type Anchor determines the direction for the drawer. you can use: left, right, top, bottom
 type Anchor = 'left';
-// sets the menu options for profile menu. they currently have no function
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
 
 function Copyright(props: any) {
   // TODO: update link
@@ -55,9 +49,7 @@ function Copyright(props: any) {
 
 
 const ResponsiveAppBar = () => {
-
-  const { logout, user } = useAuth0();
-
+  
   // defines and adds style for the nav bar - removes blue highlighted text which is the default style
   const useStyles = makeStyles((theme) => ({
     drawerPaper: { width: 'inherit' },
@@ -72,34 +64,6 @@ const ResponsiveAppBar = () => {
   const [state, setState] = React.useState({
     left: false
   });
-
-// const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-//   ({ theme, open }) => ({
-//     '& .MuiDrawer-paper': {
-//       overflow:'hidden',
-//       position: 'relative',
-//       whiteSpace: 'nowrap',
-//       width: drawerWidth,
-//       transition: theme.transitions.create('width', {
-//         easing: theme.transitions.easing.sharp,
-//         duration: theme.transitions.duration.enteringScreen,
-//       }),
-//       boxSizing: 'border-box',
-//       ...(!open && {
-//         overflowX: 'hidden',
-//         transition: theme.transitions.create('width', {
-//           easing: theme.transitions.easing.sharp,
-//           duration: theme.transitions.duration.leavingScreen,
-//         }),
-//         width: theme.spacing(7),
-//         [theme.breakpoints.up('sm')]: {
-//           width: theme.spacing(9),
-//         },
-//       }),
-//     },
-//   }),
-// );
-
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
@@ -170,15 +134,6 @@ const ResponsiveAppBar = () => {
     </Box>
   );
 
-  // sets events for profile menu
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
   // useNavigate is similar to "Link to=(route)" but can also be used for onClick events.
   const navigate = useNavigate()
 
@@ -192,77 +147,16 @@ const ResponsiveAppBar = () => {
         </header>
       </div>
       <Box
-    // <ThemeProvider theme={mdTheme}>
-    //   <Box sx={{ display: 'flex' }}>
-    //     <CssBaseline />
-    //     <Drawer variant="permanent" open={open}>
-    //       <Toolbar
-    //         sx={{
-    //           display: 'flex',
-    //           alignItems: 'center',
-    //           justifyContent: 'flex-end',
-    //           px: [1],
-    //         }}
-    //       >
-    //         <IconButton onClick={toggleDrawer}>
-    //           <ChevronLeftIcon />
-    //         </IconButton>
-    //       </Toolbar>
-    //       <Divider />
-    //       <List>
-    //         <UserInformation/>
-    //       </List>
-    //       <Divider />
-    //       <List component="nav">
-    //         {mainListItems}
-    //         <Divider sx={{ my: 1 }} />
-    //       </List>
-    //     </Drawer>
-    //     <AppBar open={open} position="absolute" sx={{top: 250}}>
-    //       <Toolbar
-    //         sx={{
-    //           pr: '24px', // keep right padding when drawer closed
-    //         }}
-    //       >
-    //         <IconButton
-    //           edge="start"
-    //           color="inherit"
-    //           aria-label="open drawer"
-    //           onClick={toggleDrawer}
-    //           sx={{
-    //             marginRight: '36px',
-    //             ...(open && { display: 'none' }),
-    //           }}
-    //         >
-    //           <MenuIcon />
-    //         </IconButton>
-    //         <Typography
-    //           component="h1"
-    //           variant="h6"
-    //           color="inherit"
-    //           noWrap
-    //           sx={{ flexGrow: 1 }}
-    //         >
-    //           NBA Prediction Application
-    //         </Typography>
-    //         {/* <IconButton color="inherit">
-    //           <Badge badgeContent={4} color="secondary">
-    //             <NotificationsIcon />
-    //           </Badge>
-    //         </IconButton> */}
-    //       </Toolbar>
-    //     </AppBar>
-    //     <Box
-          component="main"
-          sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
-            flexGrow: 1,
-            height: 'auto'            
-          }}
-        >
+        component="main"
+        sx={{
+          backgroundColor: (theme) =>
+            theme.palette.mode === 'light'
+              ? theme.palette.grey[100]
+              : theme.palette.grey[900],
+          flexGrow: 1,
+          height: 'auto'            
+        }}
+      >
       <AppBar position="sticky">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
@@ -360,36 +254,7 @@ const ResponsiveAppBar = () => {
 
 
             <Box marginLeft={'auto'}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: '45px' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-              
-                  <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{user?.email}</Typography>
-                  </MenuItem>
-                  <MenuItem onClick={ () => {logout()} }>
-                    <Typography textAlign="center">Logout</Typography>
-                  </MenuItem>
-
-              </Menu>
+              <UserInformationMenu/>
             </Box>
           </Toolbar>
         </Container>

@@ -38,8 +38,6 @@ public class NBAContext : DbContext
             options.UseSqlServer(Configuration["AzureDatabase"]);
         }
 
-        
-
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -12,7 +12,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const TeamList: React.FC<any> = (props) => {
 
-
     const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
 
     const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
@@ -157,6 +156,7 @@ const TeamList: React.FC<any> = (props) => {
                             onSelectionModelChange={(newSelectionModel) => {
                                 props.setSelectionModel(newSelectionModel);
                             }}
+                            hideFooterSelectedRowCount
                             selectionModel={props.selectionModel}                            
                         />                        
                     </div>
