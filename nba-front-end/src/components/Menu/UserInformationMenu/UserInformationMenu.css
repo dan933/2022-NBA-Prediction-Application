@@ -13,8 +13,7 @@
 }
 
 .user-logo:hover {
-    background-color: #336ca5ba;
-    color: white !important;
+    background-color: lightgray;
 }
 
 @media only screen and (max-width: 599px) {

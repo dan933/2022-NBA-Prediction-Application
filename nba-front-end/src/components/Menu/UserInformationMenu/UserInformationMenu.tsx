@@ -26,7 +26,7 @@ function UserInformation() {
         </IconButton>
     </Tooltip>
     <Menu
-      sx={{ mt: '45px' }}
+      sx={{ mt: '60px' }}
       id="menu-appbar"
       anchorEl={anchorElUser}
       anchorOrigin={{
