@@ -1,14 +1,10 @@
 import * as React from 'react';
-import {
-  DataGrid, GridColDef, GridFilterModel, GridValueGetterParams, GridToolbarColumnsButton,
-  GridToolbarContainer,
-  GridToolbarFilterButton,
-  GridToolbarDensitySelector,
-  GridToolbarExport,
-  GridToolbarContainerProps
-} from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams, GridToolbarColumnsButton, GridToolbarContainer, } from '@mui/x-data-grid';
 import { FormControl, Grid, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import { useEffect } from 'react';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import axios, { AxiosError } from 'axios';
@@ -78,6 +74,15 @@ const AddPlayerTable: React.FC<any> = (props) => {
     ],
   });
 
+  //initialise state for the Column Filter - Default selection is FullName
+  const [dropdownColumn, setDropdownColumn] = React.useState("FullName");
+
+  //creating a handleChange function for the Column Filter - clears search bar upon Changing the value of the Filter
+  const handleChangeColumn = (event: any) => {
+    setDropdownColumn(event.target.value);
+    setSearch("");
+  };
+
   const checkIsNotAddable = (playerId: number, teamPlayerIds: number[], teamId: any) => {
     if (teamID.length === 0) {
       return true;
@@ -100,12 +105,13 @@ const AddPlayerTable: React.FC<any> = (props) => {
     setFilterModel({
       items: [
         {
-          columnField: 'FullName',
+          // columnField now references the Column Filter Dropdown
+          columnField: dropdownColumn,
           operatorValue: 'contains',
           value: search,
         },
       ],
-    });
+    })
   }, [search]);
 
   const url = axiosRequestConfiguration.baseURL
@@ -125,10 +131,15 @@ const AddPlayerTable: React.FC<any> = (props) => {
       });
   };
 
+  //creating a function for clear search bar button
+  const clearInput = () => {
+    setSearch("");
+  }
+
+  //creating a custom toolbar that only contains the Columns Hide and Show
   function CustomToolbar() {
     return (
       <GridToolbarContainer>
-        <GridToolbarFilterButton />
         <GridToolbarColumnsButton />
       </GridToolbarContainer>
     );
@@ -139,20 +150,48 @@ const AddPlayerTable: React.FC<any> = (props) => {
       {/* formats the placement of the searchbar and table */}
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <FormControl variant="outlined" size="small" fullWidth={true}>
+        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+            <InputLabel id="Column-dropdown">Column</InputLabel>
+            <Select
+              labelId="Column-dropdown"
+              id="Column-dropdown"
+              value={dropdownColumn}
+              label="Column"
+              onChange={handleChangeColumn}
+            >
+              <MenuItem value={"FullName"}>Full Name</MenuItem>
+              <MenuItem value={"FirstName"}>First Name</MenuItem>
+              <MenuItem value={"LastName"}>Last Name</MenuItem>
+              <MenuItem value={"PlayerWinPercent"}>Win Percentage</MenuItem>
+              <MenuItem value={"Points"}>Points</MenuItem>
+              <MenuItem value={"Rebounds"}>Rebounds</MenuItem>
+              <MenuItem value={"Assists"}>Assists</MenuItem>
+              <MenuItem value={"Steals"}>Steals</MenuItem>
+              <MenuItem value={"Blocks"}>Blocks</MenuItem>
+            </Select>
+          </FormControl>
+
+        <FormControl sx={{ m: 1, minWidth: 120, width: '50%' }} variant="outlined" size="small" fullWidth={false} >
             <InputLabel htmlFor="outlined-search">Search for a player</InputLabel>
             <OutlinedInput
               id="outlined-search"
               label="Search for a player"
               value={search}
               onChange={handleChange}
+              // formats placement of clear search bar button
               endAdornment={
                 <InputAdornment position="end">
-                  <SearchIcon />
+                {/* creates a condition - if user types in search bar, the clear button will replace the search icon */}
+                  {search.length === 0 ? (
+                    <SearchIcon />
+                  ) : (
+                    <CloseIcon id="clearBtn" onClick={clearInput} />
+                  )}
                 </InputAdornment>
               }
             />
           </FormControl>
+
         </Grid>
         <Grid item xs={12}>
           <div style={{ width: '100%' }}>
