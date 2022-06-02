@@ -12,10 +12,9 @@ const RemovePlayerButton = (props: any) => {
     
     //if cookie does not exist open remove player popup
     if (removePlayerDontAskAgain !== "1") {
-        console.log(removePlayerDontAskAgain)
-        props.setOpenRemovePlayerPopUp((prev:any) => !prev)
-        props.setSelectedTeam(props.teamObject.TeamID)
-        props.setSelectedPlayer(props.PlayerID)
+      props.setSelectedTeam(props.teamObject)
+      props.setSelectedPlayer(props.PlayerID)
+      props.setOpenRemovePlayerPopUp((prev:any) => !prev)
         
     } else {
 

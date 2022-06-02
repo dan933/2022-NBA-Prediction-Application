@@ -5,6 +5,7 @@ import api from '../../../services/api';
 import { bake_cookie, read_cookie, delete_cookie } from 'sfcookies';
 
 export default function RemovePlayerPopUp(props: any) {
+  console.log(props)
 
   interface ITeam {
     TeamID?: number;
@@ -51,7 +52,7 @@ export default function RemovePlayerPopUp(props: any) {
     console.log(props.SelectedPlayer)
     
     //removes selected player
-    const res:any = await api.RemovePlayer(props.SelectedTeam, props.SelectedPlayer).catch((err) => {
+    const res:any = await api.RemovePlayer(props.SelectedTeam.TeamID, props.SelectedPlayer).catch((err) => {
       
       setIsError(true)
       
@@ -68,10 +69,10 @@ export default function RemovePlayerPopUp(props: any) {
     return(
         <Dialog id="RemovePlayer" open={props.openRemovePlayerPopUp}>
               {/* todo: need to add reference to team name */}
-              <DialogTitle>Remove {teamObject?.FirstName} {teamObject?.LastName}</DialogTitle>
+              <DialogTitle>Remove {props.SelectedTeam?.FirstName} {props.SelectedTeam?.LastName}</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  Are you sure you want to remove {teamObject?.FirstName} {teamObject?.LastName}?
+                  Are you sure you want to remove {props.SelectedTeam?.FirstName} {props.SelectedTeam?.LastName}?
           </DialogContentText>
           {IsError && <Alert severity="error">We are sorry the API is currently down</Alert>}
               </DialogContent>
