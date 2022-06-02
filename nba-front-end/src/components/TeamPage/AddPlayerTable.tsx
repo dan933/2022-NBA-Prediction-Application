@@ -44,11 +44,11 @@ const AddPlayerTable: React.FC<any> = (props) => {
         return `${valueFormatted} %`;
       }, 
     },
-    { field: 'Points', headerName: 'Points', width: 120, flex: 0.3 },
-    { field: 'Rebounds', headerName: 'Rebounds', width: 120, flex: 0.3 },
-    { field: 'Assists', headerName: 'Assists', width: 120, flex: 0.3 },
-    { field: 'Steals', headerName: 'Steals', width: 120, flex: 0.3 },
-    { field: 'Blocks', headerName: 'Blocks', width: 120, flex: 0.3 },
+    { field: 'Points', headerName: 'Points', minWidth: 120},
+    { field: 'Rebounds', headerName: 'Rebounds', minWidth: 120},
+    { field: 'Assists', headerName: 'Assists', minWidth: 120},
+    { field: 'Steals', headerName: 'Steals', minWidth: 120},
+    { field: 'Blocks', headerName: 'Blocks', minWidth: 120 },
   ];
 
   // this takes the props passed to this component and uses it to populate the table
