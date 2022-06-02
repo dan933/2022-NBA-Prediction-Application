@@ -6,7 +6,6 @@ import RemoveTeamButton from "./RemoveTeam/RemoveTeamButton"
 import api from "../../services/api";
 import RemoveTeamPopUp from "./RemoveTeam/RemoveTeamPopUp";
 import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";
-import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@mui/icons-material/Search';
 
 const TeamList: React.FC<any> = (props) => {
@@ -134,17 +133,6 @@ const TeamList: React.FC<any> = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open, openRemoveTeamPopUp, props.isUpdated])
 
-    const useStyles = makeStyles({
-        root: {
-            '&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus, &.MuiDataGrid-root .MuiDataGrid-cell:focus': {
-                outline: 'none',
-            },
-        }
-    });
-
- 
-    const classes = useStyles();   
-
     return (
         <Paper
             sx={{ p: 2, height: '800px' }}
@@ -182,9 +170,8 @@ const TeamList: React.FC<any> = (props) => {
                 </Grid> 
                 <Grid item xs={12}>
                     <div style={{ width: '100%' }}>   
-                        <DataGrid  
-                            className={classes.root}
-                            style={{ width: '100%', display: '-ms-flexbox'}}
+                        <DataGrid     
+                            style={{ width: '100%', display: '-ms-flexbox', border: 'none', boxShadow: "none" }}
                             autoHeight
                             rows={props.teamList}
                             getRowId={(row) => row.TeamID}

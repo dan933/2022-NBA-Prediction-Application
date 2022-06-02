@@ -7,16 +7,34 @@ import { axiosRequestConfiguration } from "../../services/axios_config";
 import axios, { AxiosError } from 'axios';
 import AddPlayerButton from './AddPlayer/AddPlayerButton';
 // import { Player } from '../models/IPlayer';
+import Stack from '@mui/material/Stack';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref,
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const AddPlayerTable: React.FC<any> = (props) => {
   
+  const [open, setOpen] = React.useState(false);
+
+  const openAddedPlayerSnackBar = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   // Setting up the columns of the player table
   const playerColumns: GridColDef[] = [
     { 
       field: "addplayer",
       headerName: "",
-      width: 90,
+      width: 70,
       renderCell: (params: any) =>
       (
           <AddPlayerButton
@@ -44,11 +62,11 @@ const AddPlayerTable: React.FC<any> = (props) => {
         return `${valueFormatted} %`;
       }, 
     },
-    { field: 'Points', headerName: 'Points', width: 120, flex: 0.3 },
-    { field: 'Rebounds', headerName: 'Rebounds', width: 120, flex: 0.3 },
-    { field: 'Assists', headerName: 'Assists', width: 120, flex: 0.3 },
-    { field: 'Steals', headerName: 'Steals', width: 120, flex: 0.3 },
-    { field: 'Blocks', headerName: 'Blocks', width: 120, flex: 0.3 },
+    { field: 'Points', headerName: 'Points', minWidth: 120, flex: 0.3},
+    { field: 'Rebounds', headerName: 'Rebounds', minWidth: 120, flex: 0.3},
+    { field: 'Assists', headerName: 'Assists', minWidth: 120, flex: 0.3},
+    { field: 'Steals', headerName: 'Steals', minWidth: 120, flex: 0.3},
+    { field: 'Blocks', headerName: 'Blocks', minWidth: 120, flex: 0.3 },
   ];
 
   // this takes the props passed to this component and uses it to populate the table
@@ -107,6 +125,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
     .then(function (response) {
     if ( response.data.Success === true) {
         props.tableIsUpdated();
+        openAddedPlayerSnackBar()
         // if success call api again.
         //todo use useEffect() instead
     }
@@ -122,6 +141,13 @@ const AddPlayerTable: React.FC<any> = (props) => {
       {/* formats the placement of the searchbar and table */}
       <Grid container spacing={2}>
         <Grid item xs={12}>
+        <Stack spacing={2} sx={{ width: '100%' }}>
+        <Snackbar open={open} autoHideDuration={1050} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Player Successfully Added!
+        </Alert>
+        </Snackbar>
+        </Stack>
         <FormControl variant="outlined" size="small" fullWidth={true}>
           <InputLabel htmlFor="outlined-search">Search for a player</InputLabel>
           <OutlinedInput
