@@ -88,16 +88,6 @@ const PlayerDataGrid: React.FC<any> = (props) => {
     })
   }, [search, dropdownColumn]);
 
-  const useStyles = makeStyles({
-    root: {
-      '&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus, &.MuiDataGrid-root .MuiDataGrid-cell:focus': {
-        outline: 'none',
-      },
-    }
-  });
-
-  const classes = useStyles();
-
   //creating a function for clear search bar button
   const clearInput = () => {
     setSearch("");
@@ -168,13 +158,11 @@ const PlayerDataGrid: React.FC<any> = (props) => {
                 </InputAdornment>
               }
             />
-          </FormControl>
-
-        </Grid>
-        <Grid item xl={12} md={12} xs={12}>
-          <div style={{ height: '1151px', width: '100%' }}>
-            <DataGrid
-              className={classes.root}
+            </FormControl>
+          </Grid>
+          <Grid item xl={12} md={12} xs={12}>
+            <div style={{ height: '1151px', width: '100%' }}>
+              <DataGrid
               rows={playerList}
               getRowId={(row) => row.PlayerID}
               columns={playerColumns}
