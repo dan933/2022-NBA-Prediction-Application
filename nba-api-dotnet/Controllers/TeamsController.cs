@@ -30,6 +30,25 @@ public class TeamController : ControllerBase
     {
         try
         {
+            var sub = HttpContext?.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            User? isUser = await _context.tbl_Users
+            .Where(t => t.UserIdentifier == sub)
+            .FirstOrDefaultAsync();
+
+            if(isUser == null){
+                User UserToAdd = new User();
+                UserToAdd.UserIdentifier=sub;
+                await _context.tbl_Users.AddAsync(UserToAdd);
+                await _context.SaveChangesAsync();
+
+                isUser = await _context.tbl_Users
+                .Where(t => t.UserIdentifier == sub)
+                .FirstOrDefaultAsync();
+            }
+
+            team.UserId=isUser.UserID;
+
             if (team.TeamName is string)
             {
                 team.TeamName = team.TeamName.TrimStart();
@@ -70,27 +89,27 @@ public class TeamController : ControllerBase
     }
 
 
-    /// <summary>
-    /// Gets a List of all the teams in the database
-    /// </summary>
-    /// <returns>A list of Teams</returns>
-    [HttpGet]
-    [Authorize]
-    [Route("get-all")]
-    public async Task<ActionResult<List<Team>>> getAllTeams()
-    {
-        try
-        {
-            List<Team> teams = await _context.tbl_Teams.ToListAsync();
+    // <summary>
+    // Gets a List of all the teams in the database
+    // </summary>
+    // <returns>A list of Teams</returns>
+    // [HttpGet]
+    // [Authorize]
+    // [Route("get-all")]
+    // public async Task<ActionResult<List<Team>>> getAllTeams()
+    // {
+    //     try
+    //     {
+    //         List<Team> teams = await _context.tbl_Teams.ToListAsync();
 
-            return Ok(teams);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.ToString());
-        }
+    //         return Ok(teams);
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         return StatusCode(500, ex.ToString());
+    //     }
 
-    }
+    // }
 
     /// <summary>
     /// Get Players on a specific team
@@ -346,9 +365,8 @@ public class TeamController : ControllerBase
         try
         {
             var sub = HttpContext?.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            Console.WriteLine("sub "+sub);
-
-            var teams = await _context.view_WinChance.ToListAsync();
+            
+            var teams = await _context.view_WinChance.Where(t => t.UserIdentifier == sub).ToListAsync();
 
             var response = new Response<List<WinChanceView>>(teams, true, "Team Successfully returned");
 

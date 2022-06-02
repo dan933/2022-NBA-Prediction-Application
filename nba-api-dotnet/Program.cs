@@ -8,12 +8,20 @@ using Microsoft.OpenApi.Models;
 using nba_api_dotnet;
 using nba_api_dotnet.models.players;
 using WebAPIApplication;
+using Microsoft.AspNetCore.Http.Json;
+using System.Text.Json.Serialization;
 
 var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
 var domain = $"https://{builder.Configuration["Auth0:Domain"]}/";
+
+// Set the JSON serializer options
+// builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
+// {
+//     options.SerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+// });
 
 //ADD CORS
 builder.Services.AddCors(options =>
@@ -136,6 +144,8 @@ app.UseAuthorization();
 app.UseCors(MyAllowSpecificOrigins);
 
 app.MapControllers();
+
+
 
 
 app.Run();
