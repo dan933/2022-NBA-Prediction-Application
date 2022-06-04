@@ -154,9 +154,9 @@ const TeamList: React.FC<any> = (props) => {
                 </Grid>
                 <Grid item xl={12} md={12} xs={12}>
                     <FormControl variant="outlined" size="small" fullWidth={true}>
-                    <InputLabel htmlFor="outlined-search">Search for a Team</InputLabel>
+                    <InputLabel>Search for a Team</InputLabel>
                     <OutlinedInput
-                    id="outlined-search"
+                    type="Team Search"
                     label="Search for a Team"
                     value={searchTeam}
                     onChange={handleChange}
