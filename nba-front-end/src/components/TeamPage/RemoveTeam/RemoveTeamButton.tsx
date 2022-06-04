@@ -5,7 +5,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const RemoveTeamButton = (props: any) => {
   return (
     <>
-    <Button
+    <Button 
+        aria-label="Remove Team"        
         color="error"
         onClick={ props.handleopenRemoveTeamPopUp }
     >

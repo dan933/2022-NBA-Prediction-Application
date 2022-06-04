@@ -142,9 +142,9 @@ const TeamPageContent: React.FC<any> = (props) => {
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChange} aria-label="NBA Prediction Tabs" variant="fullWidth">
-              <Tab label="Teams" value="Teams" />
-              <Tab label="Lineup" value="Lineup" />
-              <Tab label="Add Players" value="Add Players" />
+              <Tab label="Teams" value="Teams" style={{ fontWeight: 'bold', color: "black" }}/>
+              <Tab label="Lineup" value="Lineup" style={{ fontWeight: 'bold', color: "black" }}/>
+              <Tab label="Add Players" value="Add Players" style={{ fontWeight: 'bold', color: "black" }}/>
             </TabList>
           </Box>
 
