@@ -20,6 +20,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
   // gets value from create team form
 
   useEffect(() => {
+    if(props.isUpdated){
     if (!isLoading && props.teamID.length !== 0) {
       setLoading(true);
       setAppState({ teamPlayerList: [] });
@@ -36,6 +37,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
             setLoading(false);
           })
         }
+      }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [setAppState, props.teamID, props.isUpdated,props.setTeamPlayersList]);
   
