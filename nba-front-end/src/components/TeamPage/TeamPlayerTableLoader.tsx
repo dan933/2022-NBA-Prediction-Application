@@ -1,9 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
-import api from "../../services/api";
 import { TeamPlayer } from '../../models/ITeamPlayer';
 import TeamPlayerTable from './TeamPlayerTable';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 
 interface TeamPlayerProps {

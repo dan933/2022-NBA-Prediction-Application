@@ -73,6 +73,5 @@ const GetTeamMatchUp = async (team1:number, team2:number) => {
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
-
-export default { get, RemoveTeam, CreateTeam, GetAllTeams, GetTeamMatchUp, RemovePlayer};
+export default {get, RemoveTeam, CreateTeam, GetAllTeams, GetTeamMatchUp, RemovePlayer};
 

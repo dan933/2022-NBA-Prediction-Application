@@ -1,10 +1,8 @@
 import { Button, Paper } from '@mui/material'
 import './PredictionSectionStyles.css';
-import React, { useEffect, useState } from 'react';
-import GetTeamMatchUp from '../../../services/api';
+import { useEffect, useState } from 'react';
 
 //todo make models/predictionModels section
-import {ITeam} from '../../PredictionPage/PredictionPage'
 import api from '../../../services/api';
 
 function PredictionSection(props: any) {

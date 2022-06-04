@@ -28,7 +28,7 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { makeStyles } from "@material-ui/core";
-import { ReactComponent as HeaderImage } from '../images/top-nav-bar-img.svg'
+import HeaderImage from '../images/top-nav-bar-img.png'
 
 // type Anchor determines the direction for the drawer. you can use: left, right, top, bottom
 type Anchor = 'left';
@@ -153,12 +153,10 @@ const ResponsiveAppBar = () => {
 
   return (
     <>
-      <div className='Background-Color'>
-        <header className="App-header">
-  {/* ----------------------- nba image for top nav bar --------------- */}
-        <HeaderImage display= 'block'/>
-        </header>
-      </div>
+      <header className="App-header">
+{/* ----------------------- nba image for top nav bar --------------- */}
+        <img src={HeaderImage} alt="Header" loading="lazy" />
+      </header>
       <Box
           component="main"
           sx={{

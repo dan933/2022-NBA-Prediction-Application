@@ -3,7 +3,7 @@ import Container from '@mui/material/Container';
 
 import api from '../../services/api';
 import TeamsSection from './TeamSection/TeamsSection';
-import { Box, Grid, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Tabs, Typography } from '@mui/material';
 import PredictionSection from './PredictionSection/PredictionSection';
 
 export interface ITeam {
@@ -49,12 +49,6 @@ function PredictionPage() {
 
 
 // Functions should be put in services/predictionServices later on
-  const IsSelected = (id: number) => {
-    return selectedTeamsId.includes(id)
-  }
- 
-  const [selectedTeams, setSelectedTeams] = React.useState<ITeam[]>([])
-
   const getAllTeams = async () => {
     let teamListResp:any = await api.GetAllTeams()
     .catch((err) => {
@@ -65,10 +59,6 @@ function PredictionPage() {
 
     return teamListResp;
 
-  }
-
-  const getTeamMatchUp = () => {
-    setSelectedTeams(teamList?.filter((x) => IsSelected(x.TeamID as number)) as ITeam[])    
   }
 
 //--------------------------- API Call get teams with win percentage ---------------------//  
@@ -87,13 +77,11 @@ function PredictionPage() {
     
     setValue(newValue);
     setSelectedTeamsId([])
-    setSelectedTeams([])
   };
 
   const navigateToMatchUps = () => {
     setValue(0);
     setSelectedTeamsId([])
-    setSelectedTeams([])
   }
 
 
@@ -110,7 +98,6 @@ return (
           setIsLoading={setIsLoading}            
           setSelectedTeamsId={setSelectedTeamsId}
           selectedTeamsId={selectedTeamsId}
-          getTeamMatchUp={getTeamMatchUp}
           setValue={setValue}
       />
     </TabPanel>

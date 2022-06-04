@@ -1,12 +1,12 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material'
 import { AxiosError } from 'axios';
-import React, { useRef } from 'react'
+import { useState, forwardRef } from 'react'
 import api from '../../../services/api';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
   ref,
 ) {
@@ -15,14 +15,14 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 function CreateTeamPopUp(props:any) {
 
-    const [isError, setIsError] = React.useState(false);
+    const [isError, setIsError] = useState(false);
 
     const handleClose = () => {
         setIsError(false)
         props.setOpen(false);
     };
     
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     const openRemoveTeamSnackBar = () => {
       setOpen(true);

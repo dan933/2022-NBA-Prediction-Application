@@ -44,7 +44,7 @@ export default function RemovePlayerPopUp(props: any) {
   useEffect(() => {
     // setTeamObject(props.teamList.find((team: any) => team.TeamID === props.teamId[0] ))    
     setTeamObject(props.teamPlayerList.find((player: any) => player.PlayerID === props.PlayerID[0] ))   
-  }, [props.playerList, props.PlayerID, teamObject])
+  }, [props.teamPlayerList, props.PlayerID, teamObject])
     //--------------------------- Remove Team api call ---------------------------//
   const handleClickConfirmRemovePlayer = async () => {
     const res:any = await api.RemovePlayer(props.teamId, props.PlayerID).catch((err) => {
