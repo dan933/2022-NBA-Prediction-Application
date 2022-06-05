@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GridSelectionModel } from "@mui/x-data-grid";
 import { Container, useMediaQuery } from "@mui/material";
 import type { } from '@mui/lab/themeAugmentation';
@@ -21,6 +21,12 @@ function TeamPage(props:any) {
   const tableIsUpdated = () => {
     setIsUpdated(true);
   };
+
+  useEffect(() => {
+
+    setIsUpdated(true);
+
+  }, [selectionTeam])
 
   const theme = useTheme();
   
