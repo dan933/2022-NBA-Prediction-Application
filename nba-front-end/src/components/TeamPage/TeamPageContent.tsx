@@ -1,6 +1,6 @@
 import React from "react";
 import { GridSelectionModel } from "@mui/x-data-grid";
-import { Grid, Paper } from "@mui/material";
+import { Grid, Paper, useMediaQuery } from "@mui/material";
 import type { } from '@mui/lab/themeAugmentation';
 import '@mui/lab/themeAugmentation';
 import TeamList from "./TeamList";
@@ -11,6 +11,7 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import { useTheme } from '@mui/material/styles';
 
 const TeamPageContent: React.FC<any> = (props) => {
 
@@ -25,6 +26,19 @@ const TeamPageContent: React.FC<any> = (props) => {
   const tableIsUpdated = () => {
     setIsUpdated(true);
   };
+  
+   // declares a constant for defaultView which is used in the display property for bigger screens.
+   //const defaultView = { xs: "none", lg: "block" };
+   // declares a constant for mobileView which is used in the display property for smaller screens.
+  //const mobileView = { xs: "block", lg: "none" };
+
+  const theme = useTheme();
+  //returns boolean 
+  const IsMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const IsdefaultView = useMediaQuery(theme.breakpoints.up('md'))
+  //uses boolean to determine which view to show
+  const mobileView = IsMobile ? { visibility: "visible" } : { visibility: "hidden",  maxHeight:'0', overflow:'hidden' }
+  const defaultView = IsdefaultView ? { visibility: "visible" } : { visibility: "hidden",  maxHeight:'0', overflow:'hidden' }
 
   // declares a state for value. this references which tab the website will display. default value is set to "Teams" which shows the Team List
   const [value, setValue] = React.useState("Teams");
@@ -35,28 +49,55 @@ const TeamPageContent: React.FC<any> = (props) => {
     setValue(newValue);
   };
 
-  // declares a constant for defaultView which is used in the display property for bigger screens.
-  const defaultView = { xs: "none", lg: "block" };
-  // declares a constant for mobileView which is used in the display property for smaller screens.
-  const mobileView = { xs: "block", lg: "none" };
+  const teamListSection =
+    (
+      <TeamList
+        setSelectionModel={setSelectionTeam}
+        selectionModel={selectionTeam}
+        teamList={teamList}
+        isUpdated={isUpdated}
+        setTeamList={setTeamList}
+      />
 
+    )
+  
+
+  const teamPlayerTableLoaderSection = 
+    (
+      <TeamPlayerTableLoader
+        teamID={selectionTeam}
+        isUpdated={isUpdated}
+        setIsUpdated={setIsUpdated}
+        tableIsUpdated={tableIsUpdated}
+        setTeamPlayersList={setTeamPlayersList}
+      />
+    )
+
+  const addPlayerTableLoaderSection =
+    (
+      <AddPlayerTableLoader
+        teamID={selectionTeam}
+        tableIsUpdated={tableIsUpdated}
+        isUpdated={isUpdated}
+        setIsUpdated={setIsUpdated}
+        teamPlayersList={teamPlayersList}
+      />
+    )
 
   return (
     // the empty div "<>" container wraps the whole return component
     <>
       {/* --------------------------------------- This Box contains all tables for the Default view -------------------------------------- */}
-      <Box display={defaultView}>
-        <Grid container spacing={2}>
-          {/* -------------------------- Teams Section ----------------------------- */}
-          <Grid item xs={12} sm={12} md={4} lg={4} xl={4}
-          >
-            <TeamList
-              setSelectionModel={setSelectionTeam}
-              selectionModel={selectionTeam}
-              teamList={teamList}
-              setTeamList={setTeamList}
-            />
-          </Grid>
+      {/* screens lg and lower are hidden */}
+      
+        <Box  display={defaultView}>
+          <Grid container spacing={2}>
+            {/* -------------------------- Teams Section ----------------------------- */}
+            <Grid
+              item xs={12} sm={12} md={4} lg={4} xl={4}
+            >
+                {teamListSection}
+            </Grid>        
 
       {/* formatting and adding of table that allows view/removal of players that are on selected team */}
       {/* -------------------------- Team Players Section ----------------------------- */}
@@ -67,12 +108,7 @@ const TeamPageContent: React.FC<any> = (props) => {
           <div style={{ display: 'flex', columnGap: '10px', marginBottom: '10px' }}>
             <h2 style={{ margin: 0 }}>Your Lineup</h2>
           </div>
-          <TeamPlayerTableLoader
-            teamID={selectionTeam}
-            isUpdated={isUpdated}
-            setIsUpdated={setIsUpdated}
-            tableIsUpdated={tableIsUpdated}
-            setTeamPlayersList={setTeamPlayersList} />
+            {teamPlayerTableLoaderSection}
         </Paper>
       </Grid>
 
@@ -87,24 +123,22 @@ const TeamPageContent: React.FC<any> = (props) => {
             >
               <div style={{ display: 'flex', columnGap: '10px', marginBottom: '10px' }}>
                 <h2 style={{ margin: 0 }}>All Players</h2>
-              </div>
-              <AddPlayerTableLoader
-                  teamID={selectionTeam}
-                  tableIsUpdated={tableIsUpdated}
-                  isUpdated={isUpdated}
-                  setIsUpdated={setIsUpdated}
-                  teamPlayersList={teamPlayersList}
-              />
+                </div>
+                
+                {addPlayerTableLoaderSection}
+                
             </Paper>
           </Grid>
         </Grid>
-      </Box>
+        </Box>
 
 
       {/* --------------------------------------- This Box contains all tables for the Mobile View -------------------------------------- */}
+      {/*hides screens lg and up*/}
+      
       <Box
         display={mobileView}
-        sx={{ width: '100%', typography: 'body1' }}>
+        sx={{ width: '100%', typography: 'body1'}}>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <TabList onChange={handleChange} aria-label="NBA Prediction Tabs" variant="fullWidth">
@@ -116,13 +150,7 @@ const TeamPageContent: React.FC<any> = (props) => {
 
           {/* --------------------------------------- Teams Section -------------------------------------- */}
           <TabPanel value="Teams">
-            <TeamList
-              setSelectionModel={setSelectionTeam}
-              selectionModel={selectionTeam}
-              teamList={teamList}
-              isUpdated={isUpdated}
-              setTeamList={setTeamList}
-            />
+            {teamListSection}
           </TabPanel>
 
           {/* --------------------------------------- Lineup Section -------------------------------------- */}
@@ -130,13 +158,7 @@ const TeamPageContent: React.FC<any> = (props) => {
             <Paper
               sx={{ p: 2, height: '800px' }}
             >
-              <TeamPlayerTableLoader
-                   teamID={selectionTeam}
-                   tableIsUpdated={tableIsUpdated}
-                   isUpdated={isUpdated}
-                   setIsUpdated={setIsUpdated}
-                   teamPlayersList={teamPlayersList}
-              />
+              {teamPlayerTableLoaderSection}
             </Paper>
           </TabPanel>
 
@@ -145,17 +167,11 @@ const TeamPageContent: React.FC<any> = (props) => {
             <Paper
               sx={{ p: 2, height: '800px' }}
             >
-              <AddPlayerTableLoader
-                teamID={selectionTeam}
-                tableIsUpdated={tableIsUpdated}
-                isUpdated={isUpdated}
-                setIsUpdated={setIsUpdated}
-                teamPlayersList={teamPlayersList}
-              />
+              {addPlayerTableLoaderSection}
             </Paper>
           </TabPanel>
         </TabContext>
-      </Box>
+        </Box>
     </>
   );
 };

@@ -1,14 +1,10 @@
 import * as React from 'react';
-import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams, GridSelectionModel  } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams } from '@mui/x-data-grid';
 import { FormControl, Grid, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
-import { axiosRequestConfiguration } from "../../services/axios_config";
-import axios, { AxiosError } from 'axios';
-import Button from '@mui/material/Button';
 import RemovePlayerButton from './RemovePlayer/RemovePlayerButton';
 import RemovePlayerPopUp from './RemovePlayer/RemovePlayerPopUp';
-import { useAuth0 } from '@auth0/auth0-react';
 
 // Setting up the columns of the player table
 const TeamPlayerTable: React.FC<any> = (props) => {
@@ -66,11 +62,6 @@ const TeamPlayerTable: React.FC<any> = (props) => {
       setOpenRemovePlayerPopUp((prev) => !prev)
     }
 
-  // this takes the props passed to this component and uses it to populate the table
-  const teamPlayerList = props.teamPlayerList;
-
-  const teamID = props.teamID;
-
   // initialise the value for the searchbar
   const [search, setSearch] = React.useState('');
 
@@ -104,8 +95,6 @@ const TeamPlayerTable: React.FC<any> = (props) => {
     });
   },[search]);
 
-  const url = axiosRequestConfiguration.baseURL
-
   return (
     <>
       {/* formats the placement of the searchbar and table */}
@@ -130,7 +119,7 @@ const TeamPlayerTable: React.FC<any> = (props) => {
           <div style={{ height:'648px'}}>
             <DataGrid
               loading={props.loading}
-              rows={teamPlayerList}
+              rows={props.teamPlayerList}
               getRowId={(row) => row.PlayerID}
               columns={teamPlayerColumns}
               disableColumnSelector={true}
@@ -148,7 +137,7 @@ const TeamPlayerTable: React.FC<any> = (props) => {
       <RemovePlayerPopUp 
         openRemovePlayerPopUp={openRemovePlayerPopUp}
         setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}
-        teamId={teamID}
+        teamId={props.teamID}
         PlayerID={PlayerToDelete}
         teamPlayerList ={props.teamPlayerList}
         tableIsUpdated={props.tableIsUpdated}

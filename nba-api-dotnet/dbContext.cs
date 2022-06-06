@@ -29,7 +29,9 @@ public class NBAContext : DbContext
 
         if(IsDevelopment){
             // connect to sql server with connection string from app settings
-            options.UseSqlServer(Configuration.GetConnectionString("WadeDesktopDB"));
+
+            options.UseSqlServer(Configuration.GetConnectionString("DanLaptopDB"));
+
         }else if(IsStaging){
              options.UseSqlServer(Configuration["AzureStagingDatabase"]);
         }else
@@ -38,8 +40,6 @@ public class NBAContext : DbContext
 
             options.UseSqlServer(Configuration["AzureDatabase"]);
         }
-
-        
 
     }
 
