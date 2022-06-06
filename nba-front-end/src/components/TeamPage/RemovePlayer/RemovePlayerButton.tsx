@@ -12,16 +12,17 @@ const RemovePlayerButton = (props: any) => {
     
     //if cookie does not exist open remove player popup
     if (removePlayerDontAskAgain !== "1") {
-      props.setSelectedTeam(props.teamObject)
+      props.setSelectedTeam(props.teamObject)      
       props.setSelectedPlayer(props.PlayerID)
+      
       props.setOpenRemovePlayerPopUp((prev:any) => !prev)
         
     } else {
 
     //delete player by clicking bin button if there is a cookie
-        console.log(props.teamObject.TeamID, props.PlayerID);
+        
         const res: any = await api.RemovePlayer(props.teamObject.TeamID, props.PlayerID).catch((err) => {
-            console.log(props.PlayerID)
+            
         })
         
       if (res)

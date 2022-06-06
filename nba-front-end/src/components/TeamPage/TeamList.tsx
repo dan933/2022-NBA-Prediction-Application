@@ -20,11 +20,14 @@ import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";
 import { makeStyles } from '@material-ui/core/styles';    
     
 const TeamList: React.FC<any> = (props) => {
+
+    const [SelectedTeam, setSelectedTeam] = React.useState<any>();
+    
     
     const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
 
     const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
-
+    
     const teamsColumns: GridColDef[] = [
         { field: "TeamID", headerName: "ID", width: 90, hide: true, flex:1 },
         { field: "TeamName", headerName: "Team Name", width: 150, flex:1  },
@@ -52,7 +55,9 @@ const TeamList: React.FC<any> = (props) => {
             hideSortIcons: true,
             renderCell: (params: any) => {
                 return (               
-                    <RemoveTeamButton                    
+                    <RemoveTeamButton
+                        tableIsUpdated={props.tableIsUpdated}
+                        setSelectedTeam={setSelectedTeam}                                        
                         teamObject={params.row}
                         setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
                         setTeamList={props.setTeamList}                    
@@ -168,6 +173,9 @@ const TeamList: React.FC<any> = (props) => {
                 />
                 
                 <RemoveTeamPopUp
+                    IsUpdated={props.setIsUpdated}
+                    tableIsUpdated={props.tableIsUpdated}
+                    SelectedTeam={SelectedTeam}
                     openRemoveTeamPopUp={openRemoveTeamPopUp}
                     setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
                     teamId={props.selectionModel}                    

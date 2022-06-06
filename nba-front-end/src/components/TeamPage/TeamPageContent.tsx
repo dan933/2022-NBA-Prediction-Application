@@ -93,6 +93,8 @@ const classes = useStyles();
           <Grid item xs={12} sm={12} md={4} lg={4} xl={4}
           >
             <TeamList
+              tableIsUpdated={tableIsUpdated}
+              IsUpdated={setIsUpdated}
               setSelectionModel={setSelectionTeam}
               selectionModel={selectionTeam}
               teamList={teamList}
@@ -159,6 +161,7 @@ const classes = useStyles();
           {/* --------------------------------------- Teams Section -------------------------------------- */}
           <TabPanel value="Teams">
             <TeamList
+              tableIsUpdated={tableIsUpdated}
               setSelectionModel={setSelectionTeam}
               selectionModel={selectionTeam}
               teamList={teamList}

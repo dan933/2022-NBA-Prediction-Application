@@ -6,7 +6,8 @@ import TeamList from '../TeamList';
 import { bake_cookie, read_cookie, delete_cookie } from 'sfcookies';
 
 export default function RemoveTeamPopUp(props: any) {
-
+  
+  
   interface ITeam {
     TeamID?: number;
     TeamName?: string;
@@ -25,8 +26,7 @@ export default function RemoveTeamPopUp(props: any) {
     setTeamObject(props.teamList.find((team: any) => team.TeamID === props.teamId[0]))    
   }, [props.teamList, props.teamId, teamObject])
 
-  const [IsError, setIsError] = React.useState(false);
-  
+  const [IsError, setIsError] = React.useState(false);   
   const closeRemoveTeamPopup = () => {
     props.setOpenRemoveTeamPopUp(false);
     setIsError(false)
@@ -45,20 +45,24 @@ export default function RemoveTeamPopUp(props: any) {
     .catch((err) => {
       setIsError(true)
     })
-    
+     
     if(res) 
-    props.setOpenRemoveTeamPopUp(false)
+    props.setOpenRemoveTeamPopUp(false) 
+    props.tableIsUpdated();
     
-  }  
+    
 
+    //props.teamList.find(team => team)
+    
 
+  }
     return(
         <Dialog id="RemoveTeam" open={props.openRemoveTeamPopUp}>
               {/* todo: need to add reference to team name */}
-              <DialogTitle>Remove {teamObject?.TeamName}</DialogTitle>
+              <DialogTitle>Remove {}</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  You'll lose all data relating to {teamObject?.TeamName}.
+                  You'll lose all data relating to {props.SelectedTeam?.TeamName}.
 
                   Are you sure you want to permanently delete this team?
           </DialogContentText>
@@ -71,4 +75,5 @@ export default function RemoveTeamPopUp(props: any) {
               </DialogActions>
         </Dialog>
     )
+  
 }

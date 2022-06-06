@@ -15,6 +15,8 @@ const RemoveTeamButton = (props: any) => {
 
     //if cookie does not exist open remove team popup
     if (removeTeamDontAskAgain !== "1") {
+        props.setSelectedTeam(props.teamObject)  
+                
         props.setOpenRemoveTeamPopUp((prev:any) => !prev)
     } else {
 
@@ -25,6 +27,7 @@ const RemoveTeamButton = (props: any) => {
         
       if (res)
       {
+        
         api.GetAllTeams().then(resp => {
           props.setTeamList(resp.data.Data);          
         }).catch((err) => { console.log(err) })

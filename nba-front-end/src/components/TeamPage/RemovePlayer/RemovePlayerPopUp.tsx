@@ -5,7 +5,7 @@ import api from '../../../services/api';
 import { bake_cookie, read_cookie, delete_cookie } from 'sfcookies';
 
 export default function RemovePlayerPopUp(props: any) {
-  console.log(props)
+  
 
   interface ITeam {
     TeamID?: number;
@@ -49,7 +49,7 @@ export default function RemovePlayerPopUp(props: any) {
       bake_cookie('removePlayerDontAskAgain', "1");
     }
 
-    console.log(props.SelectedPlayer)
+    
     
     //removes selected player
     const res:any = await api.RemovePlayer(props.SelectedTeam.TeamID, props.SelectedPlayer).catch((err) => {
