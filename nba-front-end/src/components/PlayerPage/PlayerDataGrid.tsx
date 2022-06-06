@@ -4,7 +4,6 @@ import { FormControl, Grid, InputAdornment, InputLabel, OutlinedInput, Paper } f
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import { useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 // import { Player } from '../models/IPlayer';
@@ -46,6 +45,12 @@ const PlayerDataGrid: React.FC<any> = (props) => {
   // initialise the value for the searchbar
   const [search, setSearch] = React.useState('');
 
+  // initialise the value for the input when the user selects WinPercentage in dropdown box
+  const [input, setInput] = React.useState('');
+
+  // initialise the value for operator used in searchbar functionality
+  const [operator, setOperator] = React.useState('contains')
+
   // initialise the parameters that the table uses to filter values (when using the searchbar)
   const [filterModel, setFilterModel] = React.useState<GridFilterModel>({
     items: [
@@ -63,15 +68,46 @@ const PlayerDataGrid: React.FC<any> = (props) => {
   //creating a handleChange function for the Column Filter - clears search bar upon Changing the value of the Filter
   const handleChangeColumn = (event: any) => {
     setDropdownColumn(event.target.value);
+    setInput("");
     setSearch("");
   };
 
 
   // when you type in the searchbar, update the value of the object
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value);
-    // can't update anything else here because of how the hook works, use useEffect hook instead
-  }
+    let inputNum = parseInt(event.target.value)/100;
+    let inputString = inputNum.toString();
+    if(dropdownColumn === "PlayerWinPercent" && inputNum === 1){
+      setInput(event.target.value);
+      setSearch(inputString);
+      setOperator('equals');
+    }
+    else if(dropdownColumn === "PlayerWinPercent" && inputNum === 0){
+      setInput(event.target.value);
+      setSearch(inputString);
+      setOperator('equals');
+      }
+    else if(dropdownColumn === "PlayerWinPercent" && isNaN(inputNum)){
+      setInput(event.target.value);
+      setSearch(event.target.value);
+      setOperator('contains');
+    }
+    else if(dropdownColumn === "PlayerWinPercent"){
+      setInput(event.target.value);
+      setSearch(inputString);
+      setOperator('contains');
+    }
+    else if(dropdownColumn === "Points"||"Rebounds"||"Assists"||"Steals"||"Blocks"){
+      setInput(event.target.value);
+      setSearch(event.target.value);
+      setOperator('equals');
+    }
+    else{
+      setInput(event.target.value);
+      setSearch(event.target.value);
+      setOperator('contains');
+    }
+  };
 
 
   // when [search] is updated, update the table's filter
@@ -81,16 +117,17 @@ const PlayerDataGrid: React.FC<any> = (props) => {
         {
           // columnField now references the Column Filter Dropdown
           columnField: dropdownColumn,
-          operatorValue: 'contains',
+          operatorValue: operator,
           value: search,
         },
       ],
     })
-  }, [search, dropdownColumn]);
+  }, [search, dropdownColumn, operator]);
 
   //creating a function for clear search bar button
   const clearInput = () => {
     setSearch("");
+    setInput("");
   }
 
   //creating a custom toolbar that only contains the Columns Hide and Show
@@ -144,7 +181,7 @@ const PlayerDataGrid: React.FC<any> = (props) => {
             <OutlinedInput
               id="outlined-search"
               label="Search for a player"
-              value={search}
+              value={input}
               onChange={handleChange}
               // formats placement of clear search bar button
               endAdornment={
