@@ -16,7 +16,6 @@ const playerColumns: GridColDef[] = [
   {
     field: 'FullName',
     headerName: 'Name',
-    sortable: false,
     width: 160,
     hide: true,
     valueGetter: (params: GridValueGetterParams) =>
@@ -49,7 +48,7 @@ const PlayerDataGrid: React.FC<any> = (props) => {
   const [input, setInput] = React.useState('');
 
   // initialise the value for operator used in searchbar functionality
-  const [operator, setOperator] = React.useState('contains')
+  const [operator, setOperator] = React.useState('')
 
   // initialise the parameters that the table uses to filter values (when using the searchbar)
   const [filterModel, setFilterModel] = React.useState<GridFilterModel>({
@@ -77,6 +76,8 @@ const PlayerDataGrid: React.FC<any> = (props) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let inputNum = parseInt(event.target.value)/100;
     let inputString = inputNum.toString();
+    setInput(event.target.value);
+    setSearch(event.target.value);
     if(dropdownColumn === "PlayerWinPercent" && inputNum === 1){
       setInput(event.target.value);
       setSearch(inputString);
@@ -86,7 +87,7 @@ const PlayerDataGrid: React.FC<any> = (props) => {
       setInput(event.target.value);
       setSearch(inputString);
       setOperator('equals');
-      }
+    }
     else if(dropdownColumn === "PlayerWinPercent" && isNaN(inputNum)){
       setInput(event.target.value);
       setSearch(event.target.value);
@@ -97,15 +98,25 @@ const PlayerDataGrid: React.FC<any> = (props) => {
       setSearch(inputString);
       setOperator('contains');
     }
-    else if(dropdownColumn === "Points"||"Rebounds"||"Assists"||"Steals"||"Blocks"){
+    else if(dropdownColumn === "FullName"){
       setInput(event.target.value);
       setSearch(event.target.value);
-      setOperator('equals');
+      setOperator('contains');
+    }
+    else if(dropdownColumn === "FirstName"){
+      setInput(event.target.value);
+      setSearch(event.target.value);
+      setOperator('contains');
+    }
+    else if(dropdownColumn === "LastName"){
+      setInput(event.target.value);
+      setSearch(event.target.value);
+      setOperator('contains');
     }
     else{
       setInput(event.target.value);
       setSearch(event.target.value);
-      setOperator('contains');
+      setOperator('equals');
     }
   };
 
