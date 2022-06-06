@@ -28,17 +28,22 @@ function PlayerTableLoader() {
     setLoading(true);
     setErrorMessage("");
     setAppState({ playerList: [] });
-    api.get('players/get-all').toPromise().then((resp) => {
+
+    api.get('players/get-all')
+    .subscribe({
+      next:(resp) => {
         setLoading(false);
         setAppState({ playerList: resp as Player[] });
-        })
-  // this catches any errors that may occur while fetching for player data
-        .catch(error => { console.log(error); 
+      },
+      error: (e) => {
+
         setLoading(false);
-  // this sets 'errorMessage' into the error that has occured
-        setErrorMessage(error);
-        })
-      }, [setAppState]);
+        // this sets 'errorMessage' into the error that has occured
+              setErrorMessage(e);
+
+      }
+    })
+  }, [setAppState]);
 
   return (
     <React.Fragment>

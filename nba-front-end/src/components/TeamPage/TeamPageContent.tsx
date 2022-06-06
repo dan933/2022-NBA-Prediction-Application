@@ -52,6 +52,7 @@ const TeamPageContent: React.FC<any> = (props) => {
   const teamListSection =
     (
       <TeamList
+        tableIsUpdated={tableIsUpdated}
         setSelectionModel={setSelectionTeam}
         selectionModel={selectionTeam}
         teamList={teamList}

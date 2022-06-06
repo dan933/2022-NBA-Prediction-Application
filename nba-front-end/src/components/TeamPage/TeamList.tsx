@@ -6,20 +6,17 @@ import RemoveTeamButton from "./RemoveTeam/RemoveTeamButton"
 import api from "../../services/api";
 import RemoveTeamPopUp from "./RemoveTeam/RemoveTeamPopUp";
 import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";
+import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@mui/icons-material/Search';
-
+    
 const TeamList: React.FC<any> = (props) => {
 
-    const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
-
+    const [SelectedTeam, setSelectedTeam] = React.useState<any>();
+    
     const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
 
-
-    //opens remove team popup
-    const handleopenRemoveTeamPopUp = () => {
-    setOpenRemoveTeamPopUp((prev) => !prev)
-    }
-
+    const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
+    
     const teamsColumns: GridColDef[] = [
         { field: "TeamID", headerName: "ID", width: 90, hide: true, flex:1 },
         { field: "TeamName", headerName: "Team Name", width: 150, flex:1  },
@@ -39,20 +36,24 @@ const TeamList: React.FC<any> = (props) => {
               
             },
           },
-          
-          
     //-------------------- Renders the remove team button --------------------//
-        { 
+        {
             field: "RemoveTeam",
             headerName: "",
             width: 90,
-            renderCell: (params: any) =>
-            (
-                <RemoveTeamButton
-                    teamObject={params.row}
-                    handleopenRemoveTeamPopUp={handleopenRemoveTeamPopUp}
-                />
-            )
+            hideSortIcons: true,
+            renderCell: (params: any) => {
+                return (               
+                    <RemoveTeamButton
+                        tableIsUpdated={props.tableIsUpdated}
+                        setSelectedTeam={setSelectedTeam}                                        
+                        teamObject={params.row}
+                        setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
+                        setTeamList={props.setTeamList}                    
+                    />
+                )
+                
+            }
         },
     ];
 
@@ -95,11 +96,21 @@ const TeamList: React.FC<any> = (props) => {
         setOpen(true);
     };
 
+    const handleRowChanges = (selectedRow: any) => {
+
+        if (selectedRow.field !== "RemoveTeam") {
+            props.setSelectionModel(selectedRow.row.TeamID)
+        }
+    }
+
     const [newTeamID, setNewTeamID] = React.useState("");
 
+    const changeTeamSelected = (newSelectionModel: any) => {
+        props.setSelectionModel(newSelectionModel)
+    }
     
     useEffect(() => {
-        props.setSelectionModel(newTeamID);
+       changeTeamSelected(newTeamID)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [newTeamID]); 
 
@@ -107,29 +118,18 @@ const TeamList: React.FC<any> = (props) => {
 
     const getWinChance = async () => {
 
-
         api.GetAllTeams().then(resp => {
 
             props.setTeamList(resp.data.Data);            
             
-        }).catch((err) => { console.log(err) })
-            
-        // const resp = await api.GetAllTeams()
-        //     .catch((err) => {
-        //         console.log(err)
-        //     })
-        
-        // if (resp) {
-        //     props.setTeamList(resp.data.Data);
-        // }
-        
+        }).catch((err) => { console.log(err) })        
     }
          
     // on changes to open state api is run
     useEffect(() => {
-
+        if (props.selectionModel) {
         getWinChance()
-            
+        }    
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open, openRemoveTeamPopUp, props.isUpdated])
 
@@ -176,10 +176,11 @@ const TeamList: React.FC<any> = (props) => {
                             rows={props.teamList}
                             getRowId={(row) => row.TeamID}
                             columns={teamsColumns}
-                            disableColumnSelector={true}
+                            disableColumnSelector={true}                            
                             disableColumnMenu={true}
                             pageSize={10}
                             rowsPerPageOptions={[10]}
+                            onCellClick={(event) => {handleRowChanges(event)}}
                             onSelectionModelChange={(newSelectionModel) => {
                                 props.setSelectionModel(newSelectionModel);
                             }}
@@ -198,12 +199,14 @@ const TeamList: React.FC<any> = (props) => {
                     setNewTeamID={setNewTeamID}
                 />
                 
-                <RemoveTeamPopUp
+                <RemoveTeamPopUp                                   
+                    tableIsUpdated={props.tableIsUpdated}
+                    SelectedTeam={SelectedTeam}
                     openRemoveTeamPopUp={openRemoveTeamPopUp}
                     setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
                     teamId={props.selectionModel}
+                    setSelectionModel={props.setSelectionModel}
                     teamList={props.teamList}
-                    setNewTeamID={setNewTeamID}
                 />
             </Grid>
         </Paper>
