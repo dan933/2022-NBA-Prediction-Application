@@ -27,9 +27,8 @@ builder.Services.AddCors(options =>
                       builder =>
                       {
                           builder.WithOrigins(
-                            "https://dan933.github.io/2022-NBA-Prediction-Application",
-                            "https://nbaseasonpredictor.netlify.app",
-                            "https://nba-app.azurewebsites.net"
+                            "https://nba-app.azurewebsites.net",
+                            "https://nba-app-staging.azurewebsites.net"
                             )                            
                             .AllowAnyHeader()
                             .AllowAnyMethod();
@@ -73,7 +72,7 @@ builder.Services.AddSwaggerGen(options =>
 if(builder.Environment.IsDevelopment()){
     builder.Services.AddDbContext<NBAContext>(options =>
     {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("WadeLaptopDB"));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("EveDesktopDB"));
     });
 }else if(builder.Environment.IsStaging()){
 

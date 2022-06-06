@@ -39,7 +39,8 @@ const RemoveTeamButton = (props: any) => {
 
   return (
     <>
-      <Button        
+    <Button 
+        aria-label="Remove Team"        
         color="error"
         onClick={handleopenRemoveTeam}
     >

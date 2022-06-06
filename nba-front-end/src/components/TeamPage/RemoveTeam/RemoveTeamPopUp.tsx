@@ -4,6 +4,16 @@ import { Alert, Button, DialogActions, DialogContent, DialogContentText, DialogT
 import api from '../../../services/api';
 import TeamList from '../TeamList';
 import { bake_cookie, read_cookie, delete_cookie } from 'sfcookies';
+import Stack from '@mui/material/Stack';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+
+const PopUpAlert = React.forwardRef<HTMLDivElement, AlertProps>(function PopUpAlert(
+  props,
+  ref,
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function RemoveTeamPopUp(props: any) {
   
@@ -12,8 +22,7 @@ export default function RemoveTeamPopUp(props: any) {
     TeamID?: number;
     TeamName?: string;
   }
-
-  const [teamObject, setTeamObject] = React.useState<ITeam>({ TeamID: 0, TeamName: "" });
+  const [open, setOpen] = React.useState(false);
 
   // used for remove team don't ask again checkbox
   const [IsCookieEnabled, setIsCookieEnabled] = useState(false)
@@ -21,6 +30,14 @@ export default function RemoveTeamPopUp(props: any) {
   const handleDontAskAgainCheckbox = () => {
     setIsCookieEnabled(prev => !prev)    
   }
+  const openAddTeamSnackBar = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const [teamObject, setTeamObject] = React.useState<ITeam>({TeamID:0,TeamName:""});
   
   useEffect(() => {
     setTeamObject(props.teamList.find((team: any) => team.TeamID === props.teamId[0]))    
@@ -47,7 +64,8 @@ export default function RemoveTeamPopUp(props: any) {
     })
      
     if(res) 
-    props.setOpenRemoveTeamPopUp(false) 
+    props.setOpenRemoveTeamPopUp(false);
+    props.setSelectionModel([]);
     props.tableIsUpdated();
     
     
@@ -57,6 +75,7 @@ export default function RemoveTeamPopUp(props: any) {
 
   }
     return(
+      <div> 
         <Dialog id="RemoveTeam" open={props.openRemoveTeamPopUp}>
               {/* todo: need to add reference to team name */}
               <DialogTitle>Remove {}</DialogTitle>
@@ -74,6 +93,15 @@ export default function RemoveTeamPopUp(props: any) {
                 <Button onClick={handleClickConfirmRemoveTeam}>Continue </Button>
               </DialogActions>
         </Dialog>
+
+        <Stack spacing={2} sx={{ width: '100%' }}>
+        <Snackbar open={open} autoHideDuration={1050} onClose={handleClose}>
+        <PopUpAlert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
+          Team Successfully Removed!
+        </PopUpAlert>
+        </Snackbar>
+        </Stack>
+      </div>
     )
   
 }

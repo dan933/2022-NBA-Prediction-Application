@@ -1,28 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
-import {
-    Button, Grid, Paper,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-    TextField
-} from "@mui/material";
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
+import React, { useEffect, useRef } from "react";
+import { Button, FormControl, Grid, InputAdornment, InputLabel, OutlinedInput, Paper } from "@mui/material";
+import { DataGrid, GridColDef, GridFilterModel } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveTeamButton from "./RemoveTeam/RemoveTeamButton"
-import TeamPageContentLoader from "./TeamPageContentLoader";
-import axios, { AxiosError } from 'axios';
-import { axiosRequestConfiguration } from "../../services/axios_config";
 import api from "../../services/api";
 import RemoveTeamPopUp from "./RemoveTeam/RemoveTeamPopUp";
 import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";
-import { makeStyles } from '@material-ui/core/styles';    
+import { makeStyles } from '@material-ui/core/styles';
+import SearchIcon from '@mui/icons-material/Search';
     
 const TeamList: React.FC<any> = (props) => {
 
     const [SelectedTeam, setSelectedTeam] = React.useState<any>();
-    
     
     const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
 
@@ -68,7 +57,38 @@ const TeamList: React.FC<any> = (props) => {
         },
     ];
 
+
+    // initialise the value for the searchbar
+    const [searchTeam, setSearchTeam] = React.useState('');
     
+    // initialise the parameters that the table uses to filter values (when using the searchbar)
+    const [SearchTeamModel, setSearchTeamModel] = React.useState<GridFilterModel>({
+        items: [
+            {
+                columnField: 'TeamName',
+                operatorValue: 'contains',
+                value: searchTeam
+            },
+        ],
+    });
+
+    // when you type in the searchbar, update the value of the object
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(event)
+        setSearchTeam(event.target.value);
+        // can't update anything else here because of how the hook works, use useEffect hook instead
+    }
+
+    // when [search] is updated, update the table's filter
+    useEffect(()=>{setSearchTeamModel({
+        items: [
+            {
+                columnField: 'TeamName',
+                operatorValue: 'contains',
+                value: searchTeam,
+            },
+        ],
+    })},[searchTeam]);
 
     const [open, setOpen] = React.useState(false);
 
@@ -113,24 +133,11 @@ const TeamList: React.FC<any> = (props) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open, openRemoveTeamPopUp, props.isUpdated])
 
-    const useStyles = makeStyles({
-        root: {
-            '&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus, &.MuiDataGrid-root .MuiDataGrid-cell:focus': {
-                outline: 'none',
-            },
-        }
-    });
-
- 
-    const classes = useStyles();
-
-   
-
     return (
         <Paper
             sx={{ p: 2, height: '800px' }}
         >
-            <Grid container spacing={3}>
+            <Grid container spacing={2}>
                 <Grid item>
                     <h2 style={{ margin: 0 }}>Teams</h2>
                 </Grid>
@@ -145,12 +152,26 @@ const TeamList: React.FC<any> = (props) => {
                         Create New Team
                     </Button>
                 </Grid>
+                <Grid item xl={12} md={12} xs={12}>
+                    <FormControl variant="outlined" size="small" fullWidth={true}>
+                    <InputLabel>Search for a Team</InputLabel>
+                    <OutlinedInput
+                    type="Team Search"
+                    label="Search for a Team"
+                    value={searchTeam}
+                    onChange={handleChange}
+                    endAdornment={
+                    <InputAdornment position="end">
+                    <SearchIcon />
+                    </InputAdornment>
+                    }
+                    />
+                    </FormControl>
+                </Grid> 
                 <Grid item xs={12}>
-
-                    <div style={{ width: '100%' }}>
-                        <DataGrid  
-                            className={classes.root}
-                            style={{ width: '100%', display: '-ms-flexbox'}}
+                    <div style={{ width: '100%' }}>   
+                        <DataGrid     
+                            style={{ width: '100%', display: '-ms-flexbox', border: 'none', boxShadow: "none" }}
                             autoHeight
                             rows={props.teamList}
                             getRowId={(row) => row.TeamID}
@@ -160,7 +181,13 @@ const TeamList: React.FC<any> = (props) => {
                             pageSize={10}
                             rowsPerPageOptions={[10]}
                             onCellClick={(event) => {handleRowChanges(event)}}
-                            selectionModel={props.selectionModel}                            
+                            onSelectionModelChange={(newSelectionModel) => {
+                                props.setSelectionModel(newSelectionModel);
+                            }}
+                            hideFooterSelectedRowCount
+                            selectionModel={props.selectionModel}
+                            filterModel={SearchTeamModel}
+                            onFilterModelChange={(newFilterModel) => setSearchTeamModel(newFilterModel)}
                         />                        
                     </div>
                 </Grid>                
@@ -173,12 +200,14 @@ const TeamList: React.FC<any> = (props) => {
                 />
                 
                 <RemoveTeamPopUp
+                // TODO: fix variable name
                     IsUpdated={props.setIsUpdated}
                     tableIsUpdated={props.tableIsUpdated}
                     SelectedTeam={SelectedTeam}
                     openRemoveTeamPopUp={openRemoveTeamPopUp}
                     setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
-                    teamId={props.selectionModel}                    
+                    teamId={props.selectionModel}
+                    setSelectionModel={props.setSelectionModel}
                     teamList={props.teamList}
                 />
             </Grid>

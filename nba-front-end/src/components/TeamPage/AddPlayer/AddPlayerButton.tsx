@@ -5,6 +5,7 @@ const AddPlayerButton = (props: any) => {
   return (
     <>
     <Button
+        aria-label="Add Player"
         color= "success"
         onClick={ props.handleAddPlayer }
         disabled={ props.disabled }

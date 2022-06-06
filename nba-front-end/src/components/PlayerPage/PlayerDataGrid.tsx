@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams } from '@mui/x-data-grid';
-import { FormControl, Grid, IconButton, Input, InputAdornment, InputLabel, OutlinedInput, Paper, TextField } from '@mui/material';
+import { FormControl, Grid, InputAdornment, InputLabel, OutlinedInput, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 // import { Player } from '../models/IPlayer';
 
 // Setting up the columns of the player table
@@ -71,17 +70,7 @@ const PlayerDataGrid: React.FC<any> = (props) => {
     ],
   })},[search]);
 
-  const useStyles = makeStyles({
-    root: {
-        '&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus, &.MuiDataGrid-root .MuiDataGrid-cell:focus': {
-            outline: 'none',
-        },
-    }
-  });
-  
-  
-  const classes = useStyles();
-  
+
   return (
     // white box around the table
     <Paper
@@ -114,7 +103,6 @@ const PlayerDataGrid: React.FC<any> = (props) => {
           <Grid item xl={12} md={12} xs={12}>
             <div style={{ height: '1151px', width: '100%' }}>
               <DataGrid
-              className={classes.root}
               rows={playerList}
               getRowId={(row) => row.PlayerID}
               columns={playerColumns}

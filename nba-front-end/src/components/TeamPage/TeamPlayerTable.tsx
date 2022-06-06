@@ -13,43 +13,6 @@ import RemovePlayerPopUp from './RemovePlayer/RemovePlayerPopUp';
 // Setting up the columns of the player table
 const TeamPlayerTable: React.FC<any> = (props) => {
 
-  
-
-
-
-  const [openRemovePlayerPopUp, setOpenRemovePlayerPopUp]=useState(false);
-
-  const [PlayerToDelete, setplayerToDelete]=useState([] as number[]);
-
-  //opens remove team popup
-    const handleOpenRemovePlayerPopUp = (player:number[]) => {
-      setplayerToDelete(player);
-      setOpenRemovePlayerPopUp((prev) => !prev)
-    }
-
-  // this takes the props passed to this component and uses it to populate the table
-  const teamPlayerList = props.teamPlayerList;
-
-  const teamID = props.teamID;
-
-  // initialise the value for the searchbar
-  const [search, setSearch] = React.useState('');
-
-  const [SelectedTeam, setSelectedTeam] = React.useState();
-  const [SelectedPlayer, setSelectedPlayer] = React.useState();
-
-
-
-  // initialise the parameters that the table uses to filter values (when using the searchbar)
-  const [filterModel, setFilterModel] = React.useState<GridFilterModel>({
-    items: [
-      {
-        columnField: 'FullName',
-        operatorValue: 'contains',
-        value: search,
-      },
-    ],
-  });
   const teamPlayerColumns: GridColDef[] = [
     {
       field: "addplayer",
@@ -96,6 +59,37 @@ const TeamPlayerTable: React.FC<any> = (props) => {
     { field: 'Steals', headerName: 'Steals', width: 120 },
     { field: 'Blocks', headerName: 'Blocks', width: 120 },
   ];
+
+  const [openRemovePlayerPopUp, setOpenRemovePlayerPopUp]=useState(false);
+
+  const [PlayerToDelete, setplayerToDelete]=useState([] as number[]);
+
+  //opens remove team popup
+    const handleOpenRemovePlayerPopUp = (player:number[]) => {
+      setplayerToDelete(player);
+      setOpenRemovePlayerPopUp((prev) => !prev)
+    }
+
+  // initialise the value for the searchbar
+  const [search, setSearch] = React.useState('');
+
+  const [SelectedTeam, setSelectedTeam] = React.useState();
+  const [SelectedPlayer, setSelectedPlayer] = React.useState();
+
+
+
+  // initialise the parameters that the table uses to filter values (when using the searchbar)
+  const [filterModel, setFilterModel] = React.useState<GridFilterModel>({
+    items: [
+      {
+        columnField: 'FullName',
+        operatorValue: 'contains',
+        value: search,
+      },
+    ],
+  });
+
+
   // when you type in the searchbar, update the value of the object
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
@@ -140,7 +134,7 @@ const TeamPlayerTable: React.FC<any> = (props) => {
           <div style={{ height:'648px'}}>
             <DataGrid
               loading={props.loading}
-              rows={teamPlayerList}
+              rows={props.teamPlayerList}
               getRowId={(row) => row.PlayerID}
               columns={teamPlayerColumns}
               disableColumnSelector={true}
@@ -160,7 +154,7 @@ const TeamPlayerTable: React.FC<any> = (props) => {
         SelectedPlayer={SelectedPlayer}
         openRemovePlayerPopUp={openRemovePlayerPopUp}
         setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}
-        teamId={teamID}
+        teamId={props.teamID}
         PlayerID={PlayerToDelete}
         teamPlayerList ={props.teamPlayerList}
         tableIsUpdated={props.tableIsUpdated}

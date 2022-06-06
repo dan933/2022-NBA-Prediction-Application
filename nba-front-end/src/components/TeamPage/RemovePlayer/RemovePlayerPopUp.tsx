@@ -1,8 +1,18 @@
 import React, { SyntheticEvent, useEffect, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import { Alert, Button, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Checkbox } from '@mui/material';
-import api from '../../../services/api';
 import { bake_cookie, read_cookie, delete_cookie } from 'sfcookies';
+import api from '../../../services/api';
+import Stack from '@mui/material/Stack';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+
+const PopUpAlert = React.forwardRef<HTMLDivElement, AlertProps>(function PopUpAlert(
+  props,
+  ref,
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 export default function RemovePlayerPopUp(props: any) {
   
@@ -13,6 +23,15 @@ export default function RemovePlayerPopUp(props: any) {
     FirstName?: string;
     LastName?: string; 
   }
+  const [open, setOpen] = React.useState(false);
+
+  const openRemovePlayerSnackBar = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const [teamObject, setTeamObject] = React.useState<ITeam>({TeamID:0,PlayerID:[0],FirstName:"",LastName:""});
 
@@ -62,13 +81,14 @@ export default function RemovePlayerPopUp(props: any) {
     
     props.setOpenRemovePlayerPopUp(false)
     props.tableIsUpdated();
-    
-    
-  }  
+    openRemovePlayerSnackBar();
+  }
+  
 
     return(
+        <div>
         <Dialog id="RemovePlayer" open={props.openRemovePlayerPopUp}>
-              {/* todo: need to add reference to team name */}
+              {/* todo: check this still works */}
               <DialogTitle>Remove {props.SelectedTeam?.FirstName} {props.SelectedTeam?.LastName}</DialogTitle>
               <DialogContent>
                 <DialogContentText>
@@ -80,7 +100,16 @@ export default function RemovePlayerPopUp(props: any) {
               <FormControlLabel control={<Checkbox />} id="checkbox" onChange={ e => handleDontAskAgainCheckbox() } style={{marginRight: "30%"}} label="Don't ask again" />
                 <Button onClick={closeRemovePlayerPopup} style={{ color: "red" }}>Cancel</Button>
                 <Button onClick={handleClickConfirmRemovePlayer}>Continue </Button>
-              </DialogActions>
+              </DialogActions>  
         </Dialog>
+
+        <Stack spacing={2} sx={{ width: '100%' }}>
+        <Snackbar open={open} autoHideDuration={1050} onClose={handleClose}>
+        <PopUpAlert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
+          Player Successfully Removed!
+        </PopUpAlert>
+        </Snackbar>
+        </Stack>
+        </div>
     )
 }
