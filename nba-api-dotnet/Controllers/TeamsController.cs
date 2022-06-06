@@ -63,6 +63,7 @@ public class TeamController : ControllerBase
             //Check that team doesn't already exist in the database
             Team? isTeam = await _context.tbl_Teams
             .Where(t => t.TeamName == team.TeamName)
+            .Where(t => t.UserId == isUser.UserID )
             .FirstOrDefaultAsync();
 
 

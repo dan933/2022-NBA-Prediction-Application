@@ -133,7 +133,7 @@ if(builder.Environment.IsDevelopment()){
     builder.Services.AddDbContext<NBAContext>(options =>
     {
 
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DanLaptopDB"));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DanAuthLaptopDB"));
 
     });
 }else if(builder.Environment.IsStaging()){

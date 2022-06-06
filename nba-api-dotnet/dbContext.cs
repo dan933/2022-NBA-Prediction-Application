@@ -30,7 +30,7 @@ public class NBAContext : DbContext
         if(IsDevelopment){
             // connect to sql server with connection string from app settings
 
-            options.UseSqlServer(Configuration.GetConnectionString("DanLaptopDB"));
+            options.UseSqlServer(Configuration.GetConnectionString("DanAuthLaptopDB"));
 
         }else if(IsStaging){
              options.UseSqlServer(Configuration["AzureStagingDatabase"]);
