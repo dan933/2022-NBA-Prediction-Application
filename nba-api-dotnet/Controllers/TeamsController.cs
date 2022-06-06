@@ -166,6 +166,17 @@ public class TeamController : ControllerBase
     {
         try
         {
+            var sub = HttpContext?.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            User? isUser = await _context.tbl_Users
+            .Where(t => t.UserIdentifier == sub)
+            .FirstOrDefaultAsync();
+            if (isUser == null ) {
+                var response = new Response<Team?>(null, false, "This User Does Not Exist");
+
+                return StatusCode(409, response);
+            }
+            
             var teamID = Convert.ToInt32(RouteData.Values["teamID"]);
 
             //check to see if team exists
@@ -176,6 +187,13 @@ public class TeamController : ControllerBase
             if (isTeam == null)
             {
                 var response = new Response<Team?>(null, false, "This Team does not exist");
+
+                return StatusCode(409, response);
+            }
+
+            if (isTeam.UserId != isUser.UserID)
+            {
+                var response = new Response<Team?>(null, false, "This Team is not assigned to this user");
 
                 return StatusCode(409, response);
             }
@@ -241,8 +259,19 @@ public class TeamController : ControllerBase
     {
         try
         {
-            var teamID = Convert.ToInt32(RouteData.Values["teamID"]!);
             var response = new Response<List<int?>>();
+            var sub = HttpContext?.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            User? isUser = await _context.tbl_Users
+            .Where(t => t.UserIdentifier == sub)
+            .FirstOrDefaultAsync();
+            if (isUser == null ) {
+                response = new Response<List<int?>>(new List<int?>(), false, "This User Does Not Exist");
+
+                return StatusCode(409, response);
+            }
+            var teamID = Convert.ToInt32(RouteData.Values["teamID"]!);
+            
 
             //check to see if team exists
             var isTeam = await _context.tbl_Teams
@@ -252,6 +281,13 @@ public class TeamController : ControllerBase
             if (isTeam == null)
             {
                 response = new Response<List<int?>>(new List<int?>(), false, "This Team does not exist");
+
+                return StatusCode(409, response);
+            }
+
+            if (isTeam.UserId != isUser.UserID)
+            {
+                response = new Response<List<int?>>(new List<int?>(), false, "This Team is not assigned to this user");
 
                 return StatusCode(409, response);
             }
@@ -312,8 +348,20 @@ public class TeamController : ControllerBase
     {
         try
         {
+           
             var teamID = Convert.ToInt32(RouteData.Values["teamID"]!);
             var response = new Response<int>();
+            
+            var sub = HttpContext?.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            User? isUser = await _context.tbl_Users
+            .Where(t => t.UserIdentifier == sub)
+            .FirstOrDefaultAsync();
+            if (isUser == null ) {
+                response = new Response<int>(0, false, "This User Does Not Exist");
+
+                return StatusCode(409, response);
+            }
 
             //check to see if team exists
             var isTeam = await _context.tbl_Teams
@@ -327,7 +375,12 @@ public class TeamController : ControllerBase
                 return StatusCode(409, response);
             }
 
+             if (isTeam.UserId != isUser.UserID)
+            {
+                response = new Response<int>(0, false, "This Team is not assigned to this user");
 
+                return StatusCode(409, response);
+            }
 
             // if team exists and all players to delete are on team, do so
             _context.tbl_PlayerSelection.RemoveRange(
