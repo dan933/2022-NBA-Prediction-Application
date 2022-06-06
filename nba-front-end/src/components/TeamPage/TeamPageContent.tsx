@@ -12,6 +12,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { useTheme } from '@mui/material/styles';
+import ResponsiveServices from '../../services/ResponsiveServices/ResponsiveServices';
 
 const TeamPageContent: React.FC<any> = (props) => {
 
@@ -31,14 +32,8 @@ const TeamPageContent: React.FC<any> = (props) => {
    //const defaultView = { xs: "none", lg: "block" };
    // declares a constant for mobileView which is used in the display property for smaller screens.
   //const mobileView = { xs: "block", lg: "none" };
-
-  const theme = useTheme();
-  //returns boolean 
-  const IsMobile = useMediaQuery(theme.breakpoints.down('md'))
-  const IsdefaultView = useMediaQuery(theme.breakpoints.up('md'))
-  //uses boolean to determine which view to show
-  const mobileView = IsMobile ? { visibility: "visible" } : { visibility: "hidden",  maxHeight:'0', overflow:'hidden' }
-  const defaultView = IsdefaultView ? { visibility: "visible" } : { visibility: "hidden",  maxHeight:'0', overflow:'hidden' }
+  
+  const [mobileView, defaultView] = ResponsiveServices.CreateDesktopMobileViews();
 
   // declares a state for value. this references which tab the website will display. default value is set to "Teams" which shows the Team List
   const [value, setValue] = React.useState("Teams");
