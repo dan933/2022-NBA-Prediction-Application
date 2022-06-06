@@ -72,7 +72,7 @@ builder.Services.AddSwaggerGen(options =>
 if(builder.Environment.IsDevelopment()){
     builder.Services.AddDbContext<NBAContext>(options =>
     {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DanLaptopDB"));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("EveDesktopDB"));
     });
 }else if(builder.Environment.IsStaging()){
 
