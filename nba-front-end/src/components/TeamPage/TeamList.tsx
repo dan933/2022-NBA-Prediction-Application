@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Button, FormControl, Grid, InputAdornment, InputLabel, OutlinedInput, Paper } from "@mui/material";
-import { DataGrid, GridColDef, GridFilterModel } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridFilterModel, GridSelectionModel } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveTeamButton from "./RemoveTeam/RemoveTeamButton"
 import api from "../../services/api";
@@ -11,7 +11,7 @@ import SearchIcon from '@mui/icons-material/Search';
 function TeamList(props:any) {
 
     const [teamsList, setTeamsList] = useState([]);
-    const [loadingTeams, setLoadingTeams] = useState(true);
+    const [loadingTeams, setLoadingTeams] = useState(false);
 
     const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
 
@@ -91,8 +91,9 @@ function TeamList(props:any) {
         setCreateTeamPopupOpen(true);
     };
 
-    const [newTeamID, setNewTeamID] = useState("");
+    const [newTeamID, setNewTeamID] = useState(props.selectionModel);
 
+    const [selectionTeam, setSelectionTeam] = useState<GridSelectionModel>([]);
     
     useEffect(() => {
         props.setSelectionModel(newTeamID);
@@ -101,21 +102,24 @@ function TeamList(props:any) {
 
     // on changes to open state api is run
     useEffect(() => {
-        
+
         setLoadingTeams(true);
         
         api.GetAllTeams().then(resp => {
             
             setTeamsList(resp.data.Data);            
+            setSelectionTeam(props.selectionModel);
+            props.tableIsUpdated();
             setLoadingTeams(false);
             
         }).catch((err) => {
             
             console.log(err) 
             setLoadingTeams(false);
-        })        
+        })
 
-    }, [createTeamPopupOpen, openRemoveTeamPopUp, setTeamsList])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [createTeamPopupOpen, openRemoveTeamPopUp, setTeamsList]);
 
     return (
         <Paper
@@ -138,9 +142,9 @@ function TeamList(props:any) {
                 </Grid>
                 <Grid item xl={12} md={12} xs={12}>
                     <FormControl variant="outlined" size="small" fullWidth={true}>
-                    <InputLabel htmlFor="outlined-search">Search for a Team</InputLabel>
+                    <InputLabel>Search for a Team</InputLabel>
                     <OutlinedInput
-                    id="outlined-search"
+                    type="Team Search"
                     label="Search for a Team"
                     value={searchTeam}
                     onChange={(event)=>setSearchTeam(event.target.value)}
@@ -167,9 +171,10 @@ function TeamList(props:any) {
                             rowsPerPageOptions={[10]}
                             onSelectionModelChange={(newSelectionModel) => {
                                 props.setSelectionModel(newSelectionModel);
+                                setSelectionTeam(newSelectionModel);
                             }}
+                            selectionModel={selectionTeam}
                             hideFooterSelectedRowCount
-                            selectionModel={props.selectionModel}
                             filterModel={SearchTeamModel}
                             onFilterModelChange={(newFilterModel) => setSearchTeamModel(newFilterModel)}
                         />                        

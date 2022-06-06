@@ -16,15 +16,19 @@ function TeamPage(props:any) {
 
   const [teamPlayersList, setTeamPlayersList] = useState([]);
 
-  const [isUpdated, setIsUpdated] = useState(false);
+  const [playersIsUpdated, setPlayersIsUpdated] = useState(false);
+  const [addPlayersIsUpdated, setAddPlayersIsUpdated] = useState(false);
 
   const tableIsUpdated = () => {
-    setIsUpdated(true);
+    
+    setPlayersIsUpdated(true);
+    setAddPlayersIsUpdated(true);
   };
 
   useEffect(() => {
 
-    setIsUpdated(true);
+    setPlayersIsUpdated(true);
+    setAddPlayersIsUpdated(true);
 
   }, [selectionTeam])
 
@@ -37,6 +41,7 @@ function TeamPage(props:any) {
   const teamListSection =
     (
       <TeamList
+        tableIsUpdated={tableIsUpdated}
         selectionModel={selectionTeam}
         setSelectionModel={setSelectionTeam}
       />
@@ -46,8 +51,9 @@ function TeamPage(props:any) {
     (
       <TeamPlayerTableLoader
         teamID={selectionTeam}
-        isUpdated={isUpdated}
-        setIsUpdated={setIsUpdated}
+        isUpdated={playersIsUpdated}
+        IsMobileView={IsMobileView}
+        setIsUpdated={setPlayersIsUpdated}
         tableIsUpdated={tableIsUpdated}
         setTeamPlayersList={setTeamPlayersList}
       />
@@ -58,8 +64,8 @@ function TeamPage(props:any) {
       <AddPlayerTableLoader
         teamID={selectionTeam}
         tableIsUpdated={tableIsUpdated}
-        isUpdated={isUpdated}
-        setIsUpdated={setIsUpdated}
+        isUpdated={addPlayersIsUpdated}
+        setIsUpdated={setAddPlayersIsUpdated}
         teamPlayersList={teamPlayersList}
         />
     )

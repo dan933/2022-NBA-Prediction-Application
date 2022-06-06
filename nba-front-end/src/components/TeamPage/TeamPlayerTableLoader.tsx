@@ -20,7 +20,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
   // gets value from create team form
 
   useEffect(() => {
-    if(props.isUpdated){
+    if(props.isUpdated || props.IsMobileView){
     if (!isLoading && props.teamID.length !== 0) {
       setLoading(true);
       setAppState({ teamPlayerList: [] });
