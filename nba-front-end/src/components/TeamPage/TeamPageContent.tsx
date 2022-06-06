@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { GridSelectionModel } from "@mui/x-data-grid";
-import { Grid, Paper, useMediaQuery } from "@mui/material";
+import { Grid, Paper } from "@mui/material";
 import type { } from '@mui/lab/themeAugmentation';
 import '@mui/lab/themeAugmentation';
 import TeamList from "./TeamList";
@@ -11,8 +11,8 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import { useTheme } from '@mui/material/styles';
 import ResponsiveServices from '../../services/ResponsiveServices/ResponsiveServices';
+
 
 const TeamPageContent: React.FC<any> = (props) => {
 
@@ -28,11 +28,7 @@ const TeamPageContent: React.FC<any> = (props) => {
     setIsUpdated(true);
   };
   
-   // declares a constant for defaultView which is used in the display property for bigger screens.
-   //const defaultView = { xs: "none", lg: "block" };
-   // declares a constant for mobileView which is used in the display property for smaller screens.
-  //const mobileView = { xs: "block", lg: "none" };
-  
+  //This function handles the responsiveness of the page
   const [mobileView, defaultView] = ResponsiveServices.CreateDesktopMobileViews();
 
   // declares a state for value. this references which tab the website will display. default value is set to "Teams" which shows the Team List
@@ -46,6 +42,8 @@ const TeamPageContent: React.FC<any> = (props) => {
 
   const teamListSection =
     (
+
+    
       <TeamList
         tableIsUpdated={tableIsUpdated}
         setSelectionModel={setSelectionTeam}
@@ -53,7 +51,8 @@ const TeamPageContent: React.FC<any> = (props) => {
         teamList={teamList}
         isUpdated={isUpdated}
         setTeamList={setTeamList}
-      />
+        />
+
 
     )
   
@@ -82,6 +81,8 @@ const TeamPageContent: React.FC<any> = (props) => {
 
   return (
     // the empty div "<>" container wraps the whole return component
+
+    
     <>
       {/* --------------------------------------- This Box contains all tables for the Default view -------------------------------------- */}
       {/* screens lg and lower are hidden */}
@@ -169,6 +170,7 @@ const TeamPageContent: React.FC<any> = (props) => {
         </TabContext>
         </Box>
     </>
+
   );
 };
 

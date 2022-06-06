@@ -3,6 +3,8 @@ import TeamPageContent from './TeamPageContent';
 import ApiComponentLoader from '../ApiComponentLoader';
 import api from '../../services/api';
 import { Team } from '../../models/ITeam';
+import { SelectionContext } from '../../services/Contexts/SelectionContext';
+
 
 
 interface TeamProps{
@@ -11,6 +13,10 @@ interface TeamProps{
 }
 
 function TeamPageContentLoader() {
+
+  const [SelectionModel, setSelectionModel] = useState<any>({
+    Team:{TeamName:"wooo",TeamID:1}
+})
     const TableLoading = ApiComponentLoader(TeamPageContent);
     const [appState, setAppState] = useState<TeamProps>({
         loading: true,
@@ -24,12 +30,15 @@ function TeamPageContentLoader() {
         .then((resp) => {
             setAppState({ loading: false, teamList: resp.data.Data as Team[] });
         })
-      }, [setAppState]);    
+      }, [setAppState]);
       
   return (
-    <div>
-        <TableLoading isLoading={appState.loading} teamList={appState.teamList} />
-    </div>
+    <SelectionContext.Provider value={{ SelectionModel, setSelectionModel }}>
+      <TableLoading
+          isLoading={appState.loading}
+          teamList={appState.teamList}
+      />
+    </SelectionContext.Provider>
     );
 
 }

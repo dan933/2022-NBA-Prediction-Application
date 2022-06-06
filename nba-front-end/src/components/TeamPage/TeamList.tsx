@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import { Button, FormControl, Grid, InputAdornment, InputLabel, OutlinedInput, Paper } from "@mui/material";
 import { DataGrid, GridColDef, GridFilterModel } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
@@ -6,10 +6,19 @@ import RemoveTeamButton from "./RemoveTeam/RemoveTeamButton"
 import api from "../../services/api";
 import RemoveTeamPopUp from "./RemoveTeam/RemoveTeamPopUp";
 import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";
-import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@mui/icons-material/Search';
+
+import { SelectionContext } from '../../services/Contexts/SelectionContext';
     
 const TeamList: React.FC<any> = (props) => {
+
+    //const { setSelectionModel } = useContext(SelectionContext)
+    const { SelectionModel } = useContext(SelectionContext)
+
+
+    console.log(SelectionModel)
+    
+    
 
     const [SelectedTeam, setSelectedTeam] = React.useState<any>();
     
@@ -80,7 +89,7 @@ const TeamList: React.FC<any> = (props) => {
     }
 
     // when [search] is updated, update the table's filter
-    useEffect(()=>{setSearchTeamModel({
+    useEffect(()=> {setSearchTeamModel({
         items: [
             {
                 columnField: 'TeamName',
