@@ -87,8 +87,7 @@ export default function RemovePlayerPopUp(props: any) {
 
     return(
         <div>
-        <Dialog id="RemovePlayer" open={props.openRemovePlayerPopUp}>
-              {/* todo: check this still works */}
+        <Dialog id="RemovePlayer" open={props.openRemovePlayerPopUp}>              
               <DialogTitle>Remove {props.SelectedTeam?.FirstName} {props.SelectedTeam?.LastName}</DialogTitle>
               <DialogContent>
                 <DialogContentText>

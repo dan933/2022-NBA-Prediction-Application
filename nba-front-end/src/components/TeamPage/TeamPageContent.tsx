@@ -53,8 +53,6 @@ const TeamPageContent: React.FC<any> = (props) => {
     (
       <TeamList
         tableIsUpdated={tableIsUpdated}
-//TODO - bad variable name, also shouldn't need setisupdated - use tableIsUpdated instead
-        IsUpdated={setIsUpdated}
         setSelectionModel={setSelectionTeam}
         selectionModel={selectionTeam}
         teamList={teamList}

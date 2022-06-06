@@ -199,9 +199,7 @@ const TeamList: React.FC<any> = (props) => {
                     setNewTeamID={setNewTeamID}
                 />
                 
-                <RemoveTeamPopUp
-                // TODO: fix variable name
-                    IsUpdated={props.setIsUpdated}
+                <RemoveTeamPopUp                                   
                     tableIsUpdated={props.tableIsUpdated}
                     SelectedTeam={SelectedTeam}
                     openRemoveTeamPopUp={openRemoveTeamPopUp}
