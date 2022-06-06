@@ -44,7 +44,7 @@ const PlayerDataGrid: React.FC<any> = (props) => {
   // initialise the value for the searchbar
   const [search, setSearch] = React.useState('');
 
-  // initialise the value for the input when the user selects WinPercentage in dropdown box
+  // initialise a seperate value for the searchbar so that calculation can be made
   const [input, setInput] = React.useState('');
 
   // initialise the value for operator used in searchbar functionality
@@ -74,10 +74,22 @@ const PlayerDataGrid: React.FC<any> = (props) => {
 
   // when you type in the searchbar, update the value of the object
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // event.target.value is the value received from the search bar (the user input). it is a string by default
+    // inputNum converts whatever numbers the user types into the search bar (event.target.value) into an integer and divides by 100
+    // the api receives the win percentage of players as a decimal number so the values typed by the user must be divided by 100. (i.e when user types 68 - intputNum will be 0.68)
     let inputNum = parseInt(event.target.value)/100;
+    //the result is then converted into a string so that setSearch can be set as the integer
     let inputString = inputNum.toString();
-    setInput(event.target.value);
-    setSearch(event.target.value);
+
+    //setInput is the values that the user types in the searchbar
+    //setSearch is the value that the filterModels use to search for players
+    //setInput and setSearch are seperated to allow us to do calculations. 
+    //if calculations are done to the setSearch value alone, the searchbar will keep changing as the user types, and will not display the values entered by the user correctly.
+    //setOperator is the value that sets the operatorValue for the filterModels
+
+    //when users type 100 win percent in search bar the inputNum result will = 1
+    //which will return all numbers that contain 1 (i.e 11, 21, 31 ...) 
+    //so we set an if statement and change the operator to "equals"
     if(dropdownColumn === "PlayerWinPercent" && inputNum === 1){
       setInput(event.target.value);
       setSearch(inputString);
@@ -88,6 +100,10 @@ const PlayerDataGrid: React.FC<any> = (props) => {
       setSearch(inputString);
       setOperator('equals');
     }
+    //this if statement is only for the "PlayerWinPercent" dropdown because calculations are only done here
+    //the event.target.value becomes "NaN" after a user enters numbers and deletes those numbers
+    //the page displays an empty table because the app tries to search for players with an "NaN" Win Percentage
+    //this if statement ensures that the properties are set back to the default searchbar values when the user removes their input
     else if(dropdownColumn === "PlayerWinPercent" && isNaN(inputNum)){
       setInput(event.target.value);
       setSearch(event.target.value);
@@ -98,6 +114,7 @@ const PlayerDataGrid: React.FC<any> = (props) => {
       setSearch(inputString);
       setOperator('contains');
     }
+    //users will want to filter names with the "contains" operator
     else if(dropdownColumn === "FullName"){
       setInput(event.target.value);
       setSearch(event.target.value);
@@ -113,6 +130,7 @@ const PlayerDataGrid: React.FC<any> = (props) => {
       setSearch(event.target.value);
       setOperator('contains');
     }
+    //users will most likely want to filter the remaining numerical stats such as points and rebounds by exact values
     else{
       setInput(event.target.value);
       setSearch(event.target.value);

@@ -105,8 +105,10 @@ const AddPlayerTable: React.FC<any> = (props) => {
   //creating a handleChange function for the Column Filter - clears search bar upon Changing the value of the Filter
   const handleChangeColumn = (event: any) => {
     setDropdownColumn(event.target.value);
+    setInput("");
     setSearch("");
   };
+
 
   const checkIsNotAddable = (playerId: number, teamPlayerIds: number[], teamId: any) => {
     if (teamID.length === 0) {
@@ -132,7 +134,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
       setInput(event.target.value);
       setSearch(inputString);
       setOperator('equals');
-      }
+    }
     else if(dropdownColumn === "PlayerWinPercent" && isNaN(inputNum)){
       setInput(event.target.value);
       setSearch(event.target.value);
@@ -143,15 +145,25 @@ const AddPlayerTable: React.FC<any> = (props) => {
       setSearch(inputString);
       setOperator('contains');
     }
-    else if(dropdownColumn === "Points"||"Rebounds"||"Assists"||"Steals"||"Blocks"){
+    else if(dropdownColumn === "FullName"){
       setInput(event.target.value);
       setSearch(event.target.value);
-      setOperator('equals');
+      setOperator('contains');
+    }
+    else if(dropdownColumn === "FirstName"){
+      setInput(event.target.value);
+      setSearch(event.target.value);
+      setOperator('contains');
+    }
+    else if(dropdownColumn === "LastName"){
+      setInput(event.target.value);
+      setSearch(event.target.value);
+      setOperator('contains');
     }
     else{
       setInput(event.target.value);
       setSearch(event.target.value);
-      setOperator('contains');
+      setOperator('equals');
     }
   };
 
