@@ -16,6 +16,7 @@ public class NBAContext : DbContext
     public virtual DbSet<PlayerSelection> tbl_PlayerSelection { get; set; } = null!;
     public virtual DbSet<Player> tbl_Players { get; set; } = null!;
     public virtual DbSet<Team> tbl_Teams { get; set; } = null!;
+    public virtual DbSet<User> tbl_Users { get; set; } = null!;
     public virtual DbSet<PlayerSelectionView> view_Team { get; set; } = null!;
     public virtual DbSet<WinChanceView> view_WinChance { get; set; } = null!;
 
@@ -28,7 +29,9 @@ public class NBAContext : DbContext
 
         if(IsDevelopment){
             // connect to sql server with connection string from app settings
-            options.UseSqlServer(Configuration.GetConnectionString("DanLaptopDB"));
+
+            options.UseSqlServer(Configuration.GetConnectionString("DanAuthLaptopDB"));
+
         }else if(IsStaging){
              options.UseSqlServer(Configuration["AzureStagingDatabase"]);
         }else
@@ -86,13 +89,26 @@ public class NBAContext : DbContext
 
             entity.ToTable("tbl_Teams");
 
-            entity.HasIndex(e => e.TeamName, "AK_TeamName")
+            entity.HasIndex(e => new { e.TeamName, e.UserId }, "AK_TeamName")
             .IsUnique();
 
-            // entity.Property(e => e.TeamID).HasColumnName("TeamID");
+            entity.Property(e => e.TeamID).HasColumnName("TeamID");
+
+            entity.Property(e => e.UserId).HasColumnName("UserID");
 
             entity.Property(e => e.TeamName).HasMaxLength(35);
         });
+
+        modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(e => e.UserID);
+
+                entity.ToTable("tbl_Users");
+
+                entity.Property(e => e.UserID).HasColumnName("UserID");
+
+                entity.Property(e => e.UserIdentifier).HasMaxLength(35);
+            });
 
         modelBuilder.Entity<PlayerSelectionView>(entity =>
         {
@@ -127,6 +143,9 @@ public class NBAContext : DbContext
 
             entity.Property(e => e.WinChance).HasMaxLength(35);
 
+            entity.Property(e => e.UserIdentifier).HasColumnName("UserIdentifier");
+
+            entity.Property(e => e.UserIdentifier).HasMaxLength(35);
             
         });
 
