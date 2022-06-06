@@ -143,9 +143,9 @@ public class NBAContext : DbContext
 
             entity.Property(e => e.WinChance).HasMaxLength(35);
 
-            entity.Property(e => e.UserIdentifier).HasColumnName("UserIdentifier");
+            entity.Property(e => e.UserID).HasColumnName("UserID");
 
-            entity.Property(e => e.UserIdentifier).HasMaxLength(35);
+            entity.Property(e => e.UserID).HasMaxLength(35);
             
         });
 

@@ -36,15 +36,10 @@ public class TeamController : ControllerBase
             .Where(t => t.UserIdentifier == sub)
             .FirstOrDefaultAsync();
 
-            if(isUser == null){
-                User UserToAdd = new User();
-                UserToAdd.UserIdentifier=sub;
-                await _context.tbl_Users.AddAsync(UserToAdd);
-                await _context.SaveChangesAsync();
+            if (isUser == null ) {
+                var response = new Response<Team?>(new Team(), false, "This User Does Not Exist");
 
-                isUser = await _context.tbl_Users
-                .Where(t => t.UserIdentifier == sub)
-                .FirstOrDefaultAsync();
+                return StatusCode(409, response);
             }
 
             team.UserId=isUser.UserID;
@@ -418,11 +413,27 @@ public class TeamController : ControllerBase
         
         try
         {
+            var response = new Response<List<WinChanceView>>();
             var sub = HttpContext?.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            
-            var teams = await _context.view_WinChance.Where(t => t.UserIdentifier == sub).ToListAsync();
 
-            var response = new Response<List<WinChanceView>>(teams, true, "Team Successfully returned");
+            User? isUser = await _context.tbl_Users
+            .Where(t => t.UserIdentifier == sub)
+            .FirstOrDefaultAsync();
+
+            if(isUser == null){
+                User UserToAdd = new User();
+                UserToAdd.UserIdentifier=sub;
+                await _context.tbl_Users.AddAsync(UserToAdd);
+                await _context.SaveChangesAsync();
+
+                isUser = await _context.tbl_Users
+                .Where(t => t.UserIdentifier == sub)
+                .FirstOrDefaultAsync();
+            }
+            
+            var teams = await _context.view_WinChance.Where(t => t.UserID == isUser.UserID).ToListAsync();
+
+            response = new Response<List<WinChanceView>>(teams, true, "Team Successfully returned");
 
             return Ok(response);
 

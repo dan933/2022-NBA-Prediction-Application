@@ -17,7 +17,7 @@ public class WinChanceView
     [JsonPropertyName("WinChance")]
     public decimal WinChance { get; set; }
 
-    public string? UserIdentifier { get; set; }
+    public int? UserID { get; set; }
 
     
 }
