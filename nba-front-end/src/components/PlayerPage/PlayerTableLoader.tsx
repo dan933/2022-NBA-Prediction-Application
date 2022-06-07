@@ -7,6 +7,7 @@ import api from '../../services/api';
 import { Player } from '../../models/IPlayer';
 import { throwError, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { useAuth0 } from '@auth0/auth0-react';
 
 interface PlayerProps{
     playerList: Player[];
@@ -23,26 +24,35 @@ function PlayerTableLoader() {
     // defines a state for when the api is fetching data for players
   const [isLoading, setLoading] = useState(false);
 
-  // this is the call to the API to get the player data
-  useEffect(() => {
+  const { getAccessTokenSilently } = useAuth0();
+
+  const getAllPlayers = async () => {
+
+    const token = await getAccessTokenSilently();
+    console.log(token)
+
     setLoading(true);
     setErrorMessage("");
     setAppState({ playerList: [] });
 
-    api.get('players/get-all')
-    .subscribe({
-      next:(resp) => {
+    api.get('players/get-all').subscribe({
+      next: (players) => {
+        setAppState({ playerList: players as Player[] });
         setLoading(false);
-        setAppState({ playerList: resp as Player[] });
       },
       error: (e) => {
-
         setLoading(false);
         // this sets 'errorMessage' into the error that has occured
-              setErrorMessage(e);
-
+        setErrorMessage(e);
       }
+      
     })
+  }
+
+  // this is the call to the API to get the player data
+  useEffect(() => {
+    getAllPlayers()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setAppState]);
 
   return (

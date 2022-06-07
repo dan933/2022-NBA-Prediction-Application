@@ -6,6 +6,7 @@ import api from '../../../services/api';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const PopUpAlert = React.forwardRef<HTMLDivElement, AlertProps>(function PopUpAlert(
   props,
@@ -32,6 +33,8 @@ export default function RemovePlayerPopUp(props: any) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const { getAccessTokenSilently } = useAuth0();
 
   const [teamObject, setTeamObject] = React.useState<ITeam>({TeamID:0,PlayerID:[0],FirstName:"",LastName:""});
 
@@ -69,9 +72,9 @@ export default function RemovePlayerPopUp(props: any) {
     }
 
     
-    
+    const token = await getAccessTokenSilently();
     //removes selected player
-    const res:any = await api.RemovePlayer(props.SelectedTeam.TeamID, props.SelectedPlayer).catch((err) => {
+    const res:any = await api.RemovePlayer(token, props.SelectedTeam.TeamID, props.SelectedPlayer).catch((err) => {
       
       setIsError(true)
       

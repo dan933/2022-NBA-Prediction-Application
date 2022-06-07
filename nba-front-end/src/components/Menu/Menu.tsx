@@ -4,17 +4,13 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
 import SportsBasketballIcon from '@mui/icons-material/SportsBasketball';
 import Link from "@mui/material/Link"
 import Grid from '@mui/material/Grid';
-// imported the router Link as "RouterLink" because a MaterialUI Link had already been imported for use in the Copyright component. there cannot be duplicate imports 
+// imported the router Link as "RouterLink" because a MaterialUI Link had already been imported for use in the Copyright component. there cannot be duplicate imports
 import { Outlet, useNavigate, Link as RouterLink } from 'react-router-dom';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -28,12 +24,13 @@ import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { makeStyles } from "@material-ui/core";
-import { ReactComponent as HeaderImage } from '../images/top-nav-bar-img.svg'
+import { ReactComponent as HeaderImage } from '../../images/top-nav-bar-img.svg'
+import UserInformationMenu from './UserInformationMenu/UserInformationMenu';
+import { withAuthenticationRequired } from '@auth0/auth0-react';
 
 // type Anchor determines the direction for the drawer. you can use: left, right, top, bottom
 type Anchor = 'left';
-// sets the menu options for profile menu. they currently have no function
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
 
 function Copyright(props: any) {
   // TODO: update link
@@ -56,7 +53,7 @@ function Copyright(props: any) {
 }
 
 const ResponsiveAppBar = () => {
-
+  
   // defines and adds style for the nav bar - removes blue highlighted text which is the default style
   const useStyles = makeStyles((theme) => ({
     drawerPaper: { width: 'inherit' },
@@ -71,7 +68,6 @@ const ResponsiveAppBar = () => {
   const [state, setState] = React.useState({
     left: false
   });
-
 
   const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
@@ -141,15 +137,6 @@ const ResponsiveAppBar = () => {
       <Divider />
     </Box>
   );
-
-  // sets events for profile menu
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
 
   // useNavigate is similar to "Link to=(route)" but can also be used for onClick events.
   const navigate = useNavigate()
@@ -239,6 +226,8 @@ const ResponsiveAppBar = () => {
               NBA Predictions
             </Typography>
 
+            
+
             <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
               <Button
                 onClick={() => navigate(`/dashboard/players`)}
@@ -266,34 +255,10 @@ const ResponsiveAppBar = () => {
               </Button>
             </Box>
 
+
+
             <Box marginLeft={'auto'}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: '45px' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
+              <UserInformationMenu/>
             </Box>
           </Toolbar>
         </Container>
@@ -310,6 +275,4 @@ const ResponsiveAppBar = () => {
   );
 };
 
-export default function Dashboard() {
-  return <ResponsiveAppBar />;
-}
+export default withAuthenticationRequired(ResponsiveAppBar, {onRedirecting:() => <h1>Loading Please Wait</h1>,})

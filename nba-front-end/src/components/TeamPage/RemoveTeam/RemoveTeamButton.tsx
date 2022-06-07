@@ -3,8 +3,11 @@ import { Button } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
 import {read_cookie } from 'sfcookies';
 import api from '../../../services/api';
+import { useAuth0 } from '@auth0/auth0-react';
  
 const RemoveTeamButton = (props: any) => {
+
+  const { getAccessTokenSilently } = useAuth0();
 
   //Remove Team logic
   const handleopenRemoveTeam = async () => {
@@ -20,15 +23,17 @@ const RemoveTeamButton = (props: any) => {
         props.setOpenRemoveTeamPopUp((prev:any) => !prev)
     } else {
 
+      const token = await getAccessTokenSilently();
+    
     //delete team by clicking bin button if there is a cookie
-        const res: any = await api.RemoveTeam(props.teamObject.TeamID).catch((err) => {
+        const res: any = await api.RemoveTeam(token, props.teamObject.TeamID).catch((err) => {
             console.log(err)
         })
         
       if (res)
       {
         
-        api.GetAllTeams().then(resp => {
+        api.GetAllTeams(token).then(resp => {
           props.setTeamList(resp.data.Data);          
         }).catch((err) => { console.log(err) })
         

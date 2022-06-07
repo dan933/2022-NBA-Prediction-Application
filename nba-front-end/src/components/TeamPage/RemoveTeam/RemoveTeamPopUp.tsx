@@ -7,6 +7,7 @@ import { bake_cookie, read_cookie, delete_cookie } from 'sfcookies';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const PopUpAlert = React.forwardRef<HTMLDivElement, AlertProps>(function PopUpAlert(
   props,
@@ -37,6 +38,8 @@ export default function RemoveTeamPopUp(props: any) {
   const handleClose = () => {
     setOpen(false);
   };
+  const { getAccessTokenSilently } = useAuth0();
+
   const [teamObject, setTeamObject] = React.useState<ITeam>({TeamID:0,TeamName:""});
   
   useEffect(() => {
@@ -56,9 +59,11 @@ export default function RemoveTeamPopUp(props: any) {
     {      
       bake_cookie('removeTeamDontAskAgain', "1");
     }
+
+    const token = await getAccessTokenSilently();
     
     //removes selected team
-    const res:any = await api.RemoveTeam(props.teamId)
+    const res:any = await api.RemoveTeam(token, props.teamId)
     .catch((err) => {
       setIsError(true)
     })
@@ -75,8 +80,8 @@ export default function RemoveTeamPopUp(props: any) {
 
   }
     return(
-      <div> 
-        <Dialog id="RemoveTeam" open={props.openRemoveTeamPopUp}>
+      <> 
+        <Dialog id="RemoveTeam" open={props.openRemoveTeamPopUp} disableScrollLock={true}>
               {/* todo: need to add reference to team name */}
               <DialogTitle>Remove {}</DialogTitle>
               <DialogContent>
@@ -101,7 +106,7 @@ export default function RemoveTeamPopUp(props: any) {
         </PopUpAlert>
         </Snackbar>
         </Stack>
-      </div>
+      </>
     )
   
 }

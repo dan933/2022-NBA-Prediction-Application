@@ -3,8 +3,10 @@ import { Button } from '@mui/material'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import {read_cookie } from 'sfcookies';
 import api from '../../../services/api';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const RemovePlayerButton = (props: any) => {
+  const { getAccessTokenSilently } = useAuth0();
   const handleOpenRemovePlayer = async () => {
 
     const removePlayerDontAskAgain = read_cookie('removePlayerDontAskAgain')
@@ -20,8 +22,10 @@ const RemovePlayerButton = (props: any) => {
     } else {
 
     //delete player by clicking bin button if there is a cookie
+
+        const token = await getAccessTokenSilently();
         
-        const res: any = await api.RemovePlayer(props.teamObject.TeamID, props.PlayerID).catch((err) => {
+        const res: any = await api.RemovePlayer(token, props.teamObject.TeamID, props.PlayerID).catch((err) => {
             
         })
         

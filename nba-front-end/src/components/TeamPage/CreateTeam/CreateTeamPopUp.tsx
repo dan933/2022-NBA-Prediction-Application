@@ -1,3 +1,4 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material'
 import { AxiosError } from 'axios';
 import React, { useRef } from 'react'
@@ -31,12 +32,18 @@ function CreateTeamPopUp(props:any) {
     const handleSnackBarClose = () => {
         setOpen(false);
     }
+    const { getAccessTokenSilently } = useAuth0();
+
     //------------------------ Create Team API call -------------------------------//
 
     // gets value from create team form
     const createTeam = async () => {
-        await api.CreateTeam(props.teamName.current?.value)
-            .then((resp) => {
+
+        const token = await getAccessTokenSilently();
+        console.log(token)
+
+        await api.CreateTeam(token, props.teamName.current?.value)
+            .then((resp) => {                
                 if (resp.data.Success === true) {
                     // sets newTeamID to the TeamID of the created team
                     props.setNewTeamID(resp.data.Data.TeamID);
@@ -62,8 +69,8 @@ function CreateTeamPopUp(props:any) {
 
 
     return (
-        <div>
-        <Dialog id="createTeam" open={props.open} onClose={handleClose}>
+        <>
+        <Dialog id="createTeam" open={props.open} onClose={handleClose} disableScrollLock={true}>
         <DialogTitle>Create a new team:</DialogTitle>
         <DialogContent>
             <DialogContentText>
@@ -94,7 +101,7 @@ function CreateTeamPopUp(props:any) {
       </Alert>
       </Snackbar>
       </Stack>
-      </div>
+      </>
   )
 }
 

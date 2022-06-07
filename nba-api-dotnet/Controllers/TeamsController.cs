@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using nba_api_dotnet.models.players;
 using nba_api_dotnet.models;
 using nba_api_dotnet.models.Teams;
+using Microsoft.AspNetCore.Authorization;
 
 namespace nba_api_dotnet.Controllers;
 
@@ -23,11 +24,26 @@ public class TeamController : ControllerBase
     /// <param name="team"></param>
     /// <returns>Team Created</returns>
     [HttpPost]
+    [Authorize]
     [Route("create-team")]
     public async Task<ActionResult<Response<Team?>>> createTeam([FromBody] Team team)
     {
         try
         {
+            var sub = HttpContext?.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            User? isUser = await _context.tbl_Users
+            .Where(t => t.UserIdentifier == sub)
+            .FirstOrDefaultAsync();
+
+            if (isUser == null ) {
+                var response = new Response<Team?>(new Team(), false, "This User Does Not Exist");
+
+                return StatusCode(409, response);
+            }
+
+            team.UserId=isUser.UserID;
+
             if (team.TeamName is string)
             {
                 team.TeamName = team.TeamName.TrimStart();
@@ -42,6 +58,7 @@ public class TeamController : ControllerBase
             //Check that team doesn't already exist in the database
             Team? isTeam = await _context.tbl_Teams
             .Where(t => t.TeamName == team.TeamName)
+            .Where(t => t.UserId == isUser.UserID )
             .FirstOrDefaultAsync();
 
 
@@ -68,32 +85,34 @@ public class TeamController : ControllerBase
     }
 
 
-    /// <summary>
-    /// Gets a List of all the teams in the database
-    /// </summary>
-    /// <returns>A list of Teams</returns>
-    [HttpGet]
-    [Route("get-all")]
-    public async Task<ActionResult<List<Team>>> getAllTeams()
-    {
-        try
-        {
-            List<Team> teams = await _context.tbl_Teams.ToListAsync();
+    // <summary>
+    // Gets a List of all the teams in the database
+    // </summary>
+    // <returns>A list of Teams</returns>
+    // [HttpGet]
+    // [Authorize]
+    // [Route("get-all")]
+    // public async Task<ActionResult<List<Team>>> getAllTeams()
+    // {
+    //     try
+    //     {
+    //         List<Team> teams = await _context.tbl_Teams.ToListAsync();
 
-            return Ok(teams);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.ToString());
-        }
+    //         return Ok(teams);
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         return StatusCode(500, ex.ToString());
+    //     }
 
-    }
+    // }
 
     /// <summary>
     /// Get Players on a specific team
     /// </summary>
     /// <returns>The list of players are on a specific team</returns>
     [HttpGet]
+    [Authorize]
     [Route("{teamID:int}/get-players")]
     public async Task<ActionResult<Response<List<PlayerSelectionView?>>>> GetTeamPlayers()
     {
@@ -137,11 +156,23 @@ public class TeamController : ControllerBase
     /// <param name="playerIDList"></param>
     /// <returns>The list of players that have been added to a team</returns>
     [HttpPost]
+    [Authorize]
     [Route("{teamID:int}/addPlayers")]
     public async Task<ActionResult<Response<List<PlayerSelection?>>>> AddPlayersToTeam([FromBody] List<int?> playerIDList)
     {
         try
         {
+            var sub = HttpContext?.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            User? isUser = await _context.tbl_Users
+            .Where(t => t.UserIdentifier == sub)
+            .FirstOrDefaultAsync();
+            if (isUser == null ) {
+                var response = new Response<Team?>(null, false, "This User Does Not Exist");
+
+                return StatusCode(409, response);
+            }
+            
             var teamID = Convert.ToInt32(RouteData.Values["teamID"]);
 
             //check to see if team exists
@@ -152,6 +183,13 @@ public class TeamController : ControllerBase
             if (isTeam == null)
             {
                 var response = new Response<Team?>(null, false, "This Team does not exist");
+
+                return StatusCode(409, response);
+            }
+
+            if (isTeam.UserId != isUser.UserID)
+            {
+                var response = new Response<Team?>(null, false, "This Team is not assigned to this user");
 
                 return StatusCode(409, response);
             }
@@ -211,13 +249,25 @@ public class TeamController : ControllerBase
     }
 
     [HttpDelete]
+    [Authorize]
     [Route("{teamID:int}/removePlayers")]
     public async Task<ActionResult<Response<List<int?>>>> RemovePlayersFromTeam([FromBody] List<int?> playerIDList)
     {
         try
         {
-            var teamID = Convert.ToInt32(RouteData.Values["teamID"]!);
             var response = new Response<List<int?>>();
+            var sub = HttpContext?.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            User? isUser = await _context.tbl_Users
+            .Where(t => t.UserIdentifier == sub)
+            .FirstOrDefaultAsync();
+            if (isUser == null ) {
+                response = new Response<List<int?>>(new List<int?>(), false, "This User Does Not Exist");
+
+                return StatusCode(409, response);
+            }
+            var teamID = Convert.ToInt32(RouteData.Values["teamID"]!);
+            
 
             //check to see if team exists
             var isTeam = await _context.tbl_Teams
@@ -227,6 +277,13 @@ public class TeamController : ControllerBase
             if (isTeam == null)
             {
                 response = new Response<List<int?>>(new List<int?>(), false, "This Team does not exist");
+
+                return StatusCode(409, response);
+            }
+
+            if (isTeam.UserId != isUser.UserID)
+            {
+                response = new Response<List<int?>>(new List<int?>(), false, "This Team is not assigned to this user");
 
                 return StatusCode(409, response);
             }
@@ -281,13 +338,26 @@ public class TeamController : ControllerBase
         }
     }
     [HttpDelete]
+    [Authorize]
     [Route("{teamID:int}/removeTeams")]
     public async Task<ActionResult<Response<int>>> RemoveTeams()
     {
         try
         {
+           
             var teamID = Convert.ToInt32(RouteData.Values["teamID"]!);
             var response = new Response<int>();
+            
+            var sub = HttpContext?.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            User? isUser = await _context.tbl_Users
+            .Where(t => t.UserIdentifier == sub)
+            .FirstOrDefaultAsync();
+            if (isUser == null ) {
+                response = new Response<int>(0, false, "This User Does Not Exist");
+
+                return StatusCode(409, response);
+            }
 
             //check to see if team exists
             var isTeam = await _context.tbl_Teams
@@ -301,7 +371,12 @@ public class TeamController : ControllerBase
                 return StatusCode(409, response);
             }
 
+             if (isTeam.UserId != isUser.UserID)
+            {
+                response = new Response<int>(0, false, "This Team is not assigned to this user");
 
+                return StatusCode(409, response);
+            }
 
             // if team exists and all players to delete are on team, do so
             _context.tbl_PlayerSelection.RemoveRange(
@@ -331,15 +406,34 @@ public class TeamController : ControllerBase
     // Get the team win percentage
 
     [HttpGet]
+    [Authorize]
     [Route("get-winrate")]
     public async Task<ActionResult<Response<List<WinChanceView?>>>> GetWinChance()
     {
         
         try
         {
-            var teams = await _context.view_WinChance.ToListAsync();
+            var response = new Response<List<WinChanceView>>();
+            var sub = HttpContext?.User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
-            var response = new Response<List<WinChanceView>>(teams, true, "Team Successfully returned");
+            User? isUser = await _context.tbl_Users
+            .Where(t => t.UserIdentifier == sub)
+            .FirstOrDefaultAsync();
+
+            if(isUser == null){
+                User UserToAdd = new User();
+                UserToAdd.UserIdentifier=sub;
+                await _context.tbl_Users.AddAsync(UserToAdd);
+                await _context.SaveChangesAsync();
+
+                isUser = await _context.tbl_Users
+                .Where(t => t.UserIdentifier == sub)
+                .FirstOrDefaultAsync();
+            }
+            
+            var teams = await _context.view_WinChance.Where(t => t.UserID == isUser.UserID).ToListAsync();
+
+            response = new Response<List<WinChanceView>>(teams, true, "Team Successfully returned");
 
             return Ok(response);
 
@@ -353,6 +447,7 @@ public class TeamController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     [Route("{teamID:int}/{teamID2:int}/CompareWinChance")]
     public async Task<ActionResult<Response<List<WinChanceCompare?>>>> GetWinChanceCompare()
     {
