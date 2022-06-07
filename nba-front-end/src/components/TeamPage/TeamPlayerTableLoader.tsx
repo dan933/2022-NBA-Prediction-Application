@@ -1,10 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useCallback, useContext, useRef, useState } from "react";
 import { useEffect } from "react";
 import api from "../../services/api";
 import { TeamPlayer } from '../../models/ITeamPlayer';
 import TeamPlayerTable from './TeamPlayerTable';
 import axios, { AxiosError } from 'axios';
 import { axiosRequestConfiguration } from "../../services/axios_config";
+
+import { SelectionContext } from '../../services/Contexts/SelectionContext';
+import { isNull } from "util";
 
 interface TeamPlayerProps {
   teamPlayerList: any[];
@@ -13,6 +16,10 @@ interface TeamPlayerProps {
 const url = axiosRequestConfiguration.baseURL
 
 const TeamPlayerTableLoader: React.FC<any> = (props) => {
+
+  //This Object has the current selected team which will be used to get the players from that team.
+  const { SelectionModel } = useContext(SelectionContext)
+  
   const [appState, setAppState] = useState<TeamPlayerProps>({
     teamPlayerList: [],
   });
@@ -20,11 +27,11 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
   
   // gets value from create team form
 
-  useEffect(() => {
-    if (!isLoading && props.teamID.length !== 0) {
+  useCallback(() => {
+    if (SelectionModel.TeamID !== null) {
       setLoading(true);
       setAppState({ teamPlayerList: [] });
-      axios.get(`${url}/team/${props.teamID}/get-players`)
+      axios.get(`${url}/team/${SelectionModel.TeamID}/get-players`)
         .then((response) => {
             setAppState({ teamPlayerList: response.data.Data as TeamPlayer[] });
             props.setTeamPlayersList(response.data.Data.map((a:any)=>a.PlayerID));
@@ -38,10 +45,10 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
           })
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [setAppState, props.teamID, props.isUpdated,props.setTeamPlayersList]);
+    }, [SelectionModel]);
   
   const yourLineUpSection = () => {
-    if (!isLoading && props.teamID.length === 0) {
+    if (!isLoading && SelectionModel.TeamID === null) {
       return (
         <h1>Please select a team</h1>
       )

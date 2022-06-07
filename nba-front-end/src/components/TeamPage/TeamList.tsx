@@ -12,19 +12,18 @@ import { SelectionContext } from '../../services/Contexts/SelectionContext';
     
 const TeamList: React.FC<any> = (props) => {
 
-    //const { setSelectionModel } = useContext(SelectionContext)
     const { SelectionModel } = useContext(SelectionContext)
 
+    //comes from selection context used to change which team is selected
+    const { setSelectionModel } = useContext(SelectionContext)
 
-    console.log(SelectionModel)
     
+    // console.log(SelectionModel)
     
 
     const [SelectedTeam, setSelectedTeam] = React.useState<any>();
     
     const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
-
-    const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
     
     const teamsColumns: GridColDef[] = [
         { field: "TeamID", headerName: "ID", width: 90, hide: true, flex:1 },
@@ -105,25 +104,19 @@ const TeamList: React.FC<any> = (props) => {
         setOpen(true);
     };
 
+    // const handleRowChanges = (selectedRow: any) => {
+
+    //     if (selectedRow.field !== "RemoveTeam") {
+    //         props.setSelectionModel(selectedRow.row.TeamID)
+    //     }
+    // }
     const handleRowChanges = (selectedRow: any) => {
 
         if (selectedRow.field !== "RemoveTeam") {
-            props.setSelectionModel(selectedRow.row.TeamID)
+            let selectedTeam = props.teamList.find((team: any) => team.TeamID === selectedRow.id)
+            setSelectionModel(selectedTeam)
         }
     }
-
-    const [newTeamID, setNewTeamID] = React.useState("");
-
-    const changeTeamSelected = (newSelectionModel: any) => {
-        props.setSelectionModel(newSelectionModel)
-    }
-    
-    useEffect(() => {
-       changeTeamSelected(newTeamID)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [newTeamID]); 
-
-    
 
     const getWinChance = async () => {
 
@@ -190,11 +183,10 @@ const TeamList: React.FC<any> = (props) => {
                             pageSize={10}
                             rowsPerPageOptions={[10]}
                             onCellClick={(event) => {handleRowChanges(event)}}
-                            onSelectionModelChange={(newSelectionModel) => {
-                                props.setSelectionModel(newSelectionModel);
-                            }}
                             hideFooterSelectedRowCount
-                            selectionModel={props.selectionModel}
+                        //If SelectionModel.TeamID is not null then SelectionModel.TeamID
+                        //otherwise selection model is undefined
+                            selectionModel={SelectionModel.TeamID ? SelectionModel.TeamID : undefined}
                             filterModel={SearchTeamModel}
                             onFilterModelChange={(newFilterModel) => setSearchTeamModel(newFilterModel)}
                         />                        
@@ -204,8 +196,7 @@ const TeamList: React.FC<any> = (props) => {
                 <CreateTeamPopUp
                     open={open}
                     setOpen={setOpen}
-                    teamName={teamName}
-                    setNewTeamID={setNewTeamID}
+                    teamList={props.teamList}
                 />
                 
                 <RemoveTeamPopUp                                   

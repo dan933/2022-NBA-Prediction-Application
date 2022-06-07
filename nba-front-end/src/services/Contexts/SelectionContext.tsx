@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
 export const SelectionContext = createContext({
-    SelectionModel:{ TeamName: "John", TeamID: 1 },
+    SelectionModel:{ TeamName:null, TeamID:null},
     setSelectionModel:(SelectionModel:any) => {}
 });

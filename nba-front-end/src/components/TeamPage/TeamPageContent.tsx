@@ -12,9 +12,14 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import ResponsiveServices from '../../services/ResponsiveServices/ResponsiveServices';
+import { SelectionContext } from '../../services/Contexts/SelectionContext';
 
 
 const TeamPageContent: React.FC<any> = (props) => {
+
+  const [SelectionModel, setSelectionModel] = useState<any>({
+    Team:{TeamName:null,TeamID:null}
+  })
 
   const [selectionTeam, setSelectionTeam] = React.useState<GridSelectionModel>([]);
 
@@ -82,7 +87,7 @@ const TeamPageContent: React.FC<any> = (props) => {
   return (
     // the empty div "<>" container wraps the whole return component
 
-    
+    <SelectionContext.Provider value={{ SelectionModel, setSelectionModel }}>
     <>
       {/* --------------------------------------- This Box contains all tables for the Default view -------------------------------------- */}
       {/* screens lg and lower are hidden */}
@@ -170,6 +175,7 @@ const TeamPageContent: React.FC<any> = (props) => {
         </TabContext>
         </Box>
     </>
+    </SelectionContext.Provider>
 
   );
 };
