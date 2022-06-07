@@ -21,10 +21,10 @@ const CreateTeamPopUp:React.FC<any> =(props) => {
     const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
        
     //Gets the Selection model from SelectionContext.ts
-    const { SelectionModel } = useContext(SelectionContext)
+    const { teamSelectionModel } = useContext(SelectionContext)
 
     //to set the selection context
-    const { setSelectionModel } = useContext(SelectionContext)
+    const { setTeamSelectionModel } = useContext(SelectionContext)
 
     const [isError, setIsError] = React.useState(false);
 
@@ -51,7 +51,7 @@ const CreateTeamPopUp:React.FC<any> =(props) => {
             if (resp.data.Success === true) {
                 let selectedTeam = resp.data.Data
                 selectedTeam = { TeamName: selectedTeam.TeamName, TeamID: selectedTeam.TeamID }
-                setSelectionModel({ TeamName: selectedTeam.TeamName, TeamID: selectedTeam.TeamID })
+                setTeamSelectionModel({ TeamName: selectedTeam.TeamName, TeamID: selectedTeam.TeamID })
                 console.log(selectedTeam);
                 setIsError(false);
                 props.setOpen(false);

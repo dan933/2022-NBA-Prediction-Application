@@ -17,11 +17,16 @@ import { SelectionContext } from '../../services/Contexts/SelectionContext';
 
 const TeamPageContent: React.FC<any> = (props) => {
 
-  const [SelectionModel, setSelectionModel] = useState<any>({
+//-------------------- Used for selection context ------------------//
+  const [teamSelectionModel, setTeamSelectionModel] = useState<any>({
     Team:{TeamName:null,TeamID:null}
   })
 
   const [SelectedPlayers, setSelectedPlayers] = useState([])
+
+  const [playerToDelete, setPlayerToDelete] = useState(null)
+
+  
 
   const [selectionTeam, setSelectionTeam] = React.useState<GridSelectionModel>([]);
 
@@ -88,7 +93,15 @@ const TeamPageContent: React.FC<any> = (props) => {
   return (
     // the empty div "<>" container wraps the whole return component
 
-    <SelectionContext.Provider value={{ SelectionModel, setSelectionModel, SelectedPlayers, setSelectedPlayers }}>
+    <SelectionContext.Provider
+      value={{
+        teamSelectionModel,
+        setTeamSelectionModel,
+        SelectedPlayers,
+        setSelectedPlayers,
+        playerToDelete,
+        setPlayerToDelete
+      }}>
     <>
       {/* --------------------------------------- This Box contains all tables for the Default view -------------------------------------- */}
       {/* screens lg and lower are hidden */}

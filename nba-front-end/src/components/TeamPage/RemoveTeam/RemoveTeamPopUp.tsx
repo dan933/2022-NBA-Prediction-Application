@@ -19,10 +19,10 @@ const PopUpAlert = React.forwardRef<HTMLDivElement, AlertProps>(function PopUpAl
 export default function RemoveTeamPopUp(props: any) {
 
   //This context controls the selected team
-  const { SelectionModel } = useContext(SelectionContext)
+  const { teamSelectionModel } = useContext(SelectionContext)
 
   //comes from selection context used to change which team is selected
-  const { setSelectionModel } = useContext(SelectionContext)
+  const { setTeamSelectionModel } = useContext(SelectionContext)
 
   
   interface ITeam {
@@ -57,7 +57,7 @@ export default function RemoveTeamPopUp(props: any) {
     }
     
     //removes selected team
-    const res:any = await api.RemoveTeam(SelectionModel.TeamID)
+    const res:any = await api.RemoveTeam(teamSelectionModel.TeamID)
     .catch((err) => {
       setIsError(true)
     })
@@ -66,7 +66,7 @@ export default function RemoveTeamPopUp(props: any) {
       props.setOpenRemoveTeamPopUp(false);
     
       //when the team is removed the team selection model is set to null
-      setSelectionModel({ TeamName:null, TeamID:null});
+      setTeamSelectionModel({ TeamName:null, TeamID:null});
       props.tableIsUpdated(); 
   }
     return(
@@ -76,7 +76,7 @@ export default function RemoveTeamPopUp(props: any) {
               <DialogTitle>Remove {}</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  You'll lose all data relating to {SelectionModel.TeamName}.
+                  You'll lose all data relating to {teamSelectionModel.TeamName}.
 
                   Are you sure you want to permanently delete this team?
           </DialogContentText>

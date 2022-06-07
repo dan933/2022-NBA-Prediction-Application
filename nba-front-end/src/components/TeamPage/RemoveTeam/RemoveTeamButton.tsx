@@ -1,4 +1,3 @@
-//testing azure pullrequest pipeline
 import { Button } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
 import {read_cookie } from 'sfcookies';
@@ -9,10 +8,10 @@ import { useContext } from 'react';
  
 const RemoveTeamButton = (props: any) => {
 
-  const { SelectionModel } = useContext(SelectionContext)
+  const { teamSelectionModel } = useContext(SelectionContext)
 
   //comes from selection context used to change which team is selected
-  const { setSelectionModel } = useContext(SelectionContext)
+  const { setTeamSelectionModel } = useContext(SelectionContext)
 
   //Remove Team logic
   const handleopenRemoveTeam = async () => {
@@ -34,7 +33,7 @@ const RemoveTeamButton = (props: any) => {
         
       if (res)
       {
-        setSelectionModel({ TeamName: null, TeamID: null })
+        setTeamSelectionModel({ TeamName: null, TeamID: null })
         
         await api.GetAllTeams().then(resp => {
           props.setTeamList(resp.data.Data);          

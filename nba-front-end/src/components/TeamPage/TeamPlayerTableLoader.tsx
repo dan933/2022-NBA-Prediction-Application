@@ -17,7 +17,7 @@ const url = axiosRequestConfiguration.baseURL
 const TeamPlayerTableLoader: React.FC<any> = (props) => {
 
   //This Object has the current selected team which will be used to get the players from that team.
-  const { SelectionModel } = useContext(SelectionContext)
+  const { teamSelectionModel } = useContext(SelectionContext)
   
   const [appState, setAppState] = useState<TeamPlayerProps>({
     teamPlayerList: [],
@@ -27,11 +27,10 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
   // gets value from create team form
 
   useEffect(() => {
-    console.log(SelectionModel)
-    if (SelectionModel.TeamID !== (null || undefined)) {
+    if (teamSelectionModel.TeamID !== (null || undefined)) {
       setLoading(true);
       setAppState({ teamPlayerList: [] });
-      axios.get(`${url}/team/${SelectionModel.TeamID}/get-players`)
+      axios.get(`${url}/team/${teamSelectionModel.TeamID}/get-players`)
         .then((response) => {
             setAppState({ teamPlayerList: response.data.Data as TeamPlayer[] });
             props.setTeamPlayersList(response.data.Data.map((a:any)=>a.PlayerID));
@@ -44,10 +43,10 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
             setLoading(false);
           })
         }
-    }, [SelectionModel.TeamID]);
+    }, [teamSelectionModel.TeamID]);
   
   const yourLineUpSection = () => {
-    if (!isLoading && SelectionModel.TeamID === null) {
+    if (!isLoading && teamSelectionModel.TeamID === null) {
       return (
         <h1>Please select a team</h1>
       )

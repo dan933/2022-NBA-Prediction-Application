@@ -12,16 +12,10 @@ import { SelectionContext } from '../../services/Contexts/SelectionContext';
     
 const TeamList: React.FC<any> = (props) => {
 
-    const { SelectionModel } = useContext(SelectionContext)
+    const { teamSelectionModel } = useContext(SelectionContext)
 
     //comes from selection context used to change which team is selected
-    const { setSelectionModel } = useContext(SelectionContext)
-
-    
-    // console.log(SelectionModel)
-    
-
-    const [SelectedTeam, setSelectedTeam] = React.useState<any>();
+    const { setTeamSelectionModel } = useContext(SelectionContext)
     
     const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
     
@@ -101,15 +95,9 @@ const TeamList: React.FC<any> = (props) => {
         setOpen(true);
     };
 
-    // const handleRowChanges = (selectedRow: any) => {
-
-    //     if (selectedRow.field !== "RemoveTeam") {
-    //         props.setSelectionModel(selectedRow.row.TeamID)
-    //     }
-    // }
     const handleRowChanges = (selectedRow: any) => {
         let selectedTeam = props.teamList.find((team: any) => team.TeamID === selectedRow.id)
-        setSelectionModel(selectedTeam)
+        setTeamSelectionModel(selectedTeam)
     }
 
     const getWinChance = async () => {
@@ -180,7 +168,7 @@ const TeamList: React.FC<any> = (props) => {
                             hideFooterSelectedRowCount
                         //If SelectionModel.TeamID is not null then SelectionModel.TeamID
                         //otherwise selection model is undefined
-                            selectionModel={SelectionModel.TeamID ? SelectionModel.TeamID : undefined}
+                            selectionModel={teamSelectionModel.TeamID ? teamSelectionModel.TeamID : undefined}
                             filterModel={SearchTeamModel}
                             onFilterModelChange={(newFilterModel) => setSearchTeamModel(newFilterModel)}
                         />                        
