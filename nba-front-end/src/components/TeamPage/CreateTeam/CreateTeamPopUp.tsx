@@ -78,6 +78,9 @@ function CreateTeamPopUp(props:any) {
                 fullWidth
                 variant="standard"
                 inputRef={props.teamName}
+                inputProps={{
+                    maxlength: 30
+                  }}
             />
             {isError && <p style={{ color: "red" }}>This Team Already Exist!</p>}
         </DialogContent>
