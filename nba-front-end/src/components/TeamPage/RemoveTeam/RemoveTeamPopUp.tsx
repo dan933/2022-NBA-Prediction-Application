@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
-import {Button, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Alert, Button, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Checkbox } from '@mui/material';
 import api from '../../../services/api';
+import TeamList from '../TeamList';
+import { bake_cookie, read_cookie, delete_cookie } from 'sfcookies';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+const PopUpAlert = React.forwardRef<HTMLDivElement, AlertProps>(function PopUpAlert(
   props,
   ref,
 ) {
@@ -14,13 +16,20 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 export default function RemoveTeamPopUp(props: any) {
-
+  
+  
   interface ITeam {
     TeamID?: number;
     TeamName?: string;
   }
   const [open, setOpen] = React.useState(false);
 
+  // used for remove team don't ask again checkbox
+  const [IsCookieEnabled, setIsCookieEnabled] = useState(false)
+
+  const handleDontAskAgainCheckbox = () => {
+    setIsCookieEnabled(prev => !prev)    
+  }
   const openAddTeamSnackBar = () => {
     setOpen(true);
   };
@@ -34,40 +43,52 @@ export default function RemoveTeamPopUp(props: any) {
     setTeamObject(props.teamsList.find((team: any) => team.TeamID === props.teamId[0]))    
   }, [props.teamsList, props.teamId, teamObject])
 
-  const [IsError, setIsError] = React.useState(false);
-  
+  const [IsError, setIsError] = React.useState(false);   
   const closeRemoveTeamPopup = () => {
     props.setOpenRemoveTeamPopUp(false);
     setIsError(false)
-  }
+     }
 
-  //--------------------------- Remove Team api call ---------------------------//
-  const handleClickConfirmRemoveTeam = async () => {
-    const res:any = await api.RemoveTeam(teamObject.TeamID).catch((err) => {
-      setIsError(true)
-    })    
-    
-    if(res) 
-    props.setOpenRemoveTeamPopUp(false)
-    openAddTeamSnackBar()
-  }
   
+  const handleClickConfirmRemoveTeam = async () => {
+    //sets cookie if checkbox is clicked on confirm
+    if (IsCookieEnabled)
+    {      
+      bake_cookie('removeTeamDontAskAgain', "1");
+    }
+    
+    //removes selected team
+    const res:any = await api.RemoveTeam(props.teamId)
+    .catch((err) => {
+      setIsError(true)
+    })
+     
+    if(res) 
+    props.setOpenRemoveTeamPopUp(false);
+    props.setSelectionModel([]);
+    props.tableIsUpdated();
+    
+    
 
+    //props.teamList.find(team => team)
+    
 
+  }
     return(
       <div> 
         <Dialog id="RemoveTeam" open={props.openRemoveTeamPopUp}>
               {/* todo: need to add reference to team name */}
-              <DialogTitle>Remove {teamObject?.TeamName}</DialogTitle>
+              <DialogTitle>Remove {}</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  You'll lose all data relating to {teamObject?.TeamName}.
+                  You'll lose all data relating to {props.SelectedTeam?.TeamName}.
 
                   Are you sure you want to permanently delete this team?
           </DialogContentText>
           {IsError && <Alert severity="error">We are sorry the API is currently down</Alert>}
               </DialogContent>
               <DialogActions >
+              <FormControlLabel control={<Checkbox />} id="checkbox" onChange={ e => handleDontAskAgainCheckbox() } style={{marginRight: "45%"}} label="Don't ask again" /> 
                 <Button onClick={closeRemoveTeamPopup} style={{ color: "red" }}>Cancel</Button>
                 <Button onClick={handleClickConfirmRemoveTeam}>Continue </Button>
               </DialogActions>
@@ -75,11 +96,12 @@ export default function RemoveTeamPopUp(props: any) {
 
         <Stack spacing={2} sx={{ width: '100%' }}>
         <Snackbar open={open} autoHideDuration={1050} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
+        <PopUpAlert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
           Team Successfully Removed!
-        </Alert>
+        </PopUpAlert>
         </Snackbar>
         </Stack>
       </div>
     )
+  
 }

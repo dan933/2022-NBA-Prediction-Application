@@ -5,51 +5,56 @@ import { useEffect, useState } from 'react';
 import RemovePlayerButton from './RemovePlayer/RemovePlayerButton';
 import RemovePlayerPopUp from './RemovePlayer/RemovePlayerPopUp';
 
+
 // Setting up the columns of the player table
 function TeamPlayerTable(props:any) {
 
-const teamPlayerColumns: GridColDef[] = [
-  {
-    field: "addplayer",
-    headerName: "",
-    width: 90,
-    renderCell: (params: any) =>
-    (
-      <RemovePlayerButton
-        teamObject={params.row}
-        handleOpenRemovePlayerPopUp={()=> handleOpenRemovePlayerPopUp([params.row.PlayerID] as number[])}
-      />
-    )
-  },
-  { field: 'TeamID', headerName: 'Team ID', width: 90, hide: true },
-  { field: 'TeamName', headerName: 'Team Name', width: 90, hide: true },
-  { field: 'PlayerID', headerName: 'Player ID', width: 90, hide: true },
-  { field: 'FirstName', headerName: 'First Name', width: 150, },
-  { field: 'LastName', headerName: 'Last Name', width: 150, },
-  {
-    field: 'FullName',
-    headerName: 'Name',
-    sortable: false,
-    width: 160,
-    hide: true,
-    valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.FirstName || ''} ${params.row.LastName || ''}`,
-
-  },
-  {
-    field: 'PlayerWinPercent', headerName: 'Win Percentage', width: 150,
-    valueFormatter: (params) => {
-      const valueFormatted = Number((params.value as number) * 100).toLocaleString();
-      return `${valueFormatted} %`;
+  const teamPlayerColumns: GridColDef[] = [
+    {
+      field: "addplayer",
+      headerName: "",
+      width: 90,
+      renderCell: (params: any) =>
+      (
+        <RemovePlayerButton
+          setSelectedTeam={setSelectedTeam}
+          setSelectedPlayer={setSelectedPlayer}
+          teamObject={params.row}
+          PlayerID={[params.row.PlayerID] as number[]}
+          tableIsUpdated={props.tableIsUpdated}
+          setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}
+          setplayerToDelete={setplayerToDelete}
+        />
+      )
     },
-  },
-  { field: 'Points', headerName: 'Points', minWidth: 120, flex: 0.3 },
-  { field: 'Rebounds', headerName: 'Rebounds', minWidth: 120, flex: 0.3},
-  { field: 'Assists', headerName: 'Assists', minWidth: 120, flex: 0.3 },
-  { field: 'Steals', headerName: 'Steals', minWidth: 120, flex: 0.3},
-  { field: 'Blocks', headerName: 'Blocks', minWidth: 120,flex: 0.3 },
-];
-
+    { field: 'TeamID', headerName: 'Team ID', width: 90, hide: true },
+    { field: 'TeamName', headerName: 'Team Name', width: 90, hide: true },
+    { field: 'PlayerID', headerName: 'Player ID', width: 90, hide: true },
+    { field: 'FirstName', headerName: 'First Name', width: 150, },
+    { field: 'LastName', headerName: 'Last Name', width: 150, },
+    {
+      field: 'FullName',
+      headerName: 'Name',
+      sortable: false,
+      width: 160,
+      hide: true,
+      valueGetter: (params: GridValueGetterParams) =>
+        `${params.row.FirstName || ''} ${params.row.LastName || ''}`,
+  
+    },
+    {
+      field: 'PlayerWinPercent', headerName: 'Win Percentage', width: 150,
+      valueFormatter: (params) => {
+        const valueFormatted = Number((params.value as number) * 100).toLocaleString();
+        return `${valueFormatted} %`;
+      },
+    },
+    { field: 'Points', headerName: 'Points', width: 120 },
+    { field: 'Rebounds', headerName: 'Rebounds', width: 120 },
+    { field: 'Assists', headerName: 'Assists', width: 120 },
+    { field: 'Steals', headerName: 'Steals', width: 120 },
+    { field: 'Blocks', headerName: 'Blocks', width: 120 },
+  ];
 
   const [openRemovePlayerPopUp, setOpenRemovePlayerPopUp]=useState(false);
 
@@ -63,6 +68,11 @@ const teamPlayerColumns: GridColDef[] = [
 
   // initialise the value for the searchbar
   const [search, setSearch] = useState('');
+
+  const [SelectedTeam, setSelectedTeam] = useState();
+  const [SelectedPlayer, setSelectedPlayer] = useState();
+
+
 
   // initialise the parameters that the table uses to filter values (when using the searchbar)
   const [filterModel, setFilterModel] = useState<GridFilterModel>({
@@ -128,7 +138,9 @@ const teamPlayerColumns: GridColDef[] = [
           </div>
         </Grid>
       </Grid>
-      <RemovePlayerPopUp 
+      <RemovePlayerPopUp
+        SelectedTeam={SelectedTeam}
+        SelectedPlayer={SelectedPlayer}
         openRemovePlayerPopUp={openRemovePlayerPopUp}
         setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}
         teamId={props.teamID}

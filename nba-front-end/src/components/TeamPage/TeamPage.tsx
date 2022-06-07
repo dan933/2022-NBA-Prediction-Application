@@ -14,6 +14,8 @@ function TeamPage(props:any) {
 
   const [selectionTeam, setSelectionTeam] = useState<GridSelectionModel>([]);
 
+  const [teamList, setTeamList] = useState(props.teamList);
+
   const [teamPlayersList, setTeamPlayersList] = useState([]);
 
   const [playersIsUpdated, setPlayersIsUpdated] = useState(false);
@@ -44,6 +46,8 @@ function TeamPage(props:any) {
         tableIsUpdated={tableIsUpdated}
         selectionModel={selectionTeam}
         setSelectionModel={setSelectionTeam}
+        teamList={teamList}
+        setTeamList={setTeamList}
       />
     )
 

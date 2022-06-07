@@ -6,6 +6,7 @@ import RemoveTeamButton from "./RemoveTeam/RemoveTeamButton"
 import api from "../../services/api";
 import RemoveTeamPopUp from "./RemoveTeam/RemoveTeamPopUp";
 import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";
+import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@mui/icons-material/Search';
 
 function TeamList(props:any) {
@@ -23,6 +24,8 @@ function TeamList(props:any) {
         setOpenRemoveTeamPopUp((prev) => !prev)
     }
 
+    const [SelectedTeam, setSelectedTeam] = useState<any>();
+    
     const teamsColumns: GridColDef[] = [
         { field: "TeamID", headerName: "ID", width: 90, hide: true, flex:1 },
         { field: "TeamName", headerName: "Team Name", width: 150, flex:1  },
@@ -42,20 +45,24 @@ function TeamList(props:any) {
               
             },
           },
-          
-          
     //-------------------- Renders the remove team button --------------------//
-        { 
+        {
             field: "RemoveTeam",
             headerName: "",
             width: 90,
-            renderCell: (params: any) =>
-            (
-                <RemoveTeamButton
-                    teamObject={params.row}
-                    handleopenRemoveTeamPopUp={handleopenRemoveTeamPopUp}
-                />
-            )
+            hideSortIcons: true,
+            renderCell: (params: any) => {
+                return (               
+                    <RemoveTeamButton
+                        tableIsUpdated={props.tableIsUpdated}
+                        setSelectedTeam={setSelectedTeam}                                        
+                        teamObject={params.row}
+                        setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
+                        setTeamList={props.setTeamList}                    
+                    />
+                )
+                
+            }
         },
     ];
 
@@ -94,9 +101,19 @@ function TeamList(props:any) {
     const [newTeamID, setNewTeamID] = useState(props.selectionModel);
 
     const [selectionTeam, setSelectionTeam] = useState<GridSelectionModel>([]);
+    const handleRowChanges = (selectedRow: any) => {
+
+        if (selectedRow.field !== "RemoveTeam") {
+            props.setSelectionModel(selectedRow.row.TeamID)
+        }
+    }
+
+    const changeTeamSelected = (newSelectionModel: any) => {
+        props.setSelectionModel(newSelectionModel)
+    }
     
     useEffect(() => {
-        props.setSelectionModel(newTeamID);
+       changeTeamSelected(newTeamID)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [newTeamID]); 
 
@@ -165,10 +182,11 @@ function TeamList(props:any) {
                             loading={loadingTeams}
                             getRowId={(row) => row.TeamID}
                             columns={teamsColumns}
-                            disableColumnSelector={true}
+                            disableColumnSelector={true}                            
                             disableColumnMenu={true}
                             pageSize={10}
                             rowsPerPageOptions={[10]}
+                            onCellClick={(event) => {handleRowChanges(event)}}
                             onSelectionModelChange={(newSelectionModel) => {
                                 props.setSelectionModel(newSelectionModel);
                                 setSelectionTeam(newSelectionModel);
@@ -188,12 +206,15 @@ function TeamList(props:any) {
                     setNewTeamID={setNewTeamID}
                 />
                 
-                <RemoveTeamPopUp
+                <RemoveTeamPopUp                                   
+                    tableIsUpdated={props.tableIsUpdated}
+                    SelectedTeam={SelectedTeam}
                     openRemoveTeamPopUp={openRemoveTeamPopUp}
                     setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
                     teamId={props.selectionModel}
                     teamsList={teamsList}
                     setNewTeamID={setNewTeamID}
+                    setSelectionModel={props.setSelectionModel}
                 />
             </Grid>
         </Paper>
