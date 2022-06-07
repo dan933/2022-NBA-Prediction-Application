@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { GridSelectionModel } from "@mui/x-data-grid";
 import { Container, useMediaQuery } from "@mui/material";
 import type { } from '@mui/lab/themeAugmentation';
@@ -14,25 +14,25 @@ function TeamPage(props:any) {
 
   const [selectionTeam, setSelectionTeam] = useState<GridSelectionModel>([]);
 
-  const [teamList, setTeamList] = useState(props.teamList);
-
+  const [teamList, setTeamList] = useState([]);
+  const [teamPlayersIDList, setTeamPlayersIDList] = useState([]);
   const [teamPlayersList, setTeamPlayersList] = useState([]);
 
   const [playersIsUpdated, setPlayersIsUpdated] = useState(false);
   const [addPlayersIsUpdated, setAddPlayersIsUpdated] = useState(false);
 
-  const tableIsUpdated = () => {
+  const teamPlayerListIsUpdated = useCallback(() => {
     
     setPlayersIsUpdated(true);
     setAddPlayersIsUpdated(true);
-  };
+    
+  },[setPlayersIsUpdated,setAddPlayersIsUpdated]);
 
   useEffect(() => {
 
-    setPlayersIsUpdated(true);
-    setAddPlayersIsUpdated(true);
+    teamPlayerListIsUpdated();
 
-  }, [selectionTeam])
+  }, [selectionTeam, teamPlayerListIsUpdated])
 
   const theme = useTheme();
   
@@ -43,7 +43,7 @@ function TeamPage(props:any) {
   const teamListSection =
     (
       <TeamList
-        tableIsUpdated={tableIsUpdated}
+        tableIsUpdated={teamPlayerListIsUpdated}
         selectionModel={selectionTeam}
         setSelectionModel={setSelectionTeam}
         teamList={teamList}
@@ -58,7 +58,9 @@ function TeamPage(props:any) {
         isUpdated={playersIsUpdated}
         IsMobileView={IsMobileView}
         setIsUpdated={setPlayersIsUpdated}
-        tableIsUpdated={tableIsUpdated}
+        tableIsUpdated={teamPlayerListIsUpdated}
+        setTeamPlayersIDList={setTeamPlayersIDList}
+        teamPlayersList={teamPlayersList}
         setTeamPlayersList={setTeamPlayersList}
       />
     )
@@ -67,10 +69,10 @@ function TeamPage(props:any) {
     (
       <AddPlayerTableLoader
         teamID={selectionTeam}
-        tableIsUpdated={tableIsUpdated}
+        tableIsUpdated={teamPlayerListIsUpdated}
         isUpdated={addPlayersIsUpdated}
         setIsUpdated={setAddPlayersIsUpdated}
-        teamPlayersList={teamPlayersList}
+        teamPlayersList={teamPlayersIDList}
         />
     )
 
