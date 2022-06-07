@@ -13,8 +13,31 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
+
+const teamNameMaxSize = 25;
+
 function CreateTeamPopUp(props:any) {
 
+    const [teamNameSize, setTeamNameSize] = React.useState("");
+
+    const [errorMessage, setErrorMessage] = React.useState("");
+    
+    // sets error message and displays it to user upon reaching char limit
+    React.useEffect(() => { 
+        if (teamNameSize.length >= teamNameMaxSize) {
+          setErrorMessage(
+            "Team Name has reached the maximum number of characters"
+          );
+        }
+      }, [teamNameSize]);
+
+      React.useEffect(() => {
+        // sets Error message as empty if input is less than char limit
+        if (teamNameSize.length < teamNameMaxSize && errorMessage) {
+          setErrorMessage("");
+        }
+      }, [teamNameSize, errorMessage]);
+    
     const [isError, setIsError] = React.useState(false);
 
     const handleClose = () => {
@@ -79,8 +102,10 @@ function CreateTeamPopUp(props:any) {
                 variant="standard"
                 inputRef={props.teamName}
                 inputProps={{
-                    maxlength: 30
+                    maxlength: 25
                   }}
+                helperText={errorMessage}
+                onChange={(e) => setTeamNameSize(e.target.value)}
             />
             {isError && <p style={{ color: "red" }}>This Team Already Exist!</p>}
         </DialogContent>
