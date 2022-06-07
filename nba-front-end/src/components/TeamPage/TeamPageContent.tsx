@@ -21,6 +21,8 @@ const TeamPageContent: React.FC<any> = (props) => {
     Team:{TeamName:null,TeamID:null}
   })
 
+  const [SelectedPlayers, setSelectedPlayers] = useState([])
+
   const [selectionTeam, setSelectionTeam] = React.useState<GridSelectionModel>([]);
 
   const [teamList, setTeamList] = React.useState(props.teamList);
@@ -86,7 +88,7 @@ const TeamPageContent: React.FC<any> = (props) => {
   return (
     // the empty div "<>" container wraps the whole return component
 
-    <SelectionContext.Provider value={{ SelectionModel, setSelectionModel }}>
+    <SelectionContext.Provider value={{ SelectionModel, setSelectionModel, SelectedPlayers, setSelectedPlayers }}>
     <>
       {/* --------------------------------------- This Box contains all tables for the Default view -------------------------------------- */}
       {/* screens lg and lower are hidden */}
