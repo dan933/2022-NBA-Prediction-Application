@@ -52,9 +52,7 @@ const TeamList: React.FC<any> = (props) => {
             hideSortIcons: true,
             renderCell: (params: any) => {
                 return (               
-                    <RemoveTeamButton
-                        tableIsUpdated={props.tableIsUpdated}
-                        setSelectedTeam={setSelectedTeam}                                        
+                    <RemoveTeamButton                                                                                        
                         teamObject={params.row}
                         setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
                         setTeamList={props.setTeamList}                    
@@ -82,7 +80,6 @@ const TeamList: React.FC<any> = (props) => {
 
     // when you type in the searchbar, update the value of the object
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(event)
         setSearchTeam(event.target.value);
         // can't update anything else here because of how the hook works, use useEffect hook instead
     }
@@ -111,11 +108,8 @@ const TeamList: React.FC<any> = (props) => {
     //     }
     // }
     const handleRowChanges = (selectedRow: any) => {
-
-        if (selectedRow.field !== "RemoveTeam") {
-            let selectedTeam = props.teamList.find((team: any) => team.TeamID === selectedRow.id)
-            setSelectionModel(selectedTeam)
-        }
+        let selectedTeam = props.teamList.find((team: any) => team.TeamID === selectedRow.id)
+        setSelectionModel(selectedTeam)
     }
 
     const getWinChance = async () => {
@@ -199,14 +193,9 @@ const TeamList: React.FC<any> = (props) => {
                     teamList={props.teamList}
                 />
                 
-                <RemoveTeamPopUp                                   
-                    tableIsUpdated={props.tableIsUpdated}
-                    SelectedTeam={SelectedTeam}
+                <RemoveTeamPopUp                                                                           
                     openRemoveTeamPopUp={openRemoveTeamPopUp}
-                    setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
-                    teamId={props.selectionModel}
-                    setSelectionModel={props.setSelectionModel}
-                    teamList={props.teamList}
+                    setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}                    
                 />
             </Grid>
         </Paper>

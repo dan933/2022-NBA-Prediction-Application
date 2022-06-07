@@ -1,12 +1,13 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, {useContext, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import { Alert, Button, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Checkbox } from '@mui/material';
 import api from '../../../services/api';
-import TeamList from '../TeamList';
-import { bake_cookie, read_cookie, delete_cookie } from 'sfcookies';
+import { bake_cookie } from 'sfcookies';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+
+import { SelectionContext } from '../../../services/Contexts/SelectionContext';
 
 const PopUpAlert = React.forwardRef<HTMLDivElement, AlertProps>(function PopUpAlert(
   props,
@@ -16,7 +17,13 @@ const PopUpAlert = React.forwardRef<HTMLDivElement, AlertProps>(function PopUpAl
 });
 
 export default function RemoveTeamPopUp(props: any) {
-  
+
+  //This context controls the selected team
+  const { SelectionModel } = useContext(SelectionContext)
+
+  //comes from selection context used to change which team is selected
+  const { setSelectionModel } = useContext(SelectionContext)
+
   
   interface ITeam {
     TeamID?: number;
@@ -30,18 +37,10 @@ export default function RemoveTeamPopUp(props: any) {
   const handleDontAskAgainCheckbox = () => {
     setIsCookieEnabled(prev => !prev)    
   }
-  const openAddTeamSnackBar = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     setOpen(false);
   };
-  const [teamObject, setTeamObject] = React.useState<ITeam>({TeamID:0,TeamName:""});
-  
-  useEffect(() => {
-    setTeamObject(props.teamList.find((team: any) => team.TeamID === props.teamId[0]))    
-  }, [props.teamList, props.teamId, teamObject])
 
   const [IsError, setIsError] = React.useState(false);   
   const closeRemoveTeamPopup = () => {
@@ -58,21 +57,17 @@ export default function RemoveTeamPopUp(props: any) {
     }
     
     //removes selected team
-    const res:any = await api.RemoveTeam(props.teamId)
+    const res:any = await api.RemoveTeam(SelectionModel.TeamID)
     .catch((err) => {
       setIsError(true)
     })
      
     if(res) 
-    props.setOpenRemoveTeamPopUp(false);
-    props.setSelectionModel([]);
-    props.tableIsUpdated();
+      props.setOpenRemoveTeamPopUp(false);
     
-    
-
-    //props.teamList.find(team => team)
-    
-
+      //when the team is removed the team selection model is set to null
+      setSelectionModel({ TeamName:null, TeamID:null});
+      props.tableIsUpdated(); 
   }
     return(
       <div> 
@@ -81,7 +76,7 @@ export default function RemoveTeamPopUp(props: any) {
               <DialogTitle>Remove {}</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  You'll lose all data relating to {props.SelectedTeam?.TeamName}.
+                  You'll lose all data relating to {SelectionModel.TeamName}.
 
                   Are you sure you want to permanently delete this team?
           </DialogContentText>

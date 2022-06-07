@@ -29,7 +29,7 @@ const CreateTeam = async (teamName?: string) => {
 
 
 //--------------------------- Remove Team API call -----------------------------//
-const RemoveTeam = async (teamId?: number) => {
+const RemoveTeam = async (teamId: number | null) => {
   
   const res = await axios.delete(`${url}/team/${teamId}/removeTeams`)
     .catch((err) => {
