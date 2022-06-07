@@ -65,7 +65,6 @@ const TeamPageContent: React.FC<any> = (props) => {
   const teamPlayerTableLoaderSection = 
     (
       <TeamPlayerTableLoader
-        teamID={selectionTeam}
         isUpdated={isUpdated}
         setIsUpdated={setIsUpdated}
         tableIsUpdated={tableIsUpdated}

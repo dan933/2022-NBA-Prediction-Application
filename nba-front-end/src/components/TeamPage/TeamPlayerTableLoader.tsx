@@ -7,7 +7,6 @@ import axios, { AxiosError } from 'axios';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 
 import { SelectionContext } from '../../services/Contexts/SelectionContext';
-import { isNull } from "util";
 
 interface TeamPlayerProps {
   teamPlayerList: any[];
@@ -27,8 +26,9 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
   
   // gets value from create team form
 
-  useCallback(() => {
-    if (SelectionModel.TeamID !== null) {
+  useEffect(() => {
+    console.log(SelectionModel)
+    if (SelectionModel.TeamID !== (null || undefined)) {
       setLoading(true);
       setAppState({ teamPlayerList: [] });
       axios.get(`${url}/team/${SelectionModel.TeamID}/get-players`)
@@ -44,8 +44,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
             setLoading(false);
           })
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [SelectionModel]);
+    }, [SelectionModel.TeamID]);
   
   const yourLineUpSection = () => {
     if (!isLoading && SelectionModel.TeamID === null) {
