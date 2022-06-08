@@ -34,15 +34,15 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
 
   useEffect(() => {
     console.log("woooooo")
-    if (teamSelectionModel.TeamID !== (null || undefined) && playerToDelete.length === 0) {
+    if (teamSelectionModel.TeamID != (null || undefined)) {
       setLoading(true);
       setTeamPlayersModel([]);
       axios.get(`${url}/team/${teamSelectionModel.TeamID}/get-players`)
-        .then((response) => {
-          setTeamPlayersModel(response.data.Data as TeamPlayer[]);            
-            setLoading(false);
-            props.setIsUpdated(false);
-          })
+      .then((response) => {
+        setTeamPlayersModel(response.data.Data as TeamPlayer[]);            
+          setLoading(false);
+          props.setIsUpdated(false);
+        })
       // this catches any errors that may occur while fetching for player data
             .catch(error => { 
             console.log(error); 
@@ -59,7 +59,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
       )
     } else {
       return (
-        <TeamPlayerTable loading={isLoading} teamID={props.teamID} tableIsUpdated={props.tableIsUpdated}/>
+        <TeamPlayerTable loading={isLoading} teamID={props.teamID}/>
       )
     }
   }

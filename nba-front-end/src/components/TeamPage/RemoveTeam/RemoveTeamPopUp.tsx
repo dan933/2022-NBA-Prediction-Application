@@ -56,7 +56,7 @@ export default function RemoveTeamPopUp(props: any) {
     }
     
     //removes selected team
-    const res:any = await api.RemoveTeam(teamSelectionModel.TeamID)
+    const res:any = await api.RemoveTeam(teamSelectionModel?.TeamID)
     .catch((err) => {
       setIsError(true)
     })
@@ -66,7 +66,6 @@ export default function RemoveTeamPopUp(props: any) {
     
       //when the team is removed the team selection model is set to null
       setTeamSelectionModel({ TeamName:null, TeamID:null});
-      props.tableIsUpdated(); 
   }
     return(
       <div> 
