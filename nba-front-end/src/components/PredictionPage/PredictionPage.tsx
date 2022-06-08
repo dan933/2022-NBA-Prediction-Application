@@ -5,6 +5,7 @@ import api from '../../services/api';
 import TeamsSection from './TeamSection/TeamsSection';
 import { Box, Grid, Tab, Tabs, Typography } from '@mui/material';
 import PredictionSection from './PredictionSection/PredictionSection';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export interface ITeam {
   TeamID ?: number,
@@ -41,6 +42,8 @@ function TabPanel(props: TabPanelProps) {
 
 function PredictionPage() {
 
+  const { getAccessTokenSilently } = useAuth0();
+
   const [teamList, setTeamList] = React.useState<ITeam[]>()
 
   const [IsLoading, setIsLoading] = React.useState<boolean>(true)
@@ -56,7 +59,10 @@ function PredictionPage() {
   const [selectedTeams, setSelectedTeams] = React.useState<ITeam[]>([])
 
   const getAllTeams = async () => {
-    let teamListResp:any = await api.GetAllTeams()
+
+    const token = await getAccessTokenSilently();
+
+    let teamListResp:any = await api.GetAllTeams(token)
     .catch((err) => {
       throw err
     })   

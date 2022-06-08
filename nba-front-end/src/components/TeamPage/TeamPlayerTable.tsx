@@ -1,11 +1,8 @@
 import * as React from 'react';
-import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams, GridSelectionModel  } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams } from '@mui/x-data-grid';
 import { FormControl, Grid, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
-import { axiosRequestConfiguration } from "../../services/axios_config";
-import axios, { AxiosError } from 'axios';
-import Button from '@mui/material/Button';
 import RemovePlayerButton from './RemovePlayer/RemovePlayerButton';
 import RemovePlayerPopUp from './RemovePlayer/RemovePlayerPopUp';
 
@@ -44,7 +41,6 @@ const TeamPlayerTable: React.FC<any> = (props) => {
       hide: true,
       valueGetter: (params: GridValueGetterParams) =>
         `${params.row.FirstName || ''} ${params.row.LastName || ''}`,
-  
     },
     {
       field: 'PlayerWinPercent', headerName: 'Win Percentage', width: 150,
@@ -63,12 +59,6 @@ const TeamPlayerTable: React.FC<any> = (props) => {
   const [openRemovePlayerPopUp, setOpenRemovePlayerPopUp]=useState(false);
 
   const [PlayerToDelete, setplayerToDelete]=useState([] as number[]);
-
-  //opens remove team popup
-    const handleOpenRemovePlayerPopUp = (player:number[]) => {
-      setplayerToDelete(player);
-      setOpenRemovePlayerPopUp((prev) => !prev)
-    }
 
   // initialise the value for the searchbar
   const [search, setSearch] = React.useState('');
@@ -107,8 +97,7 @@ const TeamPlayerTable: React.FC<any> = (props) => {
         },
       ],
     });
-
-  }, [search]);
+  },[search]);
 
   return (
     <>

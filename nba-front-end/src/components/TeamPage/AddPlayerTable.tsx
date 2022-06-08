@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import axios, { AxiosError } from 'axios';
 import AddPlayerButton from './AddPlayer/AddPlayerButton';
-// import { Player } from '../models/IPlayer';
+import { useAuth0 } from '@auth0/auth0-react';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
@@ -74,6 +74,8 @@ const AddPlayerTable: React.FC<any> = (props) => {
 
   const teamID = props.teamID;
 
+    const { getAccessTokenSilently } = useAuth0();
+
   // initialise the value for the searchbar
   const [search, setSearch] = React.useState('');
 
@@ -120,8 +122,13 @@ const AddPlayerTable: React.FC<any> = (props) => {
 
   const url = axiosRequestConfiguration.baseURL
 
-  const addPlayerTeam = (player:number[]) => {
-    axios.post(`${url}/team/${teamID}/addPlayers`, player)
+  const addPlayerTeam = async (player:number[]) => {
+    const token = await getAccessTokenSilently();
+    axios.post(`${url}/team/${teamID}/addPlayers`, player, {
+      headers: {
+        'Authorization':`Bearer ${token}`
+      }
+    })
     .then(function (response) {
     if ( response.data.Success === true) {
         props.tableIsUpdated();
