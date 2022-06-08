@@ -32,9 +32,7 @@ const AddPlayerTableLoader: React.FC<any> = (props) => {
       .subscribe({
         next: (resp) => {          
           setLoading(false);
-         
-          setPlayersList(resp)
-          props.setIsUpdated(false);
+          setPlayersList(resp)          
         },
 
         error: (error) => {
@@ -55,9 +53,7 @@ const AddPlayerTableLoader: React.FC<any> = (props) => {
         
   {/* if  isLoading is true, loading text will apear, if api is able to fetch player data and isLoading is false, then show filled player table*/}
         {isLoading ? (<h1>Hold on, fetching data may take some time :)</h1>) : (
-          <AddPlayerTable           
-            tableIsUpdated={props.tableIsUpdated}            
-          />
+          <AddPlayerTable/>
         )}
       </div>
     </React.Fragment>

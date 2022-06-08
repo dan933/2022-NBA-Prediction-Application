@@ -52,7 +52,7 @@ const TeamPageContent: React.FC<any> = (props) => {
       <TeamList        
         teamList={teamList}        
         setTeamList={setTeamList}
-        />
+      />
 
 
     )
