@@ -115,10 +115,8 @@ const TeamList: React.FC<any> = (props) => {
     }
          
     // on changes to open state api is run
-    useEffect(() => {
-
-        getWinChance()
-        
+    useEffect(() => {        
+        getWinChance() 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [teamSelectionModel])
 
