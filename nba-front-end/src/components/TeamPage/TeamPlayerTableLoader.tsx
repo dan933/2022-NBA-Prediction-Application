@@ -53,7 +53,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
     }, [teamSelectionModel.TeamID, playerToDelete ]);
   
   const yourLineUpSection = () => {
-    if (!isLoading && teamSelectionModel.TeamID === null) {
+    if (!isLoading && teamSelectionModel.TeamID == null) {
       return (
         <h1>Please select a team</h1>
       )
