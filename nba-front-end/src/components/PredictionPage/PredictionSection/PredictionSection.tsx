@@ -24,7 +24,6 @@ function PredictionSection(props: any) {
     if (props.selectedTeamsId.length === 2) {
 
       const token = await getAccessTokenSilently();
-      console.log(token)
 
       const res = await api.GetTeamMatchUp(token, props.selectedTeamsId[0], props.selectedTeamsId[1])
       setTeamMatchUp(res.data)

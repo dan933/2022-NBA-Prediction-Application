@@ -61,8 +61,6 @@ function PredictionPage() {
   const getAllTeams = async () => {
 
     const token = await getAccessTokenSilently();
-    
-    console.log(token)
 
     let teamListResp:any = await api.GetAllTeams(token)
     .catch((err) => {

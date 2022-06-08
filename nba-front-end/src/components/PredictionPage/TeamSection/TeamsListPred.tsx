@@ -49,7 +49,7 @@ function TeamsListPred(props: any) {
 
    // when you type in the searchbar, update the value of the object
    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event)
+     
     setSearchTeam(event.target.value);
     // can't update anything else here because of how the hook works, use useEffect hook instead
 }

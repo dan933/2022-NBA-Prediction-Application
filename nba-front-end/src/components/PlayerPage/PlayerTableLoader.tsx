@@ -29,7 +29,6 @@ function PlayerTableLoader() {
   const getAllPlayers = async () => {
 
     const token = await getAccessTokenSilently();
-    console.log(token)
 
     setLoading(true);
     setErrorMessage("");

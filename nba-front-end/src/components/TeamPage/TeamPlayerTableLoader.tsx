@@ -30,8 +30,6 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
 
       const token = await getAccessTokenSilently();
 
-      console.log(token)
-
       setLoading(true);
       setAppState({ teamPlayerList: [] });
 
