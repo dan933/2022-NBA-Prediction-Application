@@ -10,7 +10,7 @@ function TeamHeader(props: any) {
     
     const compareTeams = () => {
         if (props.selectedTeamsId.length === 2) {
-            props.getTeamMatchUp()
+            // props.getTeamMatchUp()
             setIsBothTeamsSelected(true)
             props.setValue(1)
         } else {

@@ -31,6 +31,7 @@ const RemovePlayerButton = (props: any) => {
         
       if (res)
       {
+        
         props.tableIsUpdated();
         
       }

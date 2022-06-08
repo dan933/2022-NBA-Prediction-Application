@@ -45,25 +45,17 @@ export default function RemovePlayerPopUp(props: any) {
   useEffect(() => {
     // setTeamObject(props.teamList.find((team: any) => team.TeamID === props.teamId[0] ))    
     setTeamObject(props.teamPlayerList.find((player: any) => player.PlayerID === props.PlayerID[0] ))   
-  }, [props.teamPlayerList, props.PlayerID, teamObject])
-
+  }, [props.teamPlayerList, props.PlayerID, teamObject]);
+  
   const handleDontAskAgainCheckbox = () => {
     setIsCookieEnabled(prev => !prev)    
   }
 
-  
-
-  //
-  
   const closeRemovePlayerPopup = () => {
     props.setOpenRemovePlayerPopUp(false);
     setIsError(false)
   }
 
-  
-
-  
-  
   const handleClickConfirmRemovePlayer = async () => {
     //sets cookie if checkbox is clicked on confirm
     if (IsCookieEnabled)

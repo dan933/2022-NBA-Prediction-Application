@@ -1,13 +1,13 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material'
 import { AxiosError } from 'axios';
-import React from 'react'
+import { useState, useEffect, forwardRef } from 'react'
 import api from '../../../services/api';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
   ref,
 ) {
@@ -19,12 +19,12 @@ const teamNameMaxSize = 35;
 
 function CreateTeamPopUp(props:any) {
 
-    const [teamNameSize, setTeamNameSize] = React.useState("");
+    const [teamNameSize, setTeamNameSize] = useState("");
 
-    const [errorMessage, setErrorMessage] = React.useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     
     // sets error message and displays it to user upon reaching char limit
-    React.useEffect(() => { 
+    useEffect(() => { 
         if (teamNameSize.length >= teamNameMaxSize) {
           setErrorMessage(
             "Team Name has reached the maximum number of characters"
@@ -32,21 +32,21 @@ function CreateTeamPopUp(props:any) {
         }
       }, [teamNameSize]);
 
-      React.useEffect(() => {
+      useEffect(() => {
         // sets Error message as empty if input is less than char limit
         if (teamNameSize.length < teamNameMaxSize && errorMessage) {
           setErrorMessage("");
         }
       }, [teamNameSize, errorMessage]);
     
-    const [isError, setIsError] = React.useState(false);
+    const [isError, setIsError] = useState(false);
 
     const handleClose = () => {
         setIsError(false)
         props.setOpen(false);
     };
     
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     const openRemoveTeamSnackBar = () => {
       setOpen(true);

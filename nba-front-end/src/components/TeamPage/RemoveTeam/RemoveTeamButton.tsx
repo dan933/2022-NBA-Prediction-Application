@@ -32,10 +32,8 @@ const RemoveTeamButton = (props: any) => {
         
       if (res)
       {
-        
-        api.GetAllTeams(token).then(resp => {
-          props.setTeamList(resp.data.Data);          
-        }).catch((err) => { console.log(err) })
+        props.setSelectionModel([]);
+        props.setNoPopupRemoveTeam(true);
         
       }
 

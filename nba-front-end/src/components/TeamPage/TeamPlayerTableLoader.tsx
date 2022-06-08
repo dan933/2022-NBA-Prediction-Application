@@ -1,62 +1,57 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useEffect } from "react";
-import api from "../../services/api";
 import { TeamPlayer } from '../../models/ITeamPlayer';
 import TeamPlayerTable from './TeamPlayerTable';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import { useAuth0 } from "@auth0/auth0-react";
-
-interface TeamPlayerProps {
-  teamPlayerList: any[];
-}
+import api from "../../services/api";
 
 const url = axiosRequestConfiguration.baseURL
 
 const TeamPlayerTableLoader: React.FC<any> = (props) => {
-  const [appState, setAppState] = useState<TeamPlayerProps>({
-    teamPlayerList: [],
-  });
+  const [teamPlayersList, setTeamPlayersList] = [props.teamPlayersList, props.setTeamPlayersList];
   const [isLoading, setLoading] = useState(false);
   
   const { getAccessTokenSilently } = useAuth0();
   
   // gets value from create team form
 
-  const getPlayersFromTeam = async () => {
-
-
-
-    if (props.teamID.length !== 0) {
-
+  const setTeamPlayersIDList=props.setTeamPlayersIDList;
+  const setIsUpdated=props.setIsUpdated;
+  const updatePlayerTable = useCallback(
+    async () => {
       const token = await getAccessTokenSilently();
 
+      if (!isLoading && props.teamID.length !== 0) {
       setLoading(true);
-      setAppState({ teamPlayerList: [] });
-
-      api.get(`${url}/team/${props.teamID}/get-players`, token).subscribe({
-        next: (resp: any) => {         
-
-          setAppState({ teamPlayerList: resp.Data as TeamPlayer[] });
-          props.setTeamPlayersList(resp.Data.map((a:any)=>a.PlayerID));
-          props.setIsUpdated(false);
-          setLoading(false);
-
-        },
-        error: (e) => {
-          console.log(e);
-          setLoading(false);
-        }
-      })
+      // setTeamPlayersList([]);
+      api.get(`${url}/team/${props.teamID}/get-players`, token)
+        .toPromise().then((response:any) => {
+            setTeamPlayersList(response.Data as TeamPlayer[]);
+            setTeamPlayersIDList(response.Data.map((a:any)=>a.PlayerID));
+            setLoading(false);
+            setIsUpdated(false);
+          })
+          // this catches any errors that may occur while fetching for player data
+          .catch(error => { 
+            console.log(error); 
+            setLoading(false);
+          })
+      }
     }
-
-  }
-
+  ,
+    [props.teamID, getAccessTokenSilently, isLoading, setTeamPlayersList, setTeamPlayersIDList, setIsUpdated, setLoading],
+  )
   
 
   useEffect(() => {
-  getPlayersFromTeam();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setAppState, props.teamID, props.isUpdated]);
+
+    if(props.isUpdated){
+      
+        updatePlayerTable();
+
+    }
+    }, [props.isUpdated, updatePlayerTable]);
   
   const yourLineUpSection = () => {
     if (!isLoading && props.teamID.length === 0) {
@@ -65,18 +60,16 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
       )
     } else {
       return (
-        <TeamPlayerTable loading={isLoading} teamPlayerList={appState.teamPlayerList} teamID={props.teamID} tableIsUpdated={props.tableIsUpdated}/>
+        <TeamPlayerTable loading={isLoading} teamPlayerList={teamPlayersList} teamID={props.teamID} tableIsUpdated={props.tableIsUpdated}/>
       )
     }
   }
 
   return (
-    <React.Fragment>
-      <div>
-        {/* if  isLoading is true, loading text will apear, if api is able to fetch player data and isLoading is false, then show filled player table*/}
-        {yourLineUpSection()}
-      </div>
-    </React.Fragment>
+    <>
+      {/* if  isLoading is true, loading text will apear, if api is able to fetch player data and isLoading is false, then show filled player table*/}
+      {yourLineUpSection()}
+    </>
   );
 };
 

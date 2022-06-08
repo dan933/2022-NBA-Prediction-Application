@@ -42,8 +42,8 @@ export default function RemoveTeamPopUp(props: any) {
   const [teamObject, setTeamObject] = React.useState<ITeam>({TeamID:0,TeamName:""});
   
   useEffect(() => {
-    setTeamObject(props.teamList.find((team: any) => team.TeamID === props.teamId[0]))    
-  }, [props.teamList, props.teamId, teamObject])
+    setTeamObject(props.teamsList.find((team: any) => team.TeamID === props.teamId[0]))    
+  }, [props.teamsList, props.teamId, teamObject])
 
   const [IsError, setIsError] = React.useState(false);   
   const closeRemoveTeamPopup = () => {
@@ -71,7 +71,7 @@ export default function RemoveTeamPopUp(props: any) {
     props.setOpenRemoveTeamPopUp(false);
     openAddTeamSnackBar();
     props.setSelectionModel([]);
-    props.tableIsUpdated();
+    // props.tableIsUpdated();
     
     
 
