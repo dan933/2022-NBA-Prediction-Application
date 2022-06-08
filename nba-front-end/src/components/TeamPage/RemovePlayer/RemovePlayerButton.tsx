@@ -5,11 +5,11 @@ import {read_cookie } from 'sfcookies';
 import api from '../../../services/api';
 import { useContext } from 'react';
 
-import { SelectionContext } from '../../../services/Contexts/SelectionContext';
+import { TeamPageContext } from '../../../services/Contexts/TeamPageContext';
 
 const RemovePlayerButton: React.FC<any> = (props: any) => { 
   
-  const { setPlayerToDelete } = useContext(SelectionContext)
+  const { setPlayerToDelete } = useContext(TeamPageContext)
 
 
   const handleOpenRemovePlayer = async () => {

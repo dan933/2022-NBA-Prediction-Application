@@ -12,7 +12,7 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import ResponsiveServices from '../../services/ResponsiveServices/ResponsiveServices';
-import { SelectionContext } from '../../services/Contexts/SelectionContext';
+import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
 
 
 const TeamPageContent: React.FC<any> = (props) => {
@@ -93,7 +93,7 @@ const TeamPageContent: React.FC<any> = (props) => {
   return (
     // the empty div "<>" container wraps the whole return component
 
-    <SelectionContext.Provider
+    <TeamPageContext.Provider
       value={{
         teamSelectionModel,
         setTeamSelectionModel,
@@ -189,7 +189,7 @@ const TeamPageContent: React.FC<any> = (props) => {
         </TabContext>
         </Box>
     </>
-    </SelectionContext.Provider>
+    </TeamPageContext.Provider>
 
   );
 };

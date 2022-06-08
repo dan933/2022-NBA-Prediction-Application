@@ -6,7 +6,7 @@ import TeamPlayerTable from './TeamPlayerTable';
 import axios, { AxiosError } from 'axios';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 
-import { SelectionContext } from '../../services/Contexts/SelectionContext';
+import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
 
 
 
@@ -19,14 +19,16 @@ const url = axiosRequestConfiguration.baseURL
 const TeamPlayerTableLoader: React.FC<any> = (props) => {
 
   //This Object has the current selected team which will be used to get the players from that team.
-  const { teamSelectionModel } = useContext(SelectionContext)
+  const { teamSelectionModel } = useContext(TeamPageContext)
 
-  const { setSelectedPlayersID } = useContext(SelectionContext)
-  const { playerToDelete } = useContext(SelectionContext)
+  const { setSelectedPlayersID } = useContext(TeamPageContext)
+
+  const { playerToDelete } = useContext(TeamPageContext)
   
   const [appState, setAppState] = useState<TeamPlayerProps>({
     teamPlayerList: [],
   });
+
   const [isLoading, setLoading] = useState(false);
   
   // gets value from create team form

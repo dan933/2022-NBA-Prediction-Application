@@ -8,14 +8,14 @@ import RemoveTeamPopUp from "./RemoveTeam/RemoveTeamPopUp";
 import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";
 import SearchIcon from '@mui/icons-material/Search';
 
-import { SelectionContext } from '../../services/Contexts/SelectionContext';
+import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
     
 const TeamList: React.FC<any> = (props) => {
 
-    const { teamSelectionModel } = useContext(SelectionContext)
+    const { teamSelectionModel } = useContext(TeamPageContext)
 
     //comes from selection context used to change which team is selected
-    const { setTeamSelectionModel } = useContext(SelectionContext)
+    const { setTeamSelectionModel } = useContext(TeamPageContext)
     
     const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
     

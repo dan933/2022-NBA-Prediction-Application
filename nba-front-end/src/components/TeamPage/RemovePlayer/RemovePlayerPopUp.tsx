@@ -7,7 +7,7 @@ import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
-import { SelectionContext } from '../../../services/Contexts/SelectionContext';
+import { TeamPageContext } from '../../../services/Contexts/TeamPageContext';
 
 const PopUpAlert = React.forwardRef<HTMLDivElement, AlertProps>(function PopUpAlert(
   props,
@@ -18,8 +18,8 @@ const PopUpAlert = React.forwardRef<HTMLDivElement, AlertProps>(function PopUpAl
 
 export default function RemovePlayerPopUp(props: any) {
 
-  const { playerToDelete } = useContext<any>(SelectionContext)
-  const { setPlayerToDelete } = useContext<any>(SelectionContext)
+  const { playerToDelete } = useContext<any>(TeamPageContext)
+  const { setPlayerToDelete } = useContext<any>(TeamPageContext)
 
   interface ITeam {
     TeamID?: number;

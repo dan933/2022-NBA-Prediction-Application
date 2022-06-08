@@ -3,15 +3,15 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import {read_cookie } from 'sfcookies';
 import api from '../../../services/api';
 
-import { SelectionContext } from '../../../services/Contexts/SelectionContext';
+import { TeamPageContext } from '../../../services/Contexts/TeamPageContext';
 import { useContext } from 'react';
  
 const RemoveTeamButton = (props: any) => {
 
-  const { teamSelectionModel } = useContext(SelectionContext)
+  const { teamSelectionModel } = useContext(TeamPageContext)
 
   //comes from selection context used to change which team is selected
-  const { setTeamSelectionModel } = useContext(SelectionContext)
+  const { setTeamSelectionModel } = useContext(TeamPageContext)
 
   //Remove Team logic
   const handleopenRemoveTeam = async () => {

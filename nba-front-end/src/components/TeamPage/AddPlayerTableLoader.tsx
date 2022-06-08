@@ -5,7 +5,7 @@ import AddPlayerTable from './AddPlayerTable';
 import api from '../../services/api';
 import { Player } from '../../models/IPlayer';
 
-import { SelectionContext } from '../../services/Contexts/SelectionContext';
+import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
 
 
 interface PlayerProps{
@@ -15,7 +15,7 @@ interface PlayerProps{
 const AddPlayerTableLoader: React.FC<any> = (props) => {
   
   //This Object has the current selected team which will be used to get the players from that team.
-  const { teamSelectionModel } = useContext(SelectionContext)
+  const { teamSelectionModel } = useContext(TeamPageContext)
 
 
   // this sets up function (from componentLoading.tsx) which either returns 

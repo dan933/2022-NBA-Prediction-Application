@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
-import { SelectionContext } from '../../../services/Contexts/SelectionContext';
+import { TeamPageContext } from '../../../services/Contexts/TeamPageContext';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -21,10 +21,10 @@ const CreateTeamPopUp:React.FC<any> =(props) => {
     const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
        
     //Gets the Selection model from SelectionContext.ts
-    const { teamSelectionModel } = useContext(SelectionContext)
+    const { teamSelectionModel } = useContext(TeamPageContext)
 
     //to set the selection context
-    const { setTeamSelectionModel } = useContext(SelectionContext)
+    const { setTeamSelectionModel } = useContext(TeamPageContext)
 
     const [isError, setIsError] = React.useState(false);
 
