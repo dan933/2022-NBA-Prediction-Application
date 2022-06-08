@@ -13,8 +13,31 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
+
+const teamNameMaxSize = 35;
+
 function CreateTeamPopUp(props:any) {
 
+    const [teamNameSize, setTeamNameSize] = React.useState("");
+
+    const [errorMessage, setErrorMessage] = React.useState("");
+    
+    // sets error message and displays it to user upon reaching char limit
+    React.useEffect(() => { 
+        if (teamNameSize.length >= teamNameMaxSize) {
+          setErrorMessage(
+            "Team Name has reached the maximum number of characters"
+          );
+        }
+      }, [teamNameSize]);
+
+      React.useEffect(() => {
+        // sets Error message as empty if input is less than char limit
+        if (teamNameSize.length < teamNameMaxSize && errorMessage) {
+          setErrorMessage("");
+        }
+      }, [teamNameSize, errorMessage]);
+    
     const [isError, setIsError] = React.useState(false);
 
     const handleClose = () => {
@@ -37,13 +60,17 @@ function CreateTeamPopUp(props:any) {
     const createTeam = async () => {
         await api.CreateTeam(props.teamName.current?.value)
             .then((resp) => {
+           
                 if (resp.data.Success === true) {
                     // sets newTeamID to the TeamID of the created team
                     props.setNewTeamID(resp.data.Data.TeamID);
                     props.setOpen(false);
                     setIsError(false);
                     openRemoveTeamSnackBar()
+                    // removes error message on next pop up
+                    setErrorMessage("")
                 }
+                
             })
             .catch((error) => {
                 
@@ -51,6 +78,7 @@ function CreateTeamPopUp(props:any) {
                
                 if (err.response && err.response.status === 409) {
                     setIsError(true)
+                    
                 }
                 else {
         
@@ -78,6 +106,11 @@ function CreateTeamPopUp(props:any) {
                 fullWidth
                 variant="standard"
                 inputRef={props.teamName}
+                inputProps={{
+                    maxlength: teamNameMaxSize
+                  }}  
+                helperText={errorMessage}
+                onChange={(e) => setTeamNameSize(e.target.value)}
             />
             {isError && <p style={{ color: "red" }}>This Team Already Exist!</p>}
         </DialogContent>
