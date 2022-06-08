@@ -6,9 +6,7 @@ import api from '../../../services/api';
 import { TeamPageContext } from '../../../services/Contexts/TeamPageContext';
 import { useContext } from 'react';
  
-const RemoveTeamButton = (props: any) => {
-
-  const { teamSelectionModel } = useContext(TeamPageContext)
+const RemoveTeamButton: React.FC<any> = (props) => {
 
   //comes from selection context used to change which team is selected
   const { setTeamSelectionModel } = useContext(TeamPageContext)
@@ -33,7 +31,7 @@ const RemoveTeamButton = (props: any) => {
         
       if (res)
       {
-        setTeamSelectionModel({ TeamName: null, TeamID: null })
+        setTeamSelectionModel({ TeamName: null, TeamID: undefined })
         
         await api.GetAllTeams().then(resp => {
           props.setTeamList(resp.data.Data);          

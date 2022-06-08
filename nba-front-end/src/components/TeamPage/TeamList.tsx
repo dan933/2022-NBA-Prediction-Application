@@ -96,8 +96,11 @@ const TeamList: React.FC<any> = (props) => {
     };
 
     const handleRowChanges = (selectedRow: any) => {
-        let selectedTeam = props.teamList.find((team: any) => team.TeamID === selectedRow.id)
-        setTeamSelectionModel(selectedTeam)
+
+        if (selectedRow.field !== "RemoveTeam") {
+            let selectedTeam = props.teamList.find((team: any) => team.TeamID === selectedRow.id)
+            setTeamSelectionModel(selectedTeam)
+        }   
     }
 
     const getWinChance = async () => {

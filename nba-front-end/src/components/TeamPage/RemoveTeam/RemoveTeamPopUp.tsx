@@ -62,10 +62,11 @@ export default function RemoveTeamPopUp(props: any) {
     })
      
     if(res) 
-      props.setOpenRemoveTeamPopUp(false);
-    
       //when the team is removed the team selection model is set to null
       setTeamSelectionModel({ TeamName:null, TeamID:null});
+
+
+      props.setOpenRemoveTeamPopUp(false);
   }
     return(
       <div> 

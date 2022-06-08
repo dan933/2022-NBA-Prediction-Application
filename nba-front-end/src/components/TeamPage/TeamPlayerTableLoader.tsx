@@ -33,24 +33,24 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
   // gets value from create team form
 
   useEffect(() => {
-    console.log("woooooo")
     if (teamSelectionModel.TeamID != (null || undefined)) {
+      console.log(teamSelectionModel)
       setLoading(true);
       setTeamPlayersModel([]);
       axios.get(`${url}/team/${teamSelectionModel.TeamID}/get-players`)
       .then((response) => {
         setTeamPlayersModel(response.data.Data as TeamPlayer[]);            
-          setLoading(false);
-          props.setIsUpdated(false);
-        })
+        setLoading(false);
+        props.setIsUpdated(false);
+      })
       // this catches any errors that may occur while fetching for player data
             .catch(error => { 
             console.log(error); 
             setLoading(false);
           })
-        }
+        }        
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [teamSelectionModel.TeamID, playerToDelete ]);
+    }, [playerToDelete, teamSelectionModel]);
   
   const yourLineUpSection = () => {
     if (!isLoading && teamSelectionModel.TeamID == null) {
