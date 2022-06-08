@@ -1,9 +1,8 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import { Alert, Button, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Checkbox } from '@mui/material';
 import api from '../../../services/api';
-import TeamList from '../TeamList';
-import { bake_cookie, read_cookie, delete_cookie } from 'sfcookies';
+import { bake_cookie } from 'sfcookies';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
@@ -70,6 +69,7 @@ export default function RemoveTeamPopUp(props: any) {
      
     if(res) 
     props.setOpenRemoveTeamPopUp(false);
+    openAddTeamSnackBar();
     props.setSelectionModel([]);
     props.tableIsUpdated();
     

@@ -1,7 +1,7 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import { Alert, Button, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Checkbox } from '@mui/material';
-import { bake_cookie, read_cookie, delete_cookie } from 'sfcookies';
+import { bake_cookie } from 'sfcookies';
 import api from '../../../services/api';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
@@ -45,7 +45,7 @@ export default function RemovePlayerPopUp(props: any) {
   useEffect(() => {
     // setTeamObject(props.teamList.find((team: any) => team.TeamID === props.teamId[0] ))    
     setTeamObject(props.teamPlayerList.find((player: any) => player.PlayerID === props.PlayerID[0] ))   
-  }, [props.playerList, props.PlayerID, teamObject])
+  }, [props.teamPlayerList, props.PlayerID, teamObject])
 
   const handleDontAskAgainCheckbox = () => {
     setIsCookieEnabled(prev => !prev)    

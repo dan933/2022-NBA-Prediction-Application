@@ -6,7 +6,6 @@ import RemoveTeamButton from "./RemoveTeam/RemoveTeamButton"
 import api from "../../services/api";
 import RemoveTeamPopUp from "./RemoveTeam/RemoveTeamPopUp";
 import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";
-import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@mui/icons-material/Search';
     
 import { useAuth0 } from "@auth0/auth0-react";

@@ -60,12 +60,6 @@ const TeamPlayerTable: React.FC<any> = (props) => {
 
   const [PlayerToDelete, setplayerToDelete]=useState([] as number[]);
 
-  //opens remove team popup
-    const handleOpenRemovePlayerPopUp = (player:number[]) => {
-      setplayerToDelete(player);
-      setOpenRemovePlayerPopUp((prev) => !prev)
-    }
-
   // initialise the value for the searchbar
   const [search, setSearch] = React.useState('');
 

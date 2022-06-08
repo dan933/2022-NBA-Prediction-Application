@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import TeamPageContent from './TeamPageContent';
 import ApiComponentLoader from '../ApiComponentLoader';
 import api from '../../services/api';
@@ -22,21 +22,21 @@ function TeamPageContentLoader() {
 
     const { getAccessTokenSilently } = useAuth0();
 
-    const getAllTeams = async () => {
+    const getAllTeams = useCallback(async () => {
       const token = await getAccessTokenSilently();
 
       api.GetAllTeams(token)
         .then((resp) => {
             setAppState({ loading: false, teamList: resp.data.Data as Team[] });
         });
-    };
+    },[getAccessTokenSilently, setAppState]);
       
       useEffect(() => {
         setAppState({ loading: true, teamList: [] });
 
-        getAllTeams()        
+        getAllTeams();       
         
-      }, [setAppState]);    
+      }, [setAppState, getAllTeams]);    
       
   return (
     <>
