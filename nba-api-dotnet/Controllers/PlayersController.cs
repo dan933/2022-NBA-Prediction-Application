@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using nba_api_dotnet.models.players;
 using nba_api_dotnet.models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace nba_api_dotnet.Controllers;
 

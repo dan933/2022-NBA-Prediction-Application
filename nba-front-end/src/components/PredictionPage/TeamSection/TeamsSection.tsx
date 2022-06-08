@@ -1,4 +1,3 @@
-import React from 'react'
 import TeamListPred from './TeamsListPred'
 import TeamHeader from './TeamHeader'
 import { Paper } from '@mui/material'
@@ -15,7 +14,6 @@ function TeamsSection(props:any) {
                 
                 <TeamHeader
                     selectedTeamsId={props.selectedTeamsId}
-                    getTeamMatchUp={props.getTeamMatchUp}
                     setValue={props.setValue}
                 />
                 <TeamListPred

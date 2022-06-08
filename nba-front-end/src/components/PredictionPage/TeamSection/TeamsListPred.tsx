@@ -49,7 +49,7 @@ function TeamsListPred(props: any) {
 
    // when you type in the searchbar, update the value of the object
    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event)
+     
     setSearchTeam(event.target.value);
     // can't update anything else here because of how the hook works, use useEffect hook instead
 }
@@ -58,8 +58,7 @@ function TeamsListPred(props: any) {
 
 // todo The Below functions should go into a predictionServices file eventually
   
-  const GetSelectedTeamsId = (id: number[]) => {
-    console.log(id.slice(0, 2));
+  const GetSelectedTeamsId = (id: number[]) => {    
     if(id.length > 2){id = id.slice(0,2)}
     props.setSelectedTeamsId(id);    
     return id

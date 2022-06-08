@@ -16,4 +16,7 @@ public class Team
 
     [JsonPropertyName("TeamName")]
     public string? TeamName { get; set; }
+    [JsonPropertyName("UserId")]
+    public int? UserId { get; set; }
+    
 }

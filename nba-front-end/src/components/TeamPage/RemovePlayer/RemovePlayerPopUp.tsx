@@ -1,11 +1,12 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import { Alert, Button, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Checkbox } from '@mui/material';
-import { bake_cookie, read_cookie, delete_cookie } from 'sfcookies';
+import { bake_cookie } from 'sfcookies';
 import api from '../../../services/api';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const PopUpAlert = React.forwardRef<HTMLDivElement, AlertProps>(function PopUpAlert(
   props,
@@ -33,6 +34,8 @@ export default function RemovePlayerPopUp(props: any) {
     setOpen(false);
   };
 
+  const { getAccessTokenSilently } = useAuth0();
+
   const [teamObject, setTeamObject] = React.useState<ITeam>({TeamID:0,PlayerID:[0],FirstName:"",LastName:""});
 
   const [IsError, setIsError] = React.useState(false);
@@ -42,25 +45,17 @@ export default function RemovePlayerPopUp(props: any) {
   useEffect(() => {
     // setTeamObject(props.teamList.find((team: any) => team.TeamID === props.teamId[0] ))    
     setTeamObject(props.teamPlayerList.find((player: any) => player.PlayerID === props.PlayerID[0] ))   
-  }, [props.playerList, props.PlayerID, teamObject])
-
+  }, [props.teamPlayerList, props.PlayerID, teamObject]);
+  
   const handleDontAskAgainCheckbox = () => {
     setIsCookieEnabled(prev => !prev)    
   }
 
-  
-
-  //
-  
   const closeRemovePlayerPopup = () => {
     props.setOpenRemovePlayerPopUp(false);
     setIsError(false)
   }
 
-  
-
-  
-  
   const handleClickConfirmRemovePlayer = async () => {
     //sets cookie if checkbox is clicked on confirm
     if (IsCookieEnabled)
@@ -69,9 +64,9 @@ export default function RemovePlayerPopUp(props: any) {
     }
 
     
-    
+    const token = await getAccessTokenSilently();
     //removes selected player
-    const res:any = await api.RemovePlayer(props.SelectedTeam.TeamID, props.SelectedPlayer).catch((err) => {
+    const res:any = await api.RemovePlayer(token, props.SelectedTeam.TeamID, props.SelectedPlayer).catch((err) => {
       
       setIsError(true)
       

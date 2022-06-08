@@ -3,8 +3,9 @@ import Container from '@mui/material/Container';
 
 import api from '../../services/api';
 import TeamsSection from './TeamSection/TeamsSection';
-import { Box, Grid, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Tabs, Typography } from '@mui/material';
 import PredictionSection from './PredictionSection/PredictionSection';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export interface ITeam {
   TeamID ?: number,
@@ -41,6 +42,8 @@ function TabPanel(props: TabPanelProps) {
 
 function PredictionPage() {
 
+  const { getAccessTokenSilently } = useAuth0();
+
   const [teamList, setTeamList] = React.useState<ITeam[]>()
 
   const [IsLoading, setIsLoading] = React.useState<boolean>(true)
@@ -49,14 +52,11 @@ function PredictionPage() {
 
 
 // Functions should be put in services/predictionServices later on
-  const IsSelected = (id: number) => {
-    return selectedTeamsId.includes(id)
-  }
- 
-  const [selectedTeams, setSelectedTeams] = React.useState<ITeam[]>([])
-
   const getAllTeams = async () => {
-    let teamListResp:any = await api.GetAllTeams()
+
+    const token = await getAccessTokenSilently();
+
+    let teamListResp:any = await api.GetAllTeams(token)
     .catch((err) => {
       throw err
     })   
@@ -65,10 +65,6 @@ function PredictionPage() {
 
     return teamListResp;
 
-  }
-
-  const getTeamMatchUp = () => {
-    setSelectedTeams(teamList?.filter((x) => IsSelected(x.TeamID as number)) as ITeam[])    
   }
 
 //--------------------------- API Call get teams with win percentage ---------------------//  
@@ -87,13 +83,11 @@ function PredictionPage() {
     
     setValue(newValue);
     setSelectedTeamsId([])
-    setSelectedTeams([])
   };
 
   const navigateToMatchUps = () => {
     setValue(0);
     setSelectedTeamsId([])
-    setSelectedTeams([])
   }
 
 
@@ -110,7 +104,6 @@ return (
           setIsLoading={setIsLoading}            
           setSelectedTeamsId={setSelectedTeamsId}
           selectedTeamsId={selectedTeamsId}
-          getTeamMatchUp={getTeamMatchUp}
           setValue={setValue}
       />
     </TabPanel>

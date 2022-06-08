@@ -2,7 +2,8 @@
 -- Team WEST FTW
 -- CREATE DATABASE NBA
 -- -- Used a Local DBS to test data but this is flavour text ^
-use nba
+use NBA
+
 GO
 DROP VIEW IF EXISTS view_WinChance;
 GO
@@ -12,7 +13,7 @@ DROP TABLE IF EXISTS tbl_PlayerSelection;
 GO
 DROP TABLE IF EXISTS tbl_Teams;
 GO
-DROP TABLE IF EXISTS tbl_User;
+DROP TABLE IF EXISTS tbl_Users;
 GO
 DROP TABLE IF EXISTS tbl_Players;
 
@@ -39,10 +40,19 @@ CREATE TABLE tbl_Players (
 
 GO
 
+CREATE TABLE tbl_Users (
+    UserID INT IDENTITY(1,1) PRIMARY KEY,
+-- user identifier type will need to be changed later
+    UserIdentifier    NVARCHAR(35)
+);
+
+GO
+
 CREATE TABLE tbl_Teams (
     TeamID INT IDENTITY(1,1) PRIMARY KEY,
-    TeamName NVARCHAR(35),
-    CONSTRAINT AK_TeamName UNIQUE(TeamName)
+    TeamName NVARCHAR(35) NOT NULL,
+    UserID INT FOREIGN KEY REFERENCES tbl_Users NOT NULL,
+    CONSTRAINT AK_TeamName UNIQUE(TeamName,UserID)
 );
 
 GO
@@ -53,18 +63,6 @@ CREATE TABLE tbl_PlayerSelection (
 	TeamID INT FOREIGN KEY REFERENCES tbl_Teams
     CONSTRAINT AK_PlayerSelection UNIQUE(PlayerID,TeamID)
 )
-
-
---todo create view to combine player selection and player table, aggregating / grouping relevant data 
-
-
-CREATE TABLE tbl_User (
-    UserID INT
-,   Username    NVARCHAR(35)
-,   Password    NVARCHAR(35)
-,   Email   NVARCHAR(35)
-PRIMARY KEY (UserID)
-);
 
 GO
 
@@ -81,8 +79,7 @@ SELECT tt.*, ISNULL(CONVERT(DECIMAL(5,4),(CONVERT(DECIMAL,SUM(tp.PreviousWins)) 
 FROM tbl_Teams AS tt
 LEFT JOIN tbl_PlayerSelection AS tps ON tt.TeamID = tps.TeamID
 LEFT JOIN tbl_Players AS tp ON tp.PlayerID = tps.PlayerID
-GROUP BY tps.TeamID, tt.TeamID, tt.TeamName;
-
+GROUP BY tps.TeamID, tt.TeamID, tt.TeamName, tt.UserID;
 GO
 
 INSERT INTO tbl_Players(PlayerID,FirstName,LastName,Wins,Losses,PreviousWins,PreviousLosses,PlayerWinPercent,Points,Rebounds,Assists,Steals,Blocks,MissedFieldGoals,MissedFreeThrows,TurnOvers) VALUES (203932,'Aaron','Gordon',44,28,29,21,0.611,1062,413,181,43,41,383,56,126);
@@ -684,13 +681,20 @@ INSERT INTO tbl_Players(PlayerID,FirstName,LastName,Wins,Losses,PreviousWins,Pre
 INSERT INTO tbl_Players(PlayerID,FirstName,LastName,Wins,Losses,PreviousWins,PreviousLosses,PlayerWinPercent,Points,Rebounds,Assists,Steals,Blocks,MissedFieldGoals,MissedFreeThrows,TurnOvers) VALUES (1630533,'Ziaire','Williams',40,18,0,0,0.69,443,120,60,31,12,208,10,38);
 INSERT INTO tbl_Players(PlayerID,FirstName,LastName,Wins,Losses,PreviousWins,PreviousLosses,PlayerWinPercent,Points,Rebounds,Assists,Steals,Blocks,MissedFieldGoals,MissedFreeThrows,TurnOvers) VALUES (1629597,'Zylan','Cheatham',0,1,0,0,0,0,0,0,0,0,3,0,0);
 
-GO 
+GO
+
+INSERT INTO [dbo].[tbl_Users]
+           ([UserIdentifier])
+     VALUES
+           ('google')
+GO
 
 INSERT INTO [dbo].[tbl_Teams]
-           ([TeamName])
+           ([TeamName],[UserID])
      VALUES
-           ('Bob''s team')
-
+           ('Bob''s team',1)
 GO
+
+
 
 INSERT INTO tbl_PlayerSelection(PlayerID,TeamID) VALUES(2207,1);

@@ -1,7 +1,6 @@
 import { Button } from '@mui/material';
-import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { ReactComponent as IconMenu } from '../images/top-nav-bar-img.svg'
+import HeaderImage from '../images/top-nav-bar-img.png'
 
 const linkStyle = {
   textDecoration: "none",
@@ -11,12 +10,10 @@ const linkStyle = {
 function DefaultPage() {
   return (
     <div>
-      <div className='Background-Color'>
-        <header className="App-header">
-  {/* ----------------------- nba image for top nav bar --------------- */}
-        <IconMenu display= 'block'/>
-        </header>
-      </div>
+      <header className="App-header">
+{/* ----------------------- nba image for top nav bar --------------- */}
+        <img src={HeaderImage} alt="Header" loading="lazy" />
+      </header>
       <Button variant="contained" sx={{'margin':2}}>
         <Link style={linkStyle} to="/dashboard/players">Launch Application</Link>
       </Button>
