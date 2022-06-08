@@ -90,6 +90,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
   });
 
   const checkIsNotAddable = (playerId: number, teamPlayerIds: any, teamId: any) => {
+    // eslint-disable-next-line eqeqeq
     if (teamId == (null||undefined)) {
       return true;
     }
