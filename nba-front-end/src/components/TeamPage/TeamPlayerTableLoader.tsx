@@ -1,18 +1,12 @@
-import React, { useCallback, useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useEffect } from "react";
-import api from "../../services/api";
 import { TeamPlayer } from '../../models/ITeamPlayer';
 import TeamPlayerTable from './TeamPlayerTable';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import axios, { AxiosError } from 'axios';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 
 import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
-
-
-
-interface TeamPlayerProps {
-  teamPlayerList: any[];
-}
 
 const url = axiosRequestConfiguration.baseURL
 

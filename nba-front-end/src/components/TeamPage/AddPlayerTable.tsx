@@ -12,8 +12,6 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
-import { Player } from '../../models/IPlayer';
-import { Preview } from '@mui/icons-material';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -24,7 +22,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 const AddPlayerTable: React.FC<any> = (props) => {
 
-  const { teamSelectionModel, playersList, teamPlayersList, setTeamPlayersList, setPlayersList} = useContext(TeamPageContext)
+  const { teamSelectionModel, playersList, teamPlayersList, setTeamPlayersList} = useContext(TeamPageContext)
   const [open, setOpen] = React.useState(false);
 
   const openAddedPlayerSnackBar = () => {
@@ -101,6 +99,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
     return false;
 
   };
+
 
   const addPlayerToYourLineUp = (playerID: any) => {
     let playerToAdd:any = playersList.find((player: any) => player.PlayerID === playerID[0])

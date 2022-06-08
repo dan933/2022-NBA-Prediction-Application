@@ -3,19 +3,13 @@ import React, { useContext, useEffect, useState } from 'react';
 // import { catchError, reduce, take } from 'rxjs/operators';
 import AddPlayerTable from './AddPlayerTable';
 import api from '../../services/api';
-import { Player } from '../../models/IPlayer';
 
 import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
-
-
-interface PlayerProps{
-    playerList: Player[];
-}
 
 const AddPlayerTableLoader: React.FC<any> = (props) => {
   
   //This Object has the current selected team which will be used to get the players from that team.
-  const { teamSelectionModel, playersList, setPlayersList } = useContext(TeamPageContext)
+  const { setPlayersList } = useContext(TeamPageContext)
 
 
   // this sets up function (from componentLoading.tsx) which either returns 
@@ -24,26 +18,21 @@ const AddPlayerTableLoader: React.FC<any> = (props) => {
   // a message 'Hold on, fetching data may take some time :)'
   // isLoading={appState.loading} says that the boolean for whether data is available is 'appState.loading' variable
   // playerList={appState.playerList} says that (if the data is available) send the appState.playerList to the AddPlayerTable Component
-  const [appState, setAppState] = useState<PlayerProps>({
-    playerList: [],
-  });
 
   // defines a state for whenever an error occurs
   const [errorMessage, setErrorMessage] = useState("");
     // defines a state for when the api is fetching data for players
   const [isLoading, setLoading] = useState(false);
 
-
   // this is the call to the API to get the player data
   useEffect(() => {
     setLoading(true);
     setErrorMessage("");
-    setAppState({ playerList: [] });
     api.get('players/get-all')
       .subscribe({
         next: (resp) => {          
           setLoading(false);
-          setAppState({ playerList: resp as Player[] });
+         
           setPlayersList(resp)
           props.setIsUpdated(false);
         },
@@ -55,6 +44,7 @@ const AddPlayerTableLoader: React.FC<any> = (props) => {
           setErrorMessage(error);
         }
       })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setPlayersList])  
 
   return (
