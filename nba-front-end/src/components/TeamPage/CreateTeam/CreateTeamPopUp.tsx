@@ -107,10 +107,9 @@ function CreateTeamPopUp(props:any) {
                 variant="standard"
                 inputRef={props.teamName}
                 inputProps={{
-                    maxlength: 35
+                    maxlength: teamNameMaxSize
                   }}  
                 helperText={errorMessage}
-              
                 onChange={(e) => setTeamNameSize(e.target.value)}
             />
             {isError && <p style={{ color: "red" }}>This Team Already Exist!</p>}
