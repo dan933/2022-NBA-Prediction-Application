@@ -23,7 +23,6 @@ export default function RemoveTeamPopUp(props: any) {
 
   //comes from selection context used to change which team is selected
   const { setTeamSelectionModel } = useContext(SelectionContext)
-
   
   interface ITeam {
     TeamID?: number;

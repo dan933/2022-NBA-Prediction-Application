@@ -21,13 +21,8 @@ const TeamPlayerTable: React.FC<any> = (props) => {
       renderCell: (params: any) =>
       (
         <RemovePlayerButton
-          setSelectedTeam={setSelectedTeam}
-          setSelectedPlayer={setSelectedPlayer}
-          teamObject={params.row}
-          PlayerID={[params.row.PlayerID] as number[]}
-          tableIsUpdated={props.tableIsUpdated}
-          setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}
-          setplayerToDelete={setplayerToDelete}
+          playerObject={params.row}
+          setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}          
         />
       )
     },

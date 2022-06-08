@@ -3,31 +3,38 @@ import { Button } from '@mui/material'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import {read_cookie } from 'sfcookies';
 import api from '../../../services/api';
+import { useContext } from 'react';
 
-const RemovePlayerButton = (props: any) => {
+import { SelectionContext } from '../../../services/Contexts/SelectionContext';
+
+const RemovePlayerButton: React.FC<any> = (props: any) => { 
+  
+  const { setPlayerToDelete } = useContext(SelectionContext)
+
+
   const handleOpenRemovePlayer = async () => {
 
+  
     const removePlayerDontAskAgain = read_cookie('removePlayerDontAskAgain')
 
     
     //if cookie does not exist open remove player popup
     if (removePlayerDontAskAgain !== "1") {
-      props.setSelectedTeam(props.teamObject)      
-      props.setSelectedPlayer(props.PlayerID)
       
+      setPlayerToDelete(props.playerObject)
       props.setOpenRemovePlayerPopUp((prev:any) => !prev)
         
     } else {
 
     //delete player by clicking bin button if there is a cookie
         
-        const res: any = await api.RemovePlayer(props.teamObject.TeamID, props.PlayerID).catch((err) => {
+        const res: any = await api.RemovePlayer(props.playerObject.TeamID, [props.playerObject.PlayerID]).catch((err) => {
             
         })
         
       if (res)
       {
-        props.tableIsUpdated();
+        setPlayerToDelete({})
         
       }
 

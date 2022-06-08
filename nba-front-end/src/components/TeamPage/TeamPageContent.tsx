@@ -22,9 +22,9 @@ const TeamPageContent: React.FC<any> = (props) => {
     Team:{TeamName:null,TeamID:null}
   })
 
-  const [SelectedPlayers, setSelectedPlayers] = useState([])
+  const [SelectedPlayersID, setSelectedPlayersID] = useState([])
 
-  const [playerToDelete, setPlayerToDelete] = useState(null)
+  const [playerToDelete, setPlayerToDelete] = useState([])
 
   
 
@@ -97,8 +97,8 @@ const TeamPageContent: React.FC<any> = (props) => {
       value={{
         teamSelectionModel,
         setTeamSelectionModel,
-        SelectedPlayers,
-        setSelectedPlayers,
+        SelectedPlayersID,
+        setSelectedPlayersID,
         playerToDelete,
         setPlayerToDelete
       }}>

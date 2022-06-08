@@ -8,6 +8,8 @@ import { axiosRequestConfiguration } from "../../services/axios_config";
 
 import { SelectionContext } from '../../services/Contexts/SelectionContext';
 
+
+
 interface TeamPlayerProps {
   teamPlayerList: any[];
 }
@@ -18,6 +20,9 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
 
   //This Object has the current selected team which will be used to get the players from that team.
   const { teamSelectionModel } = useContext(SelectionContext)
+
+  const { setSelectedPlayersID } = useContext(SelectionContext)
+  const { playerToDelete } = useContext(SelectionContext)
   
   const [appState, setAppState] = useState<TeamPlayerProps>({
     teamPlayerList: [],
@@ -32,8 +37,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
       setAppState({ teamPlayerList: [] });
       axios.get(`${url}/team/${teamSelectionModel.TeamID}/get-players`)
         .then((response) => {
-            setAppState({ teamPlayerList: response.data.Data as TeamPlayer[] });
-            props.setTeamPlayersList(response.data.Data.map((a:any)=>a.PlayerID));
+            setAppState({ teamPlayerList: response.data.Data as TeamPlayer[] });            
             setLoading(false);
             props.setIsUpdated(false);
           })
@@ -43,7 +47,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
             setLoading(false);
           })
         }
-    }, [teamSelectionModel.TeamID]);
+    }, [teamSelectionModel.TeamID, playerToDelete ]);
   
   const yourLineUpSection = () => {
     if (!isLoading && teamSelectionModel.TeamID === null) {

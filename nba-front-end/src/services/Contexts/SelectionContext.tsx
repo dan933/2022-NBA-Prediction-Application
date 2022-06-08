@@ -4,8 +4,8 @@ import { createContext } from 'react';
 export const SelectionContext = createContext({
     teamSelectionModel:{ TeamName:null, TeamID:null},
     setTeamSelectionModel: (teamSelectionModel: any) => { },
-    SelectedPlayers: [],
-    setSelectedPlayers: (SelectedPlayers: any) => { },
-    playerToDelete:null,
+    SelectedPlayersID:[],
+    setSelectedPlayersID: (SelectedPlayers: any) => { },
+    playerToDelete:[],
     setPlayerToDelete: (playerToDelete: any) => { }
 });
