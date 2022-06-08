@@ -25,16 +25,12 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
 
   const { playerToDelete } = useContext(TeamPageContext)
 
-
-
-
   const [isLoading, setLoading] = useState(false);
   
   // gets value from create team form
 
   useEffect(() => {
     if (teamSelectionModel.TeamID != (null || undefined)) {
-      console.log(teamSelectionModel)
       setLoading(true);
       setTeamPlayersModel([]);
       axios.get(`${url}/team/${teamSelectionModel.TeamID}/get-players`)
