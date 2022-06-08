@@ -55,7 +55,7 @@ const AddPlayerTableLoader: React.FC<any> = (props) => {
           setErrorMessage(error);
         }
       })
-  }, [props.setAppState])      
+  }, [setPlayersList])  
 
   return (
     <React.Fragment>

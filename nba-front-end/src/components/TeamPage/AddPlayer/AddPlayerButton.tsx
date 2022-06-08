@@ -1,7 +1,9 @@
 import { Button } from '@mui/material'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
-const AddPlayerButton = (props: any) => {
+const AddPlayerButton:React.FC<any> = (props: any) => {
+
+  
   return (
     <>
     <Button

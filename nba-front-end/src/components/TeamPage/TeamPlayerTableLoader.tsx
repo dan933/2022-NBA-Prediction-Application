@@ -30,7 +30,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
       setLoading(true);
       setTeamPlayersList([]);
       axios.get(`${url}/team/${teamSelectionModel.TeamID}/get-players`)
-      .then((response) => {
+        .then((response) => {        
         setTeamPlayersList(response.data.Data as TeamPlayer[]);            
         setLoading(false);
         props.setIsUpdated(false);
