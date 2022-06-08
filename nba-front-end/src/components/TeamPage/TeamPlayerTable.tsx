@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import RemovePlayerButton from './RemovePlayer/RemovePlayerButton';
 import RemovePlayerPopUp from './RemovePlayer/RemovePlayerPopUp';
 
+
 // Setting up the columns of the player table
 const TeamPlayerTable: React.FC<any> = (props) => {
 
@@ -17,8 +18,13 @@ const TeamPlayerTable: React.FC<any> = (props) => {
       renderCell: (params: any) =>
       (
         <RemovePlayerButton
+          setSelectedTeam={setSelectedTeam}
+          setSelectedPlayer={setSelectedPlayer}
           teamObject={params.row}
-          handleOpenRemovePlayerPopUp={()=> handleOpenRemovePlayerPopUp([params.row.PlayerID] as number[])}
+          PlayerID={[params.row.PlayerID] as number[]}
+          tableIsUpdated={props.tableIsUpdated}
+          setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}
+          setplayerToDelete={setplayerToDelete}
         />
       )
     },
@@ -35,7 +41,6 @@ const TeamPlayerTable: React.FC<any> = (props) => {
       hide: true,
       valueGetter: (params: GridValueGetterParams) =>
         `${params.row.FirstName || ''} ${params.row.LastName || ''}`,
-
     },
     {
       field: 'PlayerWinPercent', headerName: 'Win Percentage', width: 150,
@@ -51,19 +56,17 @@ const TeamPlayerTable: React.FC<any> = (props) => {
     { field: 'Blocks', headerName: 'Blocks', width: 120 },
   ];
 
-
   const [openRemovePlayerPopUp, setOpenRemovePlayerPopUp]=useState(false);
 
   const [PlayerToDelete, setplayerToDelete]=useState([] as number[]);
 
-  //opens remove team popup
-    const handleOpenRemovePlayerPopUp = (player:number[]) => {
-      setplayerToDelete(player);
-      setOpenRemovePlayerPopUp((prev) => !prev)
-    }
-
   // initialise the value for the searchbar
   const [search, setSearch] = React.useState('');
+
+  const [SelectedTeam, setSelectedTeam] = React.useState();
+  const [SelectedPlayer, setSelectedPlayer] = React.useState();
+
+
 
   // initialise the parameters that the table uses to filter values (when using the searchbar)
   const [filterModel, setFilterModel] = React.useState<GridFilterModel>({
@@ -75,6 +78,7 @@ const TeamPlayerTable: React.FC<any> = (props) => {
       },
     ],
   });
+
 
   // when you type in the searchbar, update the value of the object
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -134,7 +138,9 @@ const TeamPlayerTable: React.FC<any> = (props) => {
           </div>
         </Grid>
       </Grid>
-      <RemovePlayerPopUp 
+      <RemovePlayerPopUp
+        SelectedTeam={SelectedTeam}
+        SelectedPlayer={SelectedPlayer}
         openRemovePlayerPopUp={openRemovePlayerPopUp}
         setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}
         teamId={props.teamID}

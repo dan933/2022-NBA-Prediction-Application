@@ -1,8 +1,18 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material'
 import { AxiosError } from 'axios';
-import React, { useRef } from 'react'
+import React from 'react'
 import api from '../../../services/api';
+import Stack from '@mui/material/Stack';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref,
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function CreateTeamPopUp(props:any) {
 
@@ -12,7 +22,16 @@ function CreateTeamPopUp(props:any) {
         setIsError(false)
         props.setOpen(false);
     };
+    
+    const [open, setOpen] = React.useState(false);
 
+    const openRemoveTeamSnackBar = () => {
+      setOpen(true);
+    };
+
+    const handleSnackBarClose = () => {
+        setOpen(false);
+    }
     const { getAccessTokenSilently } = useAuth0();
 
     //------------------------ Create Team API call -------------------------------//
@@ -29,7 +48,8 @@ function CreateTeamPopUp(props:any) {
                     // sets newTeamID to the TeamID of the created team
                     props.setNewTeamID(resp.data.Data.TeamID);
                     props.setOpen(false);
-                    setIsError(false)
+                    setIsError(false);
+                    openRemoveTeamSnackBar()
                 }
             })
             .catch((error) => {
@@ -49,6 +69,7 @@ function CreateTeamPopUp(props:any) {
 
 
     return (
+        <>
         <Dialog id="createTeam" open={props.open} onClose={handleClose} disableScrollLock={true}>
         <DialogTitle>Create a new team:</DialogTitle>
         <DialogContent>
@@ -72,7 +93,15 @@ function CreateTeamPopUp(props:any) {
             <Button onClick={createTeam}>Create </Button>
         </DialogActions>
     </Dialog>
-    
+
+      <Stack spacing={2} sx={{ width: '100%' }}>
+      <Snackbar open={open} autoHideDuration={1050} onClose={handleSnackBarClose}>
+      <Alert onClose={handleSnackBarClose} severity="success" sx={{ width: '100%' }}>
+        Team Successfully Added!!
+      </Alert>
+      </Snackbar>
+      </Stack>
+      </>
   )
 }
 

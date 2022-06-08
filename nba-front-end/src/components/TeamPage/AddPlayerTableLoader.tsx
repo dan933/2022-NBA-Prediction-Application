@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 // import { Observable, of, Subject } from 'rxjs';
 // import { catchError, reduce, take } from 'rxjs/operators';
 import AddPlayerTable from './AddPlayerTable';
 import api from '../../services/api';
 import { Player } from '../../models/IPlayer';
+import { useAuth0 } from '@auth0/auth0-react';
 
 
 interface PlayerProps{
     playerList: Player[];
 }
 
-const AddPlayerTableLoader: React.FC<any> = (props) => {  
+const AddPlayerTableLoader: React.FC<any> = (props) => {
+  
+  const { getAccessTokenSilently } = useAuth0();
 
   const teamID = props.teamID;
   // this sets up function (from componentLoading.tsx) which either returns 
@@ -28,24 +31,32 @@ const AddPlayerTableLoader: React.FC<any> = (props) => {
     // defines a state for when the api is fetching data for players
   const [isLoading, setLoading] = useState(false);
 
-
+  const setIsUpdated=props.setIsUpdated;
+  const  updatePlayerData = useCallback(
+    async () =>  {
+      setLoading(true);
+      const token = await getAccessTokenSilently();
+      setErrorMessage("");
+      setAppState({ playerList: [] });
+      api.get('players/get-all',token).toPromise().then((resp) => {
+          setLoading(false);
+          setAppState({ playerList: resp as Player[] });
+          setIsUpdated(false);
+          })
+    // this catches any errors that may occur while fetching for player data
+          .catch(error => { console.log(error); 
+          setLoading(false);
+    // this sets 'errorMessage' into the error that has occured
+          setErrorMessage(error);
+          })
+    },
+    [setLoading, getAccessTokenSilently, setAppState, setIsUpdated, setErrorMessage],
+  )
+  
   // this is the call to the API to get the player data
   useEffect(() => {
-    setLoading(true);
-    setErrorMessage("");
-    setAppState({ playerList: [] });
-    api.get('players/get-all').toPromise().then((resp) => {
-        setLoading(false);
-        setAppState({ playerList: resp as Player[] });
-        props.setIsUpdated(false);
-        })
-  // this catches any errors that may occur while fetching for player data
-        .catch(error => { console.log(error); 
-        setLoading(false);
-  // this sets 'errorMessage' into the error that has occured
-        setErrorMessage(error);
-        })
-      }, [props.setAppState]);
+    updatePlayerData();
+  }, [updatePlayerData]);
 
   return (
     <React.Fragment>
