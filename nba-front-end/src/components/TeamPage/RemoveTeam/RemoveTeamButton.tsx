@@ -11,6 +11,8 @@ const RemoveTeamButton: React.FC<any> = (props) => {
   //comes from selection context used to change which team is selected
   const { setTeamSelectionModel } = useContext(TeamPageContext)
 
+  
+
   //Remove Team logic
   const handleopenRemoveTeam = async () => {
 
@@ -21,7 +23,9 @@ const RemoveTeamButton: React.FC<any> = (props) => {
 
     //if cookie does not exist open remove team popup
     if (removeTeamDontAskAgain !== "1") {
-        props.setOpenRemoveTeamPopUp((prev:any) => !prev)
+      setTeamSelectionModel({ TeamName: props.teamObject.TeamName, TeamID:props.teamObject.TeamID  })
+      props.setOpenRemoveTeamPopUp((prev:any) => !prev)
+       
     } else {
 
     //delete team by clicking bin button if there is a cookie

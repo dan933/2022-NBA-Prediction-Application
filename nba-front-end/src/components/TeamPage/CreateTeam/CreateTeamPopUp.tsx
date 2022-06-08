@@ -51,8 +51,7 @@ const CreateTeamPopUp:React.FC<any> =(props) => {
             if (resp.data.Success === true) {
                 let selectedTeam = resp.data.Data
                 selectedTeam = { TeamName: selectedTeam.TeamName, TeamID: selectedTeam.TeamID }
-                setTeamSelectionModel({ TeamName: selectedTeam.TeamName, TeamID: selectedTeam.TeamID })
-                console.log(selectedTeam);
+                setTeamSelectionModel({ TeamName: selectedTeam.TeamName, TeamID: selectedTeam.TeamID })                
                 setIsError(false);
                 props.setOpen(false);
 
