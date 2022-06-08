@@ -56,8 +56,7 @@ const AddPlayerTableLoader: React.FC<any> = (props) => {
   {/* if  isLoading is true, loading text will apear, if api is able to fetch player data and isLoading is false, then show filled player table*/}
         {isLoading ? (<h1>Hold on, fetching data may take some time :)</h1>) : (
           <AddPlayerTable           
-            tableIsUpdated={props.tableIsUpdated}
-            teamPlayersList={props.teamPlayersList}
+            tableIsUpdated={props.tableIsUpdated}            
           />
         )}
       </div>

@@ -31,16 +31,7 @@ const TeamPageContent: React.FC<any> = (props) => {
   const [playersList, setPlayersList] = React.useState([]);  
 
 //----------------------------------------------------------------------//
-
-  const [selectionTeam, setSelectionTeam] = React.useState<GridSelectionModel>([]);
-
-  
-
   const [isUpdated, setIsUpdated] = React.useState(false);
-
-  const tableIsUpdated = () => {
-    setIsUpdated(true);
-  };
   
   //This function handles the responsiveness of the page
   const [mobileView, defaultView] = ResponsiveServices.CreateDesktopMobileViews();
@@ -59,10 +50,7 @@ const TeamPageContent: React.FC<any> = (props) => {
 
     
       <TeamList        
-        setSelectionModel={setSelectionTeam}
-        selectionModel={selectionTeam}
-        teamList={teamList}
-        isUpdated={isUpdated}
+        teamList={teamList}        
         setTeamList={setTeamList}
         />
 
@@ -72,23 +60,12 @@ const TeamPageContent: React.FC<any> = (props) => {
 
   const teamPlayerTableLoaderSection = 
     (
-      <TeamPlayerTableLoader
-        isUpdated={isUpdated}
-        setIsUpdated={setIsUpdated}
-        tableIsUpdated={tableIsUpdated}
-        setTeamPlayersList={setTeamPlayersList}
-      />
+      <TeamPlayerTableLoader/>
     )
 
   const addPlayerTableLoaderSection =
     (
-      <AddPlayerTableLoader
-        teamID={selectionTeam}
-        tableIsUpdated={tableIsUpdated}
-        isUpdated={isUpdated}
-        setIsUpdated={setIsUpdated}
-        teamPlayersList={teamPlayersList}
-      />
+      <AddPlayerTableLoader/>
     )
 
   return (
