@@ -14,7 +14,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 
-const teamNameMaxSize = 25;
+const teamNameMaxSize = 35;
 
 function CreateTeamPopUp(props:any) {
 
@@ -60,13 +60,17 @@ function CreateTeamPopUp(props:any) {
     const createTeam = async () => {
         await api.CreateTeam(props.teamName.current?.value)
             .then((resp) => {
+           
                 if (resp.data.Success === true) {
                     // sets newTeamID to the TeamID of the created team
                     props.setNewTeamID(resp.data.Data.TeamID);
                     props.setOpen(false);
                     setIsError(false);
                     openRemoveTeamSnackBar()
+                    // removes error message on next pop up
+                    setErrorMessage("")
                 }
+                
             })
             .catch((error) => {
                 
@@ -74,6 +78,7 @@ function CreateTeamPopUp(props:any) {
                
                 if (err.response && err.response.status === 409) {
                     setIsError(true)
+                    
                 }
                 else {
         
@@ -102,9 +107,10 @@ function CreateTeamPopUp(props:any) {
                 variant="standard"
                 inputRef={props.teamName}
                 inputProps={{
-                    maxlength: 25
-                  }}
+                    maxlength: 35
+                  }}  
                 helperText={errorMessage}
+              
                 onChange={(e) => setTeamNameSize(e.target.value)}
             />
             {isError && <p style={{ color: "red" }}>This Team Already Exist!</p>}
