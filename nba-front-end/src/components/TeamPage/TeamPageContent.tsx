@@ -56,8 +56,7 @@ const TeamPageContent: React.FC<any> = (props) => {
     (
 
     
-      <TeamList
-        tableIsUpdated={tableIsUpdated}
+      <TeamList        
         setSelectionModel={setSelectionTeam}
         selectionModel={selectionTeam}
         teamList={teamList}

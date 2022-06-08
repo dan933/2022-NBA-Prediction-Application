@@ -34,6 +34,7 @@ const RemovePlayerButton: React.FC<any> = (props: any) => {
         
       if (res)
       {
+        setPlayerToDelete(props.playerObject)
         setPlayerToDelete([])
         
       }
