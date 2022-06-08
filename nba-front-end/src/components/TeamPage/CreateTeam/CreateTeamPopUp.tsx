@@ -107,7 +107,7 @@ function CreateTeamPopUp(props:any) {
                 variant="standard"
                 inputRef={props.teamName}
                 inputProps={{
-                    maxlength: teamNameMaxSize
+                    maxLength: teamNameMaxSize
                   }}  
                 helperText={errorMessage}
                 onChange={(e) => setTeamNameSize(e.target.value)}
