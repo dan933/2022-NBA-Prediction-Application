@@ -15,7 +15,7 @@ interface PlayerProps{
 const AddPlayerTableLoader: React.FC<any> = (props) => {
   
   //This Object has the current selected team which will be used to get the players from that team.
-  const { teamSelectionModel } = useContext(TeamPageContext)
+  const { teamSelectionModel, playersList, setPlayersList } = useContext(TeamPageContext)
 
 
   // this sets up function (from componentLoading.tsx) which either returns 
@@ -44,8 +44,8 @@ const AddPlayerTableLoader: React.FC<any> = (props) => {
         next: (resp) => {
           setLoading(false);
           setAppState({ playerList: resp as Player[] });
+          setPlayersList(resp)
           props.setIsUpdated(false);
-          
         },
 
         error: (error) => {
@@ -61,11 +61,15 @@ const AddPlayerTableLoader: React.FC<any> = (props) => {
     <React.Fragment>
       <div>
   {/* if the error message is not empty or does not equal "", then the error message will appear*/}
-        {errorMessage!==""&&<h1 style={{color: 'red'}}>Oops! An Error Occured Please Try Again.</h1>}
+  {errorMessage !== "" && <h1 style={{ color: 'red' }}>Oops! An Error Occured Please Try Again.</h1>}
+        
   {/* if  isLoading is true, loading text will apear, if api is able to fetch player data and isLoading is false, then show filled player table*/}
-  {isLoading ? (<h1>Hold on, fetching data may take some time :)</h1>) : (<AddPlayerTable playerList={appState.playerList} teamID={teamSelectionModel.TeamID} 
-        tableIsUpdated={props.tableIsUpdated} teamPlayersList={props.teamPlayersList}
-        />)}
+        {isLoading ? (<h1>Hold on, fetching data may take some time :)</h1>) : (
+          <AddPlayerTable           
+            tableIsUpdated={props.tableIsUpdated}
+            teamPlayersList={props.teamPlayersList}
+          />
+        )}
       </div>
     </React.Fragment>
 

@@ -118,7 +118,7 @@ const TeamList: React.FC<any> = (props) => {
     useEffect(() => {        
         getWinChance() 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [teamSelectionModel])
+    }, [teamSelectionModel, teamPlayersList])
 
     return (
         <Paper

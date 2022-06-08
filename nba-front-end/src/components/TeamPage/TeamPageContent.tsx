@@ -28,7 +28,7 @@ const TeamPageContent: React.FC<any> = (props) => {
 
   const [teamList, setTeamList] = React.useState(props.teamList);
 
-  const [playersList, setPlayersList] = React.useState(props.teamList);  
+  const [playersList, setPlayersList] = React.useState([]);  
 
 //----------------------------------------------------------------------//
 

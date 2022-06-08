@@ -2,7 +2,7 @@ import * as React from 'react';
 import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams  } from '@mui/x-data-grid';
 import { FormControl, Grid, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import axios, { AxiosError } from 'axios';
 import AddPlayerButton from './AddPlayer/AddPlayerButton';
@@ -10,6 +10,8 @@ import AddPlayerButton from './AddPlayer/AddPlayerButton';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+
+import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -19,7 +21,8 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 const AddPlayerTable: React.FC<any> = (props) => {
-  
+
+  const { teamSelectionModel, playersList, teamPlayersList} = useContext(TeamPageContext)
   const [open, setOpen] = React.useState(false);
 
   const openAddedPlayerSnackBar = () => {
@@ -35,13 +38,14 @@ const AddPlayerTable: React.FC<any> = (props) => {
       field: "addplayer",
       headerName: "",
       width: 70,
-      renderCell: (params: any) =>
-      (
+      renderCell: (params: any) => {
+        return (
           <AddPlayerButton
-              disabled={checkIsNotAddable(params.row.PlayerID,props.teamPlayersList,teamID)}
-              handleAddPlayer={ () => addPlayerTeam([params.row.PlayerID])}
+            disabled={checkIsNotAddable(params.row.PlayerID, teamPlayersList, teamSelectionModel.TeamID)}
+            handleAddPlayer={() => addPlayerTeam([params.row.PlayerID])}
           />
-      )
+        )
+      }
     },
     { field: 'PlayerID', headerName: 'ID', width: 90, hide: true },
     { field: 'FirstName', headerName: 'First Name', width: 150, },
@@ -69,11 +73,6 @@ const AddPlayerTable: React.FC<any> = (props) => {
     { field: 'Blocks', headerName: 'Blocks', minWidth: 120, flex: 0.3 },
   ];
 
-  // this takes the props passed to this component and uses it to populate the table
-  const playerList = props.playerList;
-
-  const teamID = props.teamID;
-
   // initialise the value for the searchbar
   const [search, setSearch] = React.useState('');
 
@@ -88,11 +87,12 @@ const AddPlayerTable: React.FC<any> = (props) => {
     ],
   });
 
-  const checkIsNotAddable = (playerId:number, teamPlayerIds:number[], teamId:any) => {
-    if(teamID === null){
+  const checkIsNotAddable = (playerId:number, teamPlayerIds:any, teamId:any) => {
+    if (teamId === undefined) {
       return true;
     }
-    if(teamPlayerIds?.includes(playerId)){
+
+    if(teamPlayerIds.find((team:any) => team.PlayerID === playerId)){
       return true;
     }
     return false;
@@ -121,7 +121,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
   const url = axiosRequestConfiguration.baseURL
 
   const addPlayerTeam = (player:number[]) => {
-    axios.post(`${url}/team/${teamID}/addPlayers`, player)
+    axios.post(`${url}/team/${teamSelectionModel.TeamID}/addPlayers`, player)
     .then(function (response) {
     if ( response.data.Success === true) {
         props.tableIsUpdated();
@@ -167,7 +167,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
           <div style={{ width: '100%' }}>
             <DataGrid
             autoHeight
-            rows={playerList}
+            rows={playersList}
             getRowId={(row) => row.PlayerID}
             columns={playerColumns}
             disableColumnSelector={true}
