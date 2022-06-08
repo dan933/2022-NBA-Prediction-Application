@@ -59,8 +59,7 @@ export default function RemovePlayerPopUp(props: any) {
     }
 
     //removes selected player
-    const res: any = await api.RemovePlayer(playerToDelete.TeamID, [playerToDelete.PlayerID]).catch((err) => {
-      setPlayerToDelete(null)
+    const res: any = await api.RemovePlayer(playerToDelete.TeamID, [playerToDelete.PlayerID]).catch((err) => {      
       setIsError(true)
     })
     

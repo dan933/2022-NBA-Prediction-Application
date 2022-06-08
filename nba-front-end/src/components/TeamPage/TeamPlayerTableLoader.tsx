@@ -30,7 +30,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
   // gets value from create team form
 
   useEffect(() => {
-    if (teamSelectionModel.TeamID != (null || undefined)) {
+    if (teamSelectionModel.TeamID != null && playerToDelete.length === 0) {
       setLoading(true);
       setTeamPlayersModel([]);
       axios.get(`${url}/team/${teamSelectionModel.TeamID}/get-players`)

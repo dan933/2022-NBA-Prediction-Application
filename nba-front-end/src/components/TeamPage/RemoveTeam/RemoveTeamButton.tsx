@@ -35,7 +35,7 @@ const RemoveTeamButton: React.FC<any> = (props) => {
         
       if (res)
       {
-        setTeamSelectionModel({ TeamName: null, TeamID: undefined })
+        setTeamSelectionModel({ TeamName: null, TeamID: null })
         
         await api.GetAllTeams().then(resp => {
           props.setTeamList(resp.data.Data);          
