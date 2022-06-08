@@ -58,16 +58,14 @@ export default function RemovePlayerPopUp(props: any) {
       bake_cookie('removePlayerDontAskAgain', "1");
     }
 
-    
-    console.log(playerToDelete.PlayerID)
     //removes selected player
     const res: any = await api.RemovePlayer(playerToDelete.TeamID, [playerToDelete.PlayerID]).catch((err) => {
-      setPlayerToDelete({})
+      setPlayerToDelete(null)
       setIsError(true)
     })
     
     if(res)
-    setPlayerToDelete({})
+    setPlayerToDelete([])
     props.setOpenRemovePlayerPopUp(false)    
     openRemovePlayerSnackBar();
   }

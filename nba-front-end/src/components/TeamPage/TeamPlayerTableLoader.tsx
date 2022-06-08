@@ -21,25 +21,25 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
   //This Object has the current selected team which will be used to get the players from that team.
   const { teamSelectionModel } = useContext(TeamPageContext)
 
-  const { setSelectedPlayersID } = useContext(TeamPageContext)
+  const { setTeamPlayersModel } = useContext(TeamPageContext)
 
   const { playerToDelete } = useContext(TeamPageContext)
-  
-  const [appState, setAppState] = useState<TeamPlayerProps>({
-    teamPlayerList: [],
-  });
+
+
+
 
   const [isLoading, setLoading] = useState(false);
   
   // gets value from create team form
 
   useEffect(() => {
-    if (teamSelectionModel.TeamID !== (null || undefined)) {
+    console.log("woooooo")
+    if (teamSelectionModel.TeamID !== (null || undefined) && playerToDelete.length === 0) {
       setLoading(true);
-      setAppState({ teamPlayerList: [] });
+      setTeamPlayersModel([]);
       axios.get(`${url}/team/${teamSelectionModel.TeamID}/get-players`)
         .then((response) => {
-            setAppState({ teamPlayerList: response.data.Data as TeamPlayer[] });            
+          setTeamPlayersModel(response.data.Data as TeamPlayer[]);            
             setLoading(false);
             props.setIsUpdated(false);
           })
@@ -49,6 +49,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
             setLoading(false);
           })
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [teamSelectionModel.TeamID, playerToDelete ]);
   
   const yourLineUpSection = () => {
@@ -58,7 +59,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
       )
     } else {
       return (
-        <TeamPlayerTable loading={isLoading} teamPlayerList={appState.teamPlayerList} teamID={props.teamID} tableIsUpdated={props.tableIsUpdated}/>
+        <TeamPlayerTable loading={isLoading} teamID={props.teamID} tableIsUpdated={props.tableIsUpdated}/>
       )
     }
   }

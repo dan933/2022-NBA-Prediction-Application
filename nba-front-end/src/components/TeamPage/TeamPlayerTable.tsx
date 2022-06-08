@@ -9,10 +9,14 @@ import Button from '@mui/material/Button';
 import RemovePlayerButton from './RemovePlayer/RemovePlayerButton';
 import RemovePlayerPopUp from './RemovePlayer/RemovePlayerPopUp';
 
+import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
+
 
 // Setting up the columns of the player table
 const TeamPlayerTable: React.FC<any> = (props) => {
 
+  const { teamPlayersModel } = React.useContext(TeamPageContext)
+  
   const teamPlayerColumns: GridColDef[] = [
     {
       field: "addplayer",
@@ -129,7 +133,7 @@ const TeamPlayerTable: React.FC<any> = (props) => {
           <div style={{ height:'648px'}}>
             <DataGrid
               loading={props.loading}
-              rows={props.teamPlayerList}
+              rows={teamPlayersModel}
               getRowId={(row) => row.PlayerID}
               columns={teamPlayerColumns}
               disableColumnSelector={true}
@@ -149,7 +153,6 @@ const TeamPlayerTable: React.FC<any> = (props) => {
         SelectedPlayer={SelectedPlayer}
         openRemovePlayerPopUp={openRemovePlayerPopUp}
         setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}
-        teamId={props.teamID}
         PlayerID={PlayerToDelete}
         teamPlayerList ={props.teamPlayerList}
         tableIsUpdated={props.tableIsUpdated}
