@@ -17,7 +17,7 @@ const TeamList: React.FC<any> = (props) => {
     //comes from selection context used to change which team is selected
     const { setTeamSelectionModel } = useContext(TeamPageContext)
 
-    const { playerToDelete } = useContext(TeamPageContext)
+    const { teamPlayersList } = useContext(TeamPageContext)
     
     const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = React.useState(false);
     

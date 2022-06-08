@@ -15,7 +15,7 @@ import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
 // Setting up the columns of the player table
 const TeamPlayerTable: React.FC<any> = (props) => {
 
-  const { teamPlayersModel } = React.useContext(TeamPageContext)
+  const { teamPlayersList } = React.useContext(TeamPageContext)
   
   const teamPlayerColumns: GridColDef[] = [
     {
@@ -133,7 +133,7 @@ const TeamPlayerTable: React.FC<any> = (props) => {
           <div style={{ height:'648px'}}>
             <DataGrid
               loading={props.loading}
-              rows={teamPlayersModel}
+              rows={teamPlayersList}
               getRowId={(row) => row.PlayerID}
               columns={teamPlayerColumns}
               disableColumnSelector={true}

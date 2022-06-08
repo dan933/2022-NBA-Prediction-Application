@@ -22,17 +22,19 @@ const TeamPageContent: React.FC<any> = (props) => {
     Team:{TeamName:null,TeamID:null}
   })
 
-  const [teamPlayersModel, setTeamPlayersModel] = useState([])
+  const [teamPlayersList, setTeamPlayersList] = useState([])
 
   const [playerToDelete, setPlayerToDelete] = useState<any>([])
 
-  
+  const [teamList, setTeamList] = React.useState(props.teamList);
+
+  const [playersList, setPlayersList] = React.useState(props.teamList);  
+
+//----------------------------------------------------------------------//
 
   const [selectionTeam, setSelectionTeam] = React.useState<GridSelectionModel>([]);
 
-  const [teamList, setTeamList] = React.useState(props.teamList);
   
-  const [teamPlayersList, setTeamPlayersList] = React.useState([]);
 
   const [isUpdated, setIsUpdated] = React.useState(false);
 
@@ -96,10 +98,14 @@ const TeamPageContent: React.FC<any> = (props) => {
       value={{
         teamSelectionModel,
         setTeamSelectionModel,
-        teamPlayersModel,
-        setTeamPlayersModel,
+        teamPlayersList,
+        setTeamPlayersList,
         playerToDelete,
-        setPlayerToDelete
+        setPlayerToDelete,
+        teamList,
+        setTeamList,
+        playersList,
+        setPlayersList
       }}>
     <>
       {/* --------------------------------------- This Box contains all tables for the Default view -------------------------------------- */}

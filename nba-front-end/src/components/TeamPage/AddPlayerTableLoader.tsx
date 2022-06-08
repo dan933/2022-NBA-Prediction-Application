@@ -39,18 +39,23 @@ const AddPlayerTableLoader: React.FC<any> = (props) => {
     setLoading(true);
     setErrorMessage("");
     setAppState({ playerList: [] });
-    api.get('players/get-all').toPromise().then((resp) => {
-        setLoading(false);
-        setAppState({ playerList: resp as Player[] });
-        props.setIsUpdated(false);
-        })
-  // this catches any errors that may occur while fetching for player data
-        .catch(error => { console.log(error); 
-        setLoading(false);
-  // this sets 'errorMessage' into the error that has occured
-        setErrorMessage(error);
-        })
-      }, [props.setAppState]);
+    api.get('players/get-all')
+      .subscribe({
+        next: (resp) => {
+          setLoading(false);
+          setAppState({ playerList: resp as Player[] });
+          props.setIsUpdated(false);
+          
+        },
+
+        error: (error) => {
+          console.log(error);
+          setLoading(false);
+          // this sets 'errorMessage' into the error that has occured
+          setErrorMessage(error);
+        }
+      })
+  }, [props.setAppState])      
 
   return (
     <React.Fragment>
