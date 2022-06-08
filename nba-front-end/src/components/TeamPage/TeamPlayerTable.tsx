@@ -40,7 +40,6 @@ function TeamPlayerTable(props:any) {
       hide: true,
       valueGetter: (params: GridValueGetterParams) =>
         `${params.row.FirstName || ''} ${params.row.LastName || ''}`,
-  
     },
     {
       field: 'PlayerWinPercent', headerName: 'Win Percentage', width: 150,
@@ -90,8 +89,7 @@ function TeamPlayerTable(props:any) {
         },
       ],
     });
-
-  }, [search]);
+  },[search]);
 
   return (
     <>

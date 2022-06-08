@@ -1,7 +1,9 @@
+
 import './App.css';
 import RouteConfig from './routes/routes';
 
-function App() {
+
+function App() {    
   return (
   <div className="App">
     <RouteConfig/>
@@ -11,3 +13,4 @@ function App() {
 
 
 export default App;
+

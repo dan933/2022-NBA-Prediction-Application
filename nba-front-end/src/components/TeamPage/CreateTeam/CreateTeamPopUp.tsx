@@ -1,6 +1,7 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material'
 import { AxiosError } from 'axios';
-import { useState, forwardRef } from 'react'
+import { useState, useEffect, forwardRef } from 'react'
 import api from '../../../services/api';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
@@ -13,8 +14,31 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
+
+const teamNameMaxSize = 35;
+
 function CreateTeamPopUp(props:any) {
 
+    const [teamNameSize, setTeamNameSize] = useState("");
+
+    const [errorMessage, setErrorMessage] = useState("");
+    
+    // sets error message and displays it to user upon reaching char limit
+    useEffect(() => { 
+        if (teamNameSize.length >= teamNameMaxSize) {
+          setErrorMessage(
+            "Team Name has reached the maximum number of characters"
+          );
+        }
+      }, [teamNameSize]);
+
+      useEffect(() => {
+        // sets Error message as empty if input is less than char limit
+        if (teamNameSize.length < teamNameMaxSize && errorMessage) {
+          setErrorMessage("");
+        }
+      }, [teamNameSize, errorMessage]);
+    
     const [isError, setIsError] = useState(false);
 
     const handleClose = () => {
@@ -31,19 +55,27 @@ function CreateTeamPopUp(props:any) {
     const handleSnackBarClose = () => {
         setOpen(false);
     }
+    const { getAccessTokenSilently } = useAuth0();
+
     //------------------------ Create Team API call -------------------------------//
 
     // gets value from create team form
     const createTeam = async () => {
-        await api.CreateTeam(props.teamName.current?.value)
-            .then((resp) => {
+
+        const token = await getAccessTokenSilently();
+        
+        await api.CreateTeam(token, props.teamName.current?.value)
+            .then((resp) => {                
                 if (resp.data.Success === true) {
                     // sets newTeamID to the TeamID of the created team
                     props.setNewTeamID(resp.data.Data.TeamID);
                     props.setOpen(false);
                     setIsError(false);
                     openRemoveTeamSnackBar()
+                    // removes error message on next pop up
+                    setErrorMessage("")
                 }
+                
             })
             .catch((error) => {
                 
@@ -51,6 +83,7 @@ function CreateTeamPopUp(props:any) {
                
                 if (err.response && err.response.status === 409) {
                     setIsError(true)
+                    
                 }
                 else {
         
@@ -62,8 +95,8 @@ function CreateTeamPopUp(props:any) {
 
 
     return (
-        <div>
-        <Dialog id="createTeam" open={props.open} onClose={handleClose}>
+        <>
+        <Dialog id="createTeam" open={props.open} onClose={handleClose} disableScrollLock={true}>
         <DialogTitle>Create a new team:</DialogTitle>
         <DialogContent>
             <DialogContentText>
@@ -78,6 +111,11 @@ function CreateTeamPopUp(props:any) {
                 fullWidth
                 variant="standard"
                 inputRef={props.teamName}
+                inputProps={{
+                    maxLength: teamNameMaxSize
+                  }}  
+                helperText={errorMessage}
+                onChange={(e) => setTeamNameSize(e.target.value)}
             />
             {isError && <p style={{ color: "red" }}>This Team Already Exist!</p>}
         </DialogContent>
@@ -94,7 +132,7 @@ function CreateTeamPopUp(props:any) {
       </Alert>
       </Snackbar>
       </Stack>
-      </div>
+      </>
   )
 }
 

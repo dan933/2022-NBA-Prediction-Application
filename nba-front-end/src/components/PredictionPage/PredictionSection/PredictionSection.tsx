@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 //todo make models/predictionModels section
 import api from '../../../services/api';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function PredictionSection(props: any) {
 
@@ -16,9 +17,14 @@ function PredictionSection(props: any) {
 
   const [teamMatchUp, setTeamMatchUp] = useState<ITeamMatchUp>()
 
+  const { getAccessTokenSilently } = useAuth0();
+
   const calculatePrediction = async () => {
     if (props.selectedTeamsId.length === 2) {
-      const res = await api.GetTeamMatchUp(props.selectedTeamsId[0], props.selectedTeamsId[1])
+
+      const token = await getAccessTokenSilently();
+
+      const res = await api.GetTeamMatchUp(token, props.selectedTeamsId[0], props.selectedTeamsId[1])
       setTeamMatchUp(res.data)
     }
     

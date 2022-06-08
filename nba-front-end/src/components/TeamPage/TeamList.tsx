@@ -1,12 +1,15 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Button, FormControl, Grid, InputAdornment, InputLabel, OutlinedInput, Paper } from "@mui/material";
-import { DataGrid, GridColDef, GridFilterModel, GridSelectionModel } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridFilterModel } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveTeamButton from "./RemoveTeam/RemoveTeamButton"
 import api from "../../services/api";
 import RemoveTeamPopUp from "./RemoveTeam/RemoveTeamPopUp";
 import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";
 import SearchIcon from '@mui/icons-material/Search';
+import { useAuth0 } from "@auth0/auth0-react";
+
+
 
 function TeamList(props:any) {
 
@@ -45,29 +48,24 @@ function TeamList(props:any) {
 
     const [createTeamPopupOpen, setCreateTeamPopupOpen] = useState(false);
 
-    const [selectionTeam, setSelectionTeam] = useState<GridSelectionModel>([]);
-
     const handleRowChanges = (selectedRow: any) => {
         if (selectedRow.field !== "RemoveTeam") {
-            setSelectionTeam(selectedRow.row.TeamID)
             props.setSelectionModel(selectedRow.row.TeamID)
         }
     }
 
 
+    const { getAccessTokenSilently } = useAuth0();
+    
     const setTeamList=props.setTeamList;
-    const tableIsUpdated=props.tableIsUpdated;
     const updateTeams = useCallback(
-      () => {
+        async () => {
+        const token = await getAccessTokenSilently();
         setLoadingTeams(true);
         
-        api.GetAllTeams().then(resp => {
+        api.GetAllTeams(token).then(resp => {
             
             setTeamList(resp.data.Data);
-            if(props.selectionModel.length!==0){
-            setSelectionTeam(props.selectionModel);
-            }
-            tableIsUpdated();
             setLoadingTeams(false);
             setNoPopupRemoveTeam(false);
             
@@ -77,7 +75,7 @@ function TeamList(props:any) {
             setLoadingTeams(false);
         })
       },
-      [setLoadingTeams, setSelectionTeam, setNoPopupRemoveTeam, tableIsUpdated, setTeamList, props.selectionModel],
+      [setLoadingTeams, setNoPopupRemoveTeam, getAccessTokenSilently, setTeamList],
     )
     
 
@@ -130,9 +128,6 @@ function TeamList(props:any) {
         },
     ];
 
-
-    
-
     return (
         <Paper
             sx={{ p: 2, height: '800px' }}
@@ -184,9 +179,8 @@ function TeamList(props:any) {
                             onCellClick={(event) => {handleRowChanges(event)}}
                             onSelectionModelChange={(newSelectionModel) => {
                                 props.setSelectionModel(newSelectionModel);
-                                setSelectionTeam(newSelectionModel);
                             }}
-                            selectionModel={selectionTeam}
+                            selectionModel={props.selectionModel}
                             hideFooterSelectedRowCount
                             filterModel={SearchTeamModel}
                             onFilterModelChange={(newFilterModel) => setSearchTeamModel(newFilterModel)}

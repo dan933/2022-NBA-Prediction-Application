@@ -1,12 +1,27 @@
 using System.Reflection;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using nba_api_dotnet;
 using nba_api_dotnet.models.players;
+using WebAPIApplication;
+using Microsoft.AspNetCore.Http.Json;
+using System.Text.Json.Serialization;
 
 var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
+
+var domain = $"https://{builder.Configuration["Auth0:Domain"]}/";
+
+// Set the JSON serializer options
+// builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
+// {
+//     options.SerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+// });
 
 //ADD CORS
 builder.Services.AddCors(options =>
@@ -19,6 +34,7 @@ builder.Services.AddCors(options =>
                             builder.WithOrigins(
                             "http://localhost:3000"
                             )
+                            .AllowCredentials()
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                         });
@@ -30,18 +46,36 @@ builder.Services.AddCors(options =>
                             "https://nba-app.azurewebsites.net",
                             "https://nba-app-staging.azurewebsites.net"
                             )                            
+                            .AllowCredentials()            
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                       });        
     }
+});
 
     
-});
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = domain;
+        options.Audience = builder.Configuration["Auth0:Audience"];
+        // If the access token does not have a `sub` claim, `User.Identity.Name` will be `null`. Map it to a different claim by setting the NameClaimType below.
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            NameClaimType = ClaimTypes.NameIdentifier
+        };
+    });
+builder.Services.AddAuthorization(options =>
+    {
+        options.AddPolicy("read:players", policy => policy.Requirements.Add(new HasScopeRequirement("read:players", domain)));
+    });
+
+    builder.Services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-string connString = builder.Configuration.GetConnectionString("AzureDatabase");
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -61,6 +95,31 @@ builder.Services.AddSwaggerGen(options =>
         {
             Name = "Example License",
             Url = new Uri("https://example.com/license")
+        }
+    });
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
         }
     });
 
@@ -102,11 +161,15 @@ if (app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 
 app.UseCors(MyAllowSpecificOrigins);
 
 app.MapControllers();
+
+
 
 
 app.Run();
