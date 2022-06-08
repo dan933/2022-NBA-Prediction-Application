@@ -89,8 +89,8 @@ const AddPlayerTable: React.FC<any> = (props) => {
     ],
   });
 
-  const checkIsNotAddable = (playerId:number, teamPlayerIds:any, teamId:any) => {
-    if (teamId === undefined) {
+  const checkIsNotAddable = (playerId: number, teamPlayerIds: any, teamId: any) => {
+    if (teamId == (null||undefined)) {
       return true;
     }
 

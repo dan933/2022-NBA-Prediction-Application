@@ -41,7 +41,7 @@ const AddPlayerTableLoader: React.FC<any> = (props) => {
     setAppState({ playerList: [] });
     api.get('players/get-all')
       .subscribe({
-        next: (resp) => {
+        next: (resp) => {          
           setLoading(false);
           setAppState({ playerList: resp as Player[] });
           setPlayersList(resp)
