@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams, GridToolbarColumnsButton, GridToolbarContainer, } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams } from '@mui/x-data-grid';
 import { FormControl, Grid, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
@@ -22,7 +22,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 const AddPlayerTable: React.FC<any> = (props) => {
-  
+
   const [open, setOpen] = React.useState(false);
 
   const openAddedPlayerSnackBar = () => {
@@ -66,10 +66,10 @@ const AddPlayerTable: React.FC<any> = (props) => {
         return `${valueFormatted} %`;
       },
     },
-    { field: 'Points', headerName: 'Points', minWidth: 120, flex: 0.3},
-    { field: 'Rebounds', headerName: 'Rebounds', minWidth: 120, flex: 0.3},
-    { field: 'Assists', headerName: 'Assists', minWidth: 120, flex: 0.3},
-    { field: 'Steals', headerName: 'Steals', minWidth: 120, flex: 0.3},
+    { field: 'Points', headerName: 'Points', minWidth: 120, flex: 0.3 },
+    { field: 'Rebounds', headerName: 'Rebounds', minWidth: 120, flex: 0.3 },
+    { field: 'Assists', headerName: 'Assists', minWidth: 120, flex: 0.3 },
+    { field: 'Steals', headerName: 'Steals', minWidth: 120, flex: 0.3 },
     { field: 'Blocks', headerName: 'Blocks', minWidth: 120, flex: 0.3 },
   ];
 
@@ -86,7 +86,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
 
   // initialise the value for operator used in searchbar functionality
   const [operator, setOperator] = React.useState('contains')
-  
+
 
   // initialise the parameters that the table uses to filter values (when using the searchbar)
   const [filterModel, setFilterModel] = React.useState<GridFilterModel>({
@@ -123,44 +123,44 @@ const AddPlayerTable: React.FC<any> = (props) => {
 
   // when you type in the searchbar, update the value of the object
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let inputNum = parseInt(event.target.value)/100;
+    let inputNum = parseInt(event.target.value) / 100;
     let inputString = inputNum.toString();
-    if(dropdownColumn === "PlayerWinPercent" && inputNum === 1){
+    if (dropdownColumn === "PlayerWinPercent" && inputNum === 1) {
       setInput(event.target.value);
       setSearch(inputString);
       setOperator('equals');
     }
-    else if(dropdownColumn === "PlayerWinPercent" && inputNum === 0){
+    else if (dropdownColumn === "PlayerWinPercent" && inputNum === 0) {
       setInput(event.target.value);
       setSearch(inputString);
       setOperator('equals');
     }
-    else if(dropdownColumn === "PlayerWinPercent" && isNaN(inputNum)){
+    else if (dropdownColumn === "PlayerWinPercent" && isNaN(inputNum)) {
       setInput(event.target.value);
       setSearch(event.target.value);
       setOperator('contains');
     }
-    else if(dropdownColumn === "PlayerWinPercent"){
+    else if (dropdownColumn === "PlayerWinPercent") {
       setInput(event.target.value);
       setSearch(inputString);
       setOperator('contains');
     }
-    else if(dropdownColumn === "FullName"){
+    else if (dropdownColumn === "FullName") {
       setInput(event.target.value);
       setSearch(event.target.value);
       setOperator('contains');
     }
-    else if(dropdownColumn === "FirstName"){
+    else if (dropdownColumn === "FirstName") {
       setInput(event.target.value);
       setSearch(event.target.value);
       setOperator('contains');
     }
-    else if(dropdownColumn === "LastName"){
+    else if (dropdownColumn === "LastName") {
       setInput(event.target.value);
       setSearch(event.target.value);
       setOperator('contains');
     }
-    else{
+    else {
       setInput(event.target.value);
       setSearch(event.target.value);
       setOperator('equals');
@@ -186,14 +186,14 @@ const AddPlayerTable: React.FC<any> = (props) => {
 
   const addPlayerTeam = (player: number[]) => {
     axios.post(`${url}/team/${teamID}/addPlayers`, player)
-    .then(function (response) {
-    if ( response.data.Success === true) {
-        props.tableIsUpdated();
-        openAddedPlayerSnackBar()
-        // if success call api again.
-        //todo use useEffect() instead
-    }
-    })
+      .then(function (response) {
+        if (response.data.Success === true) {
+          props.tableIsUpdated();
+          openAddedPlayerSnackBar()
+          // if success call api again.
+          //todo use useEffect() instead
+        }
+      })
       .catch((error) => {
         const err: any = error as AxiosError
         console.log(err);
@@ -206,22 +206,12 @@ const AddPlayerTable: React.FC<any> = (props) => {
     setInput("");
   }
 
-  //creating a custom toolbar that only contains the Columns Hide and Show
-  function CustomToolbar() {
-    return (
-      <GridToolbarContainer>
-        <GridToolbarColumnsButton />
-      </GridToolbarContainer>
-    );
-  }
-
   return (
     <>
       {/* formats the placement of the searchbar and table */}
       <Grid container spacing={2}>
-        <Grid item xs={12}>
-          
-        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+        <Grid item xl={4} lg={5} md={6} sm={4} xs={4} sx={{ display: "flex" }}>
+          <FormControl sx={{ minWidth: 120 }} size="small">
             <InputLabel id="Column-dropdown">Column</InputLabel>
             <Select
               labelId="Column-dropdown"
@@ -241,8 +231,10 @@ const AddPlayerTable: React.FC<any> = (props) => {
               <MenuItem value={"Blocks"}>Blocks</MenuItem>
             </Select>
           </FormControl>
+        </Grid>
 
-        <FormControl sx={{ m: 1, minWidth: 120, width: '50%' }} variant="outlined" size="small" fullWidth={false} >
+        <Grid item xl={8} lg={7} md={6} sm={8} xs={8} sx={{ display: "flex" }} >
+          <FormControl sx={{ flexGrow: 1 }} variant="outlined" size="small" >
             <InputLabel htmlFor="outlined-search">Search for a player</InputLabel>
             <OutlinedInput
               id="outlined-search"
@@ -252,7 +244,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
               // formats placement of clear search bar button
               endAdornment={
                 <InputAdornment position="end">
-                {/* creates a condition - if user types in search bar, the clear button will replace the search icon */}
+                  {/* creates a condition - if user types in search bar, the clear button will replace the search icon */}
                   {search.length === 0 ? (
                     <SearchIcon />
                   ) : (
@@ -262,16 +254,18 @@ const AddPlayerTable: React.FC<any> = (props) => {
               }
             />
           </FormControl>
+        </Grid>
+
 
         <Stack spacing={2} sx={{ width: '100%' }}>
-        <Snackbar open={open} autoHideDuration={1050} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          Player Successfully Added!
-        </Alert>
-        </Snackbar>
+          <Snackbar open={open} autoHideDuration={1050} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+              Player Successfully Added!
+            </Alert>
+          </Snackbar>
         </Stack>
 
-        </Grid>
+
         <Grid item xs={12}>
           <div style={{ width: '100%' }}>
             <DataGrid
@@ -286,9 +280,6 @@ const AddPlayerTable: React.FC<any> = (props) => {
               onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
               disableSelectionOnClick={true}
               checkboxSelection={false}
-              components={{
-                Toolbar: CustomToolbar,
-              }}
             />
           </div>
         </Grid>

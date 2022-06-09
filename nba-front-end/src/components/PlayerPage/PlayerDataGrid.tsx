@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams, GridToolbarContainer, GridToolbarColumnsButton } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams } from '@mui/x-data-grid';
 import { FormControl, Grid, InputAdornment, InputLabel, OutlinedInput, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
@@ -77,7 +77,7 @@ const PlayerDataGrid: React.FC<any> = (props) => {
     // event.target.value is the value received from the search bar (the user input). it is a string by default
     // inputNum converts whatever numbers the user types into the search bar (event.target.value) into an integer and divides by 100
     // the api receives the win percentage of players as a decimal number so the values typed by the user must be divided by 100. (i.e when user types 68 - intputNum will be 0.68)
-    let inputNum = parseInt(event.target.value)/100;
+    let inputNum = parseInt(event.target.value) / 100;
     //the result is then converted into a string so that setSearch can be set as the integer
     let inputString = inputNum.toString();
 
@@ -90,12 +90,12 @@ const PlayerDataGrid: React.FC<any> = (props) => {
     //when users type 100 win percent in search bar the inputNum result will = 1
     //which will return all numbers that contain 1 (i.e 11, 21, 31 ...) 
     //so we set an if statement and change the operator to "equals"
-    if(dropdownColumn === "PlayerWinPercent" && inputNum === 1){
+    if (dropdownColumn === "PlayerWinPercent" && inputNum === 1) {
       setInput(event.target.value);
       setSearch(inputString);
       setOperator('equals');
     }
-    else if(dropdownColumn === "PlayerWinPercent" && inputNum === 0){
+    else if (dropdownColumn === "PlayerWinPercent" && inputNum === 0) {
       setInput(event.target.value);
       setSearch(inputString);
       setOperator('equals');
@@ -104,34 +104,34 @@ const PlayerDataGrid: React.FC<any> = (props) => {
     //the event.target.value becomes "NaN" after a user enters numbers and deletes those numbers
     //the page displays an empty table because the app tries to search for players with an "NaN" Win Percentage
     //this if statement ensures that the properties are set back to the default searchbar values when the user removes their input
-    else if(dropdownColumn === "PlayerWinPercent" && isNaN(inputNum)){
+    else if (dropdownColumn === "PlayerWinPercent" && isNaN(inputNum)) {
       setInput(event.target.value);
       setSearch(event.target.value);
       setOperator('contains');
     }
-    else if(dropdownColumn === "PlayerWinPercent"){
+    else if (dropdownColumn === "PlayerWinPercent") {
       setInput(event.target.value);
       setSearch(inputString);
       setOperator('contains');
     }
     //users will want to filter names with the "contains" operator
-    else if(dropdownColumn === "FullName"){
+    else if (dropdownColumn === "FullName") {
       setInput(event.target.value);
       setSearch(event.target.value);
       setOperator('contains');
     }
-    else if(dropdownColumn === "FirstName"){
+    else if (dropdownColumn === "FirstName") {
       setInput(event.target.value);
       setSearch(event.target.value);
       setOperator('contains');
     }
-    else if(dropdownColumn === "LastName"){
+    else if (dropdownColumn === "LastName") {
       setInput(event.target.value);
       setSearch(event.target.value);
       setOperator('contains');
     }
     //users will most likely want to filter the remaining numerical stats such as points and rebounds by exact values
-    else{
+    else {
       setInput(event.target.value);
       setSearch(event.target.value);
       setOperator('equals');
@@ -159,15 +159,6 @@ const PlayerDataGrid: React.FC<any> = (props) => {
     setInput("");
   }
 
-  //creating a custom toolbar that only contains the Columns Hide and Show
-  function CustomToolbar() {
-    return (
-      <GridToolbarContainer>
-        <GridToolbarColumnsButton />
-      </GridToolbarContainer>
-    );
-  }
-
 
   return (
     // white box around the table
@@ -182,9 +173,8 @@ const PlayerDataGrid: React.FC<any> = (props) => {
     >
       {/* formats the placement of the searchbar and table */}
       <Grid container spacing={2}>
-        <Grid item xl={12} md={12} xs={12}>
-
-          <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+        <Grid item xl={2} lg={2} md={2} sm={3} xs={4} sx={{ display: "flex" }}>
+          <FormControl sx={{ minWidth: 120 }} size="small">
             <InputLabel id="Column-dropdown">Column</InputLabel>
             <Select
               labelId="Column-dropdown"
@@ -204,8 +194,10 @@ const PlayerDataGrid: React.FC<any> = (props) => {
               <MenuItem value={"Blocks"}>Blocks</MenuItem>
             </Select>
           </FormControl>
+        </Grid>
 
-          <FormControl sx={{ m: 1, minWidth: 120, width: '70%' }} variant="outlined" size="small" fullWidth={false} >
+        <Grid item xl={10} lg={10} md={10} sm={9} xs={8} sx={{ display: "flex" }} >
+          <FormControl sx={{ flexGrow: 1 }} variant="outlined" size="small" >
             <InputLabel htmlFor="outlined-search">Search for a player</InputLabel>
             <OutlinedInput
               id="outlined-search"
@@ -215,7 +207,7 @@ const PlayerDataGrid: React.FC<any> = (props) => {
               // formats placement of clear search bar button
               endAdornment={
                 <InputAdornment position="end">
-                {/* creates a condition - if user types in search bar, the clear button will replace the search icon */}
+                  {/* creates a condition - if user types in search bar, the clear button will replace the search icon */}
                   {search.length === 0 ? (
                     <SearchIcon />
                   ) : (
@@ -224,11 +216,12 @@ const PlayerDataGrid: React.FC<any> = (props) => {
                 </InputAdornment>
               }
             />
-            </FormControl>
-          </Grid>
-          <Grid item xl={12} md={12} xs={12}>
-            <div style={{ height: '1151px', width: '100%' }}>
-              <DataGrid
+          </FormControl>
+        </Grid>
+
+        <Grid item xl={12} md={12} xs={12}>
+          <div style={{ height: '1151px', width: '100%' }}>
+            <DataGrid
               rows={playerList}
               getRowId={(row) => row.PlayerID}
               columns={playerColumns}
@@ -238,9 +231,6 @@ const PlayerDataGrid: React.FC<any> = (props) => {
               rowsPerPageOptions={[20]}
               filterModel={filterModel}
               onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
-              components={{
-                Toolbar: CustomToolbar,
-              }}
             />
           </div>
         </Grid>
