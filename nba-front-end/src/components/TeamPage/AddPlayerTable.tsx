@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import axios, { AxiosError } from 'axios';
 import AddPlayerButton from './AddPlayer/AddPlayerButton';
-// import { Player } from '../models/IPlayer';
+import { useAuth0 } from '@auth0/auth0-react';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
@@ -77,6 +77,8 @@ const AddPlayerTable: React.FC<any> = (props) => {
   const playerList = props.playerList;
 
   const teamID = props.teamID;
+
+    const { getAccessTokenSilently } = useAuth0();
 
   // initialise the value for the searchbar
   const [search, setSearch] = React.useState('');
@@ -184,16 +186,21 @@ const AddPlayerTable: React.FC<any> = (props) => {
 
   const url = axiosRequestConfiguration.baseURL
 
-  const addPlayerTeam = (player: number[]) => {
-    axios.post(`${url}/team/${teamID}/addPlayers`, player)
-      .then(function (response) {
-        if (response.data.Success === true) {
-          props.tableIsUpdated();
-          openAddedPlayerSnackBar()
-          // if success call api again.
-          //todo use useEffect() instead
-        }
-      })
+  const addPlayerTeam = async (player:number[]) => {
+    const token = await getAccessTokenSilently();
+    axios.post(`${url}/team/${teamID}/addPlayers`, player, {
+      headers: {
+        'Authorization':`Bearer ${token}`
+      }
+    })
+    .then(function (response) {
+    if ( response.data.Success === true) {
+        props.tableIsUpdated();
+        openAddedPlayerSnackBar()
+        // if success call api again.
+        //todo use useEffect() instead
+    }
+    })
       .catch((error) => {
         const err: any = error as AxiosError
         console.log(err);
@@ -269,17 +276,19 @@ const AddPlayerTable: React.FC<any> = (props) => {
         <Grid item xs={12}>
           <div style={{ width: '100%' }}>
             <DataGrid
-              autoHeight
-              rows={playerList}
-              getRowId={(row) => row.PlayerID}
-              columns={playerColumns}
-              disableColumnMenu={true}
-              pageSize={10}
-              rowsPerPageOptions={[10]}
-              filterModel={filterModel}
-              onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
-              disableSelectionOnClick={true}
-              checkboxSelection={false}
+            autoHeight
+            rows={playerList}
+            loading={props.loading}
+            getRowId={(row) => row.PlayerID}
+            columns={playerColumns}
+            disableColumnSelector={true}
+            disableColumnMenu={true}
+            pageSize={10}
+            rowsPerPageOptions={[10]}
+            filterModel={filterModel}
+            onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
+            disableSelectionOnClick={true}
+            checkboxSelection={false}
             />
           </div>
         </Grid>

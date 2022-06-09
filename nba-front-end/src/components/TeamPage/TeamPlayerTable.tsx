@@ -1,17 +1,13 @@
-import * as React from 'react';
-import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams, GridSelectionModel  } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams  } from '@mui/x-data-grid';
 import { FormControl, Grid, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useEffect, useState } from 'react';
-import { axiosRequestConfiguration } from "../../services/axios_config";
-import axios, { AxiosError } from 'axios';
-import Button from '@mui/material/Button';
 import RemovePlayerButton from './RemovePlayer/RemovePlayerButton';
 import RemovePlayerPopUp from './RemovePlayer/RemovePlayerPopUp';
 
 
 // Setting up the columns of the player table
-const TeamPlayerTable: React.FC<any> = (props) => {
+function TeamPlayerTable(props:any) {
 
   const teamPlayerColumns: GridColDef[] = [
     {
@@ -44,7 +40,6 @@ const TeamPlayerTable: React.FC<any> = (props) => {
       hide: true,
       valueGetter: (params: GridValueGetterParams) =>
         `${params.row.FirstName || ''} ${params.row.LastName || ''}`,
-  
     },
     {
       field: 'PlayerWinPercent', headerName: 'Win Percentage', width: 150,
@@ -64,22 +59,16 @@ const TeamPlayerTable: React.FC<any> = (props) => {
 
   const [PlayerToDelete, setplayerToDelete]=useState([] as number[]);
 
-  //opens remove team popup
-    const handleOpenRemovePlayerPopUp = (player:number[]) => {
-      setplayerToDelete(player);
-      setOpenRemovePlayerPopUp((prev) => !prev)
-    }
-
   // initialise the value for the searchbar
-  const [search, setSearch] = React.useState('');
+  const [search, setSearch] = useState('');
 
-  const [SelectedTeam, setSelectedTeam] = React.useState();
-  const [SelectedPlayer, setSelectedPlayer] = React.useState();
+  const [SelectedTeam, setSelectedTeam] = useState();
+  const [SelectedPlayer, setSelectedPlayer] = useState();
 
 
 
   // initialise the parameters that the table uses to filter values (when using the searchbar)
-  const [filterModel, setFilterModel] = React.useState<GridFilterModel>({
+  const [filterModel, setFilterModel] = useState<GridFilterModel>({
     items: [
       {
         columnField: 'FullName',
@@ -88,13 +77,6 @@ const TeamPlayerTable: React.FC<any> = (props) => {
       },
     ],
   });
-
-
-  // when you type in the searchbar, update the value of the object
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value);
-    // can't update anything else here because of how the hook works, use useEffect hook instead
-  }
 
   // when [search] is updated, update the table's filter
   useEffect(() => {
@@ -107,8 +89,7 @@ const TeamPlayerTable: React.FC<any> = (props) => {
         },
       ],
     });
-
-  }, [search]);
+  },[search]);
 
   return (
     <>
@@ -121,7 +102,7 @@ const TeamPlayerTable: React.FC<any> = (props) => {
               id="outlined-search"
               label="Search for a player"
               value={search}
-              onChange={handleChange}
+              onChange={(event)=>setSearch(event.target.value)}
               endAdornment={
                 <InputAdornment position="end">
                   <SearchIcon />
