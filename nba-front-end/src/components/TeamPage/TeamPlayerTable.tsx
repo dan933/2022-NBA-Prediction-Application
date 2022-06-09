@@ -1,13 +1,16 @@
 import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams  } from '@mui/x-data-grid';
 import { FormControl, Grid, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import RemovePlayerButton from './RemovePlayer/RemovePlayerButton';
 import RemovePlayerPopUp from './RemovePlayer/RemovePlayerPopUp';
+import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
 
 
 // Setting up the columns of the player table
-function TeamPlayerTable(props:any) {
+function TeamPlayerTable(props: any) {
+
+  const { teamPlayersList, teamSelectionModel } = useContext(TeamPageContext);
 
   const teamPlayerColumns: GridColDef[] = [
     {
@@ -19,7 +22,7 @@ function TeamPlayerTable(props:any) {
         <RemovePlayerButton
           setSelectedTeam={setSelectedTeam}
           setSelectedPlayer={setSelectedPlayer}
-          teamObject={params.row}
+          playerObject={params.row}
           PlayerID={[params.row.PlayerID] as number[]}
           tableIsUpdated={props.tableIsUpdated}
           setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}
@@ -115,7 +118,7 @@ function TeamPlayerTable(props:any) {
           <div style={{ height:'648px'}}>
             <DataGrid
               loading={props.loading}
-              rows={props.teamPlayerList}
+              rows={teamPlayersList}
               getRowId={(row) => row.PlayerID}
               columns={teamPlayerColumns}
               disableColumnSelector={true}
@@ -135,9 +138,9 @@ function TeamPlayerTable(props:any) {
         SelectedPlayer={SelectedPlayer}
         openRemovePlayerPopUp={openRemovePlayerPopUp}
         setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}
-        teamId={props.teamID}
+        teamId={teamSelectionModel.TeamID}
         PlayerID={PlayerToDelete}
-        teamPlayerList ={props.teamPlayerList}
+        teamPlayerList ={teamPlayersList}
         tableIsUpdated={props.tableIsUpdated}
       />
     </>

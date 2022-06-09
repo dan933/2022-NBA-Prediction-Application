@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useContext } from "react";
 import { Button, FormControl, Grid, InputAdornment, InputLabel, OutlinedInput, Paper } from "@mui/material";
 import { DataGrid, GridColDef, GridFilterModel } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
@@ -9,15 +9,17 @@ import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";
 import SearchIcon from '@mui/icons-material/Search';
 import { useAuth0 } from "@auth0/auth0-react";
 
+import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
 
-
-function TeamList(props:any) {
+const TeamList: React.FC<any> = (props: any) => {
+    
+    //context values
+    const { setTeamList, setTeamSelectionModel, teamSelectionModel, teamList, teamPlayersList } = useContext(TeamPageContext)
 
     const [loadingTeams, setLoadingTeams] = useState(false);
 
-    const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
-
     const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = useState(false);
+
     const [noPopupRemoveTeam, setNoPopupRemoveTeam] = useState(false);
 
     const [SelectedTeam, setSelectedTeam] = useState<any>();
@@ -50,41 +52,37 @@ function TeamList(props:any) {
 
     const handleRowChanges = (selectedRow: any) => {
         if (selectedRow.field !== "RemoveTeam") {
-            props.setSelectionModel(selectedRow.row.TeamID)
+            let selectedTeam = teamList.find((team: any) => team.TeamID === selectedRow.id)
+            
+            setTeamSelectionModel(selectedTeam)
         }
     }
 
 
     const { getAccessTokenSilently } = useAuth0();
-    
-    const setTeamList=props.setTeamList;
-    const updateTeams = useCallback(
-        async () => {
+
+    const updateTeams = useCallback(async () => {
+
         const token = await getAccessTokenSilently();
         setLoadingTeams(true);
         
-        api.GetAllTeams(token).then(resp => {
-            
-            setTeamList(resp.data.Data);
-            setLoadingTeams(false);
-            setNoPopupRemoveTeam(false);
+        api.GetAllTeams(token).then(resp => {            
+        setTeamList(resp.data.Data);
+        setLoadingTeams(false);
+        setNoPopupRemoveTeam(false);
             
         }).catch((err) => {
-            
             console.log(err) 
             setLoadingTeams(false);
         })
-      },
-      [setLoadingTeams, setNoPopupRemoveTeam, getAccessTokenSilently, setTeamList],
-    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[teamSelectionModel, teamPlayersList])
     
 
     // on changes to open state api is run
     useEffect(() => {
-
         updateTeams();
-
-    }, [createTeamPopupOpen, openRemoveTeamPopUp, noPopupRemoveTeam, updateTeams ]);
+    }, [teamSelectionModel, teamPlayersList]);
     
     const teamsColumns: GridColDef[] = [
         { field: "TeamID", headerName: "ID", width: 90, hide: true, flex:1 },
@@ -113,13 +111,9 @@ function TeamList(props:any) {
             hideSortIcons: true,
             renderCell: (params: any) => {
                 return (               
-                    <RemoveTeamButton
-                        tableIsUpdated={props.tableIsUpdated}
-                        setSelectedTeam={setSelectedTeam}
+                    <RemoveTeamButton                                               
                         teamObject={params.row}
                         setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}
-                        setTeamList={props.setTeamList}
-                        setSelectionModel={props.setSelectionModel}
                         setNoPopupRemoveTeam={setNoPopupRemoveTeam}
                     />
                 )
@@ -168,7 +162,7 @@ function TeamList(props:any) {
                         <DataGrid     
                             style={{ width: '100%', display: '-ms-flexbox', border: 'none', boxShadow: "none" }}
                             autoHeight
-                            rows={props.teamList}
+                            rows={teamList}
                             loading={loadingTeams}
                             getRowId={(row) => row.TeamID}
                             columns={teamsColumns}
@@ -177,10 +171,7 @@ function TeamList(props:any) {
                             pageSize={10}
                             rowsPerPageOptions={[10]}
                             onCellClick={(event) => {handleRowChanges(event)}}
-                            onSelectionModelChange={(newSelectionModel) => {
-                                props.setSelectionModel(newSelectionModel);
-                            }}
-                            selectionModel={props.selectionModel}
+                            selectionModel={teamSelectionModel?.TeamID ? teamSelectionModel?.TeamID : undefined}
                             hideFooterSelectedRowCount
                             filterModel={SearchTeamModel}
                             onFilterModelChange={(newFilterModel) => setSearchTeamModel(newFilterModel)}
@@ -191,8 +182,6 @@ function TeamList(props:any) {
                 <CreateTeamPopUp
                     open={createTeamPopupOpen}
                     setOpen={setCreateTeamPopupOpen}
-                    teamName={teamName}
-                    setNewTeamID={props.setSelectionModel}
                 />
                 
                 <RemoveTeamPopUp                                   
