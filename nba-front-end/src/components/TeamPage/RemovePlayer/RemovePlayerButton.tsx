@@ -20,6 +20,12 @@ const RemovePlayerButton: React.FC<any> = (props: any) => {
     }
   }
 
+  const deletePlayerFromTeam = async (playerID:any, teamID:any) => {
+    let newTeamList:any = await teamPlayersList.filter((player:any) => filterRemovedPlayer(player,playerID,teamID))
+    setTeamPlayersList(newTeamList)
+    setPlayerToDelete([])
+  }
+
   const handleOpenRemovePlayer = async () => {
 
   
@@ -42,7 +48,7 @@ const RemovePlayerButton: React.FC<any> = (props: any) => {
         
       if (res)
       {        
-        setPlayerToDelete([])
+        deletePlayerFromTeam(props.playerObject.PlayerID,props.playerObject.TeamID);
       }
 
     } 
