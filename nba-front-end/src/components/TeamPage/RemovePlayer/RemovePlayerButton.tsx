@@ -9,8 +9,16 @@ import { TeamPageContext } from '../../../services/Contexts/TeamPageContext';
 
 const RemovePlayerButton: React.FC<any> = (props: any) => { 
   
-  const { setPlayerToDelete } = useContext(TeamPageContext)
+  const { setPlayerToDelete,teamPlayersList,setTeamPlayersList, playerToDelete } = useContext(TeamPageContext)
 
+
+  const filterRemovedPlayer = (player:any, playerID:any, teamID:any) => {
+    if(player.TeamID === teamID  && player.PlayerID !== playerID){
+      return true
+    }else{
+      return false
+    }
+  }
 
   const handleOpenRemovePlayer = async () => {
 
@@ -35,7 +43,6 @@ const RemovePlayerButton: React.FC<any> = (props: any) => {
       if (res)
       {        
         setPlayerToDelete([])
-        
       }
 
     } 

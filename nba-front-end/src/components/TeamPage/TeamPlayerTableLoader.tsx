@@ -21,12 +21,10 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
 
   useEffect(() => {
     if (teamSelectionModel.TeamID != null && playerToDelete.length === 0) {      
-      setLoading(true);
       setTeamPlayersList([]);
       axios.get(`${url}/team/${teamSelectionModel.TeamID}/get-players`)
       .then((response) => {        
         setTeamPlayersList(response.data.Data as TeamPlayer[]);            
-        setLoading(false);
       })
       // this catches any errors that may occur while fetching for player data
             .catch(error => { 
@@ -35,7 +33,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
           })
         }        
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [playerToDelete, teamSelectionModel]);
+    }, [ teamSelectionModel ]);
   
   const yourLineUpSection = () => {
     if (!isLoading && teamSelectionModel.TeamID == null) {

@@ -149,13 +149,8 @@ const TeamPlayerTable: React.FC<any> = (props) => {
         </Grid>
       </Grid>
       <RemovePlayerPopUp
-        SelectedTeam={SelectedTeam}
-        SelectedPlayer={SelectedPlayer}
         openRemovePlayerPopUp={openRemovePlayerPopUp}
         setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}
-        PlayerID={PlayerToDelete}
-        teamPlayerList ={props.teamPlayerList}
-        tableIsUpdated={props.tableIsUpdated}
       />
     </>
   );

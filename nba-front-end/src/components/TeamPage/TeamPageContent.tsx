@@ -30,9 +30,7 @@ const TeamPageContent: React.FC<any> = (props) => {
 
   const [playersList, setPlayersList] = React.useState([]);  
 
-//----------------------------------------------------------------------//
-  const [isUpdated, setIsUpdated] = React.useState(false);
-  
+//----------------------------------------------------------------------//  
   //This function handles the responsiveness of the page
   const [mobileView, defaultView] = ResponsiveServices.CreateDesktopMobileViews();
 

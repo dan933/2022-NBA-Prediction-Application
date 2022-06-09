@@ -136,8 +136,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
     axios.post(`${url}/team/${teamSelectionModel.TeamID}/addPlayers`, player)
     .then(function (response) {
       if (response.data.Success === true) {
-        addPlayerToYourLineUp(player)
-        props.tableIsUpdated();
+        addPlayerToYourLineUp(player)        
         openAddedPlayerSnackBar()
         // if success call api again.
         //todo use useEffect() instead

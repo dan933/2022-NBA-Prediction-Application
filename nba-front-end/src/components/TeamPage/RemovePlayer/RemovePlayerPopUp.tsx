@@ -8,6 +8,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
 import { TeamPageContext } from '../../../services/Contexts/TeamPageContext';
+import { parse } from 'node:path/win32';
 
 const PopUpAlert = React.forwardRef<HTMLDivElement, AlertProps>(function PopUpAlert(
   props,
@@ -18,8 +19,7 @@ const PopUpAlert = React.forwardRef<HTMLDivElement, AlertProps>(function PopUpAl
 
 export default function RemovePlayerPopUp(props: any) {
 
-  const { playerToDelete } = useContext<any>(TeamPageContext)
-  const { setPlayerToDelete } = useContext<any>(TeamPageContext)
+  const { playerToDelete, setPlayerToDelete, teamPlayersList, setTeamPlayersList } = useContext<any>(TeamPageContext)
 
   interface ITeam {
     TeamID?: number;
@@ -51,6 +51,20 @@ export default function RemovePlayerPopUp(props: any) {
     setIsError(false)
   }
 
+  const filterRemovedPlayer = (player:any, playerID:any, teamID:any) => {
+    if(player.TeamID === teamID  && player.PlayerID !== playerID){
+      return true
+    }else{
+      return false
+    }
+  }
+
+  const deletePlayerFromTeam = async (playerID:any, teamID:any) => {
+    let newTeamList:any = await teamPlayersList.filter((player:any) => filterRemovedPlayer(player,playerID,teamID))
+    setTeamPlayersList(newTeamList)
+    setPlayerToDelete([])
+  }
+
   const handleClickConfirmRemovePlayer = async () => {
     //sets cookie if checkbox is clicked on confirm
     if (IsCookieEnabled)
@@ -64,9 +78,11 @@ export default function RemovePlayerPopUp(props: any) {
     })
     
     if(res)
-    setPlayerToDelete([])
-    props.setOpenRemovePlayerPopUp(false)    
-    openRemovePlayerSnackBar();
+    {
+      deletePlayerFromTeam(playerToDelete.PlayerID, playerToDelete.TeamID)
+      props.setOpenRemovePlayerPopUp(false)    
+      openRemovePlayerSnackBar();
+    }
   }
   
 
