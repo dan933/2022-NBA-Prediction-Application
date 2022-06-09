@@ -44,7 +44,7 @@ function UserInformation() {
       <MenuItem onClick={handleCloseUserMenu}>
         <Typography textAlign="center">{user?.email}</Typography>
       </MenuItem>
-      <MenuItem onClick={ () => {logout()} }>
+      <MenuItem onClick={ () => {logout({returnTo:process.env.REACT_APP_LOGOUT_URL})} }>
         <Typography textAlign="center">Logout</Typography>
       </MenuItem>
     </Menu>    
