@@ -43,17 +43,12 @@ export default function RemovePlayerPopUp(props: any) {
   const [IsError, setIsError] = React.useState(false);
   
   const [IsCookieEnabled, setIsCookieEnabled] = useState(false)
-
-  useEffect(() => {
-    // setTeamObject(props.teamList.find((team: any) => team.TeamID === props.teamId[0] ))    
-    setTeamObject(props.teamPlayerList.find((player: any) => player.PlayerID === props.PlayerID[0] ))   
-  }, [props.teamPlayerList, props.PlayerID, teamObject]);
   
   const handleDontAskAgainCheckbox = () => {
     setIsCookieEnabled(prev => !prev)    
   }
 
-  const closeRemovePlayerPopup = () => {
+  const closeRemovePlayerPopup = () => {    
     props.setOpenRemovePlayerPopUp(false);
     setIsError(false)
   }
@@ -84,7 +79,6 @@ export default function RemovePlayerPopUp(props: any) {
     
     const token = await getAccessTokenSilently();
     //removes selected player
-    console.log(playerToDelete)
     const res:any = await api.RemovePlayer(token, teamSelectionModel.TeamID, [playerToDelete.PlayerID]).catch((err) => {
       
       setIsError(true)
@@ -101,10 +95,10 @@ export default function RemovePlayerPopUp(props: any) {
     return(
         <div>
         <Dialog id="RemovePlayer" open={props.openRemovePlayerPopUp}>              
-              <DialogTitle>Remove {props.SelectedTeam?.FirstName} {props.SelectedTeam?.LastName}</DialogTitle>
+              <DialogTitle>Remove {playerToDelete.FirstName} {playerToDelete.LastName}</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  Are you sure you want to remove {props.SelectedTeam?.FirstName} {props.SelectedTeam?.LastName}?
+                  Are you sure you want to remove {playerToDelete.FirstName} {playerToDelete.LastName}?
           </DialogContentText>
           {IsError && <Alert severity="error">We are sorry the API is currently down</Alert>}
               </DialogContent>

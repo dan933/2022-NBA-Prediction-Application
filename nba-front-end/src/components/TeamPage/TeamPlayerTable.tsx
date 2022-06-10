@@ -19,14 +19,9 @@ function TeamPlayerTable(props: any) {
       width: 90,
       renderCell: (params: any) =>
       (
-        <RemovePlayerButton
-          setSelectedTeam={setSelectedTeam}
-          setSelectedPlayer={setSelectedPlayer}
-          playerObject={params.row}
-          PlayerID={[params.row.PlayerID] as number[]}
-          tableIsUpdated={props.tableIsUpdated}
-          setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}
-          setplayerToDelete={setplayerToDelete}
+        <RemovePlayerButton          
+          playerObject={params.row}          
+          setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}          
         />
       )
     },
@@ -134,14 +129,8 @@ function TeamPlayerTable(props: any) {
         </Grid>
       </Grid>
       <RemovePlayerPopUp
-        SelectedTeam={SelectedTeam}
-        SelectedPlayer={SelectedPlayer}
         openRemovePlayerPopUp={openRemovePlayerPopUp}
-        setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}
-        teamId={teamSelectionModel.TeamID}
-        PlayerID={PlayerToDelete}
-        teamPlayerList ={teamPlayersList}
-        tableIsUpdated={props.tableIsUpdated}
+        setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}        
       />
     </>
   );

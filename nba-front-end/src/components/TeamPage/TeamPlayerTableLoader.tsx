@@ -9,9 +9,9 @@ import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
 
 const url = axiosRequestConfiguration.baseURL
 
-const TeamPlayerTableLoader: React.FC<any> = (props) => {
+const TeamPlayerTableLoader: React.FC<any> = () => {
 
-  const { teamPlayersList, setTeamPlayersList, teamSelectionModel } = useContext(TeamPageContext)
+  const { setTeamPlayersList, teamSelectionModel } = useContext(TeamPageContext)
   
   const [isLoading, setLoading] = useState(false);
   
@@ -42,10 +42,7 @@ const TeamPlayerTableLoader: React.FC<any> = (props) => {
   
 
   useEffect(() => {
-    console.log("wooo")
     updatePlayerTable();
-
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [teamSelectionModel]);
   

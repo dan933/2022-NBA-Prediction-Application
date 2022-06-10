@@ -79,13 +79,13 @@ const TeamPage:React.FC<any> = (props:any) => {
       <TeamPageContext.Provider
       value={teamPageContextStates}>
       <TeamPlayerTableLoader
-        teamID={selectionTeam}
-        isUpdated={playersIsUpdated}
-        IsMobileView={IsMobileView}
-        setIsUpdated={setPlayersIsUpdated}
-        tableIsUpdated={teamPlayerListIsUpdated}
-        setTeamPlayersIDList={setTeamPlayersIDList}
-        teamPlayersList={teamPlayersList}        
+        // teamID={selectionTeam}
+        // isUpdated={playersIsUpdated}
+        // IsMobileView={IsMobileView}
+        // setIsUpdated={setPlayersIsUpdated}
+        // tableIsUpdated={teamPlayerListIsUpdated}
+        // setTeamPlayersIDList={setTeamPlayersIDList}
+        // teamPlayersList={teamPlayersList}        
       />
       </TeamPageContext.Provider>
     )
@@ -94,13 +94,7 @@ const TeamPage:React.FC<any> = (props:any) => {
     (
       <TeamPageContext.Provider
       value={teamPageContextStates}>
-        <AddPlayerTableLoader
-          teamID={selectionTeam}
-          tableIsUpdated={teamPlayerListIsUpdated}
-          isUpdated={addPlayersIsUpdated}
-          setIsUpdated={setAddPlayersIsUpdated}
-          teamPlayersList={teamPlayersIDList}
-        />
+        <AddPlayerTableLoader/>
       </TeamPageContext.Provider>
     )
 

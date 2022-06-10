@@ -6,11 +6,6 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
 
-
-interface PlayerProps{
-    playerList: Player[];
-}
-
 const AddPlayerTableLoader: React.FC<any> = (props: any) => {
   
   const { setPlayersList } = useContext(TeamPageContext)
@@ -18,26 +13,20 @@ const AddPlayerTableLoader: React.FC<any> = (props: any) => {
 
   const { getAccessTokenSilently } = useAuth0();
 
-  const [appState, setAppState] = useState<PlayerProps>({
-    playerList: [],
-  });
-
   // defines a state for whenever an error occurs
   const [errorMessage, setErrorMessage] = useState("");
   // defines a state for when the api is fetching data for players
   const [isLoading, setLoading] = useState(false);
 
-  const setIsUpdated = props.setIsUpdated;
   const updatePlayerData =
     async () => {
       setLoading(true);
       const token = await getAccessTokenSilently();
       setErrorMessage("");
-      setAppState({ playerList: [] });
+      
       api.get('players/get-all', token).toPromise().then((resp) => {
         setLoading(false);
-        setPlayersList(resp)
-        setIsUpdated(false);
+        setPlayersList(resp)        
       })
         // this catches any errors that may occur while fetching for player data
         .catch(error => {
@@ -51,6 +40,7 @@ const AddPlayerTableLoader: React.FC<any> = (props: any) => {
   // this is the call to the API to get the player data
   useEffect(() => {
     updatePlayerData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setPlayersList]);
 
   return (

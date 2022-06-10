@@ -29,17 +29,14 @@ const RemoveTeamButton: React.FC<any> = (props: any) => {
 
       const token = await getAccessTokenSilently();
     
-    //delete team by clicking bin button if there is a cookie
-    const res: any = await api.RemoveTeam(token, props.teamObject.TeamID).catch((err) => {
-        console.log(err)
-    })
+      //delete team by clicking bin button if there is a cookie
+      const res: any = await api.RemoveTeam(token, props.teamObject.TeamID).catch((err) => {
+          console.log(err)
+      })
       
-       
-        
       if (res)
       {        
-        setTeamSelectionModel({ TeamName: undefined, TeamID: undefined });
-        props.setNoPopupRemoveTeam(true);
+        setTeamSelectionModel({ TeamName: undefined, TeamID: undefined });        
       }
 
     } 
