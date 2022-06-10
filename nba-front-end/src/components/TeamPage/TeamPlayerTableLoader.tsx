@@ -5,12 +5,13 @@ import { axiosRequestConfiguration } from "../../services/axios_config";
 import { useAuth0 } from "@auth0/auth0-react";
 import api from "../../services/api";
 import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
+import { TeamPageContextType } from "../../models/ContextModels/TeamPageContextModels";
 
 const url = axiosRequestConfiguration.baseURL
 
 const TeamPlayerTableLoader: React.FC<any> = () => {
 
-  const { setTeamPlayersList, teamSelectionModel } = useContext(TeamPageContext)
+  const { setTeamPlayersList, teamSelectionModel } = useContext(TeamPageContext) as TeamPageContextType
   
   const [isLoading, setLoading] = useState(false);
   
@@ -27,7 +28,7 @@ const TeamPlayerTableLoader: React.FC<any> = () => {
       setLoading(true);      
         api.get(`${url}/team/${teamSelectionModel.TeamID}/get-players`, token)
           .subscribe({
-            next: (resp: any) => {            
+            next: (resp: any) => {              
               setTeamPlayersList(resp.Data);
               setLoading(false);
             },

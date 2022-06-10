@@ -9,6 +9,8 @@ import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { useAuth0 } from '@auth0/auth0-react';
 import { TeamPageContext } from '../../../services/Contexts/TeamPageContext';
 
+import { TeamPageContextType } from '../../../models/ContextModels/TeamPageContextModels';
+
 const PopUpAlert = React.forwardRef<HTMLDivElement, AlertProps>(function PopUpAlert(
   props,
   ref,
@@ -18,7 +20,7 @@ const PopUpAlert = React.forwardRef<HTMLDivElement, AlertProps>(function PopUpAl
 
 export default function RemovePlayerPopUp(props: any) {
   
-  const { teamSelectionModel, teamPlayersList, setTeamPlayersList, playerToDelete, setPlayerToDelete } = useContext<any>(TeamPageContext)
+  const { teamSelectionModel, teamPlayersList, setTeamPlayersList, playerToDelete, setPlayerToDelete } = useContext(TeamPageContext) as TeamPageContextType
 
   interface ITeam {
     TeamID?: number;
@@ -37,8 +39,6 @@ export default function RemovePlayerPopUp(props: any) {
   };
 
   const { getAccessTokenSilently } = useAuth0();
-
-  const [teamObject, setTeamObject] = React.useState<ITeam>({TeamID:0,PlayerID:[0],FirstName:"",LastName:""});
 
   const [IsError, setIsError] = React.useState(false);
   
@@ -68,7 +68,7 @@ export default function RemovePlayerPopUp(props: any) {
       }
     }
   
-    const deletePlayerFromTeam = async (playerID:any, teamID:any) => {
+    const deletePlayerFromTeam = async (playerID: any, teamID: any) => {      
       let newTeamList:any = await teamPlayersList.filter((player:any) => filterRemovedPlayer(player,playerID,teamID))
       setTeamPlayersList(newTeamList)
       setPlayerToDelete([])
@@ -79,14 +79,14 @@ export default function RemovePlayerPopUp(props: any) {
     
     const token = await getAccessTokenSilently();
     //removes selected player
-    const res:any = await api.RemovePlayer(token, teamSelectionModel.TeamID, [playerToDelete.PlayerID]).catch((err) => {
+    const res:any = await api.RemovePlayer(token, teamSelectionModel.TeamID, [playerToDelete!.PlayerID]).catch((err) => {
       
       setIsError(true)
       
     })
     
     if(res)
-    deletePlayerFromTeam(playerToDelete.PlayerID, playerToDelete.TeamID)
+    deletePlayerFromTeam(playerToDelete!.PlayerID, playerToDelete!.TeamID)
     props.setOpenRemovePlayerPopUp(false)    
     openRemovePlayerSnackBar();
   }
@@ -95,10 +95,10 @@ export default function RemovePlayerPopUp(props: any) {
     return(
         <div>
         <Dialog id="RemovePlayer" open={props.openRemovePlayerPopUp}>              
-              <DialogTitle>Remove {playerToDelete.FirstName} {playerToDelete.LastName}</DialogTitle>
+              <DialogTitle>Remove {playerToDelete!.FirstName} {playerToDelete!.LastName}</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  Are you sure you want to remove {playerToDelete.FirstName} {playerToDelete.LastName}?
+                  Are you sure you want to remove {playerToDelete!.FirstName} {playerToDelete!.LastName}?
           </DialogContentText>
           {IsError && <Alert severity="error">We are sorry the API is currently down</Alert>}
               </DialogContent>

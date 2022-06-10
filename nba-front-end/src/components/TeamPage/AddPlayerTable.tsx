@@ -11,6 +11,7 @@ import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
+import { TeamPageContextType } from '../../models/ContextModels/TeamPageContextModels';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -21,7 +22,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 const AddPlayerTable: React.FC<any> = (props) => {
 
-  const { teamSelectionModel, playersList, teamPlayersList, setTeamPlayersList} = useContext(TeamPageContext)
+  const { teamSelectionModel, playersList, teamPlayersList, setTeamPlayersList } = useContext(TeamPageContext) as TeamPageContextType
 
   const [open, setOpen] = React.useState(false);
 
@@ -72,11 +73,6 @@ const AddPlayerTable: React.FC<any> = (props) => {
     { field: 'Blocks', headerName: 'Blocks', minWidth: 120, flex: 0.3 },
   ];
 
-  // this takes the props passed to this component and uses it to populate the table
-  const playerList = props.playerList;
-
-  const teamID = props.teamID;
-
     const { getAccessTokenSilently } = useAuth0();
 
   // initialise the value for the searchbar
@@ -105,12 +101,11 @@ const AddPlayerTable: React.FC<any> = (props) => {
     return false;
   }
 
-  const addPlayerToYourLineUp = (playerID: any) => {    
-    let playerToAdd:any = playersList.find((player: any) => player.PlayerID === playerID[0])
+  const addPlayerToYourLineUp = (playerID: any) => {
+    let playerToAdd:any = playersList.find((player) => player.PlayerID === playerID[0])
     playerToAdd = { TeamID: teamSelectionModel.TeamID, TeamName: teamSelectionModel.TeamName, ...playerToAdd }
 
     setTeamPlayersList((prev: any) => { return [...prev, playerToAdd] })
-
   }
 
   // when you type in the searchbar, update the value of the object

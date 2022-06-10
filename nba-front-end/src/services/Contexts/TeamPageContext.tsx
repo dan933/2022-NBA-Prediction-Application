@@ -1,6 +1,6 @@
 import { createContext } from 'react';
-
-export const TeamPageContext = createContext({
+import { TeamPageContextType } from "../../models/ContextModels/TeamPageContextModels";
+export const TeamPageContext = createContext<TeamPageContextType>({
     teamSelectionModel: { TeamName: undefined, TeamID: undefined },
     setTeamSelectionModel: (teamSelectionModel: any) => { },
     teamPlayersList: [],
@@ -9,6 +9,6 @@ export const TeamPageContext = createContext({
     setPlayersList: (playersList: any) => { },
     teamList: [],
     setTeamList: (teamList: any) => { },
-    playerToDelete:[],
+    playerToDelete:undefined,
     setPlayerToDelete: (playerToDelete: any) => { }
 });

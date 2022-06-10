@@ -6,7 +6,6 @@ import RemovePlayerButton from './RemovePlayer/RemovePlayerButton';
 import RemovePlayerPopUp from './RemovePlayer/RemovePlayerPopUp';
 import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
 
-
 // Setting up the columns of the player table
 function TeamPlayerTable(props: any) {
 

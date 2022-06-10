@@ -5,10 +5,11 @@ import { Player } from '../../models/IPlayer';
 import { useAuth0 } from '@auth0/auth0-react';
 
 import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
+import { TeamPageContextType } from '../../models/ContextModels/TeamPageContextModels';
 
 const AddPlayerTableLoader: React.FC<any> = (props: any) => {
   
-  const { setPlayersList } = useContext(TeamPageContext)
+  const { setPlayersList } = useContext(TeamPageContext) as TeamPageContextType
 
 
   const { getAccessTokenSilently } = useAuth0();

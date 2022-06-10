@@ -5,13 +5,13 @@ import {read_cookie } from 'sfcookies';
 import api from '../../../services/api';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useContext } from 'react';
-
+import { TeamPageContextType } from '../../../models/ContextModels/TeamPageContextModels';
 import { TeamPageContext } from '../../../services/Contexts/TeamPageContext';
 import React from 'react';
 
 const RemovePlayerButton: React.FC<any> = (props: any) => {
 
-  const { setPlayerToDelete,teamPlayersList,setTeamPlayersList, playerToDelete } = useContext(TeamPageContext)
+  const { setPlayerToDelete,teamPlayersList,setTeamPlayersList } = useContext(TeamPageContext) as TeamPageContextType
 
   const { getAccessTokenSilently } = useAuth0();
 
@@ -24,7 +24,7 @@ const RemovePlayerButton: React.FC<any> = (props: any) => {
   }
 
   const deletePlayerFromTeam = (playerID:any, teamID:any) => {
-    let newTeamList:any = teamPlayersList.filter((player:any) => filterRemovedPlayer(player,playerID,teamID))
+    let newTeamList: any = teamPlayersList.filter((player: any) => filterRemovedPlayer(player, playerID, teamID))
     setTeamPlayersList(newTeamList)
     setPlayerToDelete([])
   }

@@ -21,8 +21,8 @@ const TeamPage:React.FC<any> = (props:any) => {
 
   const [teamList, setTeamList] = useState<any>([]);
 
-  const [playersList, setPlayersList] = useState<any>([]); 
-  
+  const [playersList, setPlayersList] = useState<any>([]);
+
   const teamPageContextStates = {
     teamSelectionModel,
     setTeamSelectionModel,

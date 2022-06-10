@@ -10,12 +10,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useAuth0 } from "@auth0/auth0-react";
 
 import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
+import { TeamPageContextType } from "../../models/ContextModels/TeamPageContextModels";
 
 const TeamList: React.FC<any> = () => {
     
     //context values
-    const { setTeamList, setTeamSelectionModel, teamSelectionModel, teamList, teamPlayersList } = useContext(TeamPageContext)
-
+    const { setTeamList, setTeamSelectionModel, teamSelectionModel, teamList, teamPlayersList } = useContext(TeamPageContext) as TeamPageContextType
+    
     const [loadingTeams, setLoadingTeams] = useState(false);
 
     const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = useState(false);    
@@ -46,11 +47,10 @@ const TeamList: React.FC<any> = () => {
 
     const [createTeamPopupOpen, setCreateTeamPopupOpen] = useState(false);
 
-    const handleRowChanges = (selectedRow: any) => {
+    const handleRowChanges = (selectedRow: any) => {          
         if (selectedRow.field !== "RemoveTeam") {
-            let selectedTeam = teamList.find((team: any) => team.TeamID === selectedRow.id)
-            console.log(selectedTeam)
-            setTeamSelectionModel(selectedTeam)
+            let selectedTeam = teamList.find((team: any) => team.TeamID === selectedRow.id)            
+            setTeamSelectionModel(selectedTeam)            
         }
     }
 
