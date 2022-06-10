@@ -20,7 +20,7 @@ const teamNameMaxSize = 35;
 
 function CreateTeamPopUp(props: any) {
   
-  const {  setTeamSelectionModel, teamSelectionModel  } = useContext(TeamPageContext)
+  const {  setTeamSelectionModel } = useContext(TeamPageContext)
   
     const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
 
@@ -71,9 +71,8 @@ function CreateTeamPopUp(props: any) {
         await api.CreateTeam(token, teamName.current?.value)
             .then((resp) => {                
                 if (resp.data.Success === true) {
-                    // sets newTeamID to the TeamID of the created team                    
-                  setTeamSelectionModel(resp.data.Data);
-                  console.log(resp.data.Data)
+                  // sets newTeamID to the TeamID of the created team                  
+                  setTeamSelectionModel(resp.data.Data);                  
                     props.setOpen(false);
                     setIsError(false);
                     openRemoveTeamSnackBar()

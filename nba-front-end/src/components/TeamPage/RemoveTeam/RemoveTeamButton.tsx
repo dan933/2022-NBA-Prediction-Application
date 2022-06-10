@@ -16,8 +16,7 @@ const RemoveTeamButton: React.FC<any> = (props: any) => {
 
   //Remove Team logic
   const handleopenRemoveTeam = async () => {
-    console.log(teamSelectionModel)
-
+    
     const removeTeamDontAskAgain = read_cookie('removeTeamDontAskAgain')
 
     //if cookie does not exist open remove team popup

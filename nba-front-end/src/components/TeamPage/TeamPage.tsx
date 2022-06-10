@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
-import { GridSelectionModel } from "@mui/x-data-grid";
+import { useState } from "react";
 import { Container, useMediaQuery } from "@mui/material";
 import type { } from '@mui/lab/themeAugmentation';
 import '@mui/lab/themeAugmentation';
@@ -36,29 +35,7 @@ const TeamPage:React.FC<any> = (props:any) => {
     playersList,
     setPlayersList
   }
-
-//----------------------------------------------------------------------//  
-
-  const [selectionTeam, setSelectionTeam] = useState<GridSelectionModel>([]);
-  
-  const [teamPlayersIDList, setTeamPlayersIDList] = useState([]);
-  //const [teamPlayersList, setTeamPlayersList] = useState([]);
-
-  const [playersIsUpdated, setPlayersIsUpdated] = useState(false);
-  const [addPlayersIsUpdated, setAddPlayersIsUpdated] = useState(false);
-
-  const teamPlayerListIsUpdated = useCallback(() => {
-    
-    setPlayersIsUpdated(true);
-    setAddPlayersIsUpdated(true);
-    
-  },[setPlayersIsUpdated,setAddPlayersIsUpdated]);
-
-  useEffect(() => {
-
-    teamPlayerListIsUpdated();
-
-  }, [selectionTeam, teamPlayerListIsUpdated])
+//----------------------------------------------------------------------//
 
   const theme = useTheme();
   
@@ -69,45 +46,50 @@ const TeamPage:React.FC<any> = (props:any) => {
   const teamListSection =
     (
       <TeamPageContext.Provider
-      value={teamPageContextStates}>
-      <TeamList/>
+        value={teamPageContextStates}
+      >
+        <TeamList/>
       </TeamPageContext.Provider>
     )
 
   const teamPlayerTableLoaderSection =
     (
       <TeamPageContext.Provider
-      value={teamPageContextStates}>
-      <TeamPlayerTableLoader
-        // teamID={selectionTeam}
-        // isUpdated={playersIsUpdated}
-        // IsMobileView={IsMobileView}
-        // setIsUpdated={setPlayersIsUpdated}
-        // tableIsUpdated={teamPlayerListIsUpdated}
-        // setTeamPlayersIDList={setTeamPlayersIDList}
-        // teamPlayersList={teamPlayersList}        
-      />
+        value={teamPageContextStates}
+      >
+        <TeamPlayerTableLoader
+          // teamID={selectionTeam}
+          // isUpdated={playersIsUpdated}
+          // IsMobileView={IsMobileView}
+          // setIsUpdated={setPlayersIsUpdated}
+          // tableIsUpdated={teamPlayerListIsUpdated}
+          // setTeamPlayersIDList={setTeamPlayersIDList}
+          // teamPlayersList={teamPlayersList}        
+        />
       </TeamPageContext.Provider>
     )
 
   const addPlayerTableLoaderSection =
     (
       <TeamPageContext.Provider
-      value={teamPageContextStates}>
+        value={teamPageContextStates}
+      >
         <AddPlayerTableLoader/>
       </TeamPageContext.Provider>
     )
 
   return (
     <TeamPageContext.Provider
-      value={teamPageContextStates}>
+      value={teamPageContextStates}
+    >
         <Container maxWidth={false} sx={{ mt:4, mb: 4, "minHeight": '600px' }}>
 
           {IsDesktopView? 
           <TeamPageDesktopView 
-          teamListSection={teamListSection} 
-          teamPlayerTableLoaderSection={teamPlayerTableLoaderSection} 
-          addPlayerTableLoaderSection={addPlayerTableLoaderSection} /> 
+            teamListSection={teamListSection} 
+            teamPlayerTableLoaderSection={teamPlayerTableLoaderSection} 
+            addPlayerTableLoaderSection={addPlayerTableLoaderSection}
+          /> 
           : null}
 
           {/* --------------------------------------- This Box contains all tables for the Mobile View -------------------------------------- */}
@@ -115,9 +97,10 @@ const TeamPage:React.FC<any> = (props:any) => {
 
           {IsMobileView? 
           <TeamPageMobileView 
-          teamListSection={teamListSection} 
-          teamPlayerTableLoaderSection={teamPlayerTableLoaderSection} 
-          addPlayerTableLoaderSection={addPlayerTableLoaderSection} /> 
+            teamListSection={teamListSection} 
+            teamPlayerTableLoaderSection={teamPlayerTableLoaderSection} 
+            addPlayerTableLoaderSection={addPlayerTableLoaderSection}
+          /> 
           : null}
 
         </Container>

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback, useContext } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import { Button, FormControl, Grid, InputAdornment, InputLabel, OutlinedInput, Paper } from "@mui/material";
 import { DataGrid, GridColDef, GridFilterModel } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
@@ -11,7 +11,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
 
-const TeamList: React.FC<any> = (props: any) => {
+const TeamList: React.FC<any> = () => {
     
     //context values
     const { setTeamList, setTeamSelectionModel, teamSelectionModel, teamList, teamPlayersList } = useContext(TeamPageContext)
@@ -49,7 +49,7 @@ const TeamList: React.FC<any> = (props: any) => {
     const handleRowChanges = (selectedRow: any) => {
         if (selectedRow.field !== "RemoveTeam") {
             let selectedTeam = teamList.find((team: any) => team.TeamID === selectedRow.id)
-            
+            console.log(selectedTeam)
             setTeamSelectionModel(selectedTeam)
         }
     }

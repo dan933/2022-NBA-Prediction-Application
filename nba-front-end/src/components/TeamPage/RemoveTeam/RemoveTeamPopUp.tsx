@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import Dialog from '@mui/material/Dialog';
 import { Alert, Button, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Checkbox } from '@mui/material';
 import api from '../../../services/api';
@@ -19,11 +19,7 @@ const PopUpAlert = React.forwardRef<HTMLDivElement, AlertProps>(function PopUpAl
 export default function RemoveTeamPopUp(props: any) {
 
   const { teamSelectionModel, setTeamSelectionModel } = useContext<any>(TeamPageContext)
-  
-  interface ITeam {
-    TeamID?: number;
-    TeamName?: string;
-  }
+
   const [open, setOpen] = React.useState(false);
 
   // used for remove team don't ask again checkbox

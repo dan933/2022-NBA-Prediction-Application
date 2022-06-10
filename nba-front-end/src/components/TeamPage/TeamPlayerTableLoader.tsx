@@ -1,6 +1,5 @@
-import React, { useCallback, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { useEffect } from "react";
-import { TeamPlayer } from '../../models/ITeamPlayer';
 import TeamPlayerTable from './TeamPlayerTable';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import { useAuth0 } from "@auth0/auth0-react";

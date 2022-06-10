@@ -10,7 +10,7 @@ import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
 // Setting up the columns of the player table
 function TeamPlayerTable(props: any) {
 
-  const { teamPlayersList, teamSelectionModel } = useContext(TeamPageContext);
+  const { teamPlayersList } = useContext(TeamPageContext);
 
   const teamPlayerColumns: GridColDef[] = [
     {
@@ -55,15 +55,8 @@ function TeamPlayerTable(props: any) {
 
   const [openRemovePlayerPopUp, setOpenRemovePlayerPopUp]=useState(false);
 
-  const [PlayerToDelete, setplayerToDelete]=useState([] as number[]);
-
   // initialise the value for the searchbar
   const [search, setSearch] = useState('');
-
-  const [SelectedTeam, setSelectedTeam] = useState();
-  const [SelectedPlayer, setSelectedPlayer] = useState();
-
-
 
   // initialise the parameters that the table uses to filter values (when using the searchbar)
   const [filterModel, setFilterModel] = useState<GridFilterModel>({
