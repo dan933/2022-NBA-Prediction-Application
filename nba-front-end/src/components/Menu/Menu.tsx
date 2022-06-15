@@ -119,7 +119,7 @@ const ResponsiveAppBar = () => {
               <ListItemIcon>
                 <LibraryBooksIcon />
               </ListItemIcon>
-              <ListItemText primary={"Team Creation"} />
+              <ListItemText primary={"Teams"} />
             </ListItemButton>
           </ListItem>
         </RouterLink>
@@ -229,7 +229,7 @@ const ResponsiveAppBar = () => {
             <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
               <Button
                 onClick={() => navigate(`/dashboard/players`)}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: 'white', display: 'block', left: 15, top: 1.5 }}
               >
                 Players
               </Button>
@@ -238,16 +238,16 @@ const ResponsiveAppBar = () => {
             <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
               <Button
                 onClick={() => navigate(`/dashboard/teams`)}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: 'white', display: 'block', left: 30, top: 1.5 }}
               >
-                Team Creation
+                Teams
               </Button>
             </Box>
 
             <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
               <Button
                 onClick={() => navigate(`/dashboard/prediction`)}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: 'white', display: 'block', left: 45, top: 1.5}}
               >
                 Predictions
               </Button>
