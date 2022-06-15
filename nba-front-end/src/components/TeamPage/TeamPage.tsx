@@ -45,37 +45,17 @@ const TeamPage:React.FC<any> = (props:any) => {
   
   const teamListSection =
     (
-      <TeamPageContext.Provider
-        value={teamPageContextStates}
-      >
         <TeamList/>
-      </TeamPageContext.Provider>
     )
 
   const teamPlayerTableLoaderSection =
     (
-      <TeamPageContext.Provider
-        value={teamPageContextStates}
-      >
-        <TeamPlayerTableLoader
-          // teamID={selectionTeam}
-          // isUpdated={playersIsUpdated}
-          // IsMobileView={IsMobileView}
-          // setIsUpdated={setPlayersIsUpdated}
-          // tableIsUpdated={teamPlayerListIsUpdated}
-          // setTeamPlayersIDList={setTeamPlayersIDList}
-          // teamPlayersList={teamPlayersList}        
-        />
-      </TeamPageContext.Provider>
+        <TeamPlayerTableLoader/>
     )
 
   const addPlayerTableLoaderSection =
     (
-      <TeamPageContext.Provider
-        value={teamPageContextStates}
-      >
         <AddPlayerTableLoader/>
-      </TeamPageContext.Provider>
     )
 
   return (
