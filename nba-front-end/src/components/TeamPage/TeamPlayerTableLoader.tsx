@@ -1,66 +1,61 @@
-import React, { useCallback, useState } from "react";
+import React, { useState, useContext } from "react";
 import { useEffect } from "react";
-import { TeamPlayer } from '../../models/ITeamPlayer';
 import TeamPlayerTable from './TeamPlayerTable';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import { useAuth0 } from "@auth0/auth0-react";
 import api from "../../services/api";
+import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
+import { TeamPageContextType } from "../../models/ContextModels/TeamPageContextModels";
 
 const url = axiosRequestConfiguration.baseURL
 
-const TeamPlayerTableLoader: React.FC<any> = (props) => {
-  const [teamPlayersList, setTeamPlayersList] = [props.teamPlayersList, props.setTeamPlayersList];
+const TeamPlayerTableLoader: React.FC<any> = () => {
+
+  const { setTeamPlayersList, teamSelectionModel } = useContext(TeamPageContext) as TeamPageContextType
+  
   const [isLoading, setLoading] = useState(false);
   
   const { getAccessTokenSilently } = useAuth0();
-  
-  // gets value from create team form
 
-  const setTeamPlayersIDList=props.setTeamPlayersIDList;
-  const setIsUpdated=props.setIsUpdated;
-  const updatePlayerTable = useCallback(
-    async () => {
+  const isTeamSelected = (teamValue: number | undefined) => {
+    return typeof teamValue ==='number'
+  }
+
+  const updatePlayerTable =
+    async () => {      
       const token = await getAccessTokenSilently();
-
-      if (!isLoading && props.teamID.length !== 0) {
-      setLoading(true);
-      // setTeamPlayersList([]);
-      api.get(`${url}/team/${props.teamID}/get-players`, token)
-        .toPromise().then((response:any) => {
-            setTeamPlayersList(response.Data as TeamPlayer[]);
-            setTeamPlayersIDList(response.Data.map((a:any)=>a.PlayerID));
-            setLoading(false);
-            setIsUpdated(false);
-          })
-          // this catches any errors that may occur while fetching for player data
-          .catch(error => { 
-            console.log(error); 
-            setLoading(false);
-          })
+      if (isTeamSelected(teamSelectionModel.TeamID)) {
+      setLoading(true);      
+        api.get(`${url}/team/${teamSelectionModel.TeamID}/get-players`, token)
+          .subscribe({
+            next: (resp: any) => {              
+              setTeamPlayersList(resp.Data);
+              setLoading(false);
+            },
+            error: (err) => {
+              console.log(err); 
+              setLoading(false);
+            }
+        })
       }
     }
-  ,
-    [props.teamID, getAccessTokenSilently, isLoading, setTeamPlayersList, setTeamPlayersIDList, setIsUpdated, setLoading],
-  )
   
 
   useEffect(() => {
-
-    if(props.isUpdated){
-      
-        updatePlayerTable();
-
-    }
-    }, [props.isUpdated, updatePlayerTable]);
+    updatePlayerTable();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [teamSelectionModel]);
   
   const yourLineUpSection = () => {
-    if (!isLoading && props.teamID.length === 0) {
+    if (!teamSelectionModel.TeamID) {
       return (
         <h1>Please select a team</h1>
       )
     } else {
       return (
-        <TeamPlayerTable loading={isLoading} teamPlayerList={teamPlayersList} teamID={props.teamID} tableIsUpdated={props.tableIsUpdated}/>
+        <TeamPlayerTable
+          loading={isLoading}          
+        />
       )
     }
   }
