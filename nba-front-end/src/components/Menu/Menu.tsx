@@ -160,7 +160,7 @@ const ResponsiveAppBar = () => {
           }}
         >
       <AppBar position="sticky">
-        <Container maxWidth="xl">
+        <Container maxWidth={false}>
           <Toolbar disableGutters>
             <SportsBasketballIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
             <Typography
@@ -169,7 +169,7 @@ const ResponsiveAppBar = () => {
               component="a"
               href="/"
               sx={{
-                mr: 2,
+                mr: 4,
                 display: { xs: 'none', md: 'flex' },
                 fontFamily: 'monospace',
                 fontWeight: 700,
@@ -229,7 +229,7 @@ const ResponsiveAppBar = () => {
             <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
               <Button
                 onClick={() => navigate(`/dashboard/players`)}
-                sx={{ my: 2, color: 'white', display: 'block', left: 15, top: 1.5 }}
+                sx={{ m: 2, color: 'white', display: 'block'}}
               >
                 Players
               </Button>
@@ -238,7 +238,7 @@ const ResponsiveAppBar = () => {
             <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
               <Button
                 onClick={() => navigate(`/dashboard/teams`)}
-                sx={{ my: 2, color: 'white', display: 'block', left: 30, top: 1.5 }}
+                sx={{ m: 2, color: 'white', display: 'block' }}
               >
                 Teams
               </Button>
@@ -247,7 +247,7 @@ const ResponsiveAppBar = () => {
             <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
               <Button
                 onClick={() => navigate(`/dashboard/prediction`)}
-                sx={{ my: 2, color: 'white', display: 'block', left: 45, top: 1.5}}
+                sx={{ m: 2, color: 'white', display: 'block' }}
               >
                 Predictions
               </Button>
