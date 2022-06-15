@@ -183,7 +183,8 @@ const AddPlayerTable: React.FC<any> = (props) => {
           <div style={{ width: '100%' }}>
             <DataGrid
             autoHeight
-            rows={playersList}            
+            rows={playersList}
+            loading={props.isLoading}
             getRowId={(row) => row.PlayerID}
             columns={playerColumns}
             disableColumnSelector={true}
