@@ -61,7 +61,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
     },
     {
       field: 'PlayerWinPercent', headerName: 'Win Percentage', width: 150,
-      valueFormatter: (params) => {
+      valueGetter: (params) => {
         const valueFormatted = Number((params.value as number) * 100).toLocaleString();
         return `${valueFormatted} %`;
       },
@@ -82,9 +82,6 @@ const AddPlayerTable: React.FC<any> = (props) => {
 
   // initialise the value for the searchbar
   const [search, setSearch] = React.useState('');
-
-  // initialise the value for the input when the user selects WinPercentage in dropdown box
-  const [input, setInput] = React.useState('');
 
   // initialise the value for operator used in searchbar functionality
   const [operator, setOperator] = React.useState('contains')
@@ -107,7 +104,6 @@ const AddPlayerTable: React.FC<any> = (props) => {
   //creating a handleChange function for the Column Filter - clears search bar upon Changing the value of the Filter
   const handleChangeColumn = (event: any) => {
     setDropdownColumn(event.target.value);
-    setInput("");
     setSearch("");
   };
 
@@ -125,46 +121,20 @@ const AddPlayerTable: React.FC<any> = (props) => {
 
   // when you type in the searchbar, update the value of the object
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let inputNum = parseInt(event.target.value) / 100;
-    let inputString = inputNum.toString();
-    if (dropdownColumn === "PlayerWinPercent" && inputNum === 1) {
-      setInput(event.target.value);
-      setSearch(inputString);
-      setOperator('equals');
-    }
-    else if (dropdownColumn === "PlayerWinPercent" && inputNum === 0) {
-      setInput(event.target.value);
-      setSearch(inputString);
-      setOperator('equals');
-    }
-    else if (dropdownColumn === "PlayerWinPercent" && isNaN(inputNum)) {
-      setInput(event.target.value);
-      setSearch(event.target.value);
-      setOperator('contains');
-    }
-    else if (dropdownColumn === "PlayerWinPercent") {
-      setInput(event.target.value);
-      setSearch(inputString);
-      setOperator('contains');
+    setSearch(event.target.value);
+    if (dropdownColumn === "PlayerWinPercent") {
+      setOperator('startsWith');
     }
     else if (dropdownColumn === "FullName") {
-      setInput(event.target.value);
-      setSearch(event.target.value);
       setOperator('contains');
     }
     else if (dropdownColumn === "FirstName") {
-      setInput(event.target.value);
-      setSearch(event.target.value);
       setOperator('contains');
     }
     else if (dropdownColumn === "LastName") {
-      setInput(event.target.value);
-      setSearch(event.target.value);
       setOperator('contains');
     }
     else {
-      setInput(event.target.value);
-      setSearch(event.target.value);
       setOperator('equals');
     }
   };
@@ -210,7 +180,6 @@ const AddPlayerTable: React.FC<any> = (props) => {
   //creating a function for clear search bar button
   const clearInput = () => {
     setSearch("");
-    setInput("");
   }
 
   return (
@@ -218,7 +187,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
       {/* formats the placement of the searchbar and table */}
       <Grid container spacing={2}>
         <Grid item xl={4} lg={5} md={6} sm={4} xs={4} sx={{ display: "flex" }}>
-          <FormControl sx={{ minWidth: 120 }} size="small">
+          <FormControl fullWidth sx={{ minWidth: 120 }} size="small">
             <InputLabel id="Column-dropdown">Column</InputLabel>
             <Select
               labelId="Column-dropdown"
@@ -246,7 +215,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
             <OutlinedInput
               id="outlined-search"
               label="Search for a player"
-              value={input}
+              value={search}
               onChange={handleChange}
               // formats placement of clear search bar button
               endAdornment={
