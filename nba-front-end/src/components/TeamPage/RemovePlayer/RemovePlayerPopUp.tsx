@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Dialog from '@mui/material/Dialog';
 import { Alert, Button, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, Checkbox } from '@mui/material';
 import { bake_cookie } from 'sfcookies';
@@ -7,6 +7,9 @@ import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { useAuth0 } from '@auth0/auth0-react';
+import { TeamPageContext } from '../../../services/Contexts/TeamPageContext';
+
+import { TeamPageContextType } from '../../../models/ContextModels/TeamPageContextModels';
 
 const PopUpAlert = React.forwardRef<HTMLDivElement, AlertProps>(function PopUpAlert(
   props,
@@ -17,6 +20,7 @@ const PopUpAlert = React.forwardRef<HTMLDivElement, AlertProps>(function PopUpAl
 
 export default function RemovePlayerPopUp(props: any) {
   
+  const { teamSelectionModel, teamPlayersList, setTeamPlayersList, playerToDelete, setPlayerToDelete } = useContext(TeamPageContext) as TeamPageContextType
 
   interface ITeam {
     TeamID?: number;
@@ -36,22 +40,15 @@ export default function RemovePlayerPopUp(props: any) {
 
   const { getAccessTokenSilently } = useAuth0();
 
-  const [teamObject, setTeamObject] = React.useState<ITeam>({TeamID:0,PlayerID:[0],FirstName:"",LastName:""});
-
   const [IsError, setIsError] = React.useState(false);
   
   const [IsCookieEnabled, setIsCookieEnabled] = useState(false)
-
-  useEffect(() => {
-    // setTeamObject(props.teamList.find((team: any) => team.TeamID === props.teamId[0] ))    
-    setTeamObject(props.teamPlayerList.find((player: any) => player.PlayerID === props.PlayerID[0] ))   
-  }, [props.teamPlayerList, props.PlayerID, teamObject]);
   
   const handleDontAskAgainCheckbox = () => {
     setIsCookieEnabled(prev => !prev)    
   }
 
-  const closeRemovePlayerPopup = () => {
+  const closeRemovePlayerPopup = () => {    
     props.setOpenRemovePlayerPopUp(false);
     setIsError(false)
   }
@@ -63,19 +60,34 @@ export default function RemovePlayerPopUp(props: any) {
       bake_cookie('removePlayerDontAskAgain', "1");
     }
 
+    const filterRemovedPlayer = (player:any, playerID:any, teamID:any) => {
+      if(player.TeamID === teamID  && player.PlayerID !== playerID){
+        return true
+      }else{
+        return false
+      }
+    }
+  
+    const deletePlayerFromTeam = async (playerID: any, teamID: any) => {      
+      let newTeamList:any = await teamPlayersList.filter((player:any) => filterRemovedPlayer(player,playerID,teamID))
+      setTeamPlayersList(newTeamList)
+      setPlayerToDelete([])
+    }
+
+  
+
     
     const token = await getAccessTokenSilently();
     //removes selected player
-    const res:any = await api.RemovePlayer(token, props.SelectedTeam.TeamID, props.SelectedPlayer).catch((err) => {
+    const res:any = await api.RemovePlayer(token, teamSelectionModel.TeamID, [playerToDelete!.PlayerID]).catch((err) => {
       
       setIsError(true)
       
     })
     
     if(res)
-    
-    props.setOpenRemovePlayerPopUp(false)
-    props.tableIsUpdated();
+    deletePlayerFromTeam(playerToDelete!.PlayerID, playerToDelete!.TeamID)
+    props.setOpenRemovePlayerPopUp(false)    
     openRemovePlayerSnackBar();
   }
   
@@ -83,10 +95,10 @@ export default function RemovePlayerPopUp(props: any) {
     return(
         <div>
         <Dialog id="RemovePlayer" open={props.openRemovePlayerPopUp}>              
-              <DialogTitle>Remove {props.SelectedTeam?.FirstName} {props.SelectedTeam?.LastName}</DialogTitle>
+              <DialogTitle>Remove {playerToDelete!.FirstName} {playerToDelete!.LastName}</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  Are you sure you want to remove {props.SelectedTeam?.FirstName} {props.SelectedTeam?.LastName}?
+                  Are you sure you want to remove {playerToDelete!.FirstName} {playerToDelete!.LastName}?
           </DialogContentText>
           {IsError && <Alert severity="error">We are sorry the API is currently down</Alert>}
               </DialogContent>

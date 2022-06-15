@@ -5,7 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { axiosRequestConfiguration } from "../../services/axios_config";
 import axios, { AxiosError } from 'axios';
 import AddPlayerButton from './AddPlayer/AddPlayerButton';
@@ -13,6 +13,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
+import { TeamPageContextType } from '../../models/ContextModels/TeamPageContextModels';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -22,6 +24,8 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 const AddPlayerTable: React.FC<any> = (props) => {
+
+  const { teamSelectionModel, playersList, teamPlayersList, setTeamPlayersList } = useContext(TeamPageContext) as TeamPageContextType
 
   const [open, setOpen] = React.useState(false);
 
@@ -40,10 +44,10 @@ const AddPlayerTable: React.FC<any> = (props) => {
       width: 70,
       renderCell: (params: any) =>
       (
-        <AddPlayerButton
-          disabled={checkIsNotAddable(params.row.PlayerID, props.teamPlayersList, teamID)}
-          handleAddPlayer={() => addPlayerTeam([params.row.PlayerID])}
-        />
+          <AddPlayerButton
+              disabled={checkIsNotAddable(params.row.PlayerID, teamPlayersList, teamSelectionModel.TeamID)}
+              handleAddPlayer={ () => addPlayerTeam([params.row.PlayerID])}
+          />
       )
     },
     { field: 'PlayerID', headerName: 'ID', width: 90, hide: true },
@@ -73,11 +77,6 @@ const AddPlayerTable: React.FC<any> = (props) => {
     { field: 'Blocks', headerName: 'Blocks', minWidth: 120, flex: 0.3 },
   ];
 
-  // this takes the props passed to this component and uses it to populate the table
-  const playerList = props.playerList;
-
-  const teamID = props.teamID;
-
     const { getAccessTokenSilently } = useAuth0();
 
   // initialise the value for the searchbar
@@ -98,6 +97,17 @@ const AddPlayerTable: React.FC<any> = (props) => {
     ],
   });
 
+  const checkIsNotAddable = (playerId: number, teamPlayerIds: any, teamId: any) => {
+    // eslint-disable-next-line eqeqeq
+    if (teamId == (null || undefined)) {
+      return true;
+    }
+    if (teamPlayerIds?.includes(playerId)) {
+      return true;
+    }
+    return false;
+  }
+
   //initialise state for the Column Filter - Default selection is FullName
   const [dropdownColumn, setDropdownColumn] = React.useState("FullName");
 
@@ -108,16 +118,12 @@ const AddPlayerTable: React.FC<any> = (props) => {
   };
 
 
-  const checkIsNotAddable = (playerId: number, teamPlayerIds: number[], teamId: any) => {
-    if (teamID.length === 0) {
-      return true;
-    }
-    if (teamPlayerIds?.includes(playerId)) {
-      return true;
-    }
-    return false;
+  const addPlayerToYourLineUp = (playerID: any) => {
+    let playerToAdd:any = playersList.find((player) => player.PlayerID === playerID[0])
+    playerToAdd = { TeamID: teamSelectionModel.TeamID, TeamName: teamSelectionModel.TeamName, ...playerToAdd }
 
-  };
+    setTeamPlayersList((prev: any) => { return [...prev, playerToAdd] })
+  }
 
   // when you type in the searchbar, update the value of the object
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -158,14 +164,14 @@ const AddPlayerTable: React.FC<any> = (props) => {
 
   const addPlayerTeam = async (player:number[]) => {
     const token = await getAccessTokenSilently();
-    axios.post(`${url}/team/${teamID}/addPlayers`, player, {
+    axios.post(`${url}/team/${teamSelectionModel.TeamID}/addPlayers`, player, {
       headers: {
         'Authorization':`Bearer ${token}`
       }
     })
     .then(function (response) {
-    if ( response.data.Success === true) {
-        props.tableIsUpdated();
+      if (response.data.Success === true) {
+        addPlayerToYourLineUp(player)
         openAddedPlayerSnackBar()
         // if success call api again.
         //todo use useEffect() instead
@@ -246,8 +252,8 @@ const AddPlayerTable: React.FC<any> = (props) => {
           <div style={{ width: '100%' }}>
             <DataGrid
             autoHeight
-            rows={playerList}
-            loading={props.loading}
+            rows={playersList}
+            loading={props.isLoading}
             getRowId={(row) => row.PlayerID}
             columns={playerColumns}
             disableColumnSelector={true}

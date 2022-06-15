@@ -1,11 +1,12 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material'
 import { AxiosError } from 'axios';
-import { useState, useEffect, forwardRef } from 'react'
+import { useState, useEffect, forwardRef, useContext, useRef } from 'react'
 import api from '../../../services/api';
 import Stack from '@mui/material/Stack';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import { TeamPageContext } from '../../../services/Contexts/TeamPageContext';
 
 const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -17,7 +18,11 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 const teamNameMaxSize = 35;
 
-function CreateTeamPopUp(props:any) {
+function CreateTeamPopUp(props: any) {
+  
+  const {  setTeamSelectionModel } = useContext(TeamPageContext)
+  
+    const teamName = useRef<HTMLInputElement | null>(null) //creating a refernce for TextField Component
 
     const [teamNameSize, setTeamNameSize] = useState("");
 
@@ -63,12 +68,11 @@ function CreateTeamPopUp(props:any) {
     const createTeam = async () => {
 
         const token = await getAccessTokenSilently();
-        
-        await api.CreateTeam(token, props.teamName.current?.value)
+        await api.CreateTeam(token, teamName.current?.value)
             .then((resp) => {                
                 if (resp.data.Success === true) {
-                    // sets newTeamID to the TeamID of the created team
-                    props.setNewTeamID(resp.data.Data.TeamID);
+                  // sets newTeamID to the TeamID of the created team                  
+                  setTeamSelectionModel(resp.data.Data);                  
                     props.setOpen(false);
                     setIsError(false);
                     openRemoveTeamSnackBar()
@@ -110,7 +114,7 @@ function CreateTeamPopUp(props:any) {
                 type="Team Name"
                 fullWidth
                 variant="standard"
-                inputRef={props.teamName}
+                inputRef={teamName}
                 inputProps={{
                     maxLength: teamNameMaxSize
                   }}  
