@@ -8,7 +8,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import SportsBasketballIcon from '@mui/icons-material/SportsBasketball';
-import Link from "@mui/material/Link"
 import Grid from '@mui/material/Grid';
 // imported the router Link as "RouterLink" because a MaterialUI Link had already been imported for use in the Copyright component. there cannot be duplicate imports
 import { Outlet, useNavigate, Link as RouterLink } from 'react-router-dom';
@@ -27,30 +26,13 @@ import { makeStyles } from "@material-ui/core";
 import HeaderImage from '../../images/top-nav-bar-img.png'
 import UserInformationMenu from './UserInformationMenu/UserInformationMenu';
 import { withAuthenticationRequired } from '@auth0/auth0-react';
+import Copyright from "./Copyright"
 
 // type Anchor determines the direction for the drawer. you can use: left, right, top, bottom
 type Anchor = 'left';
 
 
-function Copyright(props: any) {
-  // TODO: update link
-  // UPDATED LINK TO GOV COPYRIGHT LAW WEBSITE
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Site created by Swinburne Team West; '}
-      <Link color="inherit" target="_blank" href="https://github.com/dan933/2022-NBA-Prediction-Application">
-        user contributions
-      </Link>{' '}
-      
-      {'licensed under Copyright © '}
-      <Link color="inherit" target="_blank" href="https://www.alrc.gov.au/publication/genes-and-ingenuity-gene-patenting-and-human-health-alrc-report-99/28-copyright-and-databases/copyright-law/">
-        Dod & Gy
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
 
 const ResponsiveAppBar = () => {
   
