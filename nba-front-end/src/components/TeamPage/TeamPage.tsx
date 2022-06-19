@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
-import { GridSelectionModel } from "@mui/x-data-grid";
+import { useState } from "react";
 import { Container, useMediaQuery } from "@mui/material";
 import type { } from '@mui/lab/themeAugmentation';
 import '@mui/lab/themeAugmentation';
@@ -9,30 +8,34 @@ import AddPlayerTableLoader from "./AddPlayerTableLoader";
 import { useTheme } from '@mui/material/styles';
 import TeamPageDesktopView from "./TeamPageDesktopView";
 import TeamPageMobileView from "./TeamPageMobileView";
+import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
 
-function TeamPage(props:any) {
+const TeamPage:React.FC<any> = (props:any) => {
 
-  const [selectionTeam, setSelectionTeam] = useState<GridSelectionModel>([]);
+//-------------------- Used for selection context ------------------//
+  const [teamSelectionModel, setTeamSelectionModel] = useState<any>({ TeamName: undefined, TeamID: undefined })
 
-  const [teamList, setTeamList] = useState([]);
-  const [teamPlayersIDList, setTeamPlayersIDList] = useState([]);
-  const [teamPlayersList, setTeamPlayersList] = useState([]);
+  const [teamPlayersList, setTeamPlayersList] = useState<any>([])
 
-  const [playersIsUpdated, setPlayersIsUpdated] = useState(false);
-  const [addPlayersIsUpdated, setAddPlayersIsUpdated] = useState(false);
+  const [playerToDelete, setPlayerToDelete] = useState<any>([])
 
-  const teamPlayerListIsUpdated = useCallback(() => {
-    
-    setPlayersIsUpdated(true);
-    setAddPlayersIsUpdated(true);
-    
-  },[setPlayersIsUpdated,setAddPlayersIsUpdated]);
+  const [teamList, setTeamList] = useState<any>([]);
 
-  useEffect(() => {
+  const [playersList, setPlayersList] = useState<any>([]);
 
-    teamPlayerListIsUpdated();
-
-  }, [selectionTeam, teamPlayerListIsUpdated])
+  const teamPageContextStates = {
+    teamSelectionModel,
+    setTeamSelectionModel,
+    teamPlayersList,
+    setTeamPlayersList,
+    playerToDelete,
+    setPlayerToDelete,
+    teamList,
+    setTeamList,
+    playersList,
+    setPlayersList
+  }
+//----------------------------------------------------------------------//
 
   const theme = useTheme();
   
@@ -42,61 +45,46 @@ function TeamPage(props:any) {
   
   const teamListSection =
     (
-      <TeamList
-        tableIsUpdated={teamPlayerListIsUpdated}
-        selectionModel={selectionTeam}
-        setSelectionModel={setSelectionTeam}
-        teamList={teamList}
-        setTeamList={setTeamList}
-      />
+        <TeamList/>
     )
 
   const teamPlayerTableLoaderSection =
     (
-      <TeamPlayerTableLoader
-        teamID={selectionTeam}
-        isUpdated={playersIsUpdated}
-        IsMobileView={IsMobileView}
-        setIsUpdated={setPlayersIsUpdated}
-        tableIsUpdated={teamPlayerListIsUpdated}
-        setTeamPlayersIDList={setTeamPlayersIDList}
-        teamPlayersList={teamPlayersList}
-        setTeamPlayersList={setTeamPlayersList}
-      />
+        <TeamPlayerTableLoader/>
     )
 
   const addPlayerTableLoaderSection =
     (
-      <AddPlayerTableLoader
-        teamID={selectionTeam}
-        tableIsUpdated={teamPlayerListIsUpdated}
-        isUpdated={addPlayersIsUpdated}
-        setIsUpdated={setAddPlayersIsUpdated}
-        teamPlayersList={teamPlayersIDList}
-        />
+        <AddPlayerTableLoader/>
     )
 
   return (
-    <Container maxWidth={false} sx={{ mt:4, mb: 4, "minHeight": '600px' }}>
+    <TeamPageContext.Provider
+      value={teamPageContextStates}
+    >
+        <Container maxWidth={false} sx={{ mt:4, mb: 4, "minHeight": '600px' }}>
 
-      {IsDesktopView? 
-      <TeamPageDesktopView 
-      teamListSection={teamListSection} 
-      teamPlayerTableLoaderSection={teamPlayerTableLoaderSection} 
-      addPlayerTableLoaderSection={addPlayerTableLoaderSection} /> 
-      : null}
+          {IsDesktopView? 
+          <TeamPageDesktopView 
+            teamListSection={teamListSection} 
+            teamPlayerTableLoaderSection={teamPlayerTableLoaderSection} 
+            addPlayerTableLoaderSection={addPlayerTableLoaderSection}
+          /> 
+          : null}
 
-      {/* --------------------------------------- This Box contains all tables for the Mobile View -------------------------------------- */}
-      {/*hides screens lg and up*/}
+          {/* --------------------------------------- This Box contains all tables for the Mobile View -------------------------------------- */}
+          {/*hides screens lg and up*/}
 
-      {IsMobileView? 
-      <TeamPageMobileView 
-      teamListSection={teamListSection} 
-      teamPlayerTableLoaderSection={teamPlayerTableLoaderSection} 
-      addPlayerTableLoaderSection={addPlayerTableLoaderSection} /> 
-      : null}
+          {IsMobileView? 
+          <TeamPageMobileView 
+            teamListSection={teamListSection} 
+            teamPlayerTableLoaderSection={teamPlayerTableLoaderSection} 
+            addPlayerTableLoaderSection={addPlayerTableLoaderSection}
+          /> 
+          : null}
 
-    </Container>
+        </Container>
+    </TeamPageContext.Provider>
   );
 };
 

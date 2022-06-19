@@ -1,13 +1,15 @@
 import { DataGrid, GridColDef, GridFilterModel, GridValueGetterParams  } from '@mui/x-data-grid';
 import { FormControl, Grid, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import RemovePlayerButton from './RemovePlayer/RemovePlayerButton';
 import RemovePlayerPopUp from './RemovePlayer/RemovePlayerPopUp';
-
+import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
 
 // Setting up the columns of the player table
-function TeamPlayerTable(props:any) {
+function TeamPlayerTable(props: any) {
+
+  const { teamPlayersList } = useContext(TeamPageContext);
 
   const teamPlayerColumns: GridColDef[] = [
     {
@@ -16,14 +18,9 @@ function TeamPlayerTable(props:any) {
       width: 90,
       renderCell: (params: any) =>
       (
-        <RemovePlayerButton
-          setSelectedTeam={setSelectedTeam}
-          setSelectedPlayer={setSelectedPlayer}
-          teamObject={params.row}
-          PlayerID={[params.row.PlayerID] as number[]}
-          tableIsUpdated={props.tableIsUpdated}
-          setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}
-          setplayerToDelete={setplayerToDelete}
+        <RemovePlayerButton          
+          playerObject={params.row}          
+          setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}          
         />
       )
     },
@@ -57,15 +54,8 @@ function TeamPlayerTable(props:any) {
 
   const [openRemovePlayerPopUp, setOpenRemovePlayerPopUp]=useState(false);
 
-  const [PlayerToDelete, setplayerToDelete]=useState([] as number[]);
-
   // initialise the value for the searchbar
   const [search, setSearch] = useState('');
-
-  const [SelectedTeam, setSelectedTeam] = useState();
-  const [SelectedPlayer, setSelectedPlayer] = useState();
-
-
 
   // initialise the parameters that the table uses to filter values (when using the searchbar)
   const [filterModel, setFilterModel] = useState<GridFilterModel>({
@@ -115,7 +105,7 @@ function TeamPlayerTable(props:any) {
           <div style={{ height:'648px'}}>
             <DataGrid
               loading={props.loading}
-              rows={props.teamPlayerList}
+              rows={teamPlayersList}
               getRowId={(row) => row.PlayerID}
               columns={teamPlayerColumns}
               disableColumnSelector={true}
@@ -131,14 +121,8 @@ function TeamPlayerTable(props:any) {
         </Grid>
       </Grid>
       <RemovePlayerPopUp
-        SelectedTeam={SelectedTeam}
-        SelectedPlayer={SelectedPlayer}
         openRemovePlayerPopUp={openRemovePlayerPopUp}
-        setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}
-        teamId={props.teamID}
-        PlayerID={PlayerToDelete}
-        teamPlayerList ={props.teamPlayerList}
-        tableIsUpdated={props.tableIsUpdated}
+        setOpenRemovePlayerPopUp={setOpenRemovePlayerPopUp}        
       />
     </>
   );
