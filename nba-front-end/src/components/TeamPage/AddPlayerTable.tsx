@@ -101,7 +101,7 @@ const AddPlayerTable: React.FC<any> = (props) => {
     
     // eslint-disable-next-line eqeqeq
     if (teamId == (null || undefined)) {
-      return false;
+      return true;
     }
     if (teamPlayerIds.find((team:any) => team.PlayerID === playerId)) {
       return true;

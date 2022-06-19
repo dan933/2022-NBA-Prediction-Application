@@ -11,7 +11,6 @@ import TeamPageMobileView from "./TeamPageMobileView";
 import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
 import { useAuth0 } from "@auth0/auth0-react";
 import api from "../../services/api";
-import { axiosRequestConfiguration } from "../../services/axios_config";
 
 const TeamPage:React.FC<any> = (props:any) => {
 
@@ -26,36 +25,23 @@ const TeamPage:React.FC<any> = (props:any) => {
 
   const [playersList, setPlayersList] = useState<any>([]);
 
-  const isTeamSelected = (teamValue: number | undefined) => {
-    return typeof teamValue ==='number'
-  }
+  const [isLoading, setLoading] = useState<any>(false);
 
   const { getAccessTokenSilently } = useAuth0();
 
-  const url = axiosRequestConfiguration.baseURL
 
-  const updatePlayerTable =
-  async () => {      
+//------------------- Loads player lineup so add player section has a list of players that are already on the team -------------//
+  const getTeamPlayers = async () => {
     const token = await getAccessTokenSilently();
-    console.log(teamSelectionModel.TeamID);
-    if (isTeamSelected(teamSelectionModel.TeamID)) {    
-      api.get(`${url}/team/${teamSelectionModel.TeamID}/get-players`, token)
-        .subscribe({
-          next: (resp: any) => {              
-            setTeamPlayersList(resp.Data);
-          },
-          error: (err) => {
-            console.log(err);
-          }
-      })
-    }
+    api.getTeamPlayers(token, setTeamPlayersList,setLoading, teamSelectionModel.TeamID,  )
   }
 
-
-useEffect(() => {
-  updatePlayerTable();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    getTeamPlayers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [teamSelectionModel]);
+  
+//--------------------------------------------------------------------//
 
   const teamPageContextStates = {
     teamSelectionModel,
@@ -67,7 +53,9 @@ useEffect(() => {
     teamList,
     setTeamList,
     playersList,
-    setPlayersList
+    setPlayersList,
+    isLoading,
+    setLoading
   }
 //----------------------------------------------------------------------//
 
