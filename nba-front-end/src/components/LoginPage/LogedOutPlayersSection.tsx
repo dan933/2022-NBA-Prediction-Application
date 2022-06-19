@@ -1,8 +1,9 @@
-import { Grid } from '@mui/material';
+import { Grid, Paper } from '@mui/material';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react'
 import { Player } from '../../models/IPlayer';
 import api from '../../services/api';
+
 
 const playerColumns: GridColDef[] = [
     { field: 'PlayerID', headerName: 'ID', minWidth: 90, hide: true },
@@ -80,13 +81,24 @@ function LogedOutPlayersSection() {
 
     return (
         
-        <Grid
-        item xl={12} md={12} xs={12}
-        sx={{ height: '60vh', padding: '15px' }}
-        >
-            {renderPlayersTable()}
+        <Paper
+            sx={{
+                m: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                height: 'auto',
+                maxWidth: 'auto'
+                }}
+                >               
+        <Grid            
+            item xl={12} md={12} xs={12}
+            sx={{ height: '60vh', padding: '15px' }}
+            >
+            
+                {renderPlayersTable()}
+                            
         </Grid>
-        
+        </Paper>
     )
 }
 
