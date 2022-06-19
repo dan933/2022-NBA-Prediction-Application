@@ -24,6 +24,7 @@ const TeamPlayerTableLoader: React.FC<any> = () => {
   const updatePlayerTable =
     async () => {      
       const token = await getAccessTokenSilently();
+      console.log(teamSelectionModel.TeamID);
       if (isTeamSelected(teamSelectionModel.TeamID)) {
       setLoading(true);      
         api.get(`${url}/team/${teamSelectionModel.TeamID}/get-players`, token)
