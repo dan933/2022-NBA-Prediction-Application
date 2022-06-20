@@ -51,14 +51,14 @@ function CreateTeamPopUp(props: any) {
         props.setOpen(false);
     };
     
-    const [open, setOpen] = useState(false);
+    const [openSnackBar, setOpenSnackBar] = useState(false);
 
-    const openRemoveTeamSnackBar = () => {
-      setOpen(true);
+    const openCreateTeamSnackBar = () => {
+      setOpenSnackBar(true);
     };
 
-    const handleSnackBarClose = () => {
-        setOpen(false);
+    const handleCreateTeamSnackBarClose = () => {
+      setOpenSnackBar(false);
     }
     const { getAccessTokenSilently } = useAuth0();
 
@@ -75,7 +75,7 @@ function CreateTeamPopUp(props: any) {
                   setTeamSelectionModel(resp.data.Data);                  
                     props.setOpen(false);
                     setIsError(false);
-                    openRemoveTeamSnackBar()
+                    openCreateTeamSnackBar()
                     // removes error message on next pop up
                     setErrorMessage("")
                 }
@@ -130,8 +130,8 @@ function CreateTeamPopUp(props: any) {
     </Dialog>
 
       <Stack spacing={2} sx={{ width: '100%' }}>
-      <Snackbar open={open} autoHideDuration={1050} onClose={handleSnackBarClose}>
-      <Alert onClose={handleSnackBarClose} severity="success" sx={{ width: '100%' }}>
+      <Snackbar open={openSnackBar} autoHideDuration={2000} onClose={handleCreateTeamSnackBarClose}>
+      <Alert onClose={handleCreateTeamSnackBarClose} severity="info" sx={{ width: '100%' }}>
         Team Successfully Added!!
       </Alert>
       </Snackbar>
