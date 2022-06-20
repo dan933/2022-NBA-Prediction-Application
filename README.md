@@ -32,6 +32,7 @@ The Azure Release pipelines are then automatically triggered:
 
 This deploys the created files to the staging environment automatically.
 
+
 The Staging Front-End server is:
 [https://nba-app-staging.azurewebsites.net/](https://nba-app-staging.azurewebsites.net/)
 
@@ -40,10 +41,12 @@ The Staging API server is:
 
 Administration for these servers is via [Eve Joyce](mailto:103681990@student.swin.edu.au)
 
+
 The automatic release pipeline then waits for approval from assigned parties to deploy to the production environment:
 ![Approval](https://github.com/dan933/2022-NBA-Prediction-Application/blob/release-docs/docs/approval.png?raw=true)
 
 This allows for testing to occur in an environment similar to production before altering the production environment.
+
 
 The Production Front-End server is:
 [https://nba-app.azurewebsites.net/](https://nba-app.azurewebsites.net/)
@@ -53,9 +56,11 @@ The Production API server is:
 
 Administration for these servers is via [Daniel Albert](mailto:101347494@student.swin.edu.au)
 
+
 Note that the above automatic pipelines occur for two components of the build:
  1. FE: Front End
  2. API: Application Programming Interface
+
 
 To deploy changes to 3. DB: Database, manually run the altered setup script on the "NBA" database on the appropriate SQL Server:
 
@@ -67,6 +72,7 @@ Production: nba-instance.database.windows.net TODO:Check with Dan
 
 Administration for this server is via [Daniel Albert](mailto:101347494@student.swin.edu.au)
 
+
 Access to these environments must be authorised in the networking section of the server's settings in the Azure portal, e.g.:
 ![SQL Connection Firewall](https://github.com/dan933/2022-NBA-Prediction-Application/blob/release-docs/docs/SQL-connection-firewall.png?raw=true)
 
@@ -75,7 +81,8 @@ Required Software:
  - Dotnet Version 6.0
  - npm package manager
 
-To manually create deployment artifacts, environment variables must first be set.
+
+To manually create deployment artifacts, **environment variables** must first be set.
 
 Front-End:
 
@@ -89,7 +96,8 @@ set connection strings in nba-api-dotnet/program.cs (lines 131-149) and nba-api-
 
 Connection strings should be setup within nba-api-dotnet/appsettings.json
 
-Next, run appropriate commands to create deployment artifacts
+
+Next, run appropriate **commands to create deployment artifacts**
 
 Front-End:
 
@@ -105,6 +113,7 @@ Or for production:
 This will produce a deployment bundle in /nba-front-end/build which can then be uploaded to a web-hosting service.
 
 API:
+
 With dotnet 6 installed, from a command line within the nba-api-dotnet folder 
 
 run:
