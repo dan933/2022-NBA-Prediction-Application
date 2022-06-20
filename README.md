@@ -13,7 +13,7 @@ Architecture Reference:
     - Built in dotnet with entity framework
     - Written in C#
  3. DB: Database
-    - MySQL database
+    - SQL Server database
     - Setup file uses T-SQL
 
 ### Main Deployment Process
