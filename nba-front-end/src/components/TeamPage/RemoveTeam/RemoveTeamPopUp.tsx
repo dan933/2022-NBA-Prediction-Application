@@ -86,7 +86,7 @@ export default function RemoveTeamPopUp(props: any) {
         </Dialog>
 
         <Stack spacing={2} sx={{ width: '100%' }}>
-        <Snackbar open={open} autoHideDuration={1050} onClose={handleClose}>
+        <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
         <PopUpAlert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
           Team Successfully Removed!
         </PopUpAlert>
