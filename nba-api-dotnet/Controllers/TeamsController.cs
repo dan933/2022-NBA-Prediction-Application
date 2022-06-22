@@ -431,7 +431,7 @@ public class TeamController : ControllerBase
                 .FirstOrDefaultAsync();
             }
             
-            var teams = await _context.view_WinChance.Where(t => t.UserID == isUser.UserID).ToListAsync();
+            var teams = await _context.view_WinChance.Where(t => t.UserID == isUser!.UserID).ToListAsync();
 
             response = new Response<List<WinChanceView>>(teams, true, "Team Successfully returned");
 

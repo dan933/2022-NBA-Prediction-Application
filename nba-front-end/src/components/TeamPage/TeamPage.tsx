@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, useMediaQuery } from "@mui/material";
 import type { } from '@mui/lab/themeAugmentation';
 import '@mui/lab/themeAugmentation';
@@ -9,6 +9,8 @@ import { useTheme } from '@mui/material/styles';
 import TeamPageDesktopView from "./TeamPageDesktopView";
 import TeamPageMobileView from "./TeamPageMobileView";
 import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
+import { useAuth0 } from "@auth0/auth0-react";
+import api from "../../services/api";
 
 const TeamPage:React.FC<any> = (props:any) => {
 
@@ -23,6 +25,24 @@ const TeamPage:React.FC<any> = (props:any) => {
 
   const [playersList, setPlayersList] = useState<any>([]);
 
+  const [isLoading, setLoading] = useState<any>(false);
+
+  const { getAccessTokenSilently } = useAuth0();
+
+
+//------------------- Loads player lineup so add player section has a list of players that are already on the team -------------//
+  const getTeamPlayers = async () => {
+    const token = await getAccessTokenSilently();
+    api.getTeamPlayers(token, setTeamPlayersList,setLoading, teamSelectionModel.TeamID,  )
+  }
+
+  useEffect(() => {
+    getTeamPlayers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [teamSelectionModel]);
+  
+//--------------------------------------------------------------------//
+
   const teamPageContextStates = {
     teamSelectionModel,
     setTeamSelectionModel,
@@ -33,7 +53,9 @@ const TeamPage:React.FC<any> = (props:any) => {
     teamList,
     setTeamList,
     playersList,
-    setPlayersList
+    setPlayersList,
+    isLoading,
+    setLoading
   }
 //----------------------------------------------------------------------//
 

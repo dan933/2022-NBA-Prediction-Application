@@ -55,5 +55,7 @@ export type TeamPageContextType = {
     teamList: ITeamModel[],
     setTeamList:any,
     playerToDelete?: ITeamPlayer,
-    setPlayerToDelete:any
+    setPlayerToDelete: any,
+    isLoading: boolean,
+    setLoading:any
 };

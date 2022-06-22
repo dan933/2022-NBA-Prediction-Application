@@ -27,14 +27,14 @@ const AddPlayerTable: React.FC<any> = (props) => {
 
   const { teamSelectionModel, playersList, teamPlayersList, setTeamPlayersList } = useContext(TeamPageContext) as TeamPageContextType
 
-  const [open, setOpen] = React.useState(false);
+  const [openSnackBar, setOpenSnackBar] = React.useState(false);
 
   const openAddedPlayerSnackBar = () => {
-    setOpen(true);
+    setOpenSnackBar(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenSnackBar(false);
   };
   // Setting up the columns of the player table
   const playerColumns: GridColDef[] = [
@@ -98,11 +98,12 @@ const AddPlayerTable: React.FC<any> = (props) => {
   });
 
   const checkIsNotAddable = (playerId: number, teamPlayerIds: any, teamId: any) => {
+    
     // eslint-disable-next-line eqeqeq
     if (teamId == (null || undefined)) {
       return true;
     }
-    if (teamPlayerIds?.includes(playerId)) {
+    if (teamPlayerIds.find((team:any) => team.PlayerID === playerId)) {
       return true;
     }
     return false;
@@ -240,8 +241,8 @@ const AddPlayerTable: React.FC<any> = (props) => {
 
 
         <Stack spacing={2} sx={{ width: '100%' }}>
-          <Snackbar open={open} autoHideDuration={1050} onClose={handleClose}>
-            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          <Snackbar open={openSnackBar} autoHideDuration={2000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
               Player Successfully Added!
             </Alert>
           </Snackbar>
