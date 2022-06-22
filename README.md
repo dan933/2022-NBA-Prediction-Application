@@ -54,7 +54,7 @@ Note that the above automatic pipelines occur for two components of the build:
 To deploy changes to 3. DB: Database, manually run the altered setup script on the "NBA" database on the appropriate SQL Server:  
 Staging: nba-instance-staging.database.windows.net  
 Administration for this server is via [Eve Joyce](mailto:103681990@student.swin.edu.au)  
-Production: nba-instance.database.windows.net TODO:Check with Dan  
+Production: nba-instance-one.database.windows.net  
 Administration for this server is via [Daniel Albert](mailto:101347494@student.swin.edu.au)  
 
 Access to these environments must be authorised in the networking section of the server's settings in the Azure portal, e.g.:
