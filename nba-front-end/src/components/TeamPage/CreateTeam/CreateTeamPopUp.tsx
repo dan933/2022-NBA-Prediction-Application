@@ -90,11 +90,7 @@ function CreateTeamPopUp(props: any) {
                 
                 const err: any = error as AxiosError
 
-                if ((err.response && err.response.status === 409) && err.response.data.Message != 'Team Name cannot be Null' ) {
-                    setIsError(true)
-                    setApiErrorMessage(err.response.data.Message)
-                }
-                else if (err.response && err.response.status === 409){
+                if (err.response && err.response.status === 409){
                   setIsError(true)
                   setApiErrorMessage(err.response.data.Message)
                 }else{
