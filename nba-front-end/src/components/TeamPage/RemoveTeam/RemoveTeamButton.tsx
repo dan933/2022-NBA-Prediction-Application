@@ -6,13 +6,16 @@ import api from '../../../services/api';
 import { useAuth0 } from '@auth0/auth0-react';
 import { TeamPageContext } from '../../../services/Contexts/TeamPageContext';
 import { useContext } from 'react';
- 
+
 const RemoveTeamButton: React.FC<any> = (props: any) => {
 
   const { setTeamSelectionModel, teamSelectionModel } = useContext(TeamPageContext)
 
-
   const { getAccessTokenSilently } = useAuth0();
+
+  const openRemoveTeamSnackBar = () => {
+    props.setOpenSnackBar(true);
+  };
 
   //Remove Team logic
   const handleopenRemoveTeam = async () => {
@@ -35,7 +38,8 @@ const RemoveTeamButton: React.FC<any> = (props: any) => {
       
       if (res)
       {        
-        setTeamSelectionModel({ TeamName: undefined, TeamID: undefined });        
+        setTeamSelectionModel({ TeamName: undefined, TeamID: undefined });     
+        openRemoveTeamSnackBar()   
       }
 
     } 
@@ -50,8 +54,10 @@ const RemoveTeamButton: React.FC<any> = (props: any) => {
     >
         <DeleteIcon/>
       </Button>
+
     </>
   )
+  
 }
  
 export default RemoveTeamButton;

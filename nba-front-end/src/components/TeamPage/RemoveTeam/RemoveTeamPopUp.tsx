@@ -20,7 +20,7 @@ export default function RemoveTeamPopUp(props: any) {
 
   const { teamSelectionModel, setTeamSelectionModel } = useContext<any>(TeamPageContext)
 
-  const [open, setOpen] = React.useState(false);
+  const [openSnackBar, setOpenSnackBar] = React.useState(false);
 
   // used for remove team don't ask again checkbox
   const [IsCookieEnabled, setIsCookieEnabled] = useState(false)
@@ -29,11 +29,11 @@ export default function RemoveTeamPopUp(props: any) {
     setIsCookieEnabled(prev => !prev)    
   }
   const openAddTeamSnackBar = () => {
-    setOpen(true);
+    setOpenSnackBar(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenSnackBar(false);
   };
   const { getAccessTokenSilently } = useAuth0();
 
@@ -86,7 +86,7 @@ export default function RemoveTeamPopUp(props: any) {
         </Dialog>
 
         <Stack spacing={2} sx={{ width: '100%' }}>
-        <Snackbar open={open} autoHideDuration={1050} onClose={handleClose}>
+        <Snackbar open={openSnackBar} autoHideDuration={2000} onClose={handleClose}>
         <PopUpAlert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
           Team Successfully Removed!
         </PopUpAlert>
