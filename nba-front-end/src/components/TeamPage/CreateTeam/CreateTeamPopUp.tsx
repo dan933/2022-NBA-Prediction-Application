@@ -27,6 +27,10 @@ function CreateTeamPopUp(props: any) {
     const [teamNameSize, setTeamNameSize] = useState("");
 
     const [errorMessage, setErrorMessage] = useState("");
+
+    const [apiErrorMessage, setApiErrorMessage] = useState("");
+
+    
     
     // sets error message and displays it to user upon reaching char limit
     useEffect(() => { 
@@ -60,7 +64,7 @@ function CreateTeamPopUp(props: any) {
     const handleSnackBarClose = () => {
         setOpen(false);
     }
-    const { getAccessTokenSilently } = useAuth0();
+    const { getAccessTokenSilently  } = useAuth0();
 
     //------------------------ Create Team API call -------------------------------//
 
@@ -68,6 +72,7 @@ function CreateTeamPopUp(props: any) {
     const createTeam = async () => {
 
         const token = await getAccessTokenSilently();
+
         await api.CreateTeam(token, teamName.current?.value)
             .then((resp) => {                
                 if (resp.data.Success === true) {
@@ -81,17 +86,21 @@ function CreateTeamPopUp(props: any) {
                 }
                 
             })
-            .catch((error) => {
+            .catch((error:any) => {
                 
                 const err: any = error as AxiosError
-               
-                if (err.response && err.response.status === 409) {
+
+                if ((err.response && err.response.status === 409) && err.response.data.Message != 'Team Name cannot be Null' ) {
                     setIsError(true)
-                    
+                    setApiErrorMessage(err.response.data.Message)
                 }
-                else {
-        
-                    alert("The API is down ROFL!")
+                else if (err.response && err.response.status === 409){
+                  setIsError(true)
+                  setApiErrorMessage(err.response.data.Message)
+                }else{
+
+                  alert("The API is down.")
+                  
                 }            
             })
         
@@ -121,7 +130,7 @@ function CreateTeamPopUp(props: any) {
                 helperText={errorMessage}
                 onChange={(e) => setTeamNameSize(e.target.value)}
             />
-            {isError && <p style={{ color: "red" }}>This Team Already Exist!</p>}
+            {isError && <p style={{ color: "red" }}>{apiErrorMessage}</p>}
         </DialogContent>
         <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
