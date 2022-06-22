@@ -10,5 +10,7 @@ export const TeamPageContext = createContext<TeamPageContextType>({
     teamList: [],
     setTeamList: (teamList: any) => { },
     playerToDelete:undefined,
-    setPlayerToDelete: (playerToDelete: any) => { }
+    setPlayerToDelete: (playerToDelete: any) => { },
+    isLoading: false,
+    setLoading:(isLoading: any) => { }
 });

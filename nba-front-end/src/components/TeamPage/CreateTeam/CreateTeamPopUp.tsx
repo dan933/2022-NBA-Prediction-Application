@@ -27,6 +27,10 @@ function CreateTeamPopUp(props: any) {
     const [teamNameSize, setTeamNameSize] = useState("");
 
     const [errorMessage, setErrorMessage] = useState("");
+
+    const [apiErrorMessage, setApiErrorMessage] = useState("");
+
+    
     
     // sets error message and displays it to user upon reaching char limit
     useEffect(() => { 
@@ -51,16 +55,16 @@ function CreateTeamPopUp(props: any) {
         props.setOpen(false);
     };
     
-    const [open, setOpen] = useState(false);
+    const [openSnackBar, setOpenSnackBar] = useState(false);
 
-    const openRemoveTeamSnackBar = () => {
-      setOpen(true);
+    const openCreateTeamSnackBar = () => {
+      setOpenSnackBar(true);
     };
 
-    const handleSnackBarClose = () => {
-        setOpen(false);
+    const handleCreateTeamSnackBarClose = () => {
+      setOpenSnackBar(false);
     }
-    const { getAccessTokenSilently } = useAuth0();
+    const { getAccessTokenSilently  } = useAuth0();
 
     //------------------------ Create Team API call -------------------------------//
 
@@ -68,6 +72,7 @@ function CreateTeamPopUp(props: any) {
     const createTeam = async () => {
 
         const token = await getAccessTokenSilently();
+
         await api.CreateTeam(token, teamName.current?.value)
             .then((resp) => {                
                 if (resp.data.Success === true) {
@@ -75,23 +80,23 @@ function CreateTeamPopUp(props: any) {
                   setTeamSelectionModel(resp.data.Data);                  
                     props.setOpen(false);
                     setIsError(false);
-                    openRemoveTeamSnackBar()
+                    openCreateTeamSnackBar()
                     // removes error message on next pop up
                     setErrorMessage("")
                 }
                 
             })
-            .catch((error) => {
+            .catch((error:any) => {
                 
                 const err: any = error as AxiosError
-               
-                if (err.response && err.response.status === 409) {
-                    setIsError(true)
-                    
-                }
-                else {
-        
-                    alert("The API is down ROFL!")
+
+                if (err.response && err.response.status === 409){
+                  setIsError(true)
+                  setApiErrorMessage(err.response.data.Message)
+                }else{
+
+                  alert("The API is down.")
+                  
                 }            
             })
         
@@ -121,7 +126,7 @@ function CreateTeamPopUp(props: any) {
                 helperText={errorMessage}
                 onChange={(e) => setTeamNameSize(e.target.value)}
             />
-            {isError && <p style={{ color: "red" }}>This Team Already Exist!</p>}
+            {isError && <p style={{ color: "red" }}>{apiErrorMessage}</p>}
         </DialogContent>
         <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
@@ -130,8 +135,8 @@ function CreateTeamPopUp(props: any) {
     </Dialog>
 
       <Stack spacing={2} sx={{ width: '100%' }}>
-      <Snackbar open={open} autoHideDuration={1050} onClose={handleSnackBarClose}>
-      <Alert onClose={handleSnackBarClose} severity="success" sx={{ width: '100%' }}>
+      <Snackbar open={openSnackBar} autoHideDuration={2000} onClose={handleCreateTeamSnackBarClose}>
+      <Alert onClose={handleCreateTeamSnackBarClose} severity="info" sx={{ width: '100%' }}>
         Team Successfully Added!!
       </Alert>
       </Snackbar>

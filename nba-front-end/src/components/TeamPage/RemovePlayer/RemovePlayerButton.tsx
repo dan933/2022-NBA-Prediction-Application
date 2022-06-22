@@ -7,9 +7,12 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useContext } from 'react';
 import { TeamPageContextType } from '../../../models/ContextModels/TeamPageContextModels';
 import { TeamPageContext } from '../../../services/Contexts/TeamPageContext';
-import React from 'react';
 
 const RemovePlayerButton: React.FC<any> = (props: any) => {
+
+  const openRemovePlayerSnackBar = () => {
+    props.setOpenRemoveSnackbar(true);
+  };
 
   const { setPlayerToDelete,teamPlayersList,setTeamPlayersList } = useContext(TeamPageContext) as TeamPageContextType
 
@@ -56,7 +59,7 @@ const RemovePlayerButton: React.FC<any> = (props: any) => {
       {
         
         deletePlayerFromTeam(props.playerObject.PlayerID,props.playerObject.TeamID);
-        
+        openRemovePlayerSnackBar();
       }
 
     } 

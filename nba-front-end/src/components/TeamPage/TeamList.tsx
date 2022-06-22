@@ -8,9 +8,19 @@ import RemoveTeamPopUp from "./RemoveTeam/RemoveTeamPopUp";
 import CreateTeamPopUp from "./CreateTeam/CreateTeamPopUp";
 import SearchIcon from '@mui/icons-material/Search';
 import { useAuth0 } from "@auth0/auth0-react";
-
+import Stack from '@mui/material/Stack';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import React from 'react';
 import { TeamPageContext } from '../../services/Contexts/TeamPageContext';
 import { TeamPageContextType } from "../../models/ContextModels/TeamPageContextModels";
+
+const PopUpAlert = React.forwardRef<HTMLDivElement, AlertProps>(function PopUpAlert(
+    props,
+    ref,
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
 const TeamList: React.FC<any> = () => {
     
@@ -19,8 +29,13 @@ const TeamList: React.FC<any> = () => {
     
     const [loadingTeams, setLoadingTeams] = useState(false);
 
-    const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = useState(false);    
+    const [openRemoveTeamPopUp, setOpenRemoveTeamPopUp] = useState(false);  
 
+    const [openSnackBar, setOpenSnackBar] = React.useState(false);
+    
+      const handleClose = () => {
+        setOpenSnackBar(false);
+      };
     // initialise the value for the searchbar
     const [searchTeam, setSearchTeam] = useState('');
     
@@ -109,7 +124,8 @@ const TeamList: React.FC<any> = () => {
                 return (               
                     <RemoveTeamButton                                               
                         teamObject={params.row}
-                        setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp}                        
+                        setOpenRemoveTeamPopUp={setOpenRemoveTeamPopUp} 
+                        setOpenSnackBar = {setOpenSnackBar}                     
                     />
                 )
                 
@@ -152,6 +168,15 @@ const TeamList: React.FC<any> = () => {
                     />
                     </FormControl>
                 </Grid> 
+
+                <Stack spacing={2} sx={{ width: '100%' }}>
+        <Snackbar open={openSnackBar} autoHideDuration={2000} onClose={handleClose}>
+        <PopUpAlert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
+          Team Successfully Removed!
+        </PopUpAlert>
+        </Snackbar>
+        </Stack>
+
                 <Grid item xs={12}>
                     <div style={{ width: '100%' }}>   
                         <DataGrid     
