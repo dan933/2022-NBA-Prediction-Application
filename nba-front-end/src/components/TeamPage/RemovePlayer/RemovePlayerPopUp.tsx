@@ -111,7 +111,7 @@ export default function RemovePlayerPopUp(props: any) {
 
         <Stack spacing={2} sx={{ width: '100%' }}>
         <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
-        <PopUpAlert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+        <PopUpAlert onClose={handleClose} severity="info" sx={{ width: '100%' }}>
           Player Successfully Removed!
         </PopUpAlert>
         </Snackbar>
