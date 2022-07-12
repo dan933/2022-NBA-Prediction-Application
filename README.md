@@ -1,5 +1,5 @@
 # 2022-NBA-Prediction-Application
-NBA Prediction Application Fullstack Application API NodeJS Database Sql Server FE React
+NBA Prediction Application Fullstack Application API .NET EntityFramework Database Sql Server FE React
 Usage: node app.js
 
 ## Deployment Instructions
